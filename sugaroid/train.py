@@ -1,3 +1,5 @@
+import json
+import time
 
 
 class Trainer:
@@ -15,4 +17,17 @@ class Trainer:
         pass
 
 if __name__ == "__main__":
-    pass
+    trainer = []
+    with open('trainer.json', 'r') as r:
+        data = json.loads(r.read())
+        print(data)
+
+    while True:
+        a = input("trainer @>")
+        if a=="Q":
+            break
+        trainer.append(a)
+    data["data {}".format(time.time())] =  trainer
+    print(data)
+    with open('trainer.json', 'w+') as w:
+        json.dump(data, w)

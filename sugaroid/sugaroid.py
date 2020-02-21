@@ -3,9 +3,24 @@ from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
 import chatterbot
 
+class Sugaroid:
+    pass
+
 
 # Create a new chat bot named Charlie
-chatbot = ChatBot('Sugaroid')
+chatbot = ChatBot('Sugaroid',
+                  storage_adapter='chatterbot.storage.SQLStorageAdapter',
+                  logic_adapters=[
+                    
+                      {
+                          'import_path': 'chatterbot.logic.BestMatch', 
+                          'default_response': 'I am sorry, but I do not understand.',
+                          'maximum_similarity_threshold': 0.90
+                      },
+
+                  ],
+                  database_uri='sqlite:///database.db',
+                  )
 conversation = [
     "Hello",
     "Hi there!",
@@ -16,31 +31,21 @@ conversation = [
     "You're welcome."
 ]
 
-chatterbot.trainers.UbuntuCorpusTrainer(chatbot)
+import json
+with open('trainer.json', 'r') as r:
+    data = json.load(r)
+
+
 corpusTrainer = ChatterBotCorpusTrainer(chatbot)
 corpusTrainer.train(
     "chatterbot.corpus.english.greetings",
 )
 
-trainer = ListTrainer(
-    chatbot,
-    storage_adapter='chatterbot.storage.SQLStorageAdapter',
-    logic_adapters=[
-        'chatterbot.logic.MathematicalEvaluation',
-        'chatterbot.logic.TimeLogicAdapter',
-        {
-          'import_path': 'chatterbot.logic.BestMatch',
-          'default_response': 'I am sorry, but I do not understand.',
-          'maximum_similarity_threshold': 0.90
-        }
-    ],
-    database_uri='sqlite:///database.db',
-    preprocessors = ['chatterbot.preprocessors.clean_whitespace',
-                     'chatterbot.preprocessors.convert_to_ascii'
-    ]
-  )
-
-
+trainer = ListTrainer(chatbot)
+print(data)
+for i in data:
+    print("training", i)
+    trainer.train(data[i])
 trainer.train(conversation)
 
 
@@ -50,3 +55,4 @@ while True:
         print(response)
     except(KeyboardInterrupt, EOFError, SystemExit):
         break
+
