@@ -4,7 +4,7 @@ import sys
 
 import logging
 
-logging.basicConfig(level=logging.INFO)
+
 
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
@@ -33,8 +33,13 @@ class Sugaroid:
 				'chatterbot.logic.MathematicalEvaluation',
 				{
 					'import_path': 'chatterbot.logic.BestMatch',
-					'default_response': 'I am sorry, but I do not understand.',
 					'maximum_similarity_threshold': 0.80
+				},
+				{
+					'import_path': 'sugaroid.brain.wiki.WikiAdapter',
+				},
+				{
+					'import_path': 'sugaroid.brain.fun.FunAdapter',
 				}
 			],
 			database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(self.cfgpath),
