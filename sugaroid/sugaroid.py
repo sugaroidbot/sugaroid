@@ -5,7 +5,7 @@ import sys
 import logging
 
 
-
+import nltk
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
@@ -24,7 +24,7 @@ class Sugaroid:
 		self.cfgmgr = ConfigManager()
 		self.cfgpath = self.cfgmgr.get_cfgpath()
 		self.database_exists = os.path.exists(os.path.join(self.cfgpath, 'sugaroid.db'))
-
+		nltk.download('vader_lexicon')
 		# Create a new chat bot named Charlie
 		self.chatbot = ChatBot(
 			'Sugaroid',
@@ -37,6 +37,9 @@ class Sugaroid:
 				},
 				{
 					'import_path': 'sugaroid.brain.wiki.WikiAdapter',
+				},
+				{
+					'import_path': 'sugaroid.brain.emotion.EmotionAdapter',
 				},
 				{
 					'import_path': 'sugaroid.brain.fun.FunAdapter',

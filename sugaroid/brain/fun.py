@@ -1,3 +1,4 @@
+from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
 
@@ -16,7 +17,15 @@ class FunAdapter(LogicAdapter):
         confidence = random.uniform(0, 0.2)
 
         # For this example, we will just return the input as output
-        selected_statement = input_statement
+        parsed = str(input_statement)
+        if 'sure' in parsed:
+            suffix = "either"
+            prefix = ""
+        else:
+            suffix = ""
+            prefix = ""
+
+        selected_statement = Statement("{pre} {main} {fix}".format(pre=prefix, main=parsed, fix=suffix))
         selected_statement.confidence = confidence
 
         return selected_statement

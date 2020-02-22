@@ -20,10 +20,10 @@ class WikiAdapter(LogicAdapter):
         else:
             return False
 
-    def process(self, input_statement, additional_response_selection_parameters):
+    def process(self, statement, additional_response_selection_parameters=None):
         # FIXME: This may printout unrelated data for phrase searches
 
-        normalized = normalize(str(input_statement))
+        normalized = normalize(str(statement))
         question = ["what", "be", "is", "can", "you", "tell", "me", "please"]
         confidence = 0.85
         core = difference(normalized, question)
