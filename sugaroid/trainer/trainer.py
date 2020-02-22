@@ -2,12 +2,13 @@ __version__ = '0.1'
 
 
 import json
+import os
 import time
-
+from sugaroid.config.config import ConfigManager
 
 class SugaroidTrainer:
     def __init__(self):
-        self.data = {}
+
         print("Sugaroid Trainer v{}".format(__version__))
 
     def train(self, trainer):
@@ -20,36 +21,40 @@ class SugaroidTrainer:
     def modify(self):
         pass
 
-    def prompt(self):
+    def prompt_cli(self):
         a = input("trainer @>")
         if a == "Q" or a == 'q':
             return False
         return a
 
-    def read(self):
-        with open('trainer.json', 'r') as r:
-            self.data = json.loads(r.read())
+    def reset(self):
+        self.cfgmgr.reset_config()
 
     def write(self):
-        with open('trainer.json', 'w+') as w:
-            json.dump(self.data, w)
+        self.cfgmgr.update_config(self.data)
+        self.cfgmgr.write_file()
 
     def trainer_init(self):
-        self.read()
+        self.cfgmgr = ConfigManager()
+        self.data = self.cfgmgr.get_config()
         self.trainer = []
 
     def trainer_cli(self):
         while True:
-            conversation = self.prompt()
+            conversation = self.prompt_cli()
             if conversation:
                 self.trainer.append(conversation)
             else:
                 break
         self.data["{}".format(time.time())] = self.trainer
+        self.write()
 
 
-
-if __name__ == "__main__":
+def main():
     st = SugaroidTrainer()
     st.trainer_init()
     st.trainer_cli()
+
+
+if __name__ == "__main__":
+    main()

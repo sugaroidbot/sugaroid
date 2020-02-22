@@ -28,10 +28,12 @@ class Neuron:
                 raise NotImplementedError
 
     def alu(self):
-        pass
+        raise NotImplementedError
+
 
     def time(self):
-        pass
+        raise NotImplementedError
+
 
     def lem_tokens(self, tokens):
         return [self.lemmer.lemmatize(token) for token in tokens]

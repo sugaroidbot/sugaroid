@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 
@@ -7,13 +8,19 @@ from chatterbot.trainers import ChatterBotCorpusTrainer
 import chatterbot
 import json
 from sugaroid.trainer.trainer import SugaroidTrainer
+from sugaroid.brain.brain import Neuron
+from sugaroid.config.config import ConfigManager
 
 
 class Sugaroid:
 	def __init__(self):
+		self.trainer = None
+		self.corpusTrainer = None
+		self.cfgmgr = ConfigManager()
 
 		# Create a new chat bot named Charlie
-		self.chatbot = ChatBot('Sugaroid',
+		self.chatbot = ChatBot(
+			'Sugaroid',
 			storage_adapter='chatterbot.storage.SQLStorageAdapter',
 			logic_adapters=[
 				'chatterbot.logic.MathematicalEvaluation',
@@ -26,22 +33,25 @@ class Sugaroid:
 			database_uri='sqlite:///database.db',
 			)
 
-		conversation = [
-				"Hello",
-				"Hi there!",
-				"How are you doing?",
-				"I'm doing great.",
-				"That is good to hear",
-				"Thank you.",
-				"You're welcome."
-		]
+		self.read()
 
+
+
+	def init_local_trainers(self):
+		conversation = [
+			"Hello",
+			"Hi there!",
+			"How are you doing?",
+			"I'm doing great.",
+			"That is good to hear",
+			"Thank you.",
+			"You're welcome."
+		]
 		# initialize the trainer
 		self.trainer = ListTrainer(self.chatbot)
 		self.corpusTrainer = ChatterBotCorpusTrainer(self.chatbot)
 
 		# initialize with minimum converstion
-
 		self.list_train(conversation)
 
 	def list_train(self, li):
@@ -49,9 +59,12 @@ class Sugaroid:
 
 	def read(self):
 		if 'train' in sys.argv:
-			pass
+			from sugaroid.trainer.trainer import main as trainer
+			# FIXME replace with dynamic traine i.e GUI + CLI
+			trainer()
 		else:
 			if os.path.exists('database.db'):
+				print("Database already exists")
 				pass
 			else:
 				st = SugaroidTrainer()
@@ -66,32 +79,28 @@ class Sugaroid:
 		)
 
 	def invoke_brain(self):
-		pass
+		neuron = Neuron()
+
 
 	def prompt_cli(self):
-		response = self.chatbot.get_response(input('@> '))
+		try:
+			response = self.chatbot.get_response(input('@> '))
+			return response
+		except (KeyboardInterrupt, EOFError):
+			sys.exit()
 	
-	def display_cli(self,):
-		
+	def display_cli(self, response):
 		print(response)
 
-	def main(self):
-		pass
+	def loop_cli(self):
+		while True:
+			self.display_cli(self.prompt_cli())
 
 
+def main():
+	sg = Sugaroid()
+	sg.loop_cli()
 
-
-
-
-
-while True:
-	try:
-		response = chatbot.get_response(input('@> '))
-		print(response)
-	except(KeyboardInterrupt, EOFError, SystemExit):
-		break
 
 if __name__ == "__main__":
-	sg = Sugaroid()
-	sg.main()
-
+	main()
