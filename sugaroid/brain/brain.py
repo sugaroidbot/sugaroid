@@ -23,7 +23,6 @@ class Neuron:
                 return self.gen_best_match(var)
 
     def alu(self, var, i):
-        print(var)
         conversation = ' '.join(var)
         return self.gen_arithemetic(conversation)
 

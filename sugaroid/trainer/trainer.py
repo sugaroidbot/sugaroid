@@ -16,9 +16,12 @@ class SugaroidTrainer:
         self.cfgmgr = ConfigManager()
 
         data = self.cfgmgr.get_config()
-
+        il = []
         for i in data:
+            il.append(i)
             trainer.train(data[i])
+        with open(os.path.join(self.cfgmgr.get_cfgpath(), 'data.json'), 'w') as w:
+            json.dump({"il": il}, w)
 
     def modify(self):
         pass

@@ -15,6 +15,20 @@ from sugaroid.trainer.trainer import SugaroidTrainer
 from sugaroid.brain.brain import Neuron
 from sugaroid.config.config import ConfigManager
 
+a = """
+  /$$$$$$                                                    /$$       /$$
+ /$$__  $$                                                  |__/      | $$
+| $$  \__/ /$$   /$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$$$$$$
+|  $$$$$$ | $$  | $$ /$$__  $$ |____  $$ /$$__  $$ /$$__  $$| $$ /$$__  $$
+ \____  $$| $$  | $$| $$  \ $$  /$$$$$$$| $$  \__/| $$  \ $$| $$| $$  | $$
+ /$$  \ $$| $$  | $$| $$  | $$ /$$__  $$| $$      | $$  | $$| $$| $$  | $$
+|  $$$$$$/|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$      |  $$$$$$/| $$|  $$$$$$$
+ \______/  \______/  \____  $$ \_______/|__/       \______/ |__/ \_______/
+                     /$$  \ $$                                            
+                    |  $$$$$$/                                            
+                     \______/                                             
+
+"""
 
 class Sugaroid:
 	def __init__(self):
@@ -79,7 +93,7 @@ class Sugaroid:
 	def read(self):
 		if 'train' in sys.argv:
 			from sugaroid.trainer.trainer import main as trainer
-			# FIXME replace with dynamic traine i.e GUI + CLI
+			# FIXME replace with dynamic traineri.e GUI + CLI
 			trainer()
 		else:
 			if self.database_exists:
@@ -91,6 +105,12 @@ class Sugaroid:
 
 				st = SugaroidTrainer()
 				st.train(self.trainer)
+		if 'update' in sys.argv:
+			if self.trainer is None:
+				self.init_local_trainers()
+
+			st = SugaroidTrainer()
+			st.train(self.trainer)
 
 	def write(self):
 		raise NotImplementedError
@@ -120,6 +140,7 @@ class Sugaroid:
 
 
 def main():
+	print(a)
 	sg = Sugaroid()
 	sg.loop_cli()
 
