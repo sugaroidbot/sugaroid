@@ -50,6 +50,9 @@ class Sugaroid:
 					'maximum_similarity_threshold': 0.80
 				},
 				{
+					'import_path': 'sugaroid.brain.ok.OkayAdapter',
+				},
+				{
 					'import_path': 'sugaroid.brain.joke.JokeAdapter',
 				},
 				{
@@ -125,7 +128,7 @@ class Sugaroid:
 
 	def prompt_cli(self):
 		try:
-			response = self.neuron.parse(input('@> '))
+			response = self.neuron.parse(input('( ဖ‿ဖ) @> '))
 			return response
 		except (KeyboardInterrupt, EOFError):
 			sys.exit()
