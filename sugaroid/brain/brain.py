@@ -1,42 +1,43 @@
 import logging
 import string
+from time import strftime, localtime
+from nltk.tokenize import WordPunctTokenizer
 
-import nltk
+ARITHEMETIC = ['+', '-', '*', '/', '^']
 
-remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
-
-
-ARITHEMETIC = ['add', 'plus', 'sutract', 'difference', '+', '-', '*', 'multiply', 'product', 'division', 'quotient', 'divide']
 
 class Neuron:
-    def __init__(self, parent):
-        self.parent = parent
+    def __init__(self, bot):
+        self.bot = bot
         logging.info("Sugaroid Neuron Loaded to memory")
-        self.lemmer = nltk.stem.WordNetLemmatizer()
 
     def parse(self, var):
-        normal = self.normalize(var)
-        if 'time' in normal:
-            self.time()
+
+        if 'time' in var:
+            return self.time()
         else:
             for i in ARITHEMETIC:
-                if i in normal:
-                    self.alu()
-                    break
+                if i in var:
+                    return self.alu(self.normalize(var), i)
             else:
-                # TODO not implemented
-                raise NotImplementedError
+                return self.gen_best_match(var)
 
-    def alu(self):
-        raise NotImplementedError
-
+    def alu(self, var, i):
+        print(var)
+        conversation = ' '.join(var)
+        return self.gen_arithemetic(conversation)
 
     def time(self):
-        raise NotImplementedError
+        return self.gen_time()
 
+    def gen_best_match(self, parsed):
+        return self.bot.get_response(parsed)
 
-    def lem_tokens(self, tokens):
-        return [self.lemmer.lemmatize(token) for token in tokens]
+    def gen_time(self):
+        return 'The current time is {}'.format(strftime("%a, %d %b %Y %H:%M:%S", localtime()))
+
+    def gen_arithemetic(self, parsed):
+        return self.bot.get_response(parsed)
 
     def normalize(self, text):
-        return self.lem_tokens(nltk.word_tokenize(text.lower().translate(remove_punct_dict)))
+        return WordPunctTokenizer().tokenize(text)

@@ -2,6 +2,10 @@ import logging
 import os
 import sys
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
@@ -16,7 +20,10 @@ class Sugaroid:
 	def __init__(self):
 		self.trainer = None
 		self.corpusTrainer = None
+		self.neuron = None
 		self.cfgmgr = ConfigManager()
+		self.cfgpath = self.cfgmgr.get_cfgpath()
+		self.database_exists = os.path.exists(os.path.join(self.cfgpath, 'sugaroid.db'))
 
 		# Create a new chat bot named Charlie
 		self.chatbot = ChatBot(
@@ -25,17 +32,15 @@ class Sugaroid:
 			logic_adapters=[
 				'chatterbot.logic.MathematicalEvaluation',
 				{
-					'import_path': 'chatterbot.logic.BestMatch', 
+					'import_path': 'chatterbot.logic.BestMatch',
 					'default_response': 'I am sorry, but I do not understand.',
-					'maximum_similarity_threshold': 0.90
-				},
+					'maximum_similarity_threshold': 0.80
+				}
 			],
-			database_uri='sqlite:///database.db',
-			)
-
+			database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(self.cfgpath),
+		)
 		self.read()
-
-
+		self.invoke_brain()
 
 	def init_local_trainers(self):
 		conversation = [
@@ -63,10 +68,13 @@ class Sugaroid:
 			# FIXME replace with dynamic traine i.e GUI + CLI
 			trainer()
 		else:
-			if os.path.exists('database.db'):
+			if self.database_exists:
 				print("Database already exists")
 				pass
 			else:
+				if self.trainer is None:
+					self.init_local_trainers()
+
 				st = SugaroidTrainer()
 				st.train(self.trainer)
 
@@ -79,17 +87,17 @@ class Sugaroid:
 		)
 
 	def invoke_brain(self):
-		neuron = Neuron()
-
+		self.neuron = Neuron(self.chatbot)
 
 	def prompt_cli(self):
 		try:
-			response = self.chatbot.get_response(input('@> '))
+			response = self.neuron.parse(input('@> '))
 			return response
 		except (KeyboardInterrupt, EOFError):
 			sys.exit()
-	
-	def display_cli(self, response):
+
+	@staticmethod
+	def display_cli(response):
 		print(response)
 
 	def loop_cli(self):

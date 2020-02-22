@@ -8,12 +8,14 @@ from sugaroid.config.config import ConfigManager
 
 class SugaroidTrainer:
     def __init__(self):
-
+        self.cfgmgr = None
         print("Sugaroid Trainer v{}".format(__version__))
 
     def train(self, trainer):
-        with open('trainer.json', 'r') as r:
-            data = json.load(r)
+        print('Initializing trainer')
+        self.cfgmgr = ConfigManager()
+
+        data = self.cfgmgr.get_config()
 
         for i in data:
             trainer.train(data[i])
@@ -21,7 +23,8 @@ class SugaroidTrainer:
     def modify(self):
         pass
 
-    def prompt_cli(self):
+    @staticmethod
+    def prompt_cli():
         a = input("trainer @>")
         if a == "Q" or a == 'q':
             return False
