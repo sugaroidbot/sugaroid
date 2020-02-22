@@ -36,6 +36,9 @@ class Sugaroid:
 					'maximum_similarity_threshold': 0.80
 				},
 				{
+					'import_path': 'sugaroid.brain.joke.JokeAdapter',
+				},
+				{
 					'import_path': 'sugaroid.brain.wiki.WikiAdapter',
 				},
 				{
@@ -43,7 +46,10 @@ class Sugaroid:
 				},
 				{
 					'import_path': 'sugaroid.brain.fun.FunAdapter',
-				}
+				},
+				#{
+				#	'import_path': 'sugaroid.brain.idk.DontKnowAdapter',
+				#}
 			],
 			database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(self.cfgpath),
 		)
