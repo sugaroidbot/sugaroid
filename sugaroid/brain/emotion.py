@@ -26,16 +26,20 @@ class EmotionAdapter(LogicAdapter):
             else:
                 response = "But still, I love you"
         else:
-            response = 'Why do you think {}?'.format(
-                parsed
-                .lower()
-                .replace(' are ', ' ARE ')
-                .replace(' you ', ' I ')
-                .replace(' i ', ' you ')
-                .replace(' am ', ' are ')
-                .replace(' ARE ', ' am ')
-                .replace(' are I ', ' I am ')
-            )
+            if a['pos'] > a['neg']:
+                # FIXME : Make it more smart
+                response = "Well, I could only (^‿^) "
+            else:
+                response = 'Why do you think {}?'.format(
+                    parsed
+                    .lower()
+                    .replace(' are ', ' ARE ')
+                    .replace(' you ', ' I ')
+                    .replace(' i ', ' you ')
+                    .replace(' am ', ' are ')
+                    .replace(' ARE ', ' am ')
+                    .replace(' are I ', ' I am ')
+                )
 
 
         selected_statement = Statement(response)
