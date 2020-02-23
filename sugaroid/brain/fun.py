@@ -5,7 +5,7 @@ from chatterbot.logic import LogicAdapter
 class FunAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
-     super().__init__(chatbot, **kwargs)
+        super().__init__(chatbot, **kwargs)
 
     def can_process(self, statement):
         return True
@@ -18,14 +18,15 @@ class FunAdapter(LogicAdapter):
 
         # For this example, we will just return the input as output
         parsed = str(input_statement)
-        if 'sure' in parsed:
-            suffix = "either"
+        if 'not' in parsed:
+            suffix = " either."
             prefix = ""
         else:
-            suffix = ""
-            prefix = ""
+            suffix = " too"
+            prefix = "Let me try that, "
 
-        selected_statement = Statement("{pre} {main} {fix}".format(pre=prefix, main=parsed, fix=suffix))
+        selected_statement = Statement(
+            "{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix))
         selected_statement.confidence = confidence
 
         return selected_statement

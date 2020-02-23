@@ -6,6 +6,7 @@ import os
 import time
 from sugaroid.config.config import ConfigManager
 
+
 class SugaroidTrainer:
     def __init__(self):
         self.cfgmgr = None

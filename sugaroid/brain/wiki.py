@@ -29,9 +29,11 @@ class WikiAdapter(LogicAdapter):
         core = difference(normalized, question)
         wkpage = wikipedia.page(' '.join(core))
         if wkpage:
-            selected_statement = Statement("{} \n\t ~ Wikipedia".format(wkpage.summary))
+            selected_statement = Statement(
+                "{} \n\t ~ Wikipedia".format(wkpage.summary))
         else:
-            selected_statement = Statement("Oops, couldn't find it on Wikipedia")
+            selected_statement = Statement(
+                "Oops, couldn't find it on Wikipedia")
         selected_statement.confidence = confidence
 
         return selected_statement

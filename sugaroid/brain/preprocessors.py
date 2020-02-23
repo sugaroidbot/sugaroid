@@ -4,18 +4,22 @@ import unicodedata
 from nltk.corpus import wordnet as wn
 import nltk
 
+
 def non_punkt_normalize(txt):
     return nltk.WordNetLemmatizer(txt)
 
+
 def normalize(text):
-    remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
+    remove_punct_dict = dict((ord(punct), None)
+                             for punct in string.punctuation)
     # word tokenization
     word_token = nltk.word_tokenize(text.lower().translate(remove_punct_dict))
 
     # remove ascii
     new_words = []
     for word in word_token:
-        new_word = unicodedata.normalize('NFKD', word).encode('ascii', 'ignore').decode('utf-8', 'ignore')
+        new_word = unicodedata.normalize('NFKD', word).encode(
+            'ascii', 'ignore').decode('utf-8', 'ignore')
         new_words.append(new_word)
 
     # Remove tags
@@ -37,3 +41,7 @@ def normalize(text):
         lemma_list.append(lemma)
     return lemma_list
 
+
+def tokenize(txt):
+    word_token = nltk.word_tokenize(txt.lower())
+    return word_token
