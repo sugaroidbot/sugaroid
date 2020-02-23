@@ -1,3 +1,7 @@
+requests
+lxml
+beautifulsoup4
+django-googlesearch
 scikit-learn
 Chatterbot
 googletrans

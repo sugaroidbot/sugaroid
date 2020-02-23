@@ -1,11 +1,13 @@
-import logging
 import os
 import sys
 
 import logging
 
+logging.basicConfig(level=logging.INFO)
 
 import nltk
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import QApplication
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
@@ -129,9 +131,15 @@ class Sugaroid:
     def invoke_brain(self):
         self.neuron = Neuron(self.chatbot)
 
+    def parse(self, args):
+        if type(args) is str:
+            return self.neuron.parse(args)
+        else:
+            raise ValueError("Invalid data type passed to Sugaroid.parse")
+
     def prompt_cli(self):
         try:
-            response = self.neuron.parse(input('( ဖ‿ဖ) @> '))
+            response = self.parse(input('( ဖ‿ဖ) @> '))
             return response
         except (KeyboardInterrupt, EOFError):
             sys.exit()
@@ -144,11 +152,29 @@ class Sugaroid:
         while True:
             self.display_cli(self.prompt_cli())
 
+    def loop_gui(self):
+        print("Launching GUI")
+        QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+        QApplication.setAttribute(
+            QtCore.Qt.AA_UseHighDpiPixmaps, True)  # use highdpi icons
+        app = QtWidgets.QApplication(sys.argv)
+        app.setStyle('Breeze')
+        from sugaroid.gui.ux import InterfaceSugaroidQt
+        prog = InterfaceSugaroidQt(parent=self)
+        prog.init()
+        try:
+            app.exec_()
+        except KeyboardInterrupt:
+            sys.exit()
+
 
 def main():
     print(a)
     sg = Sugaroid()
-    sg.loop_cli()
+    if 'qt' in sys.argv:
+        sg.loop_gui()
+    else:
+        sg.loop_cli()
 
 
 if __name__ == "__main__":

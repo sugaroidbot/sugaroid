@@ -29,10 +29,13 @@ def reverse(token):
         elif i.lower() == 'you':
             processed.append('I')
         else:
-            if (processed[-1] == 'you') and (i.lower() == 'am'):
-                processed.append('are')
-            elif (processed[-1] == 'I') and (i.lower() == 'are'):
-                processed.append('am')
+            if len(processed) >= 1:
+                if (processed[-1] == 'you') and (i.lower() == 'am'):
+                    processed.append('are')
+                elif (processed[-1] == 'I') and (i.lower() == 'are'):
+                    processed.append('am')
+                else:
+                    processed.append(i)
             else:
                 processed.append(i)
     return processed
