@@ -72,6 +72,9 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.canmay.CanAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.because.BecauseAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.wiki.WikiAdapter',
                 },
                 {
@@ -87,6 +90,7 @@ class Sugaroid:
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(
                 self.cfgpath),
         )
+        self.chatbot.history = [0]
         self.read()
         self.invoke_brain()
 
@@ -145,7 +149,9 @@ class Sugaroid:
 
     def parse(self, args):
         if type(args) is str:
-            return self.neuron.parse(args)
+            response = self.neuron.parse(args)
+            self.chatbot.history.append(response)
+            return response
         else:
             raise ValueError("Invalid data type passed to Sugaroid.parse")
 

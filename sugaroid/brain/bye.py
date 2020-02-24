@@ -12,11 +12,14 @@ class ByeAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
+        self.normalized = None
+        self.intersect = None
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
         self.intersect = set(self.normalized).intersection(set(BYE))
-        if (self.intersect and not ('can' in self.normalized)) or (self.normalized[0] == 'see' and self.normalized[1] == 'you'):
+        if (self.intersect and not ('can' in self.normalized)) \
+                or (self.normalized[0] == 'see' and self.normalized[1] == 'you'):
             sys.exit()
         else:
             return False

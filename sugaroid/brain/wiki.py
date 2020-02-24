@@ -19,10 +19,10 @@ class WikiAdapter(LogicAdapter):
 
     def can_process(self, statement):
         """"""
-        text = word_tokenize(str(statement))
-        tagged = nltk.pos_tag(text)
+        self.text = word_tokenize(str(statement))
+        tagged = nltk.pos_tag(self.text)
         y = lambda x: x[0][1] == "WP"
-        boo = (y(tagged)) and ('you' not in text)
+        boo = (y(tagged)) and ('you' not in self.text)
         if boo:
             return True
         else:
@@ -46,6 +46,14 @@ class WikiAdapter(LogicAdapter):
 
             return selected_statement
         """
-        selected_statement = Statement(chatbot_query(str(statement)))
-        selected_statement.confidence = 0.94
+        count = 0
+        for i in self.text:
+            if i.lower() == 'what':
+                count += 1
+        if count > 1:
+            selected_statement = Statement('Nothing ' * count)
+            selected_statement.confidence = 0.99
+        else:
+            selected_statement = Statement(chatbot_query(str(statement)))
+            selected_statement.confidence = 0.94
         return selected_statement

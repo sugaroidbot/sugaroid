@@ -20,16 +20,16 @@ class CanAdapter(LogicAdapter):
         self.normalized = normalize(str(statement).lower())
         text = word_tokenize(str(statement))
         self.tagged = nltk.pos_tag(text)
-        y = lambda x: x[0][1] == "MD"
-        boo = y(self.tagged)
-        if boo:
-            return True
+        for k in self.tagged:
+            if k[1].startswith('MD'):
+                return True
         else:
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
         # FIXME: This may printout unrelated data for phrase searches
         noun = None
+        propernoun = None
         verb = None
         adj = None
         third_person = None
@@ -49,9 +49,13 @@ class CanAdapter(LogicAdapter):
             aimed += 2
 
         for i in self.tagged:
-            if i[1] == 'NN' or i[1] == 'NNP':
-                aimed = 25
+            if i[1] == 'NN':
                 noun = i[0]
+            if i[1].endswith('NP'):
+                # FIXME classify it properly
+                noun = i[0]
+                propernoun = i[0]
+                aimed = 25
             elif i[0] == 'help' and (verb is None):
                 verb = i[0]
             elif i[1] == 'VB':
@@ -121,7 +125,7 @@ class CanAdapter(LogicAdapter):
                         noun)
                 else:
                     if verb == 'die':
-                        response = "I wouild die only when you say 'Bye'"
+                        response = "I would die only when you say 'Bye'"
                     else:
                         if adj:
                             polarity_adj = self.sia.polarity_scores(adj)
@@ -132,6 +136,7 @@ class CanAdapter(LogicAdapter):
                             else:
                                 response = "Am I really {}".format(adj)
                         else:
+
                             response = "I think I would not be able to {}. I apologize".format(verb.replace('ing', ''))
             confidence = aimed/100 +0.9
         elif aimed >= 50:
@@ -180,7 +185,7 @@ class CanAdapter(LogicAdapter):
                     else:
                         response = \
                             'I guess its good thing which you have thought about. Me being a bot, ' \
-                            'wouldn\'t be able to do that. You should {} {}'\
+                            'wouldn\'t be able to do that. You should probably {} {}'\
                                 .format(verb.replace('ing', ''), noun)
                 if sentiments['neu'] > 0.8:
                     confidence = sentiments['neu']
