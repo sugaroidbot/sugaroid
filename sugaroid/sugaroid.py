@@ -57,6 +57,9 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.ok.OkayAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.bye.ByeAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.time.TimeAdapter',
                 },
                 {
@@ -64,6 +67,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.joke.JokeAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.canmay.CanAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.wiki.WikiAdapter',
@@ -107,7 +113,7 @@ class Sugaroid:
     def read(self):
         if 'train' in sys.argv:
             from sugaroid.trainer.trainer import main as trainer
-            # FIXME replace with dynamic traineri.e GUI + CLI
+            # FIXME replace with dynamic trainer i.e GUI + CLI
             trainer()
         else:
             if self.database_exists:
@@ -178,8 +184,10 @@ def main():
     print(a)
     sg = Sugaroid()
     if 'qt' in sys.argv:
+        os.environ['SUGAROID'] = 'GUI'
         sg.loop_gui()
     else:
+        os.environ['SUGAROID'] = 'CLI'
         sg.loop_cli()
 
 

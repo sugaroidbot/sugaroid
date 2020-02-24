@@ -2,7 +2,7 @@ import random
 
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
-from sugaroid.brain.constants import EMOJI_SMILE, WHO_AM_I, WHO_ARE_YOU
+from sugaroid.brain.constants import EMOJI_SMILE, WHO_AM_I, WHO_ARE_YOU, SUGAROID
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize
 from sugaroid.ver import version
@@ -27,8 +27,9 @@ class WhoAdapter(LogicAdapter):
             response = random_response(WHO_AM_I)
         elif 'you' in self.normalized:
             v = version()
-            response = "{}. Build: {}".format(random_response(WHO_ARE_YOU), v.get_commit())
+            response = "\n{} \n{}. \nBuild: {}".format(SUGAROID[0],random_response(WHO_ARE_YOU), v.get_commit())
         else:
+            response = 'check the wiki'
             confidence = 0
 
         selected_statement = Statement(response)

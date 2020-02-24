@@ -8,7 +8,7 @@ GRATIFY = [
             "Thank you for being my angel.",
         ]
 
-CONSOLOLATION = [
+CONSOLATION = [
     "Your limitation—it’s only your imagination.",
     "Push yourself, because no one else is going to do it for you.",
     "Great things never come from comfort zones.",
@@ -50,6 +50,28 @@ WHO_AM_I = [
 
 WHO_ARE_YOU = [
     'I am Sugaroid, your personal 👶 assistant',
-    'I am the great robotic Sugaroid 🤖'
+    'I am the great robotic Sugaroid 🤖',
     "Name's Sugaroid, your learning assistant",
+]
+
+SUGAROID = [
+    "🇸​🇺​🇬​🇦​🇷​🇴​🇮​🇩​",
+    "sυgαяσι∂",
+    "🅂🅄🄶🄰🅁🄾🄸🄳",
+    "🆂🆄🅶🅰🆁🅾🅸🅳"
+]
+
+BYE = [
+    'bye',
+    'cya',
+    'quit',
+    'exit',
+    'sleep'
+]
+
+CANYOU = [
+    "I am always {}",
+    "As long as I believe in myself, I am always {}",
+    "As far as I know, I am {}",
+    "East or west, Sugaroid is {}"
 ]

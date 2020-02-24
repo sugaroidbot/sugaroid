@@ -1,7 +1,11 @@
 import logging
 import string
+import sys
 from time import strftime, localtime
 from nltk.tokenize import WordPunctTokenizer
+
+from sugaroid.brain.constants import BYE
+from sugaroid.brain.preprocessors import normalize
 
 ARITHEMETIC = ['+', '-', '*', '/', '^']
 
@@ -12,7 +16,6 @@ class Neuron:
         logging.info("Sugaroid Neuron Loaded to memory")
 
     def parse(self, var):
-
         if 'time' in var:
             return self.time()
         else:

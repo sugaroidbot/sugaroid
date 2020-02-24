@@ -4,6 +4,7 @@ from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
+from sugaroid.brain.constants import GRATIFY, CONSOLATION
 from sugaroid.brain.postprocessor import reverse
 from sugaroid.brain.preprocessors import tokenize
 
@@ -27,8 +28,6 @@ class EmotionAdapter(LogicAdapter):
         parsed = tokenize(str(statement))
         print(parsed)
 
-
-
         a = self.sia.polarity_scores(raw_statement)
         response = ":)"
         if (('love' in parsed) or ('hate' in parsed)) and (('you' in parsed) or ('myself' in parsed)):
@@ -39,7 +38,7 @@ class EmotionAdapter(LogicAdapter):
         else:
             if a['pos'] > a['neg']:
                 if 'you' in parsed:
-                    response = gratify[randint(0, len(gratify)-1)]
+                    response = GRATIFY[randint(0, len(GRATIFY)-1)]
                 else:
                     # FIXME : Make it more smart
                     response = "Well, I could only (^‿^) "
@@ -47,7 +46,7 @@ class EmotionAdapter(LogicAdapter):
 
                 if 'i' in parsed:
                     response = "Its ok,  {}.".format(
-                        console[randint(0, len(console)-1)])
+                        CONSOLATION[randint(0, len(CONSOLATION)-1)])
                 else:
                     # well, I don't want to say ( I don't know )
                     reversed = reverse(parsed)

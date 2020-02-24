@@ -21,14 +21,13 @@ import sys
 import logging
 import time
 
-from PyQt5 import QtCore
+from PyQt5 import QtCore, Qt
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMainWindow
 from sugaroid.gui.ui.main import Ui_MainWindow
 
+
 class BotRequests(QThread):
-
-
     def __init__(self, parent):
         QThread.__init__(self)
         self.parent = parent
@@ -66,6 +65,7 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
         self.chatbox.returnPressed.connect(self.refresh)
         self.conv.clear()
         self.show()
+        self.chatbox.setFocus()
 
     def refresh(self):
         if str(self.chatbox.text()).isspace():
