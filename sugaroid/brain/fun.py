@@ -1,5 +1,9 @@
+
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
+
+from sugaroid.brain.constants import EMOJI_SMILE
+from sugaroid.brain.postprocessor import random_response
 
 
 class FunAdapter(LogicAdapter):
@@ -10,19 +14,19 @@ class FunAdapter(LogicAdapter):
     def can_process(self, statement):
         return True
 
-    def process(self, input_statement, additional_response_selection_parameters):
+    def process(self, statement, additional_response_selection_parameters=None):
         import random
 
         # Randomly select a confidence between 0 and 1
-        confidence = random.uniform(0, 0.2)
+        confidence = 0.1
 
         # For this example, we will just return the input as output
-        parsed = str(input_statement)
+        parsed = str(statement)
         if 'not' in parsed:
-            suffix = " either."
+            suffix = " either. "
             prefix = ""
         else:
-            suffix = " too"
+            suffix = " too {}".format(random_response(EMOJI_SMILE))
             prefix = "Let me try that, "
 
         selected_statement = Statement(

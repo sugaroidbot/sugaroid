@@ -45,3 +45,10 @@ def normalize(text):
 def tokenize(txt):
     word_token = nltk.word_tokenize(txt.lower())
     return word_token
+
+
+def current_time():
+    """Returns a tuple containing (hour, minute) for current local time."""
+    import time
+    local_time = time.localtime(time.time())
+    return local_time.tm_hour, local_time.tm_min

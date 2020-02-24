@@ -22,7 +22,7 @@ class WikiAdapter(LogicAdapter):
         text = word_tokenize(str(statement))
         tagged = nltk.pos_tag(text)
         y = lambda x: x[0][1] == "WP"
-        boo = y(tagged)
+        boo = (y(tagged)) and ('you' not in text)
         if boo:
             return True
         else:

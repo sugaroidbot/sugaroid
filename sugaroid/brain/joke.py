@@ -20,7 +20,6 @@ class JokeAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-
         joke = pyjokes.get_joke('en', 'all')
         selected_statement = Statement(joke)
         selected_statement.confidence = 0.95

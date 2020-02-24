@@ -1,3 +1,6 @@
+from random import randint
+
+
 def sigmaSimilarity(src, dest):
     """
 
@@ -39,3 +42,7 @@ def reverse(token):
             else:
                 processed.append(i)
     return processed
+
+
+def random_response(iterable=[]):
+    return iterable[randint(0, len(iterable)-1)]

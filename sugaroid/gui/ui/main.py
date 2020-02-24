@@ -34,6 +34,7 @@ class Ui_MainWindow(object):
         font.setPointSize(15)
         self.conv.setFont(font)
         self.conv.setStyleSheet("alternate-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 68, 255, 255), stop:1 rgba(85, 0, 255, 255));")
+        self.conv.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.conv.setAlternatingRowColors(True)
         self.conv.setProperty("isWrapping", False)
         self.conv.setWordWrap(True)

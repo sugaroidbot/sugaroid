@@ -40,9 +40,11 @@ class BotRequests(QThread):
         text = self.parent.chatbox.text()
         self.parent.conv.addItem("you: {}".format(text))
         self.parent.chatbox.setText("")
+        self.parent.conv.scrollToBottom()
         response = self.parent.parent.parse(text)
         self.parent.conv.addItem("sugaroid: {}".format(str(response)))
-        self.parent:0.conv.scrollToBottom()
+        time.sleep(0.1)
+        self.parent.conv.scrollToBottom()
 
 
 class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):

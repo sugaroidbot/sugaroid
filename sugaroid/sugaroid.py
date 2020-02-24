@@ -57,6 +57,12 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.ok.OkayAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.time.TimeAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.whoami.WhoAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.joke.JokeAdapter',
                 },
                 {
