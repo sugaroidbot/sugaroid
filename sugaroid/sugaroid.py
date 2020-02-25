@@ -54,6 +54,9 @@ class Sugaroid:
                     'maximum_similarity_threshold': 0.80
                 },
                 {
+                    'import_path': 'sugaroid.brain.yesno.BoolAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.ok.OkayAdapter',
                 },
                 {
@@ -91,6 +94,7 @@ class Sugaroid:
                 self.cfgpath),
         )
         self.chatbot.history = [0]
+        self.chatbot.report = False
         self.read()
         self.invoke_brain()
 

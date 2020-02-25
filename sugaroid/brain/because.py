@@ -27,7 +27,8 @@ class BecauseAdapter(LogicAdapter):
         verb = None
         confidence = 0.90
         last_response = self.chatbot.history[-1]
-        self.last_normalized = reverse(normalize(str(last_response)))
+        self.last_normalized = normalize(str(last_response))
+        print(self.last_normalized)
         if last_response:
             self.tagged_last = nltk.pos_tag(self.last_normalized)
             self.tagged_now = nltk.pos_tag(self.normalized)
@@ -37,8 +38,9 @@ class BecauseAdapter(LogicAdapter):
             for i in self.tagged_now:
                 if i[1] == 'JJ':
                     adj = i[0]
-                elif i[1] == 'VB':
+                elif i[1] == 'VB' and (not i[0] == 'be'):
                     verb = i[0]
+            print(sm.ratio())
             if sm.ratio() > 0.5:
                 if adj:
                     response = 'Well, Its not a good reason for me to be {}'.format(adj)
@@ -52,6 +54,13 @@ class BecauseAdapter(LogicAdapter):
                         response = "I may not be able to {}. " \
                                    "This might not be my builtin quality".format(verb.replace('ing', ''))
                 else:
+                    if adj:
+                        response = 'I will try to be more {} in future'.replace(adj)
+                        pass
+                    else:
+                        response = 'Are you sure this is the reason? I would love to report to my creator.'
+                        self.chatbot.report = True
+                        pass
 
 
         else:
