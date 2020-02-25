@@ -79,7 +79,7 @@ class BoolAdapter(LogicAdapter):
                     else:
                         response = 'No? for what?.'
 
-        confidence = 1
+        confidence = 0.95
         selected_statement = Statement(response)
         selected_statement.confidence = confidence
         return selected_statement

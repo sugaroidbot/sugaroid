@@ -78,6 +78,12 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.because.BecauseAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.rereversei.ReReverseAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.reversethink.ReverseAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.wiki.WikiAdapter',
                 },
                 {
@@ -95,6 +101,9 @@ class Sugaroid:
         )
         self.chatbot.history = [0]
         self.chatbot.report = False
+        self.chatbot.reverse = False
+        self.chatbot.next = None
+        self.chatbot.next_type = None
         self.read()
         self.invoke_brain()
 

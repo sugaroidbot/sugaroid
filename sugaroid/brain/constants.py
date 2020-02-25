@@ -75,3 +75,14 @@ CANYOU = [
     "As far as I know, I am {}",
     "East or west, Sugaroid is {}"
 ]
+
+RNDQUESTIONS = [
+    ("Which is my favorite color?", "blue", str),
+    ("Which is the 9th letter in my name", "You do not have a ninth letter", str),
+    ("Who created me?", "srevinsaju", str),
+    ("What is your name", None, None),
+    ("Would you like some coffee", None, bool),
+    ("Would you like me to say a joke?", None, bool),
+    ('Would you like me to teach python?', None, bool),
+    ("Would you like to train me answer cool questions", None, bool)
+]
