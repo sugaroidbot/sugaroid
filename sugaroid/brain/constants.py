@@ -86,3 +86,11 @@ RNDQUESTIONS = [
     ('Would you like me to teach python?', None, bool),
     ("Would you like to train me answer cool questions", None, bool)
 ]
+
+GREET = [
+    "Nice to meet you {}",
+    "Hello {}. Welcome to Sugaroid",
+    "Hola amigo {}. How can I help",
+    "Hello {}. It was really a pleasant surprise meeting you",
+    "Hey {}! How do you do?"
+]

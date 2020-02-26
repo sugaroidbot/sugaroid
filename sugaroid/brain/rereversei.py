@@ -32,19 +32,27 @@ class ReReverseAdapter(LogicAdapter):
                 response = 'Close! it was {}'.format(self.chatbot.next)
             confidence = 0.99
         elif self.chatbot.next_type is bool:
-            if ('yes' in self.normalized) or ('yea' in self.normalized):
-                if len(self.chatbot.history) > 1:
-                    if 'joke' in _(str(self.chatbot.history[-1])):
-                        joke = pyjokes.get_joke('en', 'all')
-                        selected_statement = Statement(joke)
-                        selected_statement.confidence = 0.95
-                        return selected_statement
-                    else:
-                        # TODO: Not Implemented yet
-                        response = 'Ok. (# Not Implemented yet. LOL)'
-                
+            if self.chatbot.next == 30000000001:
+                if ('yes' in self.normalized) or ('yea' in self.normalized):
+                    response = "Ok, will keep that in mind!"
+                    self.chatbot.username = self.chatbot.nn
+                    self.chatbot.nn = None
+                else:
+                    response = "Ok, I guess I am smart"
             else:
-                response = 'Ok then, probably next time'
+                if ('yes' in self.normalized) or ('yea' in self.normalized):
+                    if len(self.chatbot.history) > 1:
+                        if 'joke' in _(str(self.chatbot.history[-1])):
+                            joke = pyjokes.get_joke('en', 'all')
+                            selected_statement = Statement(joke)
+                            selected_statement.confidence = 0.95
+                            return selected_statement
+                        else:
+                            # TODO: Not Implemented yet
+                            response = 'Ok. (# Not Implemented yet. LOL)'
+
+                else:
+                    response = 'Ok then, probably next time'
             confidence = 1.0
         elif self.chatbot.next_type is None:
             fname = False

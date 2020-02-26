@@ -21,9 +21,13 @@ class WikiAdapter(LogicAdapter):
         """"""
         self.text = word_tokenize(str(statement))
         tagged = nltk.pos_tag(self.text)
-        y = lambda x: x[0][1] == "WP"
-        boo = (y(tagged)) and ('you' not in self.text)
-        if boo:
+        q = False
+        for i in tagged:
+            if i[1] == 'WP':
+                q = True
+            elif i[1].startswith('PRP'):
+                q = False
+        if q:
             return True
         else:
             return False

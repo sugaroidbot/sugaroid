@@ -11,13 +11,11 @@ from PyQt5.QtWidgets import QApplication
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
-import chatterbot
-import json
 from sugaroid.trainer.trainer import SugaroidTrainer
 from sugaroid.brain.brain import Neuron
 from sugaroid.config.config import ConfigManager
 
-a = """
+a = r"""
   /$$$$$$                                                    /$$       /$$
  /$$__  $$                                                  |__/      | $$
 | $$  \__/ /$$   /$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$$$$$$
@@ -26,9 +24,9 @@ a = """
  /$$  \ $$| $$  | $$| $$  | $$ /$$__  $$| $$      | $$  | $$| $$| $$  | $$
 |  $$$$$$/|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$      |  $$$$$$/| $$|  $$$$$$$
  \______/  \______/  \____  $$ \_______/|__/       \______/ |__/ \_______/
-                     /$$  \ $$                                            
+                     /$$  \ $$
                     |  $$$$$$/                                            
-                     \______/                                             
+                     \______/
 
 """
 
@@ -84,6 +82,9 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.reversethink.ReverseAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.iam.MeAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.wiki.WikiAdapter',
                 },
                 {
@@ -103,6 +104,7 @@ class Sugaroid:
         self.chatbot.report = False
         self.chatbot.reverse = False
         self.chatbot.next = None
+        self.chatbot.username = None
         self.chatbot.next_type = None
         self.read()
         self.invoke_brain()
@@ -142,6 +144,7 @@ class Sugaroid:
 
                 st = SugaroidTrainer()
                 st.train(self.trainer)
+                self.corpus()
         if 'update' in sys.argv:
             if self.trainer is None:
                 self.init_local_trainers()
@@ -154,7 +157,17 @@ class Sugaroid:
 
     def corpus(self):
         self.corpusTrainer.train(
-            "chatterbot.corpus.english.greetings",
+            "chatterbot.corpus.english.ai",
+            "chatterbot.corpus.english.botprofile",
+            "chatterbot.corpus.english.computers",
+            "chatterbot.corpus.english.food",
+            "chatterbot.corpus.english.history",
+            "chatterbot.corpus.english.literature",
+            "chatterbot.corpus.english.money",
+            "chatterbot.corpus.english.movies",
+            "chatterbot.corpus.english.politics",
+            "chatterbot.corpus.english.science",
+            "chatterbot.corpus.english.sports",
         )
 
     def invoke_brain(self):

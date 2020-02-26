@@ -33,7 +33,7 @@ def chatbot_query(query, index=0, total=2):
         if len(chars_without_whitespace) > 0:
             result = first_sentence
         else:
-            result = fallback
+            result = fallback.format("SOME RANDOM ERROR")
 
         return result
     except Exception as e:
