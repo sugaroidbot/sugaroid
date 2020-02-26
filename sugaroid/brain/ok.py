@@ -3,6 +3,7 @@ import random
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
+from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize
 
 
@@ -22,6 +23,6 @@ class OkayAdapter(LogicAdapter):
         confidence = 1
         ls = ['😀', '😁', '😂',
               '😏', '😝']
-        selected_statement = Statement("ok ok {}".format(ls[random.randint(0, len(ls))]))
+        selected_statement = Statement("ok ok {}".format(random_response(ls)))
         selected_statement.confidence = confidence
         return selected_statement

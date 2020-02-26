@@ -29,7 +29,7 @@ class AboutAdapter(LogicAdapter):
             elif i[1].startswith('PRP'):
                 pr = True
                 self.pronoun = i[0]
-            elif i[1].starswith('NN'):
+            elif i[1].startswith('NN'):
                 self.nn = True
                 self.noun = i[0]
         if q and pr:
@@ -44,7 +44,9 @@ class AboutAdapter(LogicAdapter):
         response = None
         if self.pronoun.lower().startswith('you'):
             if self.quest.lower() == 'who':
-                if ('player' in self.normalized) or ('cricketer' in self.normalized) or ('footballer' in self.normalized):
+                if 'creator' in self.normalized:
+                    response = 'Srevin Saju aka @srevinsaju'
+                elif ('player' in self.normalized) or ('cricketer' in self.normalized) or ('footballer' in self.normalized):
                     response = 'I have many favorties, too many to count'
                 elif 'politi' in self.normalized:
                     response = 'I believe politicians are 🔥 and I couldn\'t find anyone with 🔥 in my database'
@@ -54,7 +56,7 @@ class AboutAdapter(LogicAdapter):
                     response = 'I do not watch movies, so yea!'
                 elif 'athelete' in self.normalized:
                     response = 'I am not a sport lover, I don\'t have a favorite athelete'
-                elif 'friend' in self.normalized:
+                elif ('friend' in self.normalized) or ('bestie' in self.normalized):
                     if self.chatbot.username:
                         name = self.chatbot.username
                     else:
@@ -76,6 +78,11 @@ class AboutAdapter(LogicAdapter):
             if self.quest.lower() == 'who':
                 response = 'I do not know who you like'
                 confidence = 0.8
+            elif self.quest.lower() == 'which':
+                response = "Hmm. tough question. Can't think of an answer"
+            elif self.quest.lower() == 'when':
+                response = "I cannot find the date or time you are asking for. Well, I can give a raw guess, " \
+                           "its after you were born "
             else:
                 response = 'FIXME'
         else:

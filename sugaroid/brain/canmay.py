@@ -91,6 +91,9 @@ class CanAdapter(LogicAdapter):
                     else:
                         if verb == 'die':
                             response = "I wouild die only when you say 'Bye'"
+                        elif verb.lower().replace('ing', '') in ['teach', 'tell', 'say', 'speak', 'go']:
+                            response = \
+                                "Sure! Just don't ask if I can {}. Just ask".format(verb.lower().replace('ing', ''))
                         else:
                             response = "I think I would not be able to {}. I apologize".format(verb.replace('ing', ''))
             elif positive_statement:

@@ -10,7 +10,7 @@ def chatbot_query(query, index=0, total=2):
     result = ''
 
     try:
-        search_result_list = list(search(query, tld="com", num=total, stop=3, pause=1))
+        search_result_list = list(search(query, tld="com", num=total, stop=10, pause=0.5))
 
         page = requests.get(search_result_list[index])
 
@@ -34,7 +34,7 @@ def chatbot_query(query, index=0, total=2):
             result = first_sentence
         else:
             result = fallback.format("SOME RANDOM ERROR")
-
+        result = result.lstrip('Advertisement').lstrip('Supported by')
         return result
     except Exception as e:
         if len(result) == 0:

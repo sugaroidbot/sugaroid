@@ -27,13 +27,20 @@ from PyQt5.QtWidgets import QMainWindow
 from sugaroid.gui.ui.main import Ui_MainWindow
 
 
+class AudioRequests(QThread):
+    def __init__(self, parent, ress):
+        QThread.__init__(self)
+        self.parent = parent
+        self.resonse = ress
+
+    def run(self):
+        self.parent.parent.tts.speak(self.resonse)
+
+
 class BotRequests(QThread):
     def __init__(self, parent):
         QThread.__init__(self)
         self.parent = parent
-
-    def __del__(self):
-        self.wait()
 
     def run(self):
         text = self.parent.chatbox.text()
@@ -42,8 +49,11 @@ class BotRequests(QThread):
         self.parent.conv.scrollToBottom()
         response = self.parent.parent.parse(text)
         self.parent.conv.addItem("sugaroid: {}".format(str(response)))
-        time.sleep(0.1)
         self.parent.conv.scrollToBottom()
+        if self.parent.parent.audio:
+            self.aud = AudioRequests(self.parent, str(response))
+            self.aud.start()
+
 
 
 class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):

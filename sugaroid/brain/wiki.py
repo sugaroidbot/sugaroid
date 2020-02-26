@@ -21,13 +21,15 @@ class WikiAdapter(LogicAdapter):
         """"""
         self.text = word_tokenize(str(statement))
         tagged = nltk.pos_tag(self.text)
+        print(tagged)
         q = False
+        pr = False
         for i in tagged:
-            if i[1] == 'WP':
+            if i[1] == 'WP' or i[1] == 'WRB':
                 q = True
-            elif i[1].startswith('PRP'):
-                q = False
-        if q:
+            elif (i[1].startswith('PRP')) and (not i[0]=='we'):
+                pr = True
+        if q and (not pr):
             return True
         else:
             return False

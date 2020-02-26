@@ -3,6 +3,8 @@ import sys
 
 import logging
 
+from sugaroid.tts.tts import Text2Speech
+
 logging.basicConfig(level=logging.INFO)
 
 import nltk
@@ -36,11 +38,18 @@ class Sugaroid:
         self.trainer = None
         self.corpusTrainer = None
         self.neuron = None
+        self.audio = 'audio' in sys.argv
         self.cfgmgr = ConfigManager()
         self.cfgpath = self.cfgmgr.get_cfgpath()
         self.database_exists = os.path.exists(
             os.path.join(self.cfgpath, 'sugaroid.db'))
         nltk.download('vader_lexicon')
+
+        if self.audio:
+            self.tts = Text2Speech()
+        else:
+            self.tts = None
+
         # Create a new chat bot named Charlie
         self.chatbot = ChatBot(
             'Sugaroid',
@@ -53,6 +62,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.yesno.BoolAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.either.OrAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.ok.OkayAdapter',
@@ -83,6 +95,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.iam.MeAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.about.AboutAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.wiki.WikiAdapter',
@@ -174,6 +189,7 @@ class Sugaroid:
         self.neuron = Neuron(self.chatbot)
 
     def parse(self, args):
+
         if type(args) is str:
             response = self.neuron.parse(args)
             self.chatbot.history.append(response)
@@ -188,9 +204,10 @@ class Sugaroid:
         except (KeyboardInterrupt, EOFError):
             sys.exit()
 
-    @staticmethod
-    def display_cli(response):
+    def display_cli(self, response):
         print(response)
+        if self.audio:
+            self.tts.speak(str(response))
 
     def loop_cli(self):
         while True:
