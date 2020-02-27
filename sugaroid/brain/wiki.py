@@ -1,6 +1,6 @@
 import nltk
 from chatterbot.logic import LogicAdapter
-import wikipedia
+
 from chatterbot.conversation import Statement
 from nltk import word_tokenize
 

@@ -12,7 +12,7 @@
 <!DOCTYPE html><html class=''>
 <head><!--script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script-->
     <!--script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script><meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" /-->
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
 
 <script src="https://use.typekit.net/hoy3lrg.js"></script>
@@ -523,13 +523,13 @@
 }
 @media screen and (max-width: 735px) {
   #frame .content {
-    width: calc(100% - 58px);
+    width: 100%;
     min-width: 300px !important;
   }
 }
 @media screen and (min-width: 900px) {
   #frame .content {
-    width: calc(100% - 340px);
+    width: 100%;
   }
 }
 #frame .content .contact-profile {
@@ -537,6 +537,7 @@
   height: 60px;
   line-height: 60px;
   background: #f5f5f5;
+  margin: 9px 12px 0 9px;
 }
 #frame .content .contact-profile img {
   width: 40px;
@@ -635,7 +636,7 @@
   font-family: "proxima-nova",  "Source Sans Pro", sans-serif;
   float: left;
   border: none;
-  width: calc(100% - 90px);
+  width: calc(100% - 50px);
   padding: 11px 32px 10px 8px;
   font-size: 0.8em;
   color: #32465a;
@@ -689,20 +690,6 @@
 }
 </style></head><body>
 
-<!--
-
-A concept for a chat interface.
-
-Try writing a new message! :)
-
-
-Follow me here:
-Twitter: https://twitter.com/thatguyemil
-Codepen: https://codepen.io/emilcarlsson/
-Website: http://emilcarlsson.se/
-
--->
-
 <div id="frame">
 
 	<div id="djan" class="content">
@@ -729,7 +716,7 @@ Website: http://emilcarlsson.se/
 
 			<div class="wrap">
             <form action="user" method="post">{% csrf_token %}
-                <input type="text" name="userInput"><input type="submit" value="SEND">
+                <input type="text" name="userInput" autofocus><button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </form>
 			<!--input name="userInput" type="text" placeholder="Write your message..." />
 			<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button-->
@@ -737,6 +724,9 @@ Website: http://emilcarlsson.se/
 		</div>
 	</div>
 </div>
+<script >$(".messages").animate({ scrollTop: $(document).height() + 2750 }, "fast");
+
+</script>
 <!--script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script-->
 <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
 
