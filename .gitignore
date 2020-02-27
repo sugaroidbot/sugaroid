@@ -4,3 +4,4 @@ __pycache__
 *.pyo
 database.db
 sentence_tokenizer.pickle
+dist
