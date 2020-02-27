@@ -5,7 +5,7 @@ from os import path
 
 setup(
     name='sugaroid',
-    version="{}".format(0.1),
+    version="{}".format('0.1.0.2'),
     description='sugaroid',
     license='GPL v3',
     author='srevinsaju',
@@ -18,7 +18,7 @@ setup(
                   '.': [".git/info/*"]
                   },
     include_package_data=True,
-    install_requires=['chatterbot', 'googletrans', 'google', 'Django==3.0.3'],
+    install_requires=['chatterbot', 'googletrans', 'google', 'Django==3.0.3', 'chatterbot_corpus'],
 
     entry_points={
         'console_scripts': [
