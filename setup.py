@@ -18,7 +18,7 @@ setup(
                   '.': [".git/info/*"]
                   },
     include_package_data=True,
-    install_requires=['chatterbot', 'googletrans'],
+    install_requires=['chatterbot', 'googletrans', 'google', 'Django==3.0.3'],
 
     entry_points={
         'console_scripts': [

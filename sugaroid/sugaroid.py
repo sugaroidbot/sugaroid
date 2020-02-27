@@ -3,19 +3,29 @@ import sys
 
 import logging
 
-from sugaroid.tts.tts import Text2Speech
+try:
+    from sugaroid.tts.tts import Text2Speech
+    AUD_DEPS = True
+except ModuleNotFoundError:
+    AUD_DEPS = False
 
 logging.basicConfig(level=logging.INFO)
 
 import nltk
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QApplication
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
 from sugaroid.trainer.trainer import SugaroidTrainer
 from sugaroid.brain.brain import Neuron
 from sugaroid.config.config import ConfigManager
+
+try:
+    from PyQt5 import QtCore, QtWidgets
+    from PyQt5.QtWidgets import QApplication
+    GUI_DEPS = True
+except ModuleNotFoundError:
+    GUI_DEPS = False
+
 
 a = r"""
   /$$$$$$                                                    /$$       /$$
@@ -214,6 +224,8 @@ class Sugaroid:
             self.display_cli(self.prompt_cli())
 
     def loop_gui(self):
+        if not GUI_DEPS:
+            raise ModuleNotFoundError("PyQt5 is not Installed. Install it by pip3 install PyQt5")
         print("Launching GUI")
         QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
         QApplication.setAttribute(
