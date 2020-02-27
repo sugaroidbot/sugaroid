@@ -1,3 +1,8 @@
+try:
+    import django_heroku
+except:
+    pass
+
 """
 Django settings for websugaroid project.
 
@@ -15,7 +20,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -25,7 +29,10 @@ SECRET_KEY = '+*7qwp80g(sy7zz#5za9u$qs@oym3515=r3z0%%q1q4va6j2m8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.100.26',
+    '127.0.0.1'
+]
 
 
 # Application definition
@@ -126,3 +133,7 @@ STATICFILES_DIRS = (
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+try:
+    django_heroku.settings(locals())
+except NameError:
+    pass
