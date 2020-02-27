@@ -14,11 +14,12 @@ setup(
     url="https://srevinsaju.github.io/guiscrcpy",
     download_url="https://github.com/srevinsaju/guiscrcpy/archive/master.zip",
     package_data={'sugaroid': ['*', '*.*', 'brain/*', 'reader/*', 'trainer/*', 'translator/*', 'web/*', 'cli/*',
-                               'platform/*', 'tts/*', 'config/*', 'google/*'],
+                               'platform/*', 'tts/*', 'config/*', 'google/*', 'qt/*'],
                   '.': [".git/info/*"]
                   },
     include_package_data=True,
-    install_requires=['chatterbot', 'googletrans', 'google', 'Django==3.0.3', 'chatterbot_corpus', 'pyjokes', 'scikit-learn', 'nltk', 'lxml'],
+    install_requires=['chatterbot', 'googletrans', 'google', 'Django==3.0.3', 'chatterbot_corpus', 'pyjokes',
+                      'scikit-learn', 'nltk', 'lxml', 'PyQt5'],
 
     entry_points={
         'console_scripts': [

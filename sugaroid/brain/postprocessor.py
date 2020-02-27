@@ -124,3 +124,36 @@ def cosine_similarity(X_list, Y_list):
         c += l1[i] * l2[i]
     cosine = c / float((sum(l1) * sum(l2)) ** 0.5)
     return cosine
+
+
+def raw_in(arg, spacy_tokenized):
+    for i in spacy_tokenized:
+        if i.text == arg:
+            return True
+    else:
+        return False
+
+
+def raw_lower_in(arg, spacy_tokenized):
+    for i in spacy_tokenized:
+        if i.lower_ == arg:
+            return True
+    else:
+        return False
+
+
+
+def lemma_in(arg, spacy_tokenized):
+    for i in spacy_tokenized:
+        if i.lemma_ == arg:
+            return True
+    else:
+        return False
+
+
+def pos_in(arg, spacy_tokenized):
+    for i in spacy_tokenized:
+        if i.pos_ == arg:
+            return True
+    else:
+        return False

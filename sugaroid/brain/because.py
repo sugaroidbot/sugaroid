@@ -55,7 +55,7 @@ class BecauseAdapter(LogicAdapter):
                                    "This might not be my builtin quality".format(verb.replace('ing', ''))
                 else:
                     if adj:
-                        response = 'I will try to be more {} in future'.replace(adj)
+                        response = 'I will try to be more {} in future'.format(adj)
                         pass
                     else:
                         response = 'Are you sure this is the reason? I would love to report to my creator.'

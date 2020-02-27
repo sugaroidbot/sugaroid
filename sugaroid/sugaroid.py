@@ -8,8 +8,8 @@ try:
     AUD_DEPS = True
 except ModuleNotFoundError:
     AUD_DEPS = False
-
-logging.basicConfig(level=logging.INFO)
+verbosity = logging.INFO
+logging.basicConfig(level=verbosity)
 
 import nltk
 from chatterbot import ChatBot
@@ -247,6 +247,10 @@ def main():
     if 'qt' in sys.argv:
         os.environ['SUGAROID'] = 'GUI'
         sg.loop_gui()
+    elif 'web' in sys.argv:
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sugaroid.web.websugaroid.websugaroid.settings')
+        from django.core.management import execute_from_command_line
+        execute_from_command_line(['manage', 'runserver', '0.0.0.0:8000'])
     else:
         os.environ['SUGAROID'] = 'CLI'
         sg.loop_cli()
