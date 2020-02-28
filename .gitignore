@@ -6,4 +6,4 @@ database.db
 sentence_tokenizer.pickle
 dist
 build
-*.egg.*
+*.egg*
