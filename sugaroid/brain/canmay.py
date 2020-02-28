@@ -76,6 +76,7 @@ class CanAdapter(LogicAdapter):
 
         if aimed >=100:
             if neutral_statement:
+                confidence = aimed / 100 + 0.7
                 if 'help' in self.normalized:
                     # Randomize answer
                     response = 'Yes, I can say a joke to you, answer some questions,' \
@@ -83,10 +84,18 @@ class CanAdapter(LogicAdapter):
                                ' this'
                 else:
                     if verb and (verb in ['play', 'joke', 'sing', 'dance', 'read']):
-                        response = 'I should be able to {}, ' \
-                                   'but it all depends on updates which I have received'.format(verb.replace('ing', ''))
+                        if verb == 'play':
+                            from sugaroid.game.game import games
+                            response = 'I can play some games like {}'.format(', '.join(games))
+                        else:
+                            response = 'I should be able to {}, ' \
+                                       'but it all depends on updates which I have received'.format(verb.replace('ing', ''))
                     elif noun and (noun in ['play', 'joke', 'sing', 'dance', 'read']):
-                        response = 'I should be able to {}, ' \
+                        if noun == 'play':
+                            from sugaroid.game.game import games
+                            response = 'I can play some games like {}'.format(', '.join(games))
+                        else:
+                            response = 'I should be able to {}, ' \
                                    'but it all depends on updates which I have received'.format(noun)
                     else:
                         if verb == 'die':
@@ -95,7 +104,10 @@ class CanAdapter(LogicAdapter):
                             response = \
                                 "Sure! Just don't ask if I can {}. Just ask".format(verb.lower().replace('ing', ''))
                         else:
+                            if verb.replace('ing', '') == 'do':
+                                confidence = 0
                             response = "I think I would not be able to {}. I apologize".format(verb.replace('ing', ''))
+
             elif positive_statement:
                 if noun:
                     if verb:
@@ -107,25 +119,35 @@ class CanAdapter(LogicAdapter):
                 else:
                     # TODO test case
                     response = "Are you sure this is right?"
+                confidence = aimed / 100 + 0.9
             else:
                 if noun:
                     response = "Well, I would not dare to " \
                                "help you {verb} {noun}".format(verb=verb.replace('ing', ''), noun=noun)
                 else:
                     response = 'I am not sure if I could {verb}'.format(verb=verb.replace('ing', ''))
-            confidence = aimed / 100 + 0.9
+                confidence = aimed / 100 + 0.7
         elif aimed >= 75:
+            confidence = aimed / 100 + 0.7
             if 'help' in self.normalized:
                 response = 'Yes, I can say a joke to you, answer ' \
                            'some questions, do some mathematical sums, and talk like' \
                            ' this'
             else:
                 if verb and (verb in ['play', 'joke', 'sing', 'dance', 'read']):
-                    response = 'I should be able to {}, but it all depends on updates which I have received'.format(
-                        verb.replace('ing', ''))
+                    if verb == 'play':
+                        from sugaroid.game.game import games
+                        response = 'I can play some games like {}'.format(', '.join(games))
+                    else:
+                        response = 'I should be able to {}, but it all depends on updates which I have received'.format(
+                            verb.replace('ing', ''))
                 elif noun and (noun in ['play', 'joke', 'sing', 'dance', 'read']):
-                    response = 'I should be able to {}, but it all depends on updates which I have received'.format(
-                        noun)
+                    if verb == 'play':
+                        from sugaroid.game.game import games
+                        response = 'I can play some games like {}'.format(', '.join(games))
+                    else:
+                        response = 'I should be able to {}, but it all depends on updates which I have received'.format(
+                            noun)
                 else:
                     if verb == 'die':
                         response = "I would die only when you say 'Bye'"
@@ -139,9 +161,10 @@ class CanAdapter(LogicAdapter):
                             else:
                                 response = "Am I really {}".format(adj)
                         else:
-
+                            if verb.replace('ing', '') == 'do':
+                                confidence = 0
                             response = "I think I would not be able to {}. I apologize".format(verb.replace('ing', ''))
-            confidence = aimed/100 +0.9
+
         elif aimed >= 50:
             if neutral_statement:
                 if verb == 'help':
@@ -209,7 +232,12 @@ class CanAdapter(LogicAdapter):
                         response = "I am always trying to be {}".format(self.tagged[j][0])
                     else:
                         response = "I would never try to be a {}".format(self.tagged[j][0])
-                    confidence = aimed / 100 + 0.9
+                    confidence = aimed / 100 + 0.7
+
+        if confidence >= 1.4:
+            confidence /= 2
+        elif confidence >= 1.0:
+            confidence /= 1.2
 
         selected_statement = Statement(response)
         selected_statement.confidence = confidence

@@ -1,7 +1,10 @@
 import os
 import sys
-
+import warnings
+warnings.filterwarnings("ignore")
 import logging
+
+from sugaroid.brain.utils import LanguageProcessor
 
 try:
     from sugaroid.tts.tts import Text2Speech
@@ -86,10 +89,16 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.time.TimeAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.trivia.TriviaAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.whoami.WhoAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.joke.JokeAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.play.PlayAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.canmay.CanAdapter',
@@ -125,12 +134,15 @@ class Sugaroid:
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(
                 self.cfgpath),
         )
+        # initialize language processs
+        self.chatbot.lp = LanguageProcessor()
         self.chatbot.history = [0]
         self.chatbot.report = False
         self.chatbot.reverse = False
         self.chatbot.next = None
         self.chatbot.username = None
         self.chatbot.next_type = None
+        self.chatbot.trivia_answer = None
         self.read()
         self.invoke_brain()
 

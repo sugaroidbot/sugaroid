@@ -18,8 +18,12 @@ class BoolAdapter(LogicAdapter):
         self.intersect = None
 
     def can_process(self, statement):
-        self.normalized = normalize(str(statement))
-        if ('yes' in self.normalized) or ('no' in self.normalized):
+        self.normalized = normalize(str(statement).lower())
+        if ('yes' in self.normalized) or ('no' in self.normalized) or ('true' in self.normalized) or ('false' in self.normalized):
+            if ('yes' in self.normalized) or ('true' in self.normalized):
+                self.bool = True
+            else:
+                self.bool = False
             return True
 
     def process(self, statement, additional_response_selection_parameters=None):
@@ -29,6 +33,13 @@ class BoolAdapter(LogicAdapter):
                 response = 'Sure, I would connect to the Developer to report this issue right away'
             else:
                 response = 'Ok, I will not report it.'
+        elif self.chatbot.trivia_answer:
+            if self.chatbot.trivia_answer == self.bool:
+                response = "Exactly! You are right"
+            else:
+                response = 'Nope, You got it wrong. The correct answer was {}'.format(self.chatbot.trivia_answer)
+            self.chatbot.trivia_answer = None
+            confidence = 1.1
         else:
             if self.chatbot.history[-1] == 0:
                 if bool_yes:
@@ -79,7 +90,7 @@ class BoolAdapter(LogicAdapter):
                     else:
                         response = 'No? for what?.'
 
-        confidence = 0.95
+            confidence = 0.95
         selected_statement = Statement(response)
         selected_statement.confidence = confidence
         return selected_statement

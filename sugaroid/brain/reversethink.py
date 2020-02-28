@@ -12,29 +12,36 @@ class ReverseAdapter(LogicAdapter):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
 
+
     def can_process(self, statement):
         normalized = normalize(str(statement))
         if (('think' in normalized) or ('ask' in normalized)) and ('me' in normalized):
             return True
         else:
-            return False
+            if self.chatbot.lp.similarity(str(statement), 'What can you do?') > 0.9:
+                return True
+            else:
+                return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        _ = normalize
+
+
         cos = max([
-            cosine_similarity(_(str(statement)), _('Make me think')),
-            cosine_similarity(_(str(statement)), _('Ask me something')),
-            cosine_similarity(_(str(statement)), _('Ask me a question'))
+            self.chatbot.lp.similarity(str(statement), 'Tell me something'),
+            self.chatbot.lp.similarity(str(statement), 'Ask me something'),
+            self.chatbot.lp.similarity(str(statement), 'Ask me a question'),
+            self.chatbot.lp.similarity(str(statement), 'What can you do?'),
         ])
+        if self.chatbot.lp.similarity(str(statement), 'What can you do?') > 0.9:
+            response = 'I can say a joke, read a book and answer some questions'
+        else:
+            response_raw = random_response(RNDQUESTIONS)
+            response = response_raw[0]
+            self.chatbot.reverse = True
+            self.chatbot.next = response_raw[1]
+            self.chatbot.next_type = response_raw[2]
 
-        response_raw = random_response(RNDQUESTIONS)
-        response = response_raw[0]
-        self.chatbot.reverse = True
-        self.chatbot.next = response_raw[1]
-        self.chatbot.next_type = response_raw[2]
-
-        confidence = cos + (cos/(cos+10))
         print(self.chatbot.next)
         selected_statement = Statement(response)
-        selected_statement.confidence = confidence
+        selected_statement.confidence = cos
         return selected_statement
