@@ -13,7 +13,7 @@ setup(
     version="{}".format('0.2'),
     description='sugaroid',
     long_description=long_description,
-    long_description_content_type='text/markdown'
+    long_description_content_type='text/markdown',
     license='GPL v3',
     author='srevinsaju',
     author_email="srevin03@gmail.com",
