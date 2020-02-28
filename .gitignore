@@ -5,3 +5,5 @@ __pycache__
 database.db
 sentence_tokenizer.pickle
 dist
+build
+*.egg.*
