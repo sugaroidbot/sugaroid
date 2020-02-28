@@ -81,9 +81,63 @@ The modular capacity of Sugaroid makes it easy to implement a GUI without rewrit
 
 ### Django (Web) Interface
 
-In order to provide a server side chatbot server, the sugaroid AI was configured to be used to Django. 
+In order to provide a server side chatbot server, the sugaroid AI was configured to be used to Django. This used open source bootstrap templates to create a chatbot appearance that was pretty neat and effective way to host it on a Django server (if one exists)
 
+![image-20200228215804751](/home/ss/repo/sugaroid/docs/img/image-20200228215804751.png)
 
+The current work left on the Django system is to enable cookies to store the data on the client side temporarily and not on the server side. The current Django implementation is based on server-side, which implies the chat history is saved on the server
+
+## Similarity Algorithms
+
+### Jaccard Similarity
+
+Jaccard Similarity / sigma similarity uses a simple, but less memory intensive algorithm to analyze the statements. The equation is given as follows
+$$
+\theta = \frac {n}{x+y}
+$$
+Where n, number of common words in list x and list y, and (x+ y) shows the union of x and y similarity. 
+
+The benefits of using Jaccard similarity is that, sugaroid can implement `can_process` methods in an object with optimal resource usage. There is no need to use complex cosine dot product for finding similarity in cases there are only one word as list x and list y respectively. This helped to optimize the sugaroid bot partly
+
+Jaccard Similarity can be accessed by `sugaroid.brain.preprocessors.sigma_similarity`
+
+### Cosine Dot product 
+
+The Sugaroid AI selectively uses Cosine Dot product for comparing statements on the ratio of similarity and selects an appropriate statement stored to the database. 
+$$
+\vec A.\vec B = ABcos\theta \\
+cos \theta = \frac{\vec A . \vec B}{A.B}
+$$
+Words are classified as vectors in this case. Similar words are given similar but unique vector quantity, such that only equal phrases can have the common cosine dot product. This vector model was downloaded from the universal `nltk.wordnet` is a collection of word and their classification
+
+![img](/home/ss/repo/sugaroid/docs/img/wordnet-event.png)
+
+This complex collection of details helped to club similar nouns and verbs together and provide customized answers, reduce training data and increasing program logic. Therefore, each data was not to be separately forced to the sugaroid bot to understand and learn but also learn the phrases of message input by itself and store it in the SQL Database for future reference
+
+Cosine Dot product can be accessed within sugaroid by `sugaroid.brain.postprocessors.cosine_similarity`
+
+### Jensen Shannon Distance (JSD)
+
+The [Jensen Shannon Distance](https://en.wikipedia.org/wiki/Jensen–Shannon_divergence) is the last and the complex algorithm used inside `sugaroid` bot. The equation for finding Jensen Shannon Distance is not directly used within 
+$$
+D(M || Q) = \sum M(i) . \log \frac {M(i)}{Q(i)} \\
+JSD (M || Q) = \frac 12\sum ( \log(\frac {M(i)}{\frac12M(i) + Q(i)}) + \log(\frac{Q(i)}{\frac 12 M(i) + Q(i)}))
+$$
+This being a complex and CPU intensive process, is handled systematically by a Natural Language Processing library with Industrial Processing support, viz, SpaCy. The [SpaCy](spacy.io) library handles this effectively by loading data from `en_core_web_sm` and `en_core_web_lg`
+
+The difference between `sm` and `lg` is that, `en_core_web_sm` is collection of all the word in the dictionary with vectors only  and weighs 7.5 MB. The `en_core_web_lg` weighs 880 MB, and has data for `tensors` too. This dataset is more efficient because, the data so obtained has tensor data and this helps to correctly measure Jensen Shannon Distance. 
+
+The JSD is internally implemented in an `nlp` object called `LanguageProcessor` and handles most of the complex conversations inside `sugaroid.brain.utils.LanguageProcessor` is a signed class with two methods `tokenize` and `similarity` The `similarity` method return the resultant net vector displacement of the given vectors.
+
+#### Sentiments Analyzer
+
+The `sugaroid.brain` features another comprehensive object derived from `wordnet` called `SentimentsIntensityAnalyzer` or `sia` for short. The `SentimentIntensityAnanlyzer` has a list of words with positivity, negativity and neutrality. `sugaroid` bot uses `vader_lexicon` to classify sentences as attributive or corruptive and then gives an equal answer.
+
+### Faults in Similarity Algorithms
+
+Sometimes, the similarity algorithms may give a completely incorrect answer that may lead to false response by the bot to the user. This is because tensors have no resultant displacement and has multiple direction. To compute zero vectors, SpaCy uses an approximation algorithm called Word Mover Distance. This might lead to unknown predictions. Such predictions should be raised as an issue on the Sugaroid repository to create a tackler adapter that would override the answer with a suitable confidence value. 
+
+The other complex and efficient algorithms have been neglected. This is to reduce the size of the distribution as well as reduce the time of installation on an end-user's PC. Complex and accurate Natural Language Processing systems like `pytorch` and `tensorflow` exists, but this may result in the net user installation size to be approximately 2 GB +, which is probably not what the end-user requires.
 
 ## Configuration
 
@@ -113,3 +167,25 @@ graph LR
 ```
 
 This algorithm is implemented to prevent the download of Audio files on each request by the sugaroid bot.
+
+
+
+## Memory 
+
+The Sugaroid bot has been designed to provide an acceptable answer and the author had been focusing on refining the response by the bot more and more better. However this has resulted in bad PEP practices and dis allocated memory modules. 
+
+| Time                      | Memory (KB) | Memory (MB) |
+| ------------------------- | ----------- | ----------- |
+| Initial Loading           | 83500 KB    | 83.5 MB     |
+| Pause after loading       | 173800 KB   | 173.8 MB    |
+| First Question (Hello)    | 266500 KB   | 266.5 MB    |
+| Second Question (Hey)     | 287500 KB   | 287.5 MB    |
+| Third Question (Emotion)  | 289500 KB   | 289.5 MB    |
+| Fourth Question (Emotion) | 289950 KB   | 290 MB      |
+
+This is because, a lot of unnecessary objects have been created in the memory. This should be removed before the release of `sugaroid` version 1.0
+
+## CPU Usage
+
+The Sugaroid bot does not have significant CPU usage. Tested on Windows 10 running with 1.8 GHz with other applications running did not affect system stability. 
+
