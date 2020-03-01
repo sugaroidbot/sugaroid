@@ -3,8 +3,10 @@ import random
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class OkayAdapter(LogicAdapter):
@@ -23,6 +25,9 @@ class OkayAdapter(LogicAdapter):
         confidence = 1
         ls = ['😀', '😁', '😂',
               '😏', '😝']
-        selected_statement = Statement("ok ok {}".format(random_response(ls)))
+        selected_statement = SugaroidStatement(
+            "ok ok {}".format(random_response(ls)))
         selected_statement.confidence = confidence
+        emotion = Emotion.wink
+        selected_statement.emotion = emotion
         return selected_statement

@@ -4,7 +4,9 @@ from chatterbot.logic import LogicAdapter
 from chatterbot.conversation import Statement
 from nltk import word_tokenize
 
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import sigmaSimilarity, difference, random_response
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class OrAdapter(LogicAdapter):
@@ -26,12 +28,15 @@ class OrAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         nouns = set()
         response = None
+        emotion = Emotion.neutral
         confidence = 0
         if (len(self.tagged) == 1) or (self.tagged[0][1] == 'CC'):
             response = "Are you serious, just an {}".format(self.tagged[0][0])
+            emotion = Emotion.angry
             confidence = 0.8
         elif len(self.tagged) == 2:
             response = 'I expected you to provide an option, But what? 🐓'
+            emotion = Emotion.angry_non_expressive
             confidence = 0.8
         else:
             for i in range(len(self.tagged)-1):
@@ -43,9 +48,13 @@ class OrAdapter(LogicAdapter):
                     nouns = nouns.union({n2[0]})
             if ('boy' in nouns) or ('girl' in nouns):
                 response = "I am neither"
+                emotion = Emotion.angry_non_expressive
             else:
                 response = "{} 🎃".format(random_response(list(nouns)))
+
             confidence = 0.8
-        selected_statement = Statement(response)
+        selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
+        selected_statement.emotion = emotion
+
         return selected_statement

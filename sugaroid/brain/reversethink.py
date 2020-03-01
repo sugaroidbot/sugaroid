@@ -2,8 +2,10 @@ from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
 from sugaroid.brain.constants import RNDQUESTIONS
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import cosine_similarity, random_response
 from sugaroid.brain.preprocessors import normalize
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class ReverseAdapter(LogicAdapter):
@@ -11,7 +13,6 @@ class ReverseAdapter(LogicAdapter):
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
-
 
     def can_process(self, statement):
         normalized = normalize(str(statement))
@@ -24,7 +25,6 @@ class ReverseAdapter(LogicAdapter):
                 return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-
 
         cos = max([
             self.chatbot.lp.similarity(str(statement), 'Tell me something'),
@@ -42,6 +42,9 @@ class ReverseAdapter(LogicAdapter):
             self.chatbot.next_type = response_raw[2]
 
         print(self.chatbot.next)
-        selected_statement = Statement(response)
+        selected_statement = SugaroidStatement(response)
         selected_statement.confidence = cos
+        emotion = Emotion.neutral
+        selected_statement.emotion = emotion
+
         return selected_statement

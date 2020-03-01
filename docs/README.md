@@ -71,11 +71,11 @@ sugaroid.sugaroid.verbosity = logging.INFO
 
 The `INFO` can be replaced to match any of the following `WARNING`, `ERROR` , `INFO`
 
-![image-20200227190619754](/home/ss/repo/sugaroid/docs/img/image-20200227190619754.png)
+![image-20200227190619754](img/image-20200227190619754.png)
 
 ### Graphical User Interface (Local)
 
-![image-20200227190829956](/home/ss/repo/sugaroid/docs/img/image-20200227190829956.png)
+![image-20200227190829956](img/image-20200227190829956.png)
 
 The modular capacity of Sugaroid makes it easy to implement a GUI without rewriting the code. This is highly efficient because it reuses objects and reduces the size of the end distribution. The GUI for sugaroid is built on `LGPL` based open source GUI framework, viz. `PyQt5`. The implemented `PyQt5` framework in `Sugaroid` looks similar to the following image. (Image may vary with updates)
 
@@ -83,7 +83,7 @@ The modular capacity of Sugaroid makes it easy to implement a GUI without rewrit
 
 In order to provide a server side chatbot server, the sugaroid AI was configured to be used to Django. This used open source bootstrap templates to create a chatbot appearance that was pretty neat and effective way to host it on a Django server (if one exists)
 
-![image-20200228215804751](/home/ss/repo/sugaroid/docs/img/image-20200228215804751.png)
+![image-20200228215804751](img/image-20200228215804751.png)
 
 The current work left on the Django system is to enable cookies to store the data on the client side temporarily and not on the server side. The current Django implementation is based on server-side, which implies the chat history is saved on the server
 
@@ -110,7 +110,9 @@ cos \theta = \frac{\vec A . \vec B}{A.B}
 $$
 Words are classified as vectors in this case. Similar words are given similar but unique vector quantity, such that only equal phrases can have the common cosine dot product. This vector model was downloaded from the universal `nltk.wordnet` is a collection of word and their classification
 
-![img](/home/ss/repo/sugaroid/docs/img/wordnet-event.png)
+![img](img/wordnet-event.png)
+
+
 
 This complex collection of details helped to club similar nouns and verbs together and provide customized answers, reduce training data and increasing program logic. Therefore, each data was not to be separately forced to the sugaroid bot to understand and learn but also learn the phrases of message input by itself and store it in the SQL Database for future reference
 
@@ -167,8 +169,6 @@ graph LR
 ```
 
 This algorithm is implemented to prevent the download of Audio files on each request by the sugaroid bot.
-
-
 
 ## Memory 
 

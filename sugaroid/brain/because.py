@@ -4,8 +4,10 @@ import nltk
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import reverse
 from sugaroid.brain.preprocessors import normalize
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class BecauseAdapter(LogicAdapter):
@@ -23,10 +25,12 @@ class BecauseAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
+        # add emotion output
         adj = None
         verb = None
         confidence = 0.90
         last_response = self.chatbot.history[-1]
+        emotion = Emotion.neutral
         self.last_normalized = normalize(str(last_response))
         print(self.last_normalized)
         if last_response:
@@ -43,29 +47,36 @@ class BecauseAdapter(LogicAdapter):
             print(sm.ratio())
             if sm.ratio() > 0.5:
                 if adj:
-                    response = 'Well, Its not a good reason for me to be {}'.format(adj)
+                    response = 'Well, Its not a good reason for me to be {}'.format(
+                        adj)
                 else:
                     response = 'Well, its not a good reason you have told me 😭'
             else:
                 if verb:
                     if verb in ['think', 'breath', 'eat', 'hear', 'feel', 'taste']:
-                        response = 'Robots are computer devices. I cannot {}'.format(verb.replace('ing', ''))
+                        response = 'Robots are computer devices. I cannot {}'.format(
+                            verb.replace('ing', ''))
+                        emotion = Emotion.cry
                     else:
                         response = "I may not be able to {}. " \
-                                   "This might not be my builtin quality".format(verb.replace('ing', ''))
+                                   "This might not be my builtin quality".format(
+                                       verb.replace('ing', ''))
+                        emotion = Emotion.cry_overflow
                 else:
                     if adj:
-                        response = 'I will try to be more {} in future'.format(adj)
-                        pass
+                        response = 'I will try to be more {} in future'.format(
+                            adj)
+                        emotion = Emotion.adorable
                     else:
                         response = 'Are you sure this is the reason? I would love to report to my creator.'
                         self.chatbot.report = True
-                        pass
-
+                        emotion = Emotion.non_expressive_left
 
         else:
             response = 'Well, I cannot think of saying something. Your conversation began with reason. 🤯'
+            emotion = Emotion.angry
 
-        selected_statement = Statement(response)
+        selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
+        selected_statement.emotion = emotion
         return selected_statement

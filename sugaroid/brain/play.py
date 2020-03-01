@@ -5,8 +5,10 @@ import freegames
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
 from sugaroid.game.game import games
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class PlayAdapter(LogicAdapter):
@@ -52,6 +54,8 @@ class PlayAdapter(LogicAdapter):
                 time.sleep(5)
         except KeyError:
             pass
-        selected_statement = Statement(response)
+        selected_statement = SugaroidStatement(response)
         selected_statement.confidence = maxcos
+
+        selected_statement.emotion = Emotion.neutral
         return selected_statement

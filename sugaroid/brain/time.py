@@ -4,8 +4,10 @@ from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
 from sugaroid.brain.constants import TIME, TIME_RESPONSE
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize, current_time
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class TimeAdapter(LogicAdapter):
@@ -45,11 +47,14 @@ class TimeAdapter(LogicAdapter):
             if (time in self.intersect) or ('time' in self.intersect):
                 response = 'Good {}'.format(time)
             else:
-                response = 'Good {}. {}'.format(time, random_response(TIME_RESPONSE).format(list(self.intersect)[0]))
+                response = 'Good {}. {}'.format(time, random_response(
+                    TIME_RESPONSE).format(list(self.intersect)[0]))
         else:
             response = "You are staying up late, you should sleep right now."
 
-        selected_statement = Statement("{}".format(response))
+        selected_statement = SugaroidStatement("{}".format(response))
         selected_statement.confidence = 1
-        return selected_statement
+        emotion = Emotion.neutral
+        selected_statement.emotion = emotion
 
+        return selected_statement

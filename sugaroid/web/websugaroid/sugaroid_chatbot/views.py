@@ -6,6 +6,7 @@ from sugaroid.sugaroid import Sugaroid
 conversation = list()
 sg = Sugaroid()
 
+
 class Conversation:
     def __init__(self, by=None, message=None):
         self.by = by

@@ -5,6 +5,7 @@ from time import strftime, localtime
 from nltk.tokenize import WordPunctTokenizer
 
 from sugaroid.brain.constants import BYE
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
 
 ARITHEMETIC = ['+', '-', '*', '/', '^']
@@ -17,17 +18,20 @@ class Neuron:
 
     def parse(self, var):
         if 'time' in var:
-            return self.time()
+            response = self.time()
         else:
             for i in ARITHEMETIC:
                 if i in var:
-                    return self.alu(self.normalize(var), i)
+                    response = self.alu(self.normalize(var), i)
+                    break
             else:
-                return self.gen_best_match(var)
+                response = self.gen_best_match(var)
+                print(response.get_tags())
+        return response
 
     def alu(self, var, i):
         conversation = ' '.join(var)
-        return self.gen_arithemetic(conversation)
+        return self.gen_arithmetic(conversation)
 
     def time(self):
         return self.gen_time()
@@ -35,11 +39,13 @@ class Neuron:
     def gen_best_match(self, parsed):
         return self.bot.get_response(parsed)
 
-    def gen_time(self):
+    @staticmethod
+    def gen_time():
         return 'The current time is {}'.format(strftime("%a, %d %b %Y %H:%M:%S", localtime()))
 
-    def gen_arithemetic(self, parsed):
+    def gen_arithmetic(self, parsed):
         return self.bot.get_response(parsed)
 
-    def normalize(self, text):
+    @staticmethod
+    def normalize(text):
         return WordPunctTokenizer().tokenize(text)

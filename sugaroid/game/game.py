@@ -11,9 +11,9 @@ def game_file(name):
     Return True if filename represents a game.
     """
     return (
-            name.endswith('.py')
-            and not name.startswith('__')
-            and name != 'utils.py'
+        name.endswith('.py')
+        and not name.startswith('__')
+        and name != 'utils.py'
     )
 
 

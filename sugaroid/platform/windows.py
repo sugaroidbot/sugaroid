@@ -28,7 +28,8 @@ class Windows:
 
     @staticmethod
     def make_config():
-        path = os.path.expanduser(os.path.join("~", "AppData", "Local", "sugaroid"))
+        path = os.path.expanduser(os.path.join(
+            "~", "AppData", "Local", "sugaroid"))
         if not os.path.exists(path):
             try:
                 os.makedirs(path)

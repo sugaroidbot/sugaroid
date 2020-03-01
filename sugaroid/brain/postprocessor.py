@@ -99,7 +99,7 @@ def cosine_similarity(X_list, Y_list):
 
     # sw contains the list of stopwords
     sw = stopwords.words('english')
-    l1 = [];
+    l1 = []
     l2 = []
 
     # remove stop words from string
@@ -140,7 +140,6 @@ def raw_lower_in(arg, spacy_tokenized):
             return True
     else:
         return False
-
 
 
 def lemma_in(arg, spacy_tokenized):

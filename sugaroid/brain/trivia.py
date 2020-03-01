@@ -4,7 +4,9 @@ import pyjokes
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class TriviaAdapter(LogicAdapter):
@@ -15,9 +17,11 @@ class TriviaAdapter(LogicAdapter):
     def can_process(self, statement):
         self.cos = max([
             self.chatbot.lp.similarity(str(statement), 'Ask ne a question'),
-            self.chatbot.lp.similarity(str(statement), 'Lets have some trivia'),
+            self.chatbot.lp.similarity(
+                str(statement), 'Lets have some trivia'),
             self.chatbot.lp.similarity(str(statement), 'Play trivia'),
-            self.chatbot.lp.similarity(str(statement), 'Can you ask some quiz'),
+            self.chatbot.lp.similarity(
+                str(statement), 'Can you ask some quiz'),
             self.chatbot.lp.similarity(str(statement), 'Can you quiz'),
             self.chatbot.lp.similarity(str(statement), 'Can you play trivia'),
         ])
@@ -30,7 +34,10 @@ class TriviaAdapter(LogicAdapter):
         from sugaroid.trivia.trivia import SugaroidTrivia
         st = SugaroidTrivia()
         response = st.ask()
-        selected_statement = Statement(response)
+        selected_statement = SugaroidStatement(response)
         selected_statement.confidence = self.cos
         self.chatbot.trivia_answer = st.answer()
+        emotion = Emotion.neutral
+        selected_statement.emotion = emotion
+
         return selected_statement

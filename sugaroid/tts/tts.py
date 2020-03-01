@@ -13,9 +13,11 @@ class Text2Speech:
             os.makedirs(os.path.join(self.cfgmgr.get_cfgpath(), 'tts'))
         self.tts_dir = os.path.join(self.cfgmgr.get_cfgpath(), 'tts')
         if not os.path.exists(os.path.join(self.tts_dir, 'let_me_try_that.mp3')):
-            gTTS('Let me try that,').save(os.path.join(self.tts_dir, 'let_me_try_that.mp3'))
+            gTTS('Let me try that,').save(os.path.join(
+                self.tts_dir, 'let_me_try_that.mp3'))
         if not os.path.exists(os.path.join(self.tts_dir, 'why_do_you_think.mp3')):
-            gTTS('Why do you think').save(os.path.join(self.tts_dir, 'why_do_you_think.mp3'))
+            gTTS('Why do you think').save(os.path.join(
+                self.tts_dir, 'why_do_you_think.mp3'))
 
     def speak(self, args):
         let_me = False

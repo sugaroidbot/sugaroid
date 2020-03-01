@@ -5,13 +5,16 @@ import nltk
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class AboutAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
+        self.chatbot = chatbot
 
     def can_process(self, statement):
 
@@ -42,34 +45,47 @@ class AboutAdapter(LogicAdapter):
         self.normalized = normalize(str(statement))
         confidence = 0
         response = None
+        emotion = Emotion.neutral
         if self.pronoun.lower().startswith('you'):
             if self.quest.lower() == 'who':
                 if 'creator' in self.normalized:
                     response = 'Srevin Saju aka @srevinsaju'
+                    emotion = Emotion.neutral
                 elif ('player' in self.normalized) or ('cricketer' in self.normalized) or ('footballer' in self.normalized):
                     response = 'I have many favorties, too many to count'
+                    emotion = Emotion.wink
                 elif 'politi' in self.normalized:
-                    response = 'I believe politicians are 🔥 and I couldn\'t find anyone with 🔥 in my database'
+                    response = 'I believe politicians are great and I couldn\'t find anyone with 🔥greatness in my database'
+                    emotion = Emotion.wink
                 elif 'comedian' in self.normalized:
                     response = 'My favorite comedian is Mr Bean'
+                    emotion = Emotion.lol
                 elif 'actor' in self.normalized or ('actress' in self.normalized):
                     response = 'I do not watch movies, so yea!'
+                    emotion = Emotion.neutral
                 elif 'athelete' in self.normalized:
                     response = 'I am not a sport lover, I don\'t have a favorite athelete'
+                    emotion = Emotion.neutral
                 elif ('friend' in self.normalized) or ('bestie' in self.normalized):
                     if self.chatbot.username:
                         name = self.chatbot.username
                     else:
                         name = ''
-                    response = "No doubts, its you {n}".format(n=name.capitalize())
+                    response = "No doubts, its you {n}".format(
+                        n=name.capitalize())
+                    emotion = Emotion.adorable
                 elif 'teacher' in self.normalized:
                     response = "I don't have a single favorite teacher. All the teachers together are my favorite who" \
                                " taught me how to talk with you "
+                    emotion = Emotion.positive
                 else:
                     if self.nn:
-                        response = 'Well, I guess I do not have a favorite {p}'.format(p=self.noun)
+                        response = 'Well, I guess I do not have a favorite {p}'.format(
+                            p=self.noun)
+                        emotion = Emotion.cry
                     else:
                         response = 'I am not sure what you are asking is right'
+                        emotion = Emotion.seriously
                 confidence = 0.99
             else:
                 response = 'FIXME'
@@ -78,25 +94,24 @@ class AboutAdapter(LogicAdapter):
             if self.quest.lower() == 'who':
                 response = 'I do not know who you like'
                 confidence = 0.8
+                emotion = Emotion.non_expressive_left
+
             elif self.quest.lower() == 'which':
                 response = "Hmm. tough question. Can't think of an answer"
+                emotion = Emotion.non_expressive
             elif self.quest.lower() == 'when':
                 response = "I cannot find the date or time you are asking for. Well, I can give a raw guess, " \
                            "its after you were born "
+                emotion = Emotion.wink
             else:
                 response = 'FIXME'
         else:
             response = "I do not have enough courage to give you that answer"
             confidence = 0.5
-        selected_statement = Statement(response)
+            emotion = Emotion.cry
+        selected_statement = SugaroidStatement(response)
+
         selected_statement.confidence = confidence
+        selected_statement.emotion = emotion
+
         return selected_statement
-
-
-
-
-
-
-
-
-

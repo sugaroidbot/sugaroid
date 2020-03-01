@@ -1,12 +1,12 @@
 EMOJI_SMILE = ['😀', '😁', '😂', '😏', '😝']
 
 GRATIFY = [
-            "Thank you, indeed its my pleasure ",
-            "All my 0s and 1s are still smiling",
-            "You knocked me off my feet!",
-            "I'm touched beyond words",
-            "Thank you for being my angel.",
-        ]
+    "Thank you, indeed its my pleasure ",
+    "All my 0s and 1s are still smiling",
+    "You knocked me off my feet!",
+    "I'm touched beyond words",
+    "Thank you for being my angel.",
+]
 
 CONSOLATION = [
     "Your limitation—it’s only your imagination.",

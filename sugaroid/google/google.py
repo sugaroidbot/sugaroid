@@ -10,7 +10,8 @@ def chatbot_query(query, index=0, total=2):
     result = ''
 
     try:
-        search_result_list = list(search(query, tld="com", num=total, stop=10, pause=0.5))
+        search_result_list = list(
+            search(query, tld="com", num=total, stop=10, pause=0.5))
 
         page = requests.get(search_result_list[index])
 
@@ -21,7 +22,7 @@ def chatbot_query(query, index=0, total=2):
         article_text = ''
         article = soup.findAll('p')
         for element in article:
-            article_text += '\n' + ''.join(element.findAll(text = True))
+            article_text += '\n' + ''.join(element.findAll(text=True))
         article_text = article_text.replace('\n', '')
         first_sentence = article_text.split('.')
         first_sentence = first_sentence[0].split('?')[0]

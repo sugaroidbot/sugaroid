@@ -6,25 +6,57 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>525</width>
-    <height>509</height>
+    <width>588</width>
+    <height>728</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Sugaroid GUI</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="rsrc.qrc">
+    <normaloff>:/home/sugaroid.png</normaloff>:/home/sugaroid.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>521</width>
-      <height>451</height>
+      <width>581</width>
+      <height>671</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="1">
+      <widget class="QLabel" name="label">
+       <property name="maximumSize">
+        <size>
+         <width>256</width>
+         <height>256</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="rsrc.qrc">:/home/sugaroid.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="openExternalLinks">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
       <widget class="QPushButton" name="push">
        <property name="text">
         <string>OK</string>
@@ -32,9 +64,13 @@
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLineEdit" name="chatbox"/>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
-     <item row="0" column="0" colspan="2">
+     <item row="2" column="0" colspan="3">
       <widget class="QListWidget" name="conv">
        <property name="font">
         <font>
@@ -59,6 +95,16 @@
        </property>
       </widget>
      </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="QLineEdit" name="chatbox"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -67,13 +113,15 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>525</width>
+     <width>588</width>
      <height>30</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="rsrc.qrc"/>
+ </resources>
  <connections/>
 </ui>

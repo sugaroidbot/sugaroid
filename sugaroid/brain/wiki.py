@@ -4,7 +4,9 @@ from chatterbot.logic import LogicAdapter
 from chatterbot.conversation import Statement
 from nltk import word_tokenize
 
+from sugaroid.brain.ooo import Emotion
 from sugaroid.google.google import chatbot_query
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class WikiAdapter(LogicAdapter):
@@ -22,7 +24,7 @@ class WikiAdapter(LogicAdapter):
         for i in tagged:
             if i[1] == 'WP' or i[1] == 'WRB':
                 q = True
-            elif (i[1].startswith('PRP')) and (not i[0]=='we'):
+            elif (i[1].startswith('PRP')) and (not i[0] == 'we'):
                 pr = True
         if q and (not pr):
             return True
@@ -31,13 +33,13 @@ class WikiAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         # FIXME: This may printout unrelated data for phrase searches
-        
+
         count = 0
         for i in self.text:
             if i.lower() == 'what':
                 count += 1
         if count > 1:
-            selected_statement = Statement('Nothing ' * count)
+            selected_statement = SugaroidStatement('Nothing ' * count)
             selected_statement.confidence = 0.99
         else:
             response = chatbot_query(str(statement))
@@ -47,6 +49,10 @@ class WikiAdapter(LogicAdapter):
                 confidence = 0.05
             else:
                 confidence = 0.95
-            selected_statement = Statement(str(response))
+            selected_statement = SugaroidStatement(str(response))
             selected_statement.confidence = confidence
+
+        emotion = Emotion.neu
+        selected_statement.emotion = emotion
+
         return selected_statement

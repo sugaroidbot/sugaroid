@@ -11,4 +11,3 @@ class LanguageProcessor:
 
     def similarity(self, arg1, arg2):
         return self.nlp(arg1).similarity(self.nlp(arg2))
-

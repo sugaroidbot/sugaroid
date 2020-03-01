@@ -5,7 +5,9 @@ from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
 from sugaroid.brain.constants import BYE
+from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
+from sugaroid.sugaroid import SugaroidStatement
 
 
 class ByeAdapter(LogicAdapter):
@@ -28,7 +30,9 @@ class ByeAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
+        emotion = Emotion.neutral
         confidence = 1
-        selected_statement = Statement("Bye")
+        selected_statement = SugaroidStatement("Bye")
         selected_statement.confidence = confidence
+        selected_statement.emotion = emotion
         return selected_statement
