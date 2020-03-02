@@ -66,6 +66,7 @@ class SugaroidBot(ChatBot):
         self.next_type = None
         self.temp_data = []
         self.username = None
+        self.spell_checker = False  # FIXME
 
     def set_emotion(self, emotion):
         self.emotion = emotion

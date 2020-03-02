@@ -1,3 +1,5 @@
+import logging
+
 import spacy
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
@@ -37,6 +39,7 @@ class MeAdapter(LogicAdapter):
         if raw_in('I', self.tokenized):
             print("I TEST")
             for i in self.tokenized:
+                logging.info(" {} {}".format(i.text, i.pos_))
                 if i.pos_ == 'PROPN':
                     nn = i.text
                     if self.chatbot.username:

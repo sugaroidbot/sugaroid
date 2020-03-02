@@ -15,8 +15,11 @@ ARITHEMETIC = ['+', '-', '*', '/', '^']
 class Neuron:
     def __init__(self, bot):
         self.bot = bot
-        self.spell = SpellChecker(distance=1)
-        self.spell.known(['Sugaroid', 'Sugarlabs', "sugar", 'Srevin', 'Saju'])  # some privileges only for the creator
+        if self.bot.spell_checker:
+            self.spell = SpellChecker(distance=1)
+            self.spell.known(['Sugaroid', 'Sugarlabs', "sugar", 'Srevin', 'Saju'])  # some privileges only for the creator
+        else:
+            self.spell = False
         logging.info("Sugaroid Neuron Loaded to memory")
 
     def parse(self, var):
@@ -28,11 +31,14 @@ class Neuron:
                     response = self.alu(self.normalize(var), i)
                     break
             else:
-                wt = var.split(' ')
-                ct = []
-                for i in wt:
-                    ct.append(self.spell.correction(i))
-                response = self.gen_best_match(' '.join(ct))
+                if self.spell:
+                    wt = var.split(' ')
+                    ct = []
+                    for i in wt:
+                        ct.append(self.spell.correction(i))
+                    response = self.gen_best_match(' '.join(ct))
+                else:
+                    response = self.gen_best_match(var)
 
         return response
 
