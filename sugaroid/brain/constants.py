@@ -1,3 +1,5 @@
+import platform
+
 EMOJI_SMILE = ['😀', '😁', '😂', '😏', '😝']
 
 GRATIFY = [
@@ -76,6 +78,14 @@ CANYOU = [
     "East or west, Sugaroid is {}"
 ]
 
+REPEAT = [
+    "I thought I told you that already!",
+    "Ahem! I told it already",
+    "Its basically the same thing I told you just now",
+    "Yikes, you have a terrible memory! I guess you forgot that I just told you",
+    "Aw snap! you forgot it. Try remembering! I just told you!"
+]
+
 RNDQUESTIONS = [
     ("Which is my favorite color?", "blue", str),
     ("Which is the 9th letter in my name", "You do not have a ninth letter", str),
@@ -94,3 +104,97 @@ GREET = [
     "Hello {}. It was really a pleasant surprise meeting you",
     "Hey {}! How do you do?"
 ]
+
+SATISFIED = [
+    "Well, I could only smile!",
+    "I am filled",
+    "Nice. But I would like to talk about a different topic?",
+    "Ok, tell me more"
+]
+
+BURN_IDK = [
+    "I guess I don't know either",
+    "ROTFL Guess what? I don't know wither",
+    "Snap! Neither do I know!",
+    "If you are clueless, who do you think is not!"
+]
+
+INTRODUCE = [
+    "My name's Sugaroid! Your personal assistant",
+    "I am Sugaroid. Thats my picture at the top. If you cant see. keep scrolling",
+    "Hey amigo! I am Sugaroid, your sweet companion, here to talk to you!",
+    "Name's Sugaroid. The youngest chatbot in the world",
+    "Sugaroid is my name. Nice to meet you",
+    "Psst. My name's Sugaroid. Don't tell anyone! Just kidding!"
+]
+
+ANNOYED = [
+    "... Seriously?",
+    "Just a word?",
+    "I am not nuts today",
+    "La la la. I have three words here, but you have only one. Soz dude.",
+    "More words, more talk, congratulations for being one of the first users in just spelling out a word",
+    "I am hungry for words. One of them wont stuff me up!",
+    "I am getting bored",
+    "If thats a single word, what about supercalifragilisticexpialidocious",
+    "I like this word, even though its only one, it is enough for my appetite: "
+    "pneumonoultramicroscopicsilicovolcanoconiosis",
+    "I quit!"
+]
+
+if platform.platform() == 'Windows':
+    SUGAROID_INTRO = \
+"""
+MMMMMMMMMMMMMMMMMMMMMMMCCCCMMMMMMMMMMMMMMMMMMMMMMM
+MMMMMMMMMMMMMMMCCCCCCCCCCCCCCCCCCCCMMMMMMMMMMMMMMM
+MMMMMMMMMMMCCCCCCCCCCCCCCCCCCCCCCCCCCCCMMMMMMMMMMM
+MMMMMMMMMCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCMMMMMMMMM
+MMMMMMMCCCCCCCCCCCCCCC.....CCCCCCCCCCCCCCCCMMMMMMM
+MMMMMCCCCCCCCCCCCC.............;CCCCCCCCCCCCCMMMMM
+MMMMCCCCCCCCCCC;.................;CCCCCCCCCCCCMMMM
+MMMCCCCCCCCCC;.....................;CCCCCCCCCCCMMM
+MMCCCCCCCCC7;.......................;;CCCCCCCCCCMM
+MMCCCCCCCC;;.........................;;CCCCCCCCCMM
+MCCCCCCCC;;...........................;;CCCCCCCCCM
+MCCCCCCCC;.............................;;CCCCCCCCM
+MCCCCCCC;;....??GGG?.........?QGGG?....;;CCCCCCCCM
+MCCCCCCC;;...?GGGGGG?.......?GGGGGG?...;;?CCCCCCCM
+MMCCCCCC;;;...?GGGGG?.......:?GGGG??...;;CCCCCCCMM
+MMCCCCCCC;;;....???............??;...;;;-CCCCCCCMM
+MMMCCCCCCCC;;;.....................;;;;CCCCCCCCMMM
+MMMMCCCCCCCCC;;;;;;...........;;;;;;CCCCCCCCCCMMMM
+MMMMMCCCCCCCCCCCCCC;;;;;;;;;;;;CCCCCCCCCCCCCCMMMMM
+MMMMMMMCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCMMMMMMM
+MMMMMMMMMCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCMMMMMMMMM
+MMMMMMMMMMMCCCCCCCCCCCCCCCCCCCCCCCCCCCMMMMMMMMMMMM
+MMMMMMMMMMMMMMMCCCCCCCCCCCCCCCCCCCCMMMMMMMMMMMMMMM
+
+""".replace("M", " ")
+else:
+    SUGAROID_INTRO = \
+"""
+A[49mA[KA[0mA[23CA[48;5;197m    A[49m
+A[15CA[48;5;197m                    A[49m
+A[11CA[48;5;197m                            A[49m
+A[9CA[48;5;197m                                A[49m
+A[7CA[48;5;197m               A[48;5;231m     A[48;5;197m                A[49m
+A[5CA[48;5;197m             A[48;5;231m             A[48;5;188m A[48;5;197m             A[49m
+A[4CA[48;5;197m           A[48;5;188m A[48;5;231m                 A[48;5;188m A[48;5;197m            A[49m
+A[3CA[48;5;197m          A[48;5;188m A[48;5;231m                     A[48;5;188m A[48;5;197m           A[49m
+A[2CA[48;5;197m         A[48;5;204m A[48;5;188m A[48;5;231m                       A[48;5;188m  A[48;5;197m          A[49m
+A[2CA[48;5;197m        A[48;5;188m  A[48;5;231m                         A[48;5;188m  A[48;5;197m         A[49m
+A[1CA[48;5;197m        A[48;5;188m  A[48;5;231m                           A[48;5;188m  A[48;5;197m         A[49m
+A[1CA[48;5;197m        A[48;5;188m A[48;5;231m                             A[48;5;188m  A[48;5;197m        A[49m
+A[1CA[48;5;197m       A[48;5;188m  A[48;5;231m    A[48;5;33m  A[48;5;17m   A[48;5;33m A[48;5;189m A[48;5;231m        A[48;5;33m A[48;5;25m A[48;5;17m   A[48;5;33m A[48;5;231m    A[48;5;188m  A[48;5;197m        A[49m
+A[1CA[48;5;197m       A[48;5;188m  A[48;5;231m   A[48;5;33m A[48;5;17m      A[48;5;33m A[48;5;231m       A[48;5;33m A[48;5;17m      A[48;5;33m A[48;5;231m   A[48;5;188m  A[48;5;198m A[48;5;197m       A[49m
+A[2CA[48;5;197m      A[48;5;188m   A[48;5;231m   A[48;5;33m A[48;5;17m     A[48;5;33m A[48;5;231m       A[48;5;111m A[48;5;33m A[48;5;17m    A[48;5;33m  A[48;5;231m   A[48;5;188m  A[48;5;197m       A[49m
+A[2CA[48;5;197m       A[48;5;188m   A[48;5;231m    A[48;5;33m   A[48;5;231m            A[48;5;33m  A[48;5;189m A[48;5;231m   A[48;5;188m    A[48;5;197m       A[49m
+A[3CA[48;5;197m        A[48;5;188m    A[48;5;231m                    A[48;5;188m    A[48;5;197m        A[49m
+A[4CA[48;5;197m         A[48;5;188m      A[48;5;231m           A[48;5;188m      A[48;5;197m          A[49m
+A[5CA[48;5;197m              A[48;5;188m            A[48;5;197m              A[49m
+A[7CA[48;5;197m                                    A[49m
+A[9CA[48;5;197m                                A[49m
+A[11CA[48;5;198m A[48;5;197m                          A[49m
+A[15CA[48;5;197m                    A[49m
+A[0m
+""".replace("A", "\u001b")

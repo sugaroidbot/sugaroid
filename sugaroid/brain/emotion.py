@@ -45,9 +45,29 @@ class EmotionAdapter(LogicAdapter):
                     response = GRATIFY[randint(0, len(GRATIFY)-1)]
                     emotion = Emotion.blush
                 else:
-                    # FIXME : Make it more smart
-                    response = "Well, I could only smile "
-                    emotion = Emotion.lol
+                    if 'stop' in parsed:
+                        if ('dont' in parsed) or ('do' in parsed and 'not' in parsed) or ('don\'t' in parsed):
+                            response = 'I am here to continue my adventure forever'
+                            emotion = Emotion.positive
+                        else:
+                            # optimize series of or statement
+                            if \
+                                    ('fun' in parsed) or \
+                                    ('repeat' in parsed) or \
+                                    ('imitation' in parsed) or \
+                                    ('repetition' in parsed) or \
+                                    ('irritate' in parsed) or \
+                                    ('irritation' in parsed):
+                                response = "Ok! I will switch off my fun mode for sometime"
+                                emotion = Emotion.neutral
+                                self.chatbot.fun = False
+                            else:
+                                response = "I am depressed. Is there anything which I hurt you? I apologize for that"
+                                emotion = Emotion.depressed
+                    else:
+                        # FIXME : Make it more smart
+                        response = "Well, I could only smile "
+                        emotion = Emotion.lol
             else:
                 if 'i' in parsed:
                     response = "Its ok,  {}.".format(

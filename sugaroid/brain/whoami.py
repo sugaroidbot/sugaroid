@@ -2,6 +2,8 @@ import random
 
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
+from nltk import pos_tag
+
 from sugaroid.brain.constants import EMOJI_SMILE, WHO_AM_I, WHO_ARE_YOU, SUGAROID
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
@@ -17,6 +19,7 @@ class WhoAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
+        self.token = pos_tag(self.normalized)
         if 'who' in self.normalized:
             return True
         else:
@@ -28,9 +31,13 @@ class WhoAdapter(LogicAdapter):
         if 'i' in self.normalized:
             response = random_response(WHO_AM_I)
         elif 'you' in self.normalized:
-            v = version()
-            response = "\n{} \n{}. \nBuild: {}".format(
-                SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())
+            if 'to' in self.normalized:
+                confidence = 0.5
+                response = 'You!'
+            else:
+                v = version()
+                response = "\n{} \n{}. \nBuild: {}".format(
+                    SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())
         else:
             response = 'check the wiki'
             confidence = 0

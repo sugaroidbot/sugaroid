@@ -1,3 +1,5 @@
+from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
+from sugaroid.brain.postprocessor import random_response
 from sugaroid.config.config import ConfigManager
 from sugaroid.brain.brain import Neuron
 from sugaroid.trainer.trainer import SugaroidTrainer
@@ -17,7 +19,6 @@ from sugaroid.brain.ooo import Emotion
 
 warnings.filterwarnings("ignore")
 
-
 try:
     from sugaroid.tts.tts import Text2Speech
 
@@ -27,7 +28,6 @@ except ModuleNotFoundError:
 verbosity = logging.INFO
 logging.basicConfig(level=verbosity)
 
-
 try:
     from PyQt5 import QtCore, QtWidgets
     from PyQt5.QtWidgets import QApplication
@@ -36,26 +36,14 @@ try:
 except ModuleNotFoundError:
     GUI_DEPS = False
 
-a = r"""
-  /$$$$$$                                                    /$$       /$$
- /$$__  $$                                                  |__/      | $$
-| $$  \__/ /$$   /$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$  /$$  /$$$$$$$
-|  $$$$$$ | $$  | $$ /$$__  $$ |____  $$ /$$__  $$ /$$__  $$| $$ /$$__  $$
- \____  $$| $$  | $$| $$  \ $$  /$$$$$$$| $$  \__/| $$  \ $$| $$| $$  | $$
- /$$  \ $$| $$  | $$| $$  | $$ /$$__  $$| $$      | $$  | $$| $$| $$  | $$
-|  $$$$$$/|  $$$$$$/|  $$$$$$$|  $$$$$$$| $$      |  $$$$$$/| $$|  $$$$$$$
- \______/  \______/  \____  $$ \_______/|__/       \______/ |__/ \_______/
-                     /$$  \ $$
-                    |  $$$$$$/                                            
-                     \______/
-
-"""
+a = SUGAROID_INTRO
 
 
 class SugaroidStatement(Statement):
     def __init__(self, text, in_response_to=None, **kwargs):
         Statement.__init__(self, text, in_response_to, **kwargs)
         self.emotion = kwargs.get('emotion', '')
+        self.adapter = kwargs.get('type_', '')
 
 
 class SugaroidBot(ChatBot):
@@ -69,7 +57,10 @@ class SugaroidBot(ChatBot):
     def __init__(self, name, **kwargs):
         ChatBot.__init__(self, name=name, **kwargs)
         self.emotion = Emotion.neutral
-        self.history = []
+        self.history = [0]
+        self.history_types = [0]
+        self.fun = True
+        self.lp = LanguageProcessor()
 
     def set_emotion(self, emotion):
         self.emotion = emotion
@@ -125,7 +116,7 @@ class SugaroidBot(ChatBot):
             result_options = {}
             for result_option in results:
                 result_string = result_option.text + ':' + \
-                    (result_option.in_response_to or '')
+                                (result_option.in_response_to or '')
 
                 if result_string in result_options:
                     result_options[result_string].count += 1
@@ -148,15 +139,33 @@ class SugaroidBot(ChatBot):
             emotion = result.emotion
         except AttributeError:
             emotion = Emotion.neutral
+
+        try:
+            adapter_type = result.adapter
+        except AttributeError:
+            result.adapter = None
+            adapter_type = None
+        if adapter_type:
+            if adapter_type in self.history_types:
+                if adapter_type == self.history_types[-1]:
+                    result.text = random_response(REPEAT)
+                elif len(self.history_types) > 2:
+                    if adapter_type == self.history_types[-2]:
+                        result.text = random_response(REPEAT)
+
+        # if self.history[-1]:
+        #     if self.lp.similarity(result.text, str(self.history[-1])) > 0.9:
+        #         result.text = random_response(REPEAT)
+
+        self.history_types.append(adapter_type)
         response = Statement(
             text=result.text,
             in_response_to=input_statement.text,
             conversation=input_statement.conversation,
-            persona='bot:' + self.name
+            persona='sugaroid:' + self.name
         )
         response.emotion = emotion
         response.confidence = result.confidence
-
         return response
 
 
@@ -239,10 +248,13 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.emotion.EmotionAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.oneword.OneWordAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.fun.FunAdapter',
                 },
                 # {
-                #	'import_path': 'sugaroid.brain.idk.DontKnowAdapter',
+                #    'import_path': 'sugaroid.brain.idk.DontKnowAdapter',
                 # }
             ],
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(

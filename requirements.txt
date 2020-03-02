@@ -1,3 +1,5 @@
+pyspellchecker
+nltk
 freegames
 spacy
 requests

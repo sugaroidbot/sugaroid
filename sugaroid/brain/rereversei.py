@@ -79,6 +79,7 @@ class ReReverseAdapter(LogicAdapter):
                 emotion = Emotion.non_expressive_left
             confidence = 1
         else:
+            response = "ok"
             # TODO NOT IMPLEMENTED YET
             confidence = 0
 

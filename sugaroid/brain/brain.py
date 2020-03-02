@@ -2,7 +2,8 @@ import logging
 import string
 import sys
 from time import strftime, localtime
-from nltk.tokenize import WordPunctTokenizer
+from nltk.tokenize import WordPunctTokenizer, word_tokenize
+from spellchecker import SpellChecker
 
 from sugaroid.brain.constants import BYE
 from sugaroid.brain.ooo import Emotion
@@ -14,6 +15,7 @@ ARITHEMETIC = ['+', '-', '*', '/', '^']
 class Neuron:
     def __init__(self, bot):
         self.bot = bot
+        self.spell = SpellChecker()
         logging.info("Sugaroid Neuron Loaded to memory")
 
     def parse(self, var):
@@ -25,8 +27,12 @@ class Neuron:
                     response = self.alu(self.normalize(var), i)
                     break
             else:
-                response = self.gen_best_match(var)
-                print(response.get_tags())
+                wt = var.split(' ')
+                ct = []
+                for i in wt:
+                    ct.append(self.spell.correction(i))
+                response = self.gen_best_match(' '.join(ct))
+
         return response
 
     def alu(self, var, i):

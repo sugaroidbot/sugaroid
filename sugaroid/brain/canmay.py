@@ -30,7 +30,7 @@ class CanAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         # FIXME: This may printout unrelated data for phrase searches
-
+        adapter = None
         emotion = Emotion.neutral
         noun = None
         propernoun = None
@@ -87,6 +87,7 @@ class CanAdapter(LogicAdapter):
                     response = 'Yes, I can say a joke to you, answer some questions,' \
                                ' do some mathematical sums, and talk like' \
                                ' this'
+                    adapter = 'what_can'
                 else:
                     if verb and (verb in ['play', 'joke', 'sing', 'dance', 'read']):
                         if verb == 'play':
@@ -157,6 +158,7 @@ class CanAdapter(LogicAdapter):
                 response = 'Yes, I can say a joke to you, answer ' \
                            'some questions, do some mathematical sums, and talk like' \
                            ' this'
+                adapter = 'what_can'
             else:
                 if verb and (verb in ['play', 'joke', 'sing', 'dance', 'read']):
                     if verb == 'play':
@@ -168,6 +170,7 @@ class CanAdapter(LogicAdapter):
                         response = 'I should be able to {}, but it all depends on updates which I have received'.format(
                             verb.replace('ing', ''))
                         emotion = Emotion.rich
+
                 elif noun and (noun in ['play', 'joke', 'sing', 'dance', 'read']):
                     if verb == 'play':
                         from sugaroid.game.game import games
@@ -309,4 +312,5 @@ class CanAdapter(LogicAdapter):
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence + 0.2
         selected_statement.emotion = emotion
+        selected_statement.adapter = adapter
         return selected_statement

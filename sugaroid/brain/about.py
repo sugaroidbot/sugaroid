@@ -5,7 +5,9 @@ import nltk
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
+from sugaroid.brain.constants import INTRODUCE
 from sugaroid.brain.ooo import Emotion
+from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -45,6 +47,7 @@ class AboutAdapter(LogicAdapter):
         self.normalized = normalize(str(statement))
         confidence = 0
         response = None
+        adapter = None
         emotion = Emotion.neutral
         if self.pronoun.lower().startswith('you'):
             if self.quest.lower() == 'who':
@@ -88,7 +91,14 @@ class AboutAdapter(LogicAdapter):
                         emotion = Emotion.seriously
                 confidence = 0.99
             else:
-                response = 'FIXME'
+                if 'name' in self.normalized:
+                    # not sure if this is right. anyway FIXME
+                    response = random_response(INTRODUCE)
+                    adapter = 'about'
+                    confidence = 1.0
+                else:
+
+                    response = 'FIXME'
 
         elif self.pronoun.lower().startswith('i'):
             if self.quest.lower() == 'who':
@@ -113,5 +123,6 @@ class AboutAdapter(LogicAdapter):
 
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
+        selected_statement.adapter = adapter
 
         return selected_statement

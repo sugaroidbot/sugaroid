@@ -79,4 +79,5 @@ class BecauseAdapter(LogicAdapter):
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
+        selected_statement.adapter = None
         return selected_statement

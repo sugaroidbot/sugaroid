@@ -14,7 +14,10 @@ class FunAdapter(LogicAdapter):
         super().__init__(chatbot, **kwargs)
 
     def can_process(self, statement):
-        return True
+        if self.chatbot.fun:
+            return True
+        else:
+            return False
 
     def process(self, statement, additional_response_selection_parameters=None):
 
@@ -29,6 +32,7 @@ class FunAdapter(LogicAdapter):
             prefix = ""
             emotion = Emotion.wink
         else:
+
             suffix = " too {}".format(random_response(EMOJI_SMILE))
             prefix = "Let me try that, "
             emotion = Emotion.wink

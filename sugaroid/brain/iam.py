@@ -3,7 +3,7 @@ from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment import SentimentIntensityAnalyzer
 
-from sugaroid.brain.constants import GREET
+from sugaroid.brain.constants import GREET, BURN_IDK
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import cosine_similarity, random_response, raw_in, raw_lower_in
 from sugaroid.brain.preprocessors import normalize
@@ -131,6 +131,15 @@ class MeAdapter(LogicAdapter):
                             response = 'I am not {}! I am Sugaroid'.format(
                                 i.lower_)
                             emotion = Emotion.angry
+
+                elif i.tag_ == 'VBG' or i.tag_ == 'VBP':
+                    root_verb = i.text.replace('ing', '')
+                    if root_verb in ['say', 'tell', 'speak', 'blabber', 'flirt']:
+                        response = random_response(BURN_IDK)
+                        emotion = Emotion.lol
+                        confidence = 0.8
+
+
         else:
             # FIXME : Add more logic here
             response = 'Ok'
