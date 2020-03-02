@@ -53,11 +53,17 @@ class MeAdapter(LogicAdapter):
                         self.chatbot.reverse = True
                         emotion = Emotion.non_expressive_left
                     else:
-                        response = random_response(
-                            GREET).format(str(nn).capitalize())
-                        confidence = 0.9
-                        self.chatbot.username = nn
-                        emotion = Emotion.positive
+                        if not ('not' in str(statement)):
+                            response = random_response(
+                                GREET).format(str(nn).capitalize())
+                            confidence = 0.9
+                            self.chatbot.username = nn
+                            emotion = Emotion.positive
+                        else:
+                            response = 'Ok!'
+                            confidence = 0.5
+                            emotion = Emotion.seriously
+
                 elif i.lower_ == 'sugaroid':
                     response = 'Lol! I thought I am Sugaroid. have you lost your mind?'
                     emotion = Emotion.lol

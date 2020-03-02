@@ -1,3 +1,5 @@
+import logging
+
 import nltk
 from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
@@ -111,6 +113,7 @@ class ReReverseAdapter(LogicAdapter):
                             index = num - 1
                             if index < len(l):
                                 response, confidence, stat = wikipedia_search(self, l[index])
+                                logging.info('Reversei: {}'.format(response))
                                 confidence = 1 + confidence  # FIXME override math evaluation adapter
                                 if not stat:
                                     response = "I have some trouble connecting to Wikipedia. Something's not right"

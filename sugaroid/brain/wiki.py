@@ -35,6 +35,9 @@ class WikiAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         # FIXME: This may printout unrelated data for phrase searches
+        response = "I don't know"
+        confidence = 0
+
         emotion = Emotion.neutral
         count = 0
         for i in self.text:
@@ -43,6 +46,9 @@ class WikiAdapter(LogicAdapter):
         if count > 1:
             selected_statement = SugaroidStatement('Nothing ' * count)
             selected_statement.confidence = 0.99
+            emotion = Emotion.seriously
+            selected_statement.emotion = emotion
+            return selected_statement
         else:
             nlp = self.chatbot.lp
             what = False

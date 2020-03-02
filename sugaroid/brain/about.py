@@ -63,6 +63,9 @@ class AboutAdapter(LogicAdapter):
                 elif 'comedian' in self.normalized:
                     response = 'My favorite comedian is Mr Bean'
                     emotion = Emotion.lol
+                elif 'color' in self.normalized:
+                    response = 'My favorite color is blue'
+                    emotion = Emotion.lol
                 elif 'actor' in self.normalized or ('actress' in self.normalized):
                     response = 'I do not watch movies, so yea!'
                     emotion = Emotion.neutral

@@ -78,19 +78,25 @@ class EmotionRequests:
         time.sleep(5)
         self.parent.label.setPixmap(QPixmap(":/home/sugaroid.png"))
 
-
-class SleepRequests(QThread):
+"""
+class SleepRequests:
     def __init__(self, parent):
-        QThread.__init__(self)
         self.parent = parent
+        self.sleeping = True
+
+    def set_sleeping(self, boo):
+        self.sleeping = boo
 
     def run(self):
-        while self.parent.sleep <= 20:
-            time.sleep(1)
-            self.parent.sleep += 1
-        else:
-            self.parent.label.setPixmap(QPixmap(":/home/sugaroid_sleep.png"))
+        while self.sleeping:
+            if self.parent.sleep <= 20:
+                time.sleep(1)
+                self.parent.sleep += 1
 
+            else:
+                self.parent.label.setPixmap(QPixmap(":/home/sugaroid_sleep.png"))
+                break
+"""
 
 class BotRequests(QThread):
     def __init__(self, parent):
@@ -98,7 +104,6 @@ class BotRequests(QThread):
         self.parent = parent
 
     def run(self):
-
         text = self.parent.chatbox.text()
         self.parent.conv.addItem("you: {}".format(text))
         self.parent.chatbox.setText("")
@@ -110,9 +115,9 @@ class BotRequests(QThread):
             em = EmotionRequests(self.parent, response.emotion)
             x = threading.Thread(target=em.run)
             x.start()
-            # em = EmotionRequests(self.parent, response.emotion)
-            # em.start()
+
         self.parent.conv.addItem("sugaroid: {}".format(str(response)))
+        time.sleep(0.1)
         self.parent.conv.scrollToBottom()
         if self.parent.parent.audio:
             aud = AudioRequests(self.parent, str(response))
@@ -127,7 +132,9 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.sleep = 0
         self.bot = BotRequests(self)
-        self.sl_thread = SleepRequests(self)
+        # self.sl = SleepRequests(self)
+        # self.sl_thread = threading.Thread(target=self.sl.run)
+
         self.sleep_enabled = True
         if parent is None:
             from sugaroid.sugaroid import Sugaroid
@@ -145,12 +152,25 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
         self.chatbox.setFocus()
 
     def refresh(self):
-        self.sleep = 0
+        # if self.sleep_enabled:
+        #    if self.sl_thread.is_alive():
+        #        self.sl.set_sleeping(False)
+        #        self.sl_thread.join()
+        #        print("THREAD IS SLEEPING", not self.sl_thread.is_alive())
+
+        # self.sleep = 0
         if str(self.chatbox.text()).isspace():
             return
         movie = QtGui.QMovie(":/home/sugaroid_thinking3.gif")
         self.label.setMovie(movie)
         movie.start()
+        while True:
+            if self.bot.isRunning():
+                time.sleep(1)
+            else:
+                break
         self.bot.start()
-        if self.sleep_enabled:
-            self.sl_thread.start()
+        #if self.sleep_enabled:
+        #    if not self.sl_thread.is_alive():
+        #        self.sl_thread = threading.Thread(target=self.sl.run)
+        #        self.sl_thread.start()
