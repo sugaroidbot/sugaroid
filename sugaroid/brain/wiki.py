@@ -48,8 +48,9 @@ class WikiAdapter(LogicAdapter):
             what = False
             norm = nlp.tokenize(str(statement))
             for i in range(len(norm) - 2):
+                print(i, norm[i], norm[i].tag_, "J"*55)
                 if norm[i].tag_ == 'WP':
-                    if norm[i].lower_ == "what":
+                    if norm[i].lower_ == "what" or norm[i].lower_ == "who" or norm[i].lower_ == "where":
                         what = True
                     elif norm[i].lower_ == 'how':
                         what = False
@@ -61,7 +62,8 @@ class WikiAdapter(LogicAdapter):
                         print(norm, norm[i + 1], len(norm) - 2)
 
                         for j in range(i + 1, len(norm)):
-                            print(norm[j])
+
+                            print(norm[j], "K"*5)
                             if (norm[j].tag_ == 'VBZ') or (norm[j].tag_ == 'DT'):
                                 continue
                             else:
@@ -74,7 +76,8 @@ class WikiAdapter(LogicAdapter):
                             confidence = 0.4
                             emotion = Emotion.cry
                             break
-
+                        if response:
+                            break
                     else:
                         response = 'I can give a reason for that at the moment. Maybe you might want to search the ' \
                                    'internet. '
@@ -110,7 +113,7 @@ def wikipedia_search(self, question):
         cos = self.chatbot.lp.similarity(question.lower(), a[0].lower())
     else:
         return "Oops, the item you wanted to know is not on wikipedia.", 0.9, False
-    
+
     print(question.lower(), a[0].lower())
     print("cos", cos)
     if cos > 0.9:
