@@ -24,6 +24,10 @@ class DoAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
+        emotion = Emotion.neutral
+        response = 'ok'
+        confidence = 0
+
         rectified = []
         tokenized = nltk.pos_tag(self.normalized)
         for i in range(len(tokenized)):
@@ -37,16 +41,19 @@ class DoAdapter(LogicAdapter):
                 if self.chatbot.get_username():
                     response = 'Your name is {}'.format(self.chatbot.username)
                     emotion = Emotion.neutral
+                    confidence = 1
                 else:
                     response = 'No, I don\'t know your name'
                     emotion = Emotion.cry_overflow
+                    confidence = 0.8
             elif 'my' in self.normalized:
                 response = 'Lol, maybe not'
                 emotion = Emotion.lol
-
+                confidence = 0.8
             else:
                 response = 'Yes, Yes I do!'
                 emotion = Emotion.wink
+                confidence = 0.8
 
         if rectified:
             wk = WikiAdapter(self.chatbot)
@@ -54,7 +61,6 @@ class DoAdapter(LogicAdapter):
             response = WikiAdapter.process(wk, Statement(' '.join(rectified)))
             return response
 
-        confidence = 1
 
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
