@@ -65,6 +65,7 @@ class SugaroidBot(ChatBot):
         self.next = None
         self.next_type = None
         self.temp_data = []
+        self.username = None
 
     def set_emotion(self, emotion):
         self.emotion = emotion
@@ -74,6 +75,9 @@ class SugaroidBot(ChatBot):
 
     def set_username(self):
         raise NotImplementedError("LOL")
+
+    def get_username(self):
+        return self.username
 
     def generate_response(self, input_statement, additional_response_selection_parameters=None):
         """
@@ -259,6 +263,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.wiki.WikiAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.do.DoAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.emotion.EmotionAdapter',
