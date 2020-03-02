@@ -61,6 +61,10 @@ class SugaroidBot(ChatBot):
         self.history_types = [0]
         self.fun = True
         self.lp = LanguageProcessor()
+        self.reverse = False
+        self.next = None
+        self.next_type = None
+        self.temp_data = []
 
     def set_emotion(self, emotion):
         self.emotion = emotion
@@ -82,7 +86,7 @@ class SugaroidBot(ChatBot):
         results = []
         result = None
         max_confidence = -1
-
+        final_adapter = None
         for adapter in self.logic_adapters:
             if adapter.can_process(input_statement):
 
@@ -98,6 +102,7 @@ class SugaroidBot(ChatBot):
 
                 if output.confidence > max_confidence:
                     result = output
+                    final_adapter = adapter.class_name
                     max_confidence = output.confidence
             else:
                 self.logger.info(
@@ -158,6 +163,16 @@ class SugaroidBot(ChatBot):
         #         result.text = random_response(REPEAT)
 
         self.history_types.append(adapter_type)
+
+        # Clear attributes of ReverseiAdapter when ReverseiAdapter gave the answer
+        """  # FIXME once code base is static
+        if final_adapter == 'ReReverseAdapter':
+            logging.info("Reversei variables reset")
+            self.reverse = False
+            self.next = None
+            self.next_type = None
+        """
+
         response = Statement(
             text=result.text,
             in_response_to=input_statement.text,
@@ -166,6 +181,7 @@ class SugaroidBot(ChatBot):
         )
         response.emotion = emotion
         response.confidence = result.confidence
+
         return response
 
 

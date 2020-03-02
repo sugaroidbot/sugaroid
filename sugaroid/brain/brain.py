@@ -15,7 +15,8 @@ ARITHEMETIC = ['+', '-', '*', '/', '^']
 class Neuron:
     def __init__(self, bot):
         self.bot = bot
-        self.spell = SpellChecker()
+        self.spell = SpellChecker(distance=1)
+        self.spell.known(['Sugaroid', 'Sugarlabs', "sugar", 'Srevin', 'Saju'])  # some privileges only for the creator
         logging.info("Sugaroid Neuron Loaded to memory")
 
     def parse(self, var):

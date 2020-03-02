@@ -106,7 +106,11 @@ def wikipedia_search(self, question):
     wiki = wikipediaapi.Wikipedia('en')
     a = mw.search(str(question))
     question = str(question)
-    cos = self.chatbot.lp.similarity(question.lower(), a[0].lower())
+    if len(a) >=1:
+        cos = self.chatbot.lp.similarity(question.lower(), a[0].lower())
+    else:
+        return "Oops, the item you wanted to know is not on wikipedia.", 0.9, False
+    
     print(question.lower(), a[0].lower())
     print("cos", cos)
     if cos > 0.9:
@@ -115,9 +119,11 @@ def wikipedia_search(self, question):
         confidence = cos
         stat = True
     else:
+        self.chatbot.reverse = True
         self.chatbot.next = 30000000002
         self.chatbot.next_type = int
-        bracketize = lambda x: '\n[{}] {}'.format(str(x[0]), str(x[1]))
+        self.chatbot.temp_data = a
+        bracketize = lambda x: '\n[{}] {}'.format(x[0]+1, str(x[1]))
         response = "Did you mean any of these {}".format(' '.join([bracketize(x) for x in enumerate(a)]))
         confidence = 0.5
         stat = False

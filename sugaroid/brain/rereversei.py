@@ -5,8 +5,9 @@ from pyjokes import pyjokes
 
 from sugaroid.brain.constants import RNDQUESTIONS
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import cosine_similarity, random_response, difference
-from sugaroid.brain.preprocessors import normalize
+from sugaroid.brain.postprocessor import cosine_similarity, random_response, difference, text2int
+from sugaroid.brain.preprocessors import normalize, tokenize
+from sugaroid.brain.wiki import wikipedia_search
 from sugaroid.sugaroid import SugaroidStatement
 
 
@@ -37,7 +38,11 @@ class ReReverseAdapter(LogicAdapter):
                 emotion = Emotion.lol
             confidence = 0.99
         elif self.chatbot.next_type is bool:
+
             if self.chatbot.next == 30000000001:
+                """
+                NameAdapter: token 30000000001
+                """
                 if ('yes' in self.normalized) or ('yea' in self.normalized):
                     response = "Ok, will keep that in mind!"
                     self.chatbot.username = self.chatbot.nn
@@ -45,6 +50,7 @@ class ReReverseAdapter(LogicAdapter):
                 else:
                     response = "Ok, I guess I am smart"
                     emotion = Emotion.wink
+                confidence = 1.0
             else:
                 if ('yes' in self.normalized) or ('yea' in self.normalized):
                     if len(self.chatbot.history) > 1:
@@ -58,10 +64,9 @@ class ReReverseAdapter(LogicAdapter):
                         else:
                             # TODO: Not Implemented yet
                             response = 'Ok. (# Not Implemented yet. LOL)'
-
                 else:
                     response = 'Ok then, probably next time'
-            confidence = 1.0
+                confidence = 1.0
         elif self.chatbot.next_type is None:
             fname = False
             name = difference(self.normalized, [
@@ -78,6 +83,54 @@ class ReReverseAdapter(LogicAdapter):
                 response = "I couldn't find your name. 🥦"
                 emotion = Emotion.non_expressive_left
             confidence = 1
+        elif self.chatbot.next_type is int:
+            confidence = 2.0  # FIXME: Override Mathematical Evaluation when not necessary
+
+            if self.chatbot.next == 30000000002:
+                """
+                WikiAdapter: token 30000000002
+                """
+                if ('yes' in self.normalized) or ('yea' in self.normalized):
+                    response = "I thought you would tell me a number to choose from :/"
+                    emotion = Emotion.seriously
+
+                elif ('no' in self.normalized) or ('no' in self.normalized):
+                    response = 'Oops! Sorry about that, seems like what you\'re searching for is not on Wikipedia yet'
+                    emotion = Emotion.dead
+                else:
+                    l = self.chatbot.temp_data
+                    tokenized = nltk.pos_tag(tokenize(str(statement)))
+                    print(tokenized)
+                    for i in tokenized:
+                        print(i, "H")
+                        if i[1] == 'CD':
+                            try:
+                                num = int(i[0])
+                            except ValueError:
+                                num = text2int(i[0].lower())
+                            index = num - 1
+                            if index < len(l):
+                                response, confidence, stat = wikipedia_search(self, l[index])
+                                confidence = 1 + confidence  # FIXME override math evaluation adapter
+                                if not stat:
+                                    response = "I have some trouble connecting to Wikipedia. Something's not right"
+                                    confidence = 1.1
+
+                                emotion = Emotion.rich
+                                break
+                            else:
+                                response = "Sorry, I couldn't find the item you were choosing. "
+                                confidence = 1.1
+                                emotion = Emotion.cry_overflow
+                                break
+                    else:
+                        response = 'I thought you wanted to know something from wikipedia. ' \
+                                   'Ok, I will try something else'
+                        emotion = Emotion.seriously
+                        confidence = 1.2
+            else:
+                # TODO NOT IMPLEMENTED YET
+                response = 'ok'
         else:
             response = "ok"
             # TODO NOT IMPLEMENTED YET
