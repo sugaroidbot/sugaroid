@@ -37,7 +37,7 @@ class MeAdapter(LogicAdapter):
         confidence = 0
         emotion = Emotion.neutral
         if raw_in('I', self.tokenized):
-            print("I TEST")
+            logging.info(str(["{} {} {}".format(k, k.tag_, k.pos_) for k in self.tokenized]))
             for i in self.tokenized:
                 logging.info(" {} {}".format(i.text, i.pos_))
                 if i.pos_ == 'PROPN':
@@ -52,6 +52,7 @@ class MeAdapter(LogicAdapter):
                         self.chatbot.next_type = bool
                         self.chatbot.reverse = True
                         emotion = Emotion.non_expressive_left
+                        break
                     else:
                         if not ('not' in str(statement)):
                             response = random_response(
@@ -59,10 +60,12 @@ class MeAdapter(LogicAdapter):
                             confidence = 0.9
                             self.chatbot.username = nn
                             emotion = Emotion.positive
+                            break
                         else:
                             response = 'Ok!'
                             confidence = 0.5
                             emotion = Emotion.seriously
+                            break
 
                 elif i.lower_ == 'sugaroid':
                     response = 'Lol! I thought I am Sugaroid. have you lost your mind?'
