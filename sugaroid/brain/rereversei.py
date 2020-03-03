@@ -120,7 +120,8 @@ class ReReverseAdapter(LogicAdapter):
                                 num = text2int(i[0].lower())
                             index = num - 1
                             if index < len(l):
-                                response, confidence, stat = wikipedia_search(self, l[index])
+                                response, confidence, stat = wikipedia_search(
+                                    self, l[index])
                                 logging.info('Reversei: {}'.format(response))
                                 confidence = 1 + confidence  # FIXME override math evaluation adapter
                                 if not stat:

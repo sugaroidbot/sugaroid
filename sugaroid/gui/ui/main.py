@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 
+from . import rsrc_rc
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -15,7 +16,8 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(606, 741)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/home/sugaroid.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/home/sugaroid.png"),
+                       QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -46,7 +48,8 @@ class Ui_MainWindow(object):
         font.setFamily("Titillium Web")
         font.setPointSize(15)
         self.conv.setFont(font)
-        self.conv.setStyleSheet("alternate-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 68, 255, 255), stop:1 rgba(85, 0, 255, 255));")
+        self.conv.setStyleSheet(
+            "alternate-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 68, 255, 255), stop:1 rgba(85, 0, 255, 255));")
         self.conv.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.conv.setAlternatingRowColors(True)
         self.conv.setProperty("isWrapping", False)
@@ -77,4 +80,3 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Sugaroid GUI"))
         self.push.setText(_translate("MainWindow", "OK"))
-from . import rsrc_rc

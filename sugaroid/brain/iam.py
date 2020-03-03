@@ -37,7 +37,8 @@ class MeAdapter(LogicAdapter):
         confidence = 0
         emotion = Emotion.neutral
         if raw_in('I', self.tokenized):
-            logging.info(str(["{} {} {}".format(k, k.tag_, k.pos_) for k in self.tokenized]))
+            logging.info(str(["{} {} {}".format(k, k.tag_, k.pos_)
+                              for k in self.tokenized]))
             for i in self.tokenized:
                 logging.info(" {} {}".format(i.text, i.pos_))
                 if i.pos_ == 'PROPN':
@@ -150,7 +151,6 @@ class MeAdapter(LogicAdapter):
                         response = random_response(BURN_IDK)
                         emotion = Emotion.lol
                         confidence = 0.8
-
 
         else:
             # FIXME : Add more logic here

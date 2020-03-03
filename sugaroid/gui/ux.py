@@ -119,13 +119,13 @@ class BotRequests(QThread):
             # print(response.emotion, emotion[response.emotion])
             # em = EmotionRequests(self.parent, response.emotion)
             # em.start()
-            self.parent.label.setPixmap(QPixmap(":/home/{}.png".format(emotion[response.emotion])))
+            self.parent.label.setPixmap(
+                QPixmap(":/home/{}.png".format(emotion[response.emotion])))
             self.parent.conv.scrollToBottom()
             time.sleep(5)
 
         self.parent.label.setPixmap(QPixmap(":/home/sugaroid.png"))
         self.parent.conv.scrollToBottom()
-
 
         if self.parent.parent.audio:
             aud = AudioRequests(self.parent, str(response))

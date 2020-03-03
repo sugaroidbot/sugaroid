@@ -17,7 +17,9 @@ class Neuron:
         self.bot = bot
         if self.bot.spell_checker:
             self.spell = SpellChecker(distance=1)
-            self.spell.known(['Sugaroid', 'Sugarlabs', "sugar", 'Srevin', 'Saju'])  # some privileges only for the creator
+            # some privileges only for the creator
+            self.spell.known(
+                ['Sugaroid', 'Sugarlabs', "sugar", 'Srevin', 'Saju'])
         else:
             self.spell = False
         logging.info("Sugaroid Neuron Loaded to memory")

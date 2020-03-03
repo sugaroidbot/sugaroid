@@ -74,7 +74,8 @@ class WikiAdapter(LogicAdapter):
                                 continue
                             else:
                                 question = norm[j:]
-                                response, confidence, stat = wikipedia_search(self, question)
+                                response, confidence, stat = wikipedia_search(
+                                    self, question)
 
                                 break
                         else:
@@ -115,7 +116,7 @@ def wikipedia_search(self, question):
     wiki = wikipediaapi.Wikipedia('en')
     a = mw.search(str(question))
     question = str(question)
-    if len(a) >=1:
+    if len(a) >= 1:
         cos = self.chatbot.lp.similarity(question.lower(), a[0].lower())
     else:
         return "Oops, the item you wanted to know is not on wikipedia.", 0.9, False
@@ -132,8 +133,9 @@ def wikipedia_search(self, question):
         self.chatbot.next = 30000000002
         self.chatbot.next_type = int
         self.chatbot.temp_data = a
-        bracketize = lambda x: '\n[{}] {}'.format(x[0]+1, str(x[1]))
-        response = "Did you mean any of these {}".format(' '.join([bracketize(x) for x in enumerate(a)]))
+        def bracketize(x): return '\n[{}] {}'.format(x[0]+1, str(x[1]))
+        response = "Did you mean any of these {}".format(
+            ' '.join([bracketize(x) for x in enumerate(a)]))
         confidence = 0.5
         stat = False
 

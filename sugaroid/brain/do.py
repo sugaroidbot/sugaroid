@@ -61,7 +61,6 @@ class DoAdapter(LogicAdapter):
             response = WikiAdapter.process(wk, Statement(' '.join(rectified)))
             return response
 
-
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
 

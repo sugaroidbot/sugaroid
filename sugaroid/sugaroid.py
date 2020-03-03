@@ -126,7 +126,7 @@ class SugaroidBot(ChatBot):
             result_options = {}
             for result_option in results:
                 result_string = result_option.text + ':' + \
-                                (result_option.in_response_to or '')
+                    (result_option.in_response_to or '')
 
                 if result_string in result_options:
                     result_options[result_string].count += 1

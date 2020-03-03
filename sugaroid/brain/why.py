@@ -30,11 +30,8 @@ class WhyAdapter(LogicAdapter):
         confidence = 0.2
         emotion = Emotion.cry_overflow
 
-
-
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
 
         return selected_statement
-
