@@ -10,7 +10,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='sugaroid',
-    version="{}".format('0.2'),
+    version="{}".format('0.2.1'),
     description='sugaroid',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -26,7 +26,7 @@ setup(
                   },
     include_package_data=True,
     install_requires=['chatterbot', 'googletrans', 'google', 'Django==3.0.3', 'chatterbot_corpus', 'pyjokes',
-                      'scikit-learn', 'nltk', 'lxml', 'PyQt5'],
+                      'scikit-learn', 'nltk', 'lxml'],
 
     entry_points={
         'console_scripts': [
