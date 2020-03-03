@@ -1,13 +1,37 @@
+"""
+MIT License
+
+Sugaroid Artificial Inteligence
+Chatbot Core
+Copyright (c) 2020 Srevin Saju
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+"""
+
 from random import randint
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-
 import nltk
 
 
 def sigmaSimilarity(src, dest):
     """
-
     :param src: a list of literals
     :param dest: a list of final literals
     :return: Probaability
@@ -62,29 +86,6 @@ def reverse(token):
         else:
             continue
 
-    """
-    for i in token:
-        if i.lower() == 'i':
-            processed.append('you')
-        elif i.lower() == 'you':
-            processed.append('I')
-        else:
-            if len(processed) >= 1:
-                try:
-                    print(processed)
-                    if (processed[-1] == 'you') and (i.lower() == 'am'):
-                        processed.append('are')
-                    elif (processed[-1] == 'I') and (i.lower() == 'are'):
-                        processed.append('am')
-                    elif (processed[-1] == 'you') and (i.lower() == 'are'):
-                        processed.append('am')
-                    else:
-                        processed.append(i)
-                except IndexError:
-                    processed.append(i)
-            else:
-                processed.append(i)
-    """
     return processed
 
 
