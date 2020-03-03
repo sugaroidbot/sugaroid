@@ -56,8 +56,12 @@ class BoolAdapter(LogicAdapter):
         if self.chatbot.report:
             if bool_yes:
                 response = 'Sure, I would connect to the Developer to report this issue right away'
+                self.chatbot.report = False
+                # TODO: Add report function
+                # report_here() FIXME
             else:
                 response = 'Ok, I will not report it.'
+                self.chatbot.report = False
             confidence = 1.0
         elif self.chatbot.trivia_answer:
             if self.chatbot.trivia_answer == self.bool:
