@@ -49,7 +49,7 @@ class TimeAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-
+        emotion = Emotion.positive
         hour, minutes = current_time()
         alert = False
         if hour <= 0:
@@ -73,11 +73,16 @@ class TimeAdapter(LogicAdapter):
                 response = 'Good {}. {}'.format(time, random_response(
                     TIME_RESPONSE).format(list(self.intersect)[0]))
         else:
-            response = "You are staying up late, you should sleep right now."
+            if self.chatbot.lp.similarity('good night', str(statement)) > 0.9:
+                response = 'Sweet Dreams'
+                emotion = Emotion.sleep
+            else:
+                response = "You are staying up late, you should sleep right now."
+                emotion = Emotion.seriously
 
         selected_statement = SugaroidStatement("{}".format(response))
         selected_statement.confidence = 1
-        emotion = Emotion.neutral
+
         selected_statement.emotion = emotion
 
         return selected_statement

@@ -39,7 +39,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class BecauseAdapter(LogicAdapter):
-
+    """
+    Processes statements which starts with Because or gives a reason
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
@@ -75,25 +77,21 @@ class BecauseAdapter(LogicAdapter):
             print(sm.ratio())
             if sm.ratio() > 0.5:
                 if adj:
-                    response = 'Well, Its not a good reason for me to be {}'.format(
-                        adj)
+                    response = 'Well, Its not a good reason for me to be {}'.format(adj)
                 else:
                     response = 'Well, its not a good reason you have told me 😭'
             else:
                 if verb:
                     if verb in ['think', 'breath', 'eat', 'hear', 'feel', 'taste']:
-                        response = 'Robots are computer devices. I cannot {}'.format(
-                            verb.replace('ing', ''))
+                        response = 'Robots are computer devices. I cannot {}'.format(verb.replace('ing', ''))
                         emotion = Emotion.cry
                     else:
                         response = "I may not be able to {}. " \
-                                   "This might not be my builtin quality".format(
-                                       verb.replace('ing', ''))
+                                   "This might not be my builtin quality".format(verb.replace('ing', ''))
                         emotion = Emotion.cry_overflow
                 else:
                     if adj:
-                        response = 'I will try to be more {} in future'.format(
-                            adj)
+                        response = 'I will try to be more {} in future'.format(adj)
                         emotion = Emotion.adorable
                     else:
                         response = 'Are you sure this is the reason? I would love to report to my creator.'

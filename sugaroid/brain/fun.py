@@ -34,7 +34,10 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class FunAdapter(LogicAdapter):
-
+    """
+    FunAdapter
+    Gives a random response, because Sugaroid tries not to say I don't know
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

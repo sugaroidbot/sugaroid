@@ -80,7 +80,8 @@ emotion = \
         Emotion.depressed: "sugaroid_depressed",
         Emotion.o: "sugaroid_o",
         Emotion.smirking: "sugaroid_wink_left",
-        Emotion.vomit: "sugaroid_dead"
+        Emotion.vomit: "sugaroid_dead",
+        Emotion.sleep: "sugaroid_sleep"
     }
 
 

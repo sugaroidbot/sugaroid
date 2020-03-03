@@ -30,6 +30,7 @@ import wikipediaapi
 from chatterbot.logic import LogicAdapter
 from mediawikiapi import MediaWikiAPI
 from nltk import word_tokenize
+from sugaroid.brain.brain import Neuron
 from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -96,11 +97,18 @@ class WikiAdapter(LogicAdapter):
                             if (norm[j].tag_ == 'VBZ') or (norm[j].tag_ == 'DT'):
                                 continue
                             else:
-                                question = norm[j:]
-                                response, confidence, stat = wikipedia_search(
-                                    self, question)
 
-                                break
+                                question = norm[j:]
+                                if question.lower() == 'time':
+                                    response = Neuron.gen_time()
+                                    confidence = 1.0
+                                    stat = True
+                                    break
+                                else:
+                                    response, confidence, stat = wikipedia_search(
+                                        self, question)
+
+                                    break
                         else:
                             response = 'I am not sure what you are asking for.'
                             confidence = 0.4

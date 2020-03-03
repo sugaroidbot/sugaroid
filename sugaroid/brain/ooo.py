@@ -27,6 +27,7 @@ SOFTWARE.
 
 
 class Emotion:
+    sleep = 57
     adorable = 6
     dead = 15
     smirking = 51

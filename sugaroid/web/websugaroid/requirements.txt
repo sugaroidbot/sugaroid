@@ -3,6 +3,6 @@ Django
 gunicorn
 django_heroku
 freegames
-
+wikipedia-api
 
 
