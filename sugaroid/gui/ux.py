@@ -28,6 +28,27 @@ from sugaroid.brain.ooo import Emotion
 from sugaroid.gui.ui.main import Ui_MainWindow
 import threading
 
+
+"""
+class SleepRequests:
+    def __init__(self, parent):
+        self.parent = parent
+        self.sleeping = True
+
+    def set_sleeping(self, boo):
+        self.sleeping = boo
+
+    def run(self):
+        while self.sleeping:
+            if self.parent.sleep <= 20:
+                time.sleep(1)
+                self.parent.sleep += 1
+
+            else:
+                self.parent.label.setPixmap(QPixmap(":/home/sugaroid_sleep.png"))
+                break
+"""
+
 emotion = \
     {
         Emotion.neutral: "sugaroid",
@@ -66,9 +87,9 @@ class AudioRequests:
         self.parent.parent.tts.speak(self.response)
 
 
-class EmotionRequests:
+class EmotionRequests(QThread):
     def __init__(self, parent, emo):
-
+        QThread.__init__(self, parent)
         self.parent = parent
         self.emotion = emo
 
@@ -78,29 +99,10 @@ class EmotionRequests:
         time.sleep(5)
         self.parent.label.setPixmap(QPixmap(":/home/sugaroid.png"))
 
-"""
-class SleepRequests:
-    def __init__(self, parent):
-        self.parent = parent
-        self.sleeping = True
-
-    def set_sleeping(self, boo):
-        self.sleeping = boo
-
-    def run(self):
-        while self.sleeping:
-            if self.parent.sleep <= 20:
-                time.sleep(1)
-                self.parent.sleep += 1
-
-            else:
-                self.parent.label.setPixmap(QPixmap(":/home/sugaroid_sleep.png"))
-                break
-"""
 
 class BotRequests(QThread):
     def __init__(self, parent):
-        QThread.__init__(self)
+        QThread.__init__(self, parent)
         self.parent = parent
 
     def run(self):
@@ -109,16 +111,22 @@ class BotRequests(QThread):
         self.parent.chatbox.setText("")
         self.parent.conv.scrollToBottom()
         response = self.parent.parent.parse(text)
-        self.parent.label.setPixmap(QPixmap(":/home/sugaroid.png"))
-        if response.emotion != 0:
-            print(response.emotion, emotion[response.emotion])
-            em = EmotionRequests(self.parent, response.emotion)
-            x = threading.Thread(target=em.run)
-            x.start()
 
         self.parent.conv.addItem("sugaroid: {}".format(str(response)))
         time.sleep(0.1)
+
+        if response.emotion != 0:
+            # print(response.emotion, emotion[response.emotion])
+            # em = EmotionRequests(self.parent, response.emotion)
+            # em.start()
+            self.parent.label.setPixmap(QPixmap(":/home/{}.png".format(emotion[response.emotion])))
+            self.parent.conv.scrollToBottom()
+            time.sleep(5)
+
+        self.parent.label.setPixmap(QPixmap(":/home/sugaroid.png"))
         self.parent.conv.scrollToBottom()
+
+
         if self.parent.parent.audio:
             aud = AudioRequests(self.parent, str(response))
             y = threading.Thread(target=aud.run)
@@ -131,9 +139,6 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.sleep = 0
-        self.bot = BotRequests(self)
-        # self.sl = SleepRequests(self)
-        # self.sl_thread = threading.Thread(target=self.sl.run)
 
         self.sleep_enabled = True
         if parent is None:
@@ -159,18 +164,16 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
         #        print("THREAD IS SLEEPING", not self.sl_thread.is_alive())
 
         # self.sleep = 0
+        # if self.sleep_enabled:
+        #    if not self.sl_thread.is_alive():
+        #        self.sl_thread = threading.Thread(target=self.sl.run)
+        #        self.sl_thread.start()
+
         if str(self.chatbox.text()).isspace():
             return
         movie = QtGui.QMovie(":/home/sugaroid_thinking3.gif")
         self.label.setMovie(movie)
         movie.start()
-        while True:
-            if self.bot.isRunning():
-                time.sleep(1)
-            else:
-                break
-        self.bot.start()
-        #if self.sleep_enabled:
-        #    if not self.sl_thread.is_alive():
-        #        self.sl_thread = threading.Thread(target=self.sl.run)
-        #        self.sl_thread.start()
+
+        bot = BotRequests(self)
+        bot.start()
