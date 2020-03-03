@@ -1,8 +1,58 @@
+import logging
 import re
 import string
 import unicodedata
 from nltk.corpus import wordnet as wn
 import nltk
+
+
+short_forms = {
+    'coz': "because",
+    'bcoz': "because",
+    "ye": "yea",
+    "bro": "brother",
+    "sis": "sister",
+    "tk": "thank you",
+    "tq": "thank you",
+    "hwy": "how are you",
+    "hi": "Hello",
+    "Hoi": 'Hello',
+    "nvm": "never mind",
+    "rotfl": "rolling on the floor with laughter",
+    "wtf": "You are bad",  # PS: thats enough for this course of code
+    "ikr": "I know right",
+    "ofc": "of course",
+    "10q": "thank you",
+    "2moro": "tomorrow",
+    "tbh": "to be honest",
+    "cya": "see you",
+    "'m": "am",
+    "i": "I"
+}
+
+
+def preprocess(string_arg: str):
+    """
+    EXPERIMENTAL
+    Testing Required
+
+    Remove unwanted characters, expand words, replace short forms
+    and fix capitalization for certain pronouns
+    :param string_arg: String argument which you would like to process
+    :return: String stype containing expanded texts
+    :return_type: <class 'str'>
+    """
+    proc = string_arg.capitalize()
+    proc = proc.replace("n't", ' not').replace("'re", ' are')  # replace short word to expanded words
+    proc = proc.replace(' i ', ' I ')
+    k = nltk.word_tokenize(proc)
+    for i in range(len(k)):
+        for j in short_forms:
+            if k[i].lower() == j:
+                k[i] = short_forms[j]
+    proc = ' '.join(k)
+    logging.info("PREPROCESSOR: Returned {}".format(proc))
+    return proc
 
 
 def non_punkt_normalize(txt):

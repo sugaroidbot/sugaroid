@@ -5,7 +5,7 @@ from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment import SentimentIntensityAnalyzer
 
-from sugaroid.brain.constants import GREET, BURN_IDK
+from sugaroid.brain.constants import GREET, BURN_IDK, I_AM
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import cosine_similarity, random_response, raw_in, raw_lower_in
 from sugaroid.brain.preprocessors import normalize
@@ -69,7 +69,7 @@ class MeAdapter(LogicAdapter):
                             break
 
                 elif i.lower_ == 'sugaroid':
-                    response = 'Lol! I thought I am Sugaroid. have you lost your mind?'
+                    response = random_response(I_AM)
                     emotion = Emotion.lol
                     confidence = 0.95
                 else:
@@ -133,6 +133,7 @@ class MeAdapter(LogicAdapter):
                         sia = SentimentIntensityAnalyzer()
                         ps = sia.polarity_scores(str(i.sent))
                         if ps['neu'] == 1.0:
+
                             response = 'I will need more time to learn if that actually makes sense with respect to ' \
                                        'myself. '
                             emotion = Emotion.cry

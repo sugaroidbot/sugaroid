@@ -2,4 +2,5 @@
 Django
 gunicorn
 django_heroku
+freegames
 

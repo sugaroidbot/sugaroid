@@ -148,7 +148,6 @@ class ReReverseAdapter(LogicAdapter):
                 response = 'ok'
         else:
             response = "ok"
-            # TODO NOT IMPLEMENTED YET
             confidence = 0
 
         selected_statement = SugaroidStatement(response)

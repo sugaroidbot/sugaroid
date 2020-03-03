@@ -2,6 +2,9 @@ import logging
 
 from time import strftime, localtime
 from nltk.tokenize import WordPunctTokenizer
+
+from sugaroid.brain.preprocessors import preprocess
+
 ARITHEMETIC = ['+', '-', '*', '/', '^']
 
 
@@ -19,6 +22,8 @@ class Neuron:
         logging.info("Sugaroid Neuron Loaded to memory")
 
     def parse(self, var):
+        if var.isspace():
+            return 'Type something to begin'
         if 'time' in var:
             response = self.time()
         else:
@@ -34,7 +39,9 @@ class Neuron:
                         ct.append(self.spell.correction(i))
                     response = self.gen_best_match(' '.join(ct))
                 else:
-                    response = self.gen_best_match(var)
+
+                    preprocessed = preprocess(var)
+                    response = self.gen_best_match(preprocessed)
 
         return response
 

@@ -56,6 +56,11 @@ WHO_ARE_YOU = [
     "Name's Sugaroid, your learning assistant",
 ]
 
+I_AM = [
+    'lol! I thought I am Sugaroid. have you lost your mind?',
+    'Seriously? You aren\'t sugaroid. Thats me!'
+]
+
 SUGAROID = [
     "🇸​🇺​🇬​🇦​🇷​🇴​🇮​🇩​",
     "sυgαяσι∂",
