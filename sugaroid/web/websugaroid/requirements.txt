@@ -1,4 +1,4 @@
-sugaroid
+-e git://github.com/srevinsaju/sugaroid.git#egg=sugaroid
 Django
 gunicorn
 django_heroku

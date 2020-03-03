@@ -1,14 +1,7 @@
 import logging
-import string
-import sys
+
 from time import strftime, localtime
-from nltk.tokenize import WordPunctTokenizer, word_tokenize
-
-
-from sugaroid.brain.constants import BYE
-from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize
-
+from nltk.tokenize import WordPunctTokenizer
 ARITHEMETIC = ['+', '-', '*', '/', '^']
 
 
