@@ -9,3 +9,5 @@ django-googlesearch
 scikit-learn
 Chatterbot
 googletrans
+MediaWikiAPI
+wikipedia
