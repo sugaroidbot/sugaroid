@@ -64,4 +64,7 @@
     <file>sugaroid_wink_right.png</file>
     <file>sugaroid_wink_left.png</file>
   </qresource>
+  <qresource prefix="ux">
+    <file>send.png</file>
+  </qresource>
 </RCC>
