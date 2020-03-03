@@ -3,7 +3,7 @@ import string
 import sys
 from time import strftime, localtime
 from nltk.tokenize import WordPunctTokenizer, word_tokenize
-from spellchecker import SpellChecker
+
 
 from sugaroid.brain.constants import BYE
 from sugaroid.brain.ooo import Emotion
@@ -16,6 +16,7 @@ class Neuron:
     def __init__(self, bot):
         self.bot = bot
         if self.bot.spell_checker:
+            from spellchecker import SpellChecker
             self.spell = SpellChecker(distance=1)
             # some privileges only for the creator
             self.spell.known(
