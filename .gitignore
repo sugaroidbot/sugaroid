@@ -7,3 +7,4 @@ sentence_tokenizer.pickle
 dist
 build
 *.egg*
+setup.py-sugaroid-gui
