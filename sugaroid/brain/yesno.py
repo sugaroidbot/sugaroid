@@ -25,11 +25,11 @@ SOFTWARE.
 
 """
 
-
 import nltk
 from chatterbot.logic import LogicAdapter
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
+from sugaroid.brain.rereversei import reset_reverse
 from sugaroid.sugaroid import SugaroidStatement
 
 
@@ -40,6 +40,10 @@ class BoolAdapter(LogicAdapter):
         self.chatbot = chatbot
         self.normalized = None
         self.intersect = None
+        self.normalized = None
+        self.tagged = None
+        self.last_normalized = None
+        self.bool = None
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement).lower())
@@ -49,6 +53,8 @@ class BoolAdapter(LogicAdapter):
             else:
                 self.bool = False
             return True
+        else:
+            return False
 
     def process(self, statement, additional_response_selection_parameters=None):
         bool_yes = 'yes' in self.normalized
@@ -66,9 +72,11 @@ class BoolAdapter(LogicAdapter):
         elif self.chatbot.trivia_answer:
             if self.chatbot.trivia_answer == self.bool:
                 response = "Exactly! You are right"
+                reset_reverse(self)
             else:
                 response = 'Nope, You got it wrong. The correct answer was {}'.format(
                     self.chatbot.trivia_answer)
+                reset_reverse(self)
             self.chatbot.trivia_answer = None
             confidence = 1.1
         else:
@@ -102,21 +110,16 @@ class BoolAdapter(LogicAdapter):
                         some_nouns = ' '.join(self.last_normalized[nn_index:])
                     if bool_yes:
                         if nn:
-
-                            response = 'Ok, here comes your {} 😝😝'.format(
-                                some_nouns)
+                            response = 'Ok, here comes your {} 😝😝'.format(some_nouns)
                         elif vb:
-                            response = 'You should {}'.format(
-                                verb.replace('ing', ''))
+                            response = 'You should {}'.format(verb.replace('ing', ''))
                         else:
                             response = 'I will keep thinking 🚀'
                     else:
                         if nn:
-                            response = 'Ok, I will have the {}'.format(
-                                some_nouns)
+                            response = 'Ok, I will have the {}'.format(some_nouns)
                         elif vb:
-                            response = "You shouldn't {} then".format(
-                                verb.replace('ing', ''))
+                            response = "You shouldn't {} then".format(verb.replace('ing', ''))
                         else:
                             response = 'Okay!'
                 else:

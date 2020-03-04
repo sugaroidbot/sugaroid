@@ -79,10 +79,14 @@ class DoAdapter(LogicAdapter):
                 confidence = 0.8
 
         if rectified:
-            wk = WikiAdapter(self.chatbot)
-            wk.text = self.normalized
-            response = WikiAdapter.process(wk, Statement(' '.join(rectified)))
-            return response
+            if 'Srevin' in rectified:
+                response = "Srevin Saju is the creator of Sugaroid bot"
+                confidence = 1
+            else:
+                wk = WikiAdapter(self.chatbot)
+                wk.text = self.normalized
+                response = WikiAdapter.process(wk, Statement(' '.join(rectified)))
+                return response
 
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence

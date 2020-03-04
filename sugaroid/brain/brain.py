@@ -27,13 +27,11 @@ SOFTWARE.
 
 
 import logging
-
 from time import strftime, localtime
 from nltk.tokenize import WordPunctTokenizer
-
 from sugaroid.brain.preprocessors import preprocess
 
-ARITHEMETIC = ['+', '-', '*', '/', '^']
+ARITHMETIC = ['+', '-', '*', '/', '^']
 
 
 class Neuron:
@@ -48,9 +46,9 @@ class Neuron:
             self.spell = SpellChecker(distance=1)
             # some privileges only for the creator
             self.spell.known(
-                ['Sugaroid', 'Sugarlabs', "sugar", 'Srevin', 'Saju'])
-        else:
-            self.spell = False
+                ['Sugaroid', 'Sugarlabs', "sugar", 'Srevin', 'Saju']
+            )
+
         logging.info("Sugaroid Neuron Loaded to memory")
 
     def parse(self, var):
@@ -59,12 +57,12 @@ class Neuron:
         if 'time' in var:
             response = self.time()
         else:
-            for i in ARITHEMETIC:
+            for i in ARITHMETIC:
                 if i in var:
-                    response = self.alu(self.normalize(var), i)
+                    response = self.alu(self.normalize(var))
                     break
             else:
-                if self.spell:
+                if self.bot.spell_checker:
                     wt = var.split(' ')
                     ct = []
                     for i in wt:
@@ -77,7 +75,7 @@ class Neuron:
 
         return response
 
-    def alu(self, var, i):
+    def alu(self, var):
         conversation = ' '.join(var)
         return self.gen_arithmetic(conversation)
 

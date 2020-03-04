@@ -25,15 +25,11 @@ SOFTWARE.
 
 """
 
-import random
-
 import nltk
-from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
-
 from sugaroid.brain.constants import INTRODUCE
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import random_response
+from sugaroid.brain.postprocessor import random_response, any_in
 from sugaroid.brain.preprocessors import normalize
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -46,9 +42,15 @@ class AboutAdapter(LogicAdapter):
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
+        self.text = None
+        self.tagged = None
+        self.quest = None
+        self.pronoun = None
+        self.nn = None
+        self.noun = None
+        self.normalized = None
 
     def can_process(self, statement):
-
         self.text = nltk.word_tokenize(str(statement))
         self.tagged = nltk.pos_tag(self.text)
         self.nn = False
@@ -75,19 +77,31 @@ class AboutAdapter(LogicAdapter):
         # FIXME : THIS ADAPTER IS INCOMPLETE
         self.normalized = normalize(str(statement))
         confidence = 0
-        response = None
         adapter = None
+
         emotion = Emotion.neutral
         if self.pronoun.lower().startswith('you'):
             if self.quest.lower() == 'who':
-                if 'creator' in self.normalized:
+                if 'father' in self.normalized:
+                    response = 'Mr Charles Babbage?'
+                    emotion = Emotion.seriously
+                elif 'mother' in self.normalized:
+                    response = 'Ada Lady Lovelace?'
+                    emotion = Emotion.lol
+                elif any_in(['sister', 'brother', 'uncle', 'aunty', 'auntie', 'grandfather',
+                             'grandmother', 'nephew', 'neice'], self.normalized):
+                    response = 'The entire coding community is my family, it includes you too'
+                    emotion = Emotion.wink
+                elif 'creator' in self.normalized:
                     response = 'Srevin Saju aka @srevinsaju'
                     emotion = Emotion.neutral
-                elif ('player' in self.normalized) or ('cricketer' in self.normalized) or ('footballer' in self.normalized):
+                elif ('player' in self.normalized) or ('cricketer' in self.normalized) or \
+                        ('footballer' in self.normalized):
                     response = 'I have many favorties, too many to count'
                     emotion = Emotion.wink
                 elif 'politi' in self.normalized:
-                    response = 'I believe politicians are great and I couldn\'t find anyone with 🔥greatness in my database'
+                    response = 'I believe politicians are great and I couldn\'t find anyone with 🔥greatness in my ' \
+                               'database '
                     emotion = Emotion.wink
                 elif 'comedian' in self.normalized:
                     response = 'My favorite comedian is Mr Bean'

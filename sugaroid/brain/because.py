@@ -25,15 +25,11 @@ SOFTWARE.
 
 """
 
-
 from difflib import SequenceMatcher
-
-import nltk
-from chatterbot.conversation import Statement
+from nltk import pos_tag
 from chatterbot.logic import LogicAdapter
-
+from nltk.sentiment import SentimentIntensityAnalyzer
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import reverse
 from sugaroid.brain.preprocessors import normalize
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -45,6 +41,10 @@ class BecauseAdapter(LogicAdapter):
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
+        self.normalized = None
+        self.last_normalized = None
+        self.tagged_now = None
+        self.tagged_last = None
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
@@ -64,8 +64,8 @@ class BecauseAdapter(LogicAdapter):
         self.last_normalized = normalize(str(last_response))
         print(self.last_normalized)
         if last_response:
-            self.tagged_last = nltk.pos_tag(self.last_normalized)
-            self.tagged_now = nltk.pos_tag(self.normalized)
+            self.tagged_last = pos_tag(self.last_normalized)
+            self.tagged_now = pos_tag(self.normalized)
             print(self.tagged_last)
             print(self.tagged_now)
             sm = SequenceMatcher(None, self.tagged_last, self.tagged_now)
@@ -91,8 +91,17 @@ class BecauseAdapter(LogicAdapter):
                         emotion = Emotion.cry_overflow
                 else:
                     if adj:
-                        response = 'I will try to be more {} in future'.format(adj)
-                        emotion = Emotion.adorable
+                        sia = SentimentIntensityAnalyzer()
+                        sia_scores = sia.polarity_scores(str(statement))
+                        if sia_scores['neu'] == 1:
+                            response = 'Ok! Thanks for your feedback'
+                            emotion = Emotion.positive
+                        elif sia_scores['pos'] > sia_scores['neg']:
+                            response = 'I will try to be more {} in future'.format(adj)
+                            emotion = Emotion.adorable
+                        else:
+                            response = 'I will never try to be {}.'.format(adj)
+                            emotion = Emotion.angry
                     else:
                         response = 'Are you sure this is the reason? I would love to report to my creator.'
                         self.chatbot.report = True

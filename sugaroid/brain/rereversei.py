@@ -41,6 +41,7 @@ class ReReverseAdapter(LogicAdapter):
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
+        self.normalized = None
 
     def can_process(self, statement):
         if self.chatbot.reverse:
@@ -131,7 +132,7 @@ class ReReverseAdapter(LogicAdapter):
                     emotion = Emotion.dead
                     reset_reverse(self)
                 else:
-                    l = self.chatbot.temp_data
+                    chatbot_temporary_data = self.chatbot.temp_data
                     tokenized = nltk.pos_tag(tokenize(str(statement)))
                     print(tokenized)
                     for i in tokenized:
@@ -142,9 +143,9 @@ class ReReverseAdapter(LogicAdapter):
                             except ValueError:
                                 num = text2int(i[0].lower())
                             index = num - 1
-                            if index < len(l):
+                            if index < len(chatbot_temporary_data):
                                 response, confidence, stat = wikipedia_search(
-                                    self, l[index])
+                                    self, chatbot_temporary_data[index])
                                 logging.info('Reversei: {}'.format(response))
                                 confidence = 1 + confidence  # FIXME override math evaluation adapter
                                 if not stat:

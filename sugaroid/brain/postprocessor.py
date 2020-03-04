@@ -34,7 +34,7 @@ def sigmaSimilarity(src, dest):
     """
     :param src: a list of literals
     :param dest: a list of final literals
-    :return: Probaability
+    :return: Probability
     """
     total = len(src)
     sum = 0
@@ -125,6 +125,21 @@ def cosine_similarity(X_list, Y_list):
         c += l1[i] * l2[i]
     cosine = c / float((sum(l1) * sum(l2)) ** 0.5)
     return cosine
+
+
+def any_in(arg1: list, string1: list):
+    """
+    Advance in operator
+    Checks any of the list item exists in in the string
+    :param arg1:
+    :param string1:
+    :return:
+    """
+    for i in arg1:
+        if i in string1:
+            return True
+    else:
+        return False
 
 
 def raw_in(arg, spacy_tokenized):

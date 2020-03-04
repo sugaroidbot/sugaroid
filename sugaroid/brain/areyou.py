@@ -27,7 +27,6 @@ SOFTWARE.
 
 from chatterbot.logic import LogicAdapter
 from nltk import pos_tag
-
 from sugaroid.brain.constants import WHO_AM_I, WHO_ARE_YOU, SUGAROID
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
@@ -36,7 +35,7 @@ from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.ver import version
 
 
-class WhoAdapter(LogicAdapter):
+class AreYouAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
@@ -44,7 +43,7 @@ class WhoAdapter(LogicAdapter):
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
         self.token = pos_tag(self.normalized)
-        if 'who' in self.normalized:
+        if str(statement).strip().lower().startswith('are'):
             return True
         else:
             return False
@@ -68,7 +67,6 @@ class WhoAdapter(LogicAdapter):
                 confidence = 0.5
                 response = 'You!'
             else:
-
                 v = version()
                 response = "\n{} \n{}. \nBuild: {}".format(
                     SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())

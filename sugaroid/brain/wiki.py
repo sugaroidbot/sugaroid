@@ -73,6 +73,13 @@ class WikiAdapter(LogicAdapter):
             emotion = Emotion.seriously
             selected_statement.emotion = emotion
             return selected_statement
+        elif ('Srevin' in self.text) or ('srevin' in self.text):
+            response = 'Srevin Saju is the creator of Sugaroid bot'
+            selected_statement = SugaroidStatement(response)
+            selected_statement.confidence = 1.0
+            selected_statement.emotion = emotion
+            return selected_statement
+
         else:
             nlp = self.chatbot.lp
             what = False
@@ -99,7 +106,7 @@ class WikiAdapter(LogicAdapter):
                             else:
 
                                 question = norm[j:]
-                                if question.lower() == 'time':
+                                if question.lower_ == 'time':
                                     response = Neuron.gen_time()
                                     confidence = 1.0
                                     stat = True
