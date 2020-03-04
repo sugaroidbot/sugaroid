@@ -1,3 +1,6 @@
+<img src=sugaroid/gui/ui/sugaroid.png width=25%>
+
+
 # Sugaroid
 
 ## Introduction
