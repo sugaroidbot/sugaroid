@@ -1,0 +1,5 @@
+[Key]
+api_key_weather = <open weather map api key>
+api_key_geocode = <mapquest geocode api key
+
+delete this line and copy this file to weather.conf>
