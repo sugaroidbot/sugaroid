@@ -1,6 +1,7 @@
 pyjokes
 pyspellchecker
 nltk
+en-core-web-sm-abd
 freegames
 spacy
 requests
