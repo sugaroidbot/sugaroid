@@ -27,6 +27,8 @@ SOFTWARE.
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
+
+from sugaroid.brain.constants import emotion_mapping
 from sugaroid.sugaroid import Sugaroid
 
 
@@ -34,9 +36,10 @@ sg = Sugaroid()
 
 
 class Conversation:
-    def __init__(self, by=None, message=None):
+    def __init__(self, by=None, message=None, emotion=0):
         self.by = by
         self.message = message
+        self.emotion = emotion
 
 
 def reinit_cookie(request):
@@ -53,8 +56,15 @@ def index(request):
         if eval(request.COOKIES.get('conversation')) is None:
             return reinit_cookie(request)
         print("J"*55, request.COOKIES.get('conversation'))
-        conversation_local = [[x[0], x[1]] for x in eval(request.COOKIES.get('conversation'))]
-        response = render(request, 'app.html', {'all_items': [Conversation(x[0], x[1]) for x in conversation_local]})
+
+        conversation_local = [[x[0], x[1], x[2]] for x in eval(request.COOKIES.get('conversation'))]
+        try:
+            emo = emotion_mapping[conversation_local[-1][2]]
+        except IndexError:
+            emo = 'sugaroid'
+        response = render(request, 'app.html', {'all_items': [Conversation(x[0], x[1], x[2]) for x in conversation_local],
+                                                'emo': emo
+                                                })
         response.set_cookie('conversation', '{}'.format(conversation_local))
 
         return response
@@ -68,7 +78,7 @@ def post_user_input(request):
         return HttpResponseRedirect('/')
 
     conversation_local = eval(request.COOKIES.get('conversation'))
-    conversation_local.append(['replies', c])
+    conversation_local.append(['replies', c, 0])
     # import pdb; pdb.set_trace()
     response = HttpResponseRedirect('/chatbot')
     print("SETTING COOKIE", conversation_local)
@@ -80,8 +90,11 @@ def post_user_input(request):
 def get_chatbot_response(request):
     print("D"*5, "K"*6, request.COOKIES.get('conversation'))
     conversation_local = eval(request.COOKIES.get('conversation'))
-    r = str(sg.parse(conversation_local[-1][1]))
-    conversation_local.append(['sent', r])
+    conv = sg.parse(conversation_local[-1][1])
+    r = str(conv)
+    r = r.encode('ascii', 'ignore').decode()
+    emotion = conv.emotion
+    conversation_local.append(['sent', r, emotion])
     response = HttpResponseRedirect('/')
     response.set_cookie('conversation', '{}'.format(conversation_local))
     return response

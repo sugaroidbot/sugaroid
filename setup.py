@@ -46,7 +46,8 @@ setup(
     url="https://srevinsaju.github.io/guiscrcpy",
     download_url="https://github.com/srevinsaju/guiscrcpy/archive/master.zip",
     package_data={'sugaroid': ['*', '*.*', 'brain/*', 'reader/*', 'trainer/*', 'translator/*', 'web/*', 'cli/*',
-                               'platform/*', 'tts/*', 'config/*', 'google/*', 'qt/*', 'game/*'],
+                               'platform/*', 'tts/*', 'config/*', 'google/*', 'qt/*', 'game/*', 'trivia/*', 'gui/*',
+                               'gui/ui/*'],
                   '.': [".git/info/*"]
                   },
     include_package_data=True,

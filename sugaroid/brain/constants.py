@@ -27,6 +27,8 @@ SOFTWARE.
 
 import platform
 
+from sugaroid.brain.ooo import Emotion
+
 EMOJI_SMILE = ['😀', '😁', '😂', '😏', '😝']
 
 GRATIFY = [
@@ -230,3 +232,32 @@ A[11CA[48;5;198m A[48;5;197m                          A[49m
 A[15CA[48;5;197m                    A[49m
 A[0m
 """.replace("A", "\u001b")
+
+
+emotion_mapping = \
+    {
+        Emotion.neutral: "sugaroid",
+        Emotion.negative: "sugaroid_cry",
+        Emotion.angry: "sugaroid_anger",
+        Emotion.non_expressive: "sugaroid_non_expressive",
+        Emotion.positive: "sugaroid_smile",
+        Emotion.wink: "sugaroid_wink_left",
+        Emotion.non_expressive_left: "sugaroid_non_expressive_left",
+        Emotion.angry_non_expressive: "sugaroid_extreme_anger",
+        Emotion.cry: "sugaroid_cry",
+        Emotion.dead: "sugaroid_dead",
+        Emotion.lol: "sugaroid_lol",
+        Emotion.cry_overflow: "sugaroid_depressed",
+        Emotion.adorable: "sugaroid_adorable",
+        Emotion.github: "sugaroid_github",
+        Emotion.angel: "sugaroid_angel",
+        Emotion.rich: "sugaroid_rich",
+        Emotion.seriously: "sugaroid_seriously",
+        Emotion.fun: "sugaroid_wink_right",
+        Emotion.blush: "sugaroid_blush",
+        Emotion.depressed: "sugaroid_depressed",
+        Emotion.o: "sugaroid_o",
+        Emotion.smirking: "sugaroid_wink_left",
+        Emotion.vomit: "sugaroid_dead",
+        Emotion.sleep: "sugaroid_sleep"
+    }
