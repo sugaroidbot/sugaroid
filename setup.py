@@ -51,7 +51,7 @@ setup(
                   '.': [".git/info/*"]
                   },
     include_package_data=True,
-    install_requires=['chatterbot', 'googletrans', 'google', 'Django==3.0.3', 'chatterbot_corpus', 'pyjokes',
+    install_requires=['chatterbot', 'googletrans', 'google', 'Django', 'pyjokes',
                       'scikit-learn', 'nltk', 'lxml'],
 
     entry_points={

@@ -1,7 +1,7 @@
 pyjokes
 pyspellchecker
 nltk
-en-core-web-sm-abd
+
 freegames
 spacy
 requests
@@ -9,7 +9,7 @@ lxml
 beautifulsoup4
 django-googlesearch
 scikit-learn
-Chatterbot
+
 googletrans
 MediaWikiAPI
 wikipedia
