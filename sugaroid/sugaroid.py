@@ -284,6 +284,9 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.reversethink.ReverseAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.myname.MyNameAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.iam.MeAdapter',
                 },
                 {
