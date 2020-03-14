@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
+import shutil
 
 from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
 from sugaroid.brain.postprocessor import random_response
@@ -374,6 +375,13 @@ class Sugaroid:
         raise NotImplementedError
 
     def corpus(self):
+        """
+        Train data if it doesn't exists.
+        Periodically update the data too
+        :return: True when the process is complete
+        """
+        db_dir = os.path.join(os.path.dirname(__file__), 'data', 'sugaroid.db')
+        shutil.copy(db_dir, os.path.join(self.cfgpath, 'sugaroid.db'))
         self.corpusTrainer.train(
             "chatterbot.corpus.english.ai",
             "chatterbot.corpus.english.botprofile",
@@ -387,6 +395,7 @@ class Sugaroid:
             "chatterbot.corpus.english.science",
             "chatterbot.corpus.english.sports",
         )
+        return True
 
     def invoke_brain(self):
         self.neuron = Neuron(self.chatbot)
