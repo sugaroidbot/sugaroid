@@ -104,7 +104,6 @@ class WikiAdapter(LogicAdapter):
                             if (norm[j].tag_ == 'VBZ') or (norm[j].tag_ == 'DT'):
                                 continue
                             else:
-
                                 question = norm[j:]
                                 if question.lower_ == 'time':
                                     response = Neuron.gen_time()
@@ -114,7 +113,6 @@ class WikiAdapter(LogicAdapter):
                                 else:
                                     response, confidence, stat = wikipedia_search(
                                         self, question)
-
                                     break
                         else:
                             response = 'I am not sure what you are asking for.'

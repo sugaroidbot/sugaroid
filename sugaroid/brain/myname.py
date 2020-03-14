@@ -67,8 +67,9 @@ class MyNameAdapter(LogicAdapter):
                 self.chatbot.username = i.text
                 return selected_statement
         else:
+            response = ':)'
             confidence = 0
-            elected_statement = SugaroidStatement(response)
+            selected_statement = SugaroidStatement(response)
             selected_statement.confidence = confidence
             emotion = Emotion.neutral
             selected_statement.emotion = emotion

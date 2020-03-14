@@ -28,6 +28,7 @@ SOFTWARE.
 from chatterbot.logic import LogicAdapter
 from nltk import word_tokenize, pos_tag
 
+from sugaroid import ver
 from sugaroid.brain.constants import BYE, ANNOYED
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
@@ -60,7 +61,13 @@ class OneWordAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.seriously
         confidence = 0.2
-        selected_statement = SugaroidStatement(random_response(ANNOYED))
+        response = random_response(ANNOYED)
+        short = str(statement).lower()
+        if 'ver' in short:
+            response = str(ver.version().get_commit())
+        elif 'name' in short:
+            response = 'sugaroid'
+        selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         selected_statement.adapter = None
