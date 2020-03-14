@@ -28,8 +28,8 @@ SOFTWARE.
 from chatterbot.logic import LogicAdapter
 from nltk import word_tokenize, pos_tag
 
-from sugaroid import ver
-from sugaroid.brain.constants import BYE, ANNOYED, WHO_AM_I
+from sugaroid.ver import version
+from sugaroid.brain.constants import BYE, ANNOYED, WHO_AM_I, WHO_ARE_YOU, SUGAROID
 from sugaroid.brain.myname import MyNameAdapter
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
@@ -72,7 +72,9 @@ class TwoWordAdapter(LogicAdapter):
                 response = random_response(WHO_AM_I)
 
         elif ('name' in short) and ('your' in short):
-            response = 'sugaroid'
+            v = version()
+            response = "\n{} \n{}. \nBuild: {}".format(
+                SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())
 
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
