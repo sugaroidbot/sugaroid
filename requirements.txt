@@ -1,7 +1,8 @@
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
 pyjokes
 pyspellchecker
 nltk
-
+git+https://github.com/gunthercox/chatterbot-corpus.git#egg=chatterbot-corpus
 freegames
 spacy
 requests
@@ -9,7 +10,6 @@ lxml
 beautifulsoup4
 django-googlesearch
 scikit-learn
-
 googletrans
 MediaWikiAPI
 wikipedia
