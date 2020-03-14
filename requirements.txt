@@ -2,7 +2,7 @@ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5
 pyjokes
 pyspellchecker
 nltk
-git+https://github.com/gunthercox/chatterbot-corpus.git#egg=chatterbot-corpus
+git+git://github.com/gunthercox/chatterbot-corpus.git#egg=chatterbot-corpus
 freegames
 spacy
 requests
