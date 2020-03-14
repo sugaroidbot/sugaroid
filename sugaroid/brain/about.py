@@ -86,6 +86,7 @@ class AboutAdapter(LogicAdapter):
         emotion = Emotion.neutral
         if self.pronoun.lower().startswith('you'):
             if self.quest.lower() == 'who':
+                confidence = 0.99
                 if 'father' in self.normalized:
                     response = 'Mr Charles Babbage?'
                     emotion = Emotion.seriously
@@ -140,7 +141,8 @@ class AboutAdapter(LogicAdapter):
                     else:
                         response = 'I am not sure what you are asking is right'
                         emotion = Emotion.seriously
-                confidence = 0.99
+                        confidence = 0.5
+
             else:
                 if 'name' in self.normalized:
                     # not sure if this is right. anyway FIXME
