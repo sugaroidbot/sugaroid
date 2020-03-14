@@ -9,3 +9,4 @@ build
 *.egg*
 setup.py-sugaroid-gui
 .env
+resetter
