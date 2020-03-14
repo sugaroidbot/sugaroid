@@ -37,5 +37,10 @@ async def on_message(message):
     else:
         print(message.content)
 
+@client.event
+async def on_member_join(member):
+    for channel in member.server.channels:
+        if channel.name == 'general':
+            await channel.send(channel, 'Welcome {}'.format(str(member)))
 
 client.run(token)

@@ -27,11 +27,9 @@ SOFTWARE.
 
 
 import logging
-
 import spacy
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment import SentimentIntensityAnalyzer
-
 from sugaroid.brain.constants import GREET, BURN_IDK, I_AM
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import cosine_similarity, random_response, raw_in, raw_lower_in
@@ -67,13 +65,16 @@ class MeAdapter(LogicAdapter):
                               for k in self.tokenized]))
             for i in self.tokenized:
                 logging.info(" {} {}".format(i.text, i.pos_))
-                if i.pos_ == 'PROPN':
+                if (i.pos_ == 'PROPN') or (i.tag_ == 'NN'):
                     nn = i.text
                     if self.chatbot.username:
                         response = "Are you sure you are {n}? I thought you were {u}".format(
                             n=nn, u=self.chatbot.username)
                         emotion = Emotion.wink
-                        confidence = 0.95
+                        if i.pos_ == 'PROPN':
+                            confidence = 0.95
+                        else:
+                            confidence = 0.8
                         self.chatbot.nn = nn
                         self.chatbot.next = 30000000001
                         self.chatbot.next_type = bool
@@ -82,8 +83,7 @@ class MeAdapter(LogicAdapter):
                         break
                     else:
                         if not ('not' in str(statement)):
-                            response = random_response(
-                                GREET).format(str(nn).capitalize())
+                            response = random_response(GREET).format(str(nn).capitalize())
                             confidence = 0.9
                             self.chatbot.username = nn
                             emotion = Emotion.positive
@@ -93,7 +93,6 @@ class MeAdapter(LogicAdapter):
                             confidence = 0.5
                             emotion = Emotion.seriously
                             break
-
                 elif i.lower_ == 'sugaroid':
                     response = random_response(I_AM)
                     emotion = Emotion.lol

@@ -32,7 +32,6 @@ import unicodedata
 from nltk.corpus import wordnet as wn
 import nltk
 
-
 short_forms = {
     'coz': "because",
     'bcoz': "because",
@@ -69,10 +68,13 @@ def preprocess(string_arg: str):
     :return: String stype containing expanded texts
     :return_type: <class 'str'>
     """
-    proc = string_arg.capitalize()
+    logging.info("PREPROCESSOR: Received {}".format(string_arg))
+    proc = string_arg
     proc = proc.replace("n't", ' not').replace("'re", ' are')  # replace short word to expanded words
     proc = proc.replace(' i ', ' I ')
     k = nltk.word_tokenize(proc)
+    if len(k) >= 1:
+        k[0] = k[0].capitalize()
     for i in range(len(k)):
         for j in short_forms:
             if k[i].lower() == j:
