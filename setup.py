@@ -38,7 +38,8 @@ DEPENDENCIES = []
 
 with open('requirements.txt') as requirements:
     for requirement in requirements.readlines():
-        if requirement.startswith('git+git://') or (requirement.startswith('https://')) or (requirement.startswith('git+https://')):
+        if requirement.startswith('git+git://') or (requirement.startswith('https://')) \
+                or (requirement.startswith('git+https://')):
             DEPENDENCIES.append(requirement)
         else:
             REQUIREMENTS.append(requirement)
@@ -62,7 +63,7 @@ setup(
                   },
     include_package_data=True,
     install_requires=['chatterbot', 'googletrans', 'google', 'Django', 'pyjokes',
-                      'scikit-learn', 'nltk', 'lxml'] + REQUIREMENTS,
+                      'scikit-learn', 'nltk', 'lxml', 'chatterbot-corpus'] + REQUIREMENTS,
     dependency_links=DEPENDENCIES,
     entry_points={
         'console_scripts': [

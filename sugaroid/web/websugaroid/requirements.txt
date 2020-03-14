@@ -6,7 +6,7 @@ django_heroku
 freegames
 wikipedia-api
 mediawikiapi
-
+git+git://github.com/gunthercox/chatterbot-corpus.git#egg=chatterbot-corpus
 
 
 
