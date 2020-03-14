@@ -303,6 +303,9 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.emotion.EmotionAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.twoword.TwoWordAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.oneword.OneWordAdapter',
                 },
                 {

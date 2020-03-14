@@ -75,6 +75,12 @@ def preprocess(string_arg: str):
     k = nltk.word_tokenize(proc)
     if len(k) >= 1:
         k[0] = k[0].capitalize()
+        if (k[0].lower().startswith('say')) or (k[0].lower().startswith('tell')):
+            del k[0]
+    if len(k) >= 1:
+        if k[0] == 'me':
+            del k[0]  # Needs testing
+
     for i in range(len(k)):
         for j in short_forms:
             if k[i].lower() == j:

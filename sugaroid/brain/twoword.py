@@ -29,7 +29,7 @@ from chatterbot.logic import LogicAdapter
 from nltk import word_tokenize, pos_tag
 
 from sugaroid import ver
-from sugaroid.brain.constants import BYE, ANNOYED
+from sugaroid.brain.constants import BYE, ANNOYED, WHO_AM_I
 from sugaroid.brain.myname import MyNameAdapter
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
@@ -37,7 +37,7 @@ from sugaroid.brain.preprocessors import normalize
 from sugaroid.sugaroid import SugaroidStatement
 
 
-class OneWordAdapter(LogicAdapter):
+class TwoWordAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
@@ -48,11 +48,11 @@ class OneWordAdapter(LogicAdapter):
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
 
-        if len(self.normalized) == 1:
+        if len(self.normalized) == 2:
             return True
-        elif len(self.normalized) == 2:
+        elif len(self.normalized) == 3:
             self.tokenized = pos_tag(self.normalized)
-            if self.tokenized[1][1] == ".":
+            if self.tokenized[2][1] == ".":
                 return True
             else:
                 return False
@@ -64,17 +64,16 @@ class OneWordAdapter(LogicAdapter):
         confidence = 0.85
         response = random_response(ANNOYED)
         short = str(statement).lower()
-        if 'ver' in short:
-            response = str(ver.version().get_commit())
-        elif 'name' in short:
-            response = "What name? You should probably use better english"
-        """
-                elif ('name' in short) and ('my' in short):
-            myname = MyNameAdapter(self.chatbot)
-            response = myname.process(statement)
+
+        if ('name' in short) and ('my' in short):
+            if self.chatbot.username:
+                response = 'You are {}'.format(self.chatbot.username)
+            else:
+                response = random_response(WHO_AM_I)
+
         elif ('name' in short) and ('your' in short):
             response = 'sugaroid'
-            """
+
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
