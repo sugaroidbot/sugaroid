@@ -50,7 +50,7 @@ class WhoAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        confidence = 1
+        confidence = 0.9
         # FIXME Creates unusual response
 
         if 'do you know' in str(statement).lower():

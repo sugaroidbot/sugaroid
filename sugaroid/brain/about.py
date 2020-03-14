@@ -25,6 +25,7 @@ SOFTWARE.
 
 """
 
+import logging
 import nltk
 from chatterbot.logic import LogicAdapter
 from sugaroid.brain.constants import INTRODUCE
@@ -49,6 +50,7 @@ class AboutAdapter(LogicAdapter):
         self.nn = None
         self.noun = None
         self.normalized = None
+        self.lemma = None
 
     def can_process(self, statement):
         self.text = nltk.word_tokenize(str(statement))
@@ -76,6 +78,8 @@ class AboutAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         # FIXME : THIS ADAPTER IS INCOMPLETE
         self.normalized = normalize(str(statement))
+        self.lemma = [x.lemma_ for x in self.chatbot.lp.tokenize(str(statement))]
+        logging.info("{}".format(self.lemma))
         confidence = 0
         adapter = None
 
@@ -92,7 +96,8 @@ class AboutAdapter(LogicAdapter):
                              'grandmother', 'nephew', 'neice'], self.normalized):
                     response = 'The entire coding community is my family, it includes you too'
                     emotion = Emotion.wink
-                elif 'creator' in self.normalized:
+                elif ('creator' in self.normalized) or ('create' in self.lemma) or ('make' in self.lemma) \
+                        or ('maker' in self.normalized):
                     response = 'Srevin Saju aka @srevinsaju'
                     emotion = Emotion.neutral
                 elif ('player' in self.normalized) or ('cricketer' in self.normalized) or \
