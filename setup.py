@@ -33,9 +33,19 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+REQUIREMENTS = []
+DEPENDENCIES = []
+
+with open('requirements.txt') as requirements:
+    for requirement in requirements.readlines():
+        if requirement.startswith('git+git://'):
+            DEPENDENCIES.append(requirement)
+        else:
+            REQUIREMENTS.append(requirement)
+
 setup(
     name='sugaroid',
-    version="{}".format('0.2.1'),
+    version="{}".format('0.3.0'),
     description='sugaroid',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -52,8 +62,8 @@ setup(
                   },
     include_package_data=True,
     install_requires=['chatterbot', 'googletrans', 'google', 'Django', 'pyjokes',
-                      'scikit-learn', 'nltk', 'lxml'],
-
+                      'scikit-learn', 'nltk', 'lxml'] + REQUIREMENTS,
+    dependency_links=DEPENDENCIES,
     entry_points={
         'console_scripts': [
             'sugaroid = sugaroid.sugaroid:main',
