@@ -38,7 +38,7 @@ DEPENDENCIES = []
 
 with open('requirements.txt') as requirements:
     for requirement in requirements.readlines():
-        if requirement.startswith('git+git://'):
+        if requirement.startswith('git+git://') or (requirement.startswith('https://')):
             DEPENDENCIES.append(requirement)
         else:
             REQUIREMENTS.append(requirement)
