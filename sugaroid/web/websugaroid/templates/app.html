@@ -730,7 +730,8 @@
 
 			<div class="wrap">
             <form action="user" method="post" onsubmit="makeSearch()">{% csrf_token %}
-                <input type="text" name="userInput" autofocus><button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                <input type="text" name="userInput" placeholder="Type your message here" autofocus><button class="submit">
+					<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </form>
 			<!--input name="userInput" type="text" placeholder="Write your message..." />
 			<button class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button-->
