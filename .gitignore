@@ -1,0 +1,12 @@
+.idea
+__pycache__/*
+*.pyc
+*.pyo
+database.db
+sentence_tokenizer.pickle
+dist
+build
+*.egg*
+setup.py-sugaroid-gui
+.env
+resetter
