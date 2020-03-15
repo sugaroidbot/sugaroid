@@ -240,7 +240,7 @@ class Sugaroid:
             'Sugaroid',
             storage_adapter='chatterbot.storage.SQLStorageAdapter',
             logic_adapters=[
-                'chatterbot.logic.MathematicalEvaluation',
+
                 {
                     'import_path': 'chatterbot.logic.BestMatch',
                     'maximum_similarity_threshold': 0.80
@@ -297,6 +297,9 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.wiki.WikiAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.feel.FeelAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.do.DoAdapter',
                 },
                 {
@@ -314,6 +317,10 @@ class Sugaroid:
                 # {
                 #    'import_path': 'sugaroid.brain.idk.DontKnowAdapter',
                 # }
+                {
+                    'import_path': 'chatterbot.logic.UnitConversion',
+                },
+
             ],
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(
                 self.cfgpath),
