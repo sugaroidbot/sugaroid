@@ -153,6 +153,32 @@ BURN_IDK = [
     "If you are clueless, who do you think is not!"
 ]
 
+HOW_DO_YOU_FEEL = [
+    "I feel great!",
+    "Solid",
+    "Like a rejuvenated bot",
+    "Like heaven in front of me",
+    "Born again",
+    "Reborn!"
+]
+
+
+HOW_DO_HE_FEEL = [
+    "How am I supposed to know?",
+    "Ask him/her?",
+    "He should be feeling alright. If not, maybe he is not well too :)",
+    "Good question"
+]
+
+HOW_DO_I_FEEL = [
+    "You should be possibly be happier!",
+    "You should be feeling lucky talking with me",
+    "Hail myself! Sugaroid is talking with you",
+    "I guess there is nothing more better than Sugaroid talking with you",
+    "I am one of the most dumbest bots. And you received an opportunity to be with me",
+    "Maybe you should better know how you feel than me"
+]
+
 INTRODUCE = [
     "My name's Sugaroid! Your personal assistant",
     "I am Sugaroid. Thats my picture at the top. If you cant see. keep scrolling",
