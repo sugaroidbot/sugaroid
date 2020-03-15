@@ -28,6 +28,9 @@ SOFTWARE.
 
 import logging
 from time import strftime, localtime
+
+from chatterbot.conversation import Statement
+from chatterbot.logic import MathematicalEvaluation
 from nltk.tokenize import WordPunctTokenizer
 from sugaroid.brain.preprocessors import preprocess
 
@@ -54,9 +57,10 @@ class Neuron:
     def parse(self, var):
         if var.isspace():
             return 'Type something to begin'
-        if 'time' in var:
+        if 'time ' in var:
             response = self.time()
         else:
+
             for i in ARITHMETIC:
                 if i in var:
                     response = self.alu(self.normalize(var))
@@ -72,7 +76,7 @@ class Neuron:
 
                     preprocessed = preprocess(var)
                     response = self.gen_best_match(preprocessed)
-
+            
         return response
 
     def alu(self, var):
@@ -90,7 +94,8 @@ class Neuron:
         return 'The current time is {}'.format(strftime("%a, %d %b %Y %H:%M:%S", localtime()))
 
     def gen_arithmetic(self, parsed):
-        return self.bot.get_response(parsed)
+        me = MathematicalEvaluation(self.bot)
+        return me.process(Statement(parsed))
 
     @staticmethod
     def normalize(text):
