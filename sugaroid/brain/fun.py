@@ -67,7 +67,7 @@ class FunAdapter(LogicAdapter):
             for i in token:
                 if i.tag_ == '.' and i.text == '?':
                     interrogation = True
-                if i.tag_ == 'WP':
+                if (i.tag_ == 'WP') or (i.tag_ == 'WRP'):
                     interrogation = True
 
             if interrogation:

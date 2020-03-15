@@ -26,11 +26,18 @@ SOFTWARE.
 """
 
 from chatterbot.logic import LogicAdapter
+from sugaroid.brain.wiki import WikiAdapter
+
+from sugaroid.brain.preprocessors import normalize
+
+from sugaroid.brain.postprocessor import random_response
+
+from sugaroid.brain.constants import WHY_IDK
 from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement
 
 
-class WhyAdapter(LogicAdapter):
+class WhyWhenAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         # FIXME Add Language support
@@ -38,6 +45,7 @@ class WhyAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.tokenized = self.chatbot.lp.tokenize(str(statement))
+        self.normalized = normalize(str(statement))
         for i in self.tokenized:
             if i.tag_ == 'WRB':
                 return True
@@ -45,10 +53,24 @@ class WhyAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        response = "Hmm, I cannot reason out your question"
-        confidence = 0.2
-        emotion = Emotion.cry_overflow
+        """
 
+        :param statement:
+        :param additional_response_selection_parameters:
+        :return:
+        """
+        if 'when' in self.tokenized:
+            # search in wikipedia
+            return WikiAdapter(self.chatbot).process(statement)
+        elif 'why' in self.tokenized:
+            # say idk
+            response = random_response(WHY_IDK)
+            confidence = 0.2
+            emotion = Emotion.cry_overflow
+        else:
+            # say idk
+            response = ':)'
+            confidence = 0.15
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion

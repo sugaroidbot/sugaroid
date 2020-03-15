@@ -153,6 +153,12 @@ BURN_IDK = [
     "If you are clueless, who do you think is not!"
 ]
 
+WHY_IDK = [
+    "Hmm, I cannot reason out your question",
+    "I am not smart enough to answer that",
+    "I am still newborn, it might take me atleast 3 years to learn that",
+]
+
 HOW_DO_YOU_FEEL = [
     "I feel great!",
     "Solid",

@@ -76,7 +76,7 @@ class Neuron:
 
                     preprocessed = preprocess(var)
                     response = self.gen_best_match(preprocessed)
-            
+
         return response
 
     def alu(self, var):
