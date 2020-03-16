@@ -316,6 +316,9 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.why.WhyWhenAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.imitate.ImitateAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.fun.FunAdapter',
                 },
                 # {

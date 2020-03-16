@@ -51,6 +51,11 @@ def difference(lst1, lst2):
 
 
 def reverse(token):
+    """
+    Reverses the first person pronouns to second person pronouns and vice versa
+    :param token: a nltk.word_tokenize type list
+    :return: a list similar to nltk.word_tokenize
+    """
     processed = []
     has_am = 'am' in token
     has_is = 'are' in token
@@ -89,7 +94,12 @@ def reverse(token):
     return processed
 
 
-def random_response(iterable=[]):
+def random_response(iterable=()):
+    """
+    Selects a random response from the given set of iterable types
+    :param iterable:
+    :return: a selected value of the iterable
+    """
     return iterable[randint(0, len(iterable)-1)]
 
 
@@ -129,7 +139,7 @@ def cosine_similarity(X_list, Y_list):
 
 def any_in(arg1: list, string1: list):
     """
-    Advance in operator
+    Advanced in operator
     Checks any of the list item exists in in the string
     :param arg1:
     :param string1:

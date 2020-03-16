@@ -27,16 +27,12 @@ SOFTWARE.
 
 
 from chatterbot.logic import LogicAdapter
+from sugaroid.brain.preprocessors import tokenize
+
 from sugaroid.brain.constants import EMOJI_SMILE, FUN_ASK_QUESTION, FUN_LET_ME_TRY
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import random_response
+from sugaroid.brain.postprocessor import random_response, reverse
 from sugaroid.sugaroid import SugaroidStatement
-
-
-cl = [
-    ['', '', ''],
-    ['', '', '']
-]
 
 
 class FunAdapter(LogicAdapter):
@@ -58,6 +54,7 @@ class FunAdapter(LogicAdapter):
         confidence = 0.1
         parsed = str(statement)
         if 'not' in parsed:
+            # if you are not, who then is?
             suffix = " either. "
             prefix = ""
             emotion = Emotion.wink
@@ -65,6 +62,7 @@ class FunAdapter(LogicAdapter):
             interrogation = False
             token = self.chatbot.lp.tokenize(str(statement))
             for i in token:
+                # checks if the statement contains any sequence of interrogative type of words
                 if i.tag_ == '.' and i.text == '?':
                     interrogation = True
                 if str(i.tag_).startswith('W'):
@@ -72,7 +70,13 @@ class FunAdapter(LogicAdapter):
 
             if interrogation:
                 prefix, suffix = '', ''
-                parsed = random_response(FUN_ASK_QUESTION).format(str(statement).lower())
+                parsed = random_response(FUN_ASK_QUESTION).format(
+                    ' '.join(reverse(tokenize(str(statement)))).lower())  # This seems complex.
+                # The tokenized input statement is reversed using the reverse unction
+                # Reverse in this sense means switching first person and second person nouns
+                # The returned list of tokens are then converted into a string by joining each element
+                # to a whitespace making a sentence, which is then converted to lower case
+                # for the visibility sake
             else:
                 prefix, suffix = random_response(FUN_LET_ME_TRY)
                 suffix = " {}".format(suffix.format(random_response(EMOJI_SMILE)))

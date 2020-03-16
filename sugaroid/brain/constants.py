@@ -229,6 +229,13 @@ ANNOYED = [
     "I quit!"
 ]
 
+IMITATE = [
+    "Stop imitating me. I do not like it!",
+    "I am a pro at imitation. Don't mess with me.",
+    "If you are seriously having fun repeating what I said, lol, just proceed dude",
+    "If imitating me makes you happy, I will be happier to see you laugh"
+]
+
 if platform.platform() == 'Windows':
     SUGAROID_INTRO = \
         """
