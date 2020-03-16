@@ -168,6 +168,12 @@ HOW_DO_YOU_FEEL = [
     "Reborn!"
 ]
 
+SIT_AND_SMILE = [
+    "Well, I could only smile ",
+    "Sometimes, its better to just smile",
+    "Nice!",
+    "Ok. That's just great",
+]
 
 HOW_DO_HE_FEEL = [
     "How am I supposed to know?",
