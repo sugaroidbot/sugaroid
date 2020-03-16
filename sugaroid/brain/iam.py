@@ -25,7 +25,6 @@ SOFTWARE.
 
 """
 
-
 import logging
 import spacy
 from chatterbot.logic import LogicAdapter
@@ -49,9 +48,9 @@ class MeAdapter(LogicAdapter):
         # TODO Fix this
         self.tokenized = self.nlp(str(statement))
 
-        for i in range(len(self.tokenized)-2):
-            print(self.tokenized[i].pos_, self.tokenized[i+1].pos_)
-            if self.tokenized[i].pos_ == 'PRON' and self.tokenized[i+1].tag_ == 'VBP':
+        for i in range(len(self.tokenized) - 1):
+            print(self.tokenized[i].pos_, self.tokenized[i + 1].pos_)
+            if self.tokenized[i].pos_ == 'PRON' and str(self.tokenized[i + 1].tag_).startswith('VB'):
                 return True
         else:
             return False
@@ -65,11 +64,14 @@ class MeAdapter(LogicAdapter):
                               for k in self.tokenized]))
             start_scanning = False  # check if the pronoun has been reached yet, otherwise may detect some other nouns
             for i in self.tokenized:
-                if (i.pos_ != 'PRON') or (not start_scanning):
-                    continue
-                elif i.pos_ == 'PRON':
+                if i.pos_ == 'PRON' and not i.tag_.startswith("W"):
                     start_scanning = True
-                logging.info(" {} {}".format(i.text, i.pos_))
+                if start_scanning:
+                    pass
+                elif (i.pos_ != 'PRON') or (not start_scanning) or (i.tag_.startswith('W')):
+                    logging.info("MeAdapter: Skipping {} {}".format(i.lower_, i.tag_))
+                    continue
+                logging.info("MeAdapter: Scanning :: {} : {}".format(i.text, i.pos_))
                 if (i.pos_ == 'PROPN') or (i.tag_ == 'NN'):
                     nn = i.text
                     if self.chatbot.username:
@@ -122,9 +124,20 @@ class MeAdapter(LogicAdapter):
                         response = 'Think again'
                         emotion = Emotion.non_expressive_left
         elif raw_lower_in('you', self.tokenized):
+            logging.info(str(["{} {} {}".format(k, k.tag_, k.pos_)
+                              for k in self.tokenized]))
             nn = ''
+            start_scanning = False
             for i in self.tokenized:
-
+                if i.pos_ == 'PRON' and not i.tag_.startswith("W"):
+                    start_scanning = True
+                if start_scanning:
+                    pass
+                elif (i.pos_ != 'PRON') or (not start_scanning) or (i.tag_.startswith('W')):
+                    logging.info("MeAdapter: Skipping {} {} ss={} {}"
+                                 .format(i.lower_, i.tag_, not start_scanning, i.pos_))
+                    continue
+                logging.info("MeAdapter: Scanning :: {} : {}".format(i.text, i.pos_))
                 if i.pos_ == 'ADJ':
 
                     cos = cosine_similarity([str(i.lower_)], ['sugaroid'])
@@ -182,6 +195,7 @@ class MeAdapter(LogicAdapter):
                         confidence = 0.9
                         emotion = Emotion.vomit
                     else:
+                        logging.info("MeAdapter: Couldn't classify type of noun {}".format(i.lower_))
                         confidence = 0.9
                         sia = SentimentIntensityAnalyzer()
                         ps = sia.polarity_scores(str(i.sent))
@@ -199,9 +213,9 @@ class MeAdapter(LogicAdapter):
                                 i.lower_)
                             emotion = Emotion.angry
 
-                elif i.tag_ == 'VBG' or i.tag_ == 'VBP':
-                    root_verb = i.text.replace('ing', '')
-                    if root_verb in ['say', 'tell', 'speak', 'blabber', 'flirt']:
+                elif i.tag_.startswith('VB'):
+                    root_verb = i.lemma_
+                    if root_verb in ['say', 'tell', 'speak', 'murmur', 'blabber', 'flirt']:
                         response = random_response(BURN_IDK)
                         emotion = Emotion.lol
                         confidence = 0.8
