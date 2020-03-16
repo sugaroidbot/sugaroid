@@ -83,10 +83,15 @@ class MeAdapter(LogicAdapter):
                         break
                     else:
                         if not ('not' in str(statement)):
-                            response = random_response(GREET).format(str(nn).capitalize())
-                            confidence = 0.9
-                            self.chatbot.username = nn
-                            emotion = Emotion.positive
+                            if i.lower_ == 'sugaroid':
+                                response = random_response(I_AM)
+                                emotion = Emotion.lol
+                                confidence = 0.95
+                            else:
+                                response = random_response(GREET).format(str(nn).capitalize())
+                                confidence = 0.9
+                                self.chatbot.username = nn
+                                emotion = Emotion.positive
                             break
                         else:
                             response = 'Ok!'
