@@ -126,32 +126,50 @@ class MeAdapter(LogicAdapter):
             for i in self.tokenized:
 
                 if i.pos_ == 'ADJ':
-                    confidence = 0.9
+
                     cos = cosine_similarity([str(i.lower_)], ['sugaroid'])
                     if i.lower_ == 'sugaroid':
                         nn = i.text
                         response = "Yup, that's my name. I am sugaroid"
                         emotion = Emotion.lol
+                        confidence = 0.9
                         break
                     elif cos > 0.9:
                         response = "Yes, you were close! My name is sugaroid"
                         emotion = Emotion.positive
+                        confidence = 0.9
                         break
                     else:
                         if i.lower_ in ['human', 'animal', 'bird']:
                             response = 'No, I am not a {adj}. I am a robot'.format(
                                 adj=i.lower_)
                             emotion = Emotion.angry_non_expressive
+                            confidence = 0.9
                         else:
                             response = 'seriously?'
                             emotion = Emotion.angry
                             confidence = 0.1
 
                 elif i.pos_ == 'PROPN':
-                    nn = i.text
-                    response = "Nope, I am not {n}, I am sugaroid".format(n=nn)
-                    emotion = Emotion.angry
-                    confidence = 0.9
+                    cos = cosine_similarity([str(i.lower_)], ['sugaroid'])
+
+                    if i.lower_ == 'sugaroid':
+                        nn = i.text
+                        response = "Yup, that's my name. I am sugaroid"
+                        emotion = Emotion.lol
+                        confidence = 0.9
+                        break
+                    elif cos > 0.9:
+                        response = "Yes, you were close! My name is sugaroid"
+                        emotion = Emotion.positive
+                        confidence = 0.9
+                        break
+                    else:
+
+                        nn = i.text
+                        response = "Nope, I am not {n}, I am sugaroid".format(n=nn)
+                        emotion = Emotion.angry
+                        confidence = 0.9
 
                 elif i.tag_ == 'NN':
                     if i.lower_ in ['bot', 'robot', 'computer', 'silicon', 'infant']:

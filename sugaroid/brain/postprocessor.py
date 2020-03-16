@@ -110,6 +110,14 @@ def reverse(token):
         else:
             continue
 
+    for j in range(0, len(processed)-2):
+        if processed[j] == 'are' and processed[j+1] == 'I':
+            processed[j] = 'am'
+        elif processed[j] == 'am' and processed[j+1] == 'you':
+            processed[j] = 'are'
+        else:
+            continue
+
     logging.info("Reverse: Pushing {}".format(processed))
     return processed
 
