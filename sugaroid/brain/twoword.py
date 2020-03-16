@@ -61,7 +61,7 @@ class TwoWordAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.seriously
-        confidence = 0.85
+        confidence = 0.81
         response = random_response(ANNOYED)
         short = str(statement).lower()
 
@@ -75,6 +75,9 @@ class TwoWordAdapter(LogicAdapter):
             v = version()
             response = "\n{} \n{}. \nBuild: {}".format(
                 SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())
+
+        else:
+            confidence = 0.2
 
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence

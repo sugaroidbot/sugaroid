@@ -153,6 +153,7 @@ class ReReverseAdapter(LogicAdapter):
                                     confidence = 1.1
 
                                 emotion = Emotion.rich
+                                reset_reverse(self)
                                 break
                             else:
                                 response = "Sorry, I couldn't find the item you were choosing. "
