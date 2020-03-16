@@ -11,3 +11,4 @@ setup.py-sugaroid-gui
 .env
 resetter
 sugaroid/web/websugaroid/.github/
+wrappers/discord/.github/
