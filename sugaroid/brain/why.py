@@ -59,10 +59,11 @@ class WhyWhenAdapter(LogicAdapter):
         :param additional_response_selection_parameters:
         :return:
         """
-        if 'when' in self.tokenized:
+        emotion = Emotion.neutral
+        if 'when' in self.normalized:
             # search in wikipedia
             return WikiAdapter(self.chatbot).process(statement)
-        elif 'why' in self.tokenized:
+        elif 'why' in self.normalized:
             # say idk
             response = random_response(WHY_IDK)
             confidence = 0.2
