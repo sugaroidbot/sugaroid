@@ -63,7 +63,12 @@ class MeAdapter(LogicAdapter):
         if raw_in('I', self.tokenized):
             logging.info(str(["{} {} {}".format(k, k.tag_, k.pos_)
                               for k in self.tokenized]))
+            start_scanning = False  # check if the pronoun has been reached yet, otherwise may detect some other nouns
             for i in self.tokenized:
+                if (i.pos_ != 'PRON') or (not start_scanning):
+                    continue
+                elif i.pos_ == 'PRON':
+                    start_scanning = True
                 logging.info(" {} {}".format(i.text, i.pos_))
                 if (i.pos_ == 'PROPN') or (i.tag_ == 'NN'):
                     nn = i.text
