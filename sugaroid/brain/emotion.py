@@ -29,9 +29,9 @@ SOFTWARE.
 from random import randint
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from sugaroid.brain.constants import GRATIFY, CONSOLATION
+from sugaroid.brain.constants import GRATIFY, CONSOLATION, SIT_AND_SMILE
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import reverse
+from sugaroid.brain.postprocessor import reverse, random_response
 from sugaroid.brain.preprocessors import tokenize
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -57,6 +57,7 @@ class EmotionAdapter(LogicAdapter):
         emotion = Emotion.neutral
         a = self.sia.polarity_scores(raw_statement)
         response = ":)"
+        confidence = a['pos'] + a['neg']
         if (('love' in parsed) or ('hate' in parsed)) and (('you' in parsed) or ('myself' in parsed)):
             if a['pos'] > a['neg']:
                 response = "I love you too"
@@ -91,8 +92,10 @@ class EmotionAdapter(LogicAdapter):
                                 emotion = Emotion.depressed
                     else:
                         # FIXME : Make it more smart
-                        response = "Well, I could only smile "
+                        response = random_response(SIT_AND_SMILE)
                         emotion = Emotion.lol
+                        if confidence > 0.8:
+                            confidence -= 0.2
             else:
                 if 'i' in parsed:
                     response = "Its ok,  {}.".format(
@@ -100,12 +103,13 @@ class EmotionAdapter(LogicAdapter):
                     emotion = Emotion.positive
                 else:
                     # well, I don't want to say ( I don't know )
+                    # FIXME : Use a better algorithm to detect sentences
                     reversed = reverse(parsed)
                     response = 'Why do you think {}?'.format(
                         ' '.join(reversed))
                     emotion = Emotion.dead
 
         selected_statement = SugaroidStatement(response)
-        selected_statement.confidence = a['pos'] + a['neg']
+        selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement
