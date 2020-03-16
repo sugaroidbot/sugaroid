@@ -27,7 +27,7 @@ SOFTWARE.
 
 
 from chatterbot.logic import LogicAdapter
-from sugaroid.brain.preprocessors import tokenize
+from nltk import word_tokenize
 
 from sugaroid.brain.constants import EMOJI_SMILE, FUN_ASK_QUESTION, FUN_LET_ME_TRY
 from sugaroid.brain.ooo import Emotion
@@ -71,7 +71,7 @@ class FunAdapter(LogicAdapter):
             if interrogation:
                 prefix, suffix = '', ''
                 parsed = random_response(FUN_ASK_QUESTION).format(
-                    ' '.join(reverse(tokenize(str(statement)))).lower())  # This seems complex.
+                    ' '.join(reverse(word_tokenize(str(statement)))))  # This seems complex.
                 # The tokenized input statement is reversed using the reverse unction
                 # Reverse in this sense means switching first person and second person nouns
                 # The returned list of tokens are then converted into a string by joining each element
@@ -79,8 +79,8 @@ class FunAdapter(LogicAdapter):
                 # for the visibility sake
             else:
                 prefix, suffix = random_response(FUN_LET_ME_TRY)
-                suffix = " {}".format(suffix.format(random_response(EMOJI_SMILE)))
-                prefix = "{} ".format(prefix)
+                suffix = " '{}".format(suffix.format(random_response(EMOJI_SMILE)))
+                prefix = "{}' ".format(prefix)
                 emotion = Emotion.wink
 
         selected_statement = SugaroidStatement("{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix))
