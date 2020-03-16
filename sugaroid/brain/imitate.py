@@ -39,6 +39,7 @@ class ImitateAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
+        self.normalized = None
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
@@ -51,7 +52,9 @@ class ImitateAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.lol
-        sim = self.chatbot.lp.similarity(str(self.chatbot.user_history[-1]), str(self.chatbot.history[-1]))
+        sim = self.chatbot.lp.similarity(str(statement), str(self.chatbot.history[-1]))
+        logging.info("ImitatorSensei compared {} and {}. Sim: {}"
+                     .format(str(statement), self.chatbot.user_history[-1], sim))
         if sim > 0.8:
             response = random_response(IMITATE)
             confidence = sim
