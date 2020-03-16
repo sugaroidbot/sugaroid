@@ -51,7 +51,7 @@ class ImitateAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.lol
-        sim = self.chatbot.lp.similarity(self.chatbot.user_history[-1], self.chatbot.history)
+        sim = self.chatbot.lp.similarity(str(self.chatbot.user_history[-1]), str(self.chatbot.history[-1]))
         if sim > 0.8:
             response = random_response(IMITATE)
             confidence = sim
