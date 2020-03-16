@@ -146,7 +146,7 @@ class ReReverseAdapter(LogicAdapter):
                             if index < len(chatbot_temporary_data):
                                 response, confidence, stat = wikipedia_search(
                                     self, chatbot_temporary_data[index])
-                                logging.info('Reversei: {}'.format(response))
+                                logging.info('REVERSEI: {}'.format(response))
                                 confidence = 1 + confidence  # FIXME override math evaluation adapter
                                 if not stat:
                                     response = "I have some trouble connecting to Wikipedia. Something's not right"
