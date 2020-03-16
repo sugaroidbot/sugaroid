@@ -182,6 +182,21 @@ HOW_DO_HE_FEEL = [
     "Good question"
 ]
 
+FUN_ASK_QUESTION = [
+    'Well, I would also ask that question to you. {}',
+    "Maybe you know a better answer for '{}' than me.",
+    "I stumbled upon your question. I need official help! SOS",
+    "Call Mr Google. 'Hey Google? Do you know what is the answer of '{}'. :/",
+    "I may not be smart. I do not know what I should answer this question"
+]
+
+FUN_LET_ME_TRY = [
+    ("Let me try that", "too"),
+    ("I like repeating stuff which I don't understand. ", "This should do"),
+    ("if (what you say) = (what I say) then", ""),
+    ("I don't understand you. So", "is what you just said!")
+]
+
 HOW_DO_I_FEEL = [
     "You should be possibly be happier!",
     "You should be feeling lucky talking with me",

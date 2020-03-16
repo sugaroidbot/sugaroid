@@ -27,7 +27,7 @@ SOFTWARE.
 
 
 from chatterbot.logic import LogicAdapter
-from sugaroid.brain.constants import EMOJI_SMILE
+from sugaroid.brain.constants import EMOJI_SMILE, FUN_ASK_QUESTION, FUN_LET_ME_TRY
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.sugaroid import SugaroidStatement
@@ -67,15 +67,15 @@ class FunAdapter(LogicAdapter):
             for i in token:
                 if i.tag_ == '.' and i.text == '?':
                     interrogation = True
-                if (i.tag_ == 'WP') or (i.tag_ == 'WRP'):
+                if str(i.tag_).startswith('W'):
                     interrogation = True
 
             if interrogation:
                 prefix, suffix = '', ''
-                parsed = 'Well, I would also ask that question to you. {}'.format(str(statement).lower())
+                parsed = random_response(FUN_ASK_QUESTION).format(str(statement).lower())
             else:
-                suffix = " too {}".format(random_response(EMOJI_SMILE))
-                prefix = "Let me try that, "
+                prefix, suffix = random_response(FUN_LET_ME_TRY)
+                suffix = suffix.format(random_response(EMOJI_SMILE))
                 emotion = Emotion.wink
 
         selected_statement = SugaroidStatement("{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix))
