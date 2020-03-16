@@ -39,3 +39,6 @@ class LanguageProcessor:
 
     def similarity(self, arg1, arg2):
         return self.nlp(arg1).similarity(self.nlp(arg2))
+
+    def lemma(self, arg):
+        return [x.lemma_ for x in self.nlp(arg)]
