@@ -1,10 +1,12 @@
 # bot.py
 import os
 import random
+from datetime import datetime
 
+import sugaroid
 import discord
 from dotenv import load_dotenv
-
+from sugaroid.ver import version
 from sugaroid.sugaroid import Sugaroid
 
 load_dotenv()
@@ -15,13 +17,9 @@ client = discord.Client()
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
-
-@client.event
-async def on_member_join(member):
-    await member.create_dm()
-    await member.dm_channel.send(
-        f'Hi {member.name}, welcome to my Discord server!'
-    )
+    os.chdir(os.path.dirname(sugaroid.__file__))
+    await client.change_presence(activity=discord.Game(name='v{} since {:02d}:{:02d} UTC'
+                                 .format(version().get_commit(), datetime.utcnow().hour, datetime.utcnow().minute)))
 
 @client.event
 async def on_message(message):
