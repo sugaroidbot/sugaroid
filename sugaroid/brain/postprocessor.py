@@ -24,10 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
-
+import logging
 from random import randint
 from nltk.corpus import stopwords
 import nltk
+from sugaroid.brain.utils import LanguageProcessor
 
 
 def sigmaSimilarity(src, dest):
@@ -59,14 +60,24 @@ def reverse(token):
     processed = []
     has_am = 'am' in token
     has_is = 'are' in token
-
+    logging.info("Reverse: Received {}".format(token))
+    interrogation = False
+    for i in token:
+        lps = LanguageProcessor().tokenize(i)[0]
+        if lps.tag_ == '.' and lps.lower_ == '?':
+            interrogation = True
+        elif str(lps.tag_).startswith('W'):
+            interrogation = True
     for i in token:
         tagged = nltk.pos_tag([i])
         if tagged[0][1] == 'PRP':
             if i == 'you':
-                processed = ['I'] + processed
+                if interrogation:
+                    processed.append('I')
+                else:
+                    processed = processed[:-1] + ['I'] + processed[-1:]
             elif i.lower() == 'i':
-                processed = ['you'] + processed
+                processed.append('you')
         elif tagged[0][1] == 'VBP':
             if i == 'are':
                 if 'I' in processed:
@@ -91,6 +102,15 @@ def reverse(token):
         else:
             continue
 
+    for j in range(0, len(processed)-2):
+        if processed[j] == 'I' and processed[j+1] == 'are':
+            processed[j] = 'you'
+        elif processed[j] == 'you' and processed[j+1] == 'am':
+            processed[j] = 'I'
+        else:
+            continue
+
+    logging.info("Reverse: Pushing {}".format(processed))
     return processed
 
 
