@@ -53,7 +53,8 @@ short_forms = {
     "tbh": "to be honest",
     "cya": "see you",
     "'m": "am",
-    "i": "I"
+    "i": "I",
+    "noice": "nice"
 }
 
 
