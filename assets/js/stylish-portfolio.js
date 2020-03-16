@@ -62,3 +62,36 @@ var onMapClickHandler = function(event) {
 }
 // Enable map zooming with mouse scroll when the user clicks the map
 $('.map').on('click', onMapClickHandler);
+
+    
+var ath = addToHomescreen( {
+    autostart: false,
+    autoHide: 0,
+    logging: true,
+    minSessions: 2,
+    onShow: function () {
+        console.log( "showing" );
+    },
+    onInit: function () {
+        console.log( "initializing" );
+    },
+    onAdd: function () {
+        console.log( "adding" );
+    },
+    onInstall: function () {
+        console.log( "Installing" );
+    },
+    onCancel: function () {
+        console.log( "Cancelling" );
+    },
+    displayNextPrime: true,
+    customCriteria: true,
+    displayPace: 0,
+    mustShowCustomPrompt: false,
+    customPrompt: {
+        title: "custom message",
+        src: "https://love2dev.com/meta/android/android-launchericon-48-48.png",
+        cancelMsg: "go away",
+        installMsg: "do it"
+    }
+} );
