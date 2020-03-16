@@ -86,6 +86,7 @@ class SugaroidBot(ChatBot):
         ChatBot.__init__(self, name=name, **kwargs)
         self.emotion = Emotion.neutral
         self.history = [0]
+        self.user_history = [0]
         self.history_types = [0]
         self.fun = True
         self.lp = LanguageProcessor()
@@ -418,6 +419,7 @@ class Sugaroid:
         if type(args) is str:
             response = self.neuron.parse(args)
             self.chatbot.history.append(response)
+            self.chatbot.user_history.append(args)
             return response
         else:
             raise ValueError("Invalid data type passed to Sugaroid.parse")
