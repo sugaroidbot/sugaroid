@@ -75,7 +75,8 @@ class FunAdapter(LogicAdapter):
                 parsed = random_response(FUN_ASK_QUESTION).format(str(statement).lower())
             else:
                 prefix, suffix = random_response(FUN_LET_ME_TRY)
-                suffix = suffix.format(random_response(EMOJI_SMILE))
+                suffix = " {}".format(suffix.format(random_response(EMOJI_SMILE)))
+                prefix = "{} ".format(prefix)
                 emotion = Emotion.wink
 
         selected_statement = SugaroidStatement("{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix))
