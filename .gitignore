@@ -10,3 +10,4 @@ build
 setup.py-sugaroid-gui
 .env
 resetter
+sugaroid/web/websugaroid/.github/
