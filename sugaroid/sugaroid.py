@@ -92,6 +92,7 @@ class SugaroidBot(ChatBot):
         self.lp = LanguageProcessor()
         self.reverse = False
         self.next = None
+        self.akinator = False
         self.next_type = None
         self.temp_data = []
         self.username = None
