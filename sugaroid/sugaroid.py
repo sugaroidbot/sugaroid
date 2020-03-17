@@ -442,7 +442,7 @@ class Sugaroid:
             sys.exit()
 
     def display_cli(self, response):
-        print(emojize(response))
+        print(emojize(response.text))
         if self.audio:
             self.tts.speak(str(response))
 
