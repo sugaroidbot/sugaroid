@@ -111,7 +111,7 @@ class SugaroidAkinator:
 
     def start_game(self):
         # We are about to start the game. Lets send a fascinating entry
-        response = "Lets start the play of Akinator™ with me. I, Sugaroid is your host genie :crystal_ball: for your " \
+        response = "Lets start the play of Akinator™ with me. I, Sugaroid, am your host genie :crystal_ball: for your "\
             "competition{}" \
             "Here is your first question\n{}".format(AKINATOR_RULES, self.game_instance)
         self.chatbot.akinator = True
@@ -146,7 +146,8 @@ class SugaroidAkinator:
 
     def check_ans(self, statement):
         statement = str(statement)
-        if statement.lower() == "yes" or statement.lower() == "y" or statement.lower() == "yea":
+        if ('yes' in statement.lower()) or ('yea' in statement.lower()) or \
+                statement.lower() == "yes" or statement.lower() == "y" or statement.lower() == "yea":
             response = "Yay! I won the game! :punch: :jack_o_lantern: :gift: :tada:"
         else:
             response = "Oh. I failed the same. Seems like you are smarter than me. :weary:"
@@ -175,6 +176,7 @@ class AkinatorAdapter(LogicAdapter):
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
+
         if not self.chatbot.akinator:
             self.chatbot.aki = SugaroidAkinator(self.chatbot)
             response = self.chatbot.aki.start_game()
