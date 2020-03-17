@@ -113,7 +113,7 @@ class CanAdapter(LogicAdapter):
                     # Randomize answer
                     response = 'Yes, I can say a joke to you, answer some questions,' \
                                ' do some mathematical sums, and talk like' \
-                               ' this'
+                               ' this. I can also play a game of Akinator'
                     adapter = 'what_can'
                 else:
                     if verb and (verb in ['play', 'joke', 'sing', 'dance', 'read']):

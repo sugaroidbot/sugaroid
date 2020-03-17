@@ -58,7 +58,7 @@ class ReverseAdapter(LogicAdapter):
             self.chatbot.lp.similarity(str(statement), 'What can you do?'),
         ])
         if self.chatbot.lp.similarity(str(statement), 'What can you do?') > 0.9:
-            response = 'I can say a joke, read a book and answer some questions'
+            response = 'I can say a joke, answer some questions, play a game og Akinator too.'
         else:
             response_raw = random_response(RNDQUESTIONS)
             response = response_raw[0]
