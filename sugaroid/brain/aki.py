@@ -72,6 +72,8 @@ SOFTWARE.
 
 
 """
+from sugaroid.brain.postprocessor import random_response
+
 from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
 
 try:
@@ -149,7 +151,7 @@ class SugaroidAkinator:
         else:
             response = "Oh. I failed the same. Seems like you are smarter than me. :weary:"
         response = response + \
-            "\n{}\n I am back to my business".format(HOPE_GAME_WAS_GOOD)
+            "\n{}\n I am back to my business".format(random_response(HOPE_GAME_WAS_GOOD))
         self.chatbot.akinator = False
         self.chatbot.aki = None
         return response
