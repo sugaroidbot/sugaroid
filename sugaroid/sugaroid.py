@@ -26,6 +26,8 @@ SOFTWARE.
 """
 import shutil
 
+from emoji import emojize
+
 from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.config.config import ConfigManager
@@ -93,6 +95,7 @@ class SugaroidBot(ChatBot):
         self.reverse = False
         self.next = None
         self.akinator = False
+        self.aki = None
         self.next_type = None
         self.temp_data = []
         self.username = None
@@ -249,6 +252,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.yesno.BoolAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.aki.AkinatorAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.either.OrAdapter',
@@ -436,7 +442,7 @@ class Sugaroid:
             sys.exit()
 
     def display_cli(self, response):
-        print(response)
+        print(emojize(response))
         if self.audio:
             self.tts.speak(str(response))
 

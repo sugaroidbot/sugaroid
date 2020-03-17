@@ -31,6 +31,7 @@ from PyQt5 import QtCore, Qt, QtGui
 from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow
+from emoji import emojize
 
 from sugaroid.brain.constants import emotion_mapping as emotion
 from sugaroid.brain.ooo import Emotion
@@ -95,7 +96,7 @@ class BotRequests(QThread):
         self.parent.conv.scrollToBottom()
         response = self.parent.parent.parse(text)
 
-        self.parent.conv.addItem("sugaroid: {}".format(str(response)))
+        self.parent.conv.addItem("sugaroid: {}".format(emojize(str(response))))
         time.sleep(0.1)
 
         if response.emotion != 0:

@@ -27,6 +27,7 @@ SOFTWARE.
 
 
 class Emotion:
+    genie = 70
     sleep = 57
     adorable = 6
     dead = 15

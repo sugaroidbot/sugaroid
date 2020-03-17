@@ -215,6 +215,12 @@ INTRODUCE = [
     "Psst. My name's Sugaroid. Don't tell anyone! Just kidding!"
 ]
 
+HOPE_GAME_WAS_GOOD = [
+    "Hope you had a fun filled game.",
+    "I guess you had a great time playing with me. Anyway I had a lot of fun",
+    "Wow, I appreciate your skills playing against me. You too would have had a lot of fun",
+]
+
 ANNOYED = [
     "... Seriously?",
     "Just a word?",
@@ -297,6 +303,7 @@ A[0m
 
 emotion_mapping = \
     {
+        Emotion.genie: "sugaroid_genie",
         Emotion.neutral: "sugaroid",
         Emotion.negative: "sugaroid_cry",
         Emotion.angry: "sugaroid_anger",

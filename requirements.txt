@@ -14,3 +14,6 @@ scikit-learn
 googletrans
 MediaWikiAPI
 wikipedia
+akinator.py
+emoji
+
