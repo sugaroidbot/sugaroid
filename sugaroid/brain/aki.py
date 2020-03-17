@@ -23,6 +23,54 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+This module in Sugaroid uses a licensed term 'Akinator'. Sugaroid and its developer
+attributes its author here
+"
+Elokence.com – SARL a limited liability company with a share capital of 80,000€,
+whose head office is 8, rue Jules Vallès – 28 300 Mainvilliers – France,
+and registered with the Chartres Register of Companies under the number
+501 030 316. The design and contents of the Website constitute a protected
+work under current intellectual property laws, of which Elokence is the
+rightholder. The Publications Director is Mr Arnaud MÉGRET, manager of
+Elokence.com.
+
+"
+
+The author takes no right over the information provided by Akinator and is
+solely provided by the WebAPI Akinator.com.
+All rights reserved to Akinator.
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+The creator of Akinator.py NinjaSnails is also attributed. The Akinator wrapper
+for python is provided under OpenSource License (MIT)
+
+
+MIT License
+
+Copyright (c) 2019 NinjaSnail1080
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
 """
 from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
 
@@ -36,6 +84,14 @@ from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
 
+
+AKINATOR_RULES = """
+How to Play:
++ think of a character, real or fictional, keep it well in mind and then click on the menu
++ answer the questions as truthfully as possible
++ Sugaroid genie will try to guess your person out
++ Have fun
+"""
 
 class SugaroidAkinator:
     def __init__(self, chatbot):
@@ -54,8 +110,8 @@ class SugaroidAkinator:
     def start_game(self):
         # We are about to start the game. Lets send a fascinating entry
         response = "Lets start the play of Akinator™ with me. I, Sugaroid is your host genie :crystal_ball: for your " \
-            "competition\n" \
-            "Here is your first question\n\n{}".format(self.game_instance)
+            "competition{}" \
+            "Here is your first question\n{}".format(AKINATOR_RULES, self.game_instance)
         self.chatbot.akinator = True
         return response
 
