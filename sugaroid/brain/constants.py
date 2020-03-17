@@ -221,6 +221,28 @@ HOPE_GAME_WAS_GOOD = [
     "Wow, I appreciate your skills playing against me. You too would have had a lot of fun",
 ]
 
+DIS_RESPONSES_I = [
+    "Its ok.",
+    "I will try to console you, the best I can",
+    "I am sorry."
+]
+
+DIS_RESPONSES_YOU = [
+    "I will try not to be {}",
+    "I don't think I am {}",
+    "East or West, sugaroid is not {}",
+    "I am never {}",
+    "As long as I believe in myself, I am never {}",
+    "As far as I know, I am not {}"
+]
+
+DIS_RESPONSES_HIM = [
+    "Sorry, I can't help that",
+    "I apologize. Maybe you can ask {} to get my assistance",
+    "Ask {} to connect to me at the earliest.",
+    "Convey my condolences to {}"
+]
+
 ANNOYED = [
     "... Seriously?",
     "Just a word?",
