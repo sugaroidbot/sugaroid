@@ -61,7 +61,7 @@ class OneWordAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.seriously
-        confidence = 0.85
+        confidence = 0.60
         response = random_response(ANNOYED)
         short = str(statement).lower()
         if 'ver' in short:
