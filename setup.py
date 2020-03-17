@@ -44,9 +44,36 @@ with open('requirements.txt') as requirements:
         else:
             REQUIREMENTS.append(requirement)
 
+
+def gen_version():
+    import git
+
+    repo = git.Repo(search_parent_directories=True)
+    sha = repo.head.object.hexsha
+    ver = repo.git.describe("--tags")
+    raw_version = ver.split('-')
+    if len(raw_version) == 1:
+        # Stable Release
+        v = "{}".format(raw_version[0])
+    elif len(raw_version) == 2:
+        # Release Candidate
+        v = "{major}.post{minor}".format(major=raw_version[0], minor=raw_version[1])
+    else:
+        # Revision Dev
+        v = "{major}.post{minor}.dev".format(major=raw_version[0], minor=raw_version[1])
+
+    return v
+
+try:
+    v = gen_version()
+except Exception as e:
+    print("WARNING: {}".format(e))
+    v = "0.4.x"
+
+
 setup(
     name='sugaroid',
-    version="{}".format('0.3.0'),
+    version="{}".format(v),
     description='sugaroid',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -62,7 +89,7 @@ setup(
                   '.': [".git/info/*"]
                   },
     include_package_data=True,
-    install_requires=['chatterbot', 'googletrans', 'google', 'Django', 'pyjokes',
+    install_requires=['chatterbot', 'GitPython' , 'googletrans', 'google', 'Django', 'pyjokes',
                       'scikit-learn', 'nltk', 'lxml', 'chatterbot-corpus'] + REQUIREMENTS,
     dependency_links=DEPENDENCIES,
     entry_points={
