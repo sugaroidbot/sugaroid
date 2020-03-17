@@ -112,7 +112,7 @@ class MeAdapter(LogicAdapter):
                 else:
                     sia = SentimentIntensityAnalyzer()
                     ps = sia.polarity_scores(str(i.sent))
-                    confidence = 0.75
+                    confidence = 0.35
                     if ps['neu'] == 1:
                         response = 'Ok! Thats great to hear from you'
                         emotion = Emotion.lol
