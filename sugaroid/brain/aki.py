@@ -146,7 +146,7 @@ class SugaroidAkinator:
 
     def check_ans(self, statement):
         statement = str(statement)
-        if ('yes' in statement.lower()) or ('yea' in statement.lower()) or \
+        if ('yes' in statement.lower()) or ('yea' in statement.lower()) or ('obviously' in statement.lower()) or \
                 statement.lower() == "yes" or statement.lower() == "y" or statement.lower() == "yea":
             response = "Yay! I won the game! :punch: :jack_o_lantern: :gift: :tada:"
         else:
@@ -164,10 +164,11 @@ class AkinatorAdapter(LogicAdapter):
         super().__init__(chatbot, **kwargs)
         self.aki = False
         self.game_instance = None
+        self.normalized = None
 
     def can_process(self, statement):
-        normalized = normalize(str(statement).lower())
-        if (('akinator' in normalized) and akinator_exists) and ('not' not in normalized):
+        self.normalized = normalize(str(statement).lower())
+        if (('akinator' in self.normalized) and akinator_exists) and ('not' not in self.normalized):
             return True
         else:
             return self.chatbot.akinator
@@ -176,8 +177,10 @@ class AkinatorAdapter(LogicAdapter):
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
-
-        if not self.chatbot.akinator:
+        if 'stop' in self.normalized:
+            self.chatbot.akinator = False
+            response = 'I am sorry. You quit the game abrubtly. {}'.format(HOPE_GAME_WAS_GOOD)
+        elif not self.chatbot.akinator:
             self.chatbot.aki = SugaroidAkinator(self.chatbot)
             response = self.chatbot.aki.start_game()
         else:
