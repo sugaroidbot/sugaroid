@@ -53,8 +53,8 @@ class SugaroidAkinator:
 
     def start_game(self):
         # We are about to start the game. Lets send a fascinating entry
-        response = "Lets start the play of Akinator™ with me. I, Sugaroid is your host genie :crystal_ball: for your "
-        "competition\n" \
+        response = "Lets start the play of Akinator™ with me. I, Sugaroid is your host genie :crystal_ball: for your " \
+            "competition\n" \
             "Here is your first question\n\n{}".format(self.game_instance)
         self.chatbot.akinator = True
         return response
