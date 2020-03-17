@@ -72,6 +72,8 @@ SOFTWARE.
 
 
 """
+import akinator
+
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
@@ -93,6 +95,15 @@ How to Play:
 + answer the questions as truthfully as possible
 + Sugaroid genie will try to guess your person out
 + Have fun
+"""
+
+AKINATOR_ACCEPTED_ANSWER = """
+Accepted answers are:
+yes: y, yes, 0
+no: n, no, 1
+probably not: pn, probably not, 4
+probably: p, probably, 3
+I don't know: idk, i dont know, i don't know, 2
 """
 
 class SugaroidAkinator:
@@ -127,8 +138,11 @@ class SugaroidAkinator:
                 except CantGoBackAnyFurther:
                     pass
             else:
-                self.game_instance = self.aki.answer(user_input)
-                return self.game_instance
+                try:
+                    self.game_instance = self.aki.answer(user_input)
+                    return self.game_instance
+                except akinator.exceptions.InvalidAnswerError:
+                    return 'Seems like I cannot understand your answer \n{}'.format(AKINATOR_ACCEPTED_ANSWER)
         else:
             self.winning = True
             return False
