@@ -16,4 +16,4 @@ MediaWikiAPI
 wikipedia
 akinator.py
 emoji
-
+pyinflect
