@@ -19,3 +19,4 @@ wikipedia
 akinator.py
 emoji
 pyinflect
+currencyconverter
