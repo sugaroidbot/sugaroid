@@ -131,7 +131,6 @@ class NewsAdapter(LogicAdapter):
         _ = self.chatbot.lp.similarity
         try:
             last_type = self.chatbot.history_types[-1]
-            import pdb; pdb.set_trace()
         except IndexError:
             last_type = False
 
@@ -148,7 +147,7 @@ class NewsAdapter(LogicAdapter):
 
         ])
         logging.info("NewsAdapter received a cosine similarity of {}".format(self.cos))
-        if self.cos > 0.75 or 'news' in processed.lower() or 'headlines' in processed.lower():
+        if self.cos > 0.8 or 'news' in processed.lower() or 'headlines' in processed.lower():
             return True
         elif 'show me more' in str(statement).lower() and self.chatbot.last_news:
             for i in self.chatbot.lp.tokenize(str(statement)):
