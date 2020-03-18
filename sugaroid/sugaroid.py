@@ -276,6 +276,9 @@ class Sugaroid:
                     'import_path': 'sugaroid.brain.time.TimeAdapter',
                 },
                 {
+                    'import_path': 'sugaroid.brain.convert.CurrencyAdapter',
+                },
+                {
                     'import_path': 'sugaroid.brain.trivia.TriviaAdapter',
                 },
                 {
