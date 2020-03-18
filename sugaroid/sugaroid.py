@@ -96,6 +96,8 @@ class SugaroidBot(ChatBot):
         self.next = None
         self.akinator = False
         self.aki = None
+        self.hangman = False
+        self.hangman_class = None
         self.next_type = None
         self.temp_data = []
         self.username = None
@@ -255,6 +257,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.aki.AkinatorAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.hangman.HangmanAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.either.OrAdapter',
