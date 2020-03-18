@@ -160,7 +160,9 @@ class SugaroidAkinator:
 
     def check_ans(self, statement):
         statement = str(statement)
-        if ('yes' in statement.lower()) or ('yea' in statement.lower()) or ('obviously' in statement.lower()) or \
+        if ('yes' in statement.lower()) or ('yea' in statement.lower()) or ('exactly' in statement.lower()) or \
+                ('obviously' in statement.lower()) or ('correct' in statement.lower()) or \
+                ('right' in statement.lower()) or ('you' in statement.lower() and 'won' in statement.lower()) or \
                 statement.lower() == "yes" or statement.lower() == "y" or statement.lower() == "yea":
             response = "Yay! I won the game! :punch: :jack_o_lantern: :gift: :tada:"
         else:
