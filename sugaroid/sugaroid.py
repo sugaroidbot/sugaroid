@@ -25,9 +25,7 @@ SOFTWARE.
 
 """
 import shutil
-
 from emoji import emojize
-
 from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.config.config import ConfigManager
@@ -42,16 +40,13 @@ import logging
 import os
 import sys
 import warnings
-
 from chatterbot.conversation import Statement
-
 from sugaroid.brain.ooo import Emotion
 
 warnings.filterwarnings("ignore")
 
 try:
     from sugaroid.tts.tts import Text2Speech
-
     AUD_DEPS = True
 except ModuleNotFoundError:
     AUD_DEPS = False
@@ -61,7 +56,6 @@ logging.basicConfig(level=verbosity)
 try:
     from PyQt5 import QtCore, QtWidgets
     from PyQt5.QtWidgets import QApplication
-
     GUI_DEPS = True
 except ModuleNotFoundError:
     GUI_DEPS = False
@@ -81,9 +75,7 @@ class SugaroidBot(ChatBot):
     Copyrighted (c) 2020 Adavanced NLP and personalized chatbot class
     Use with caution
     May give unrelated answers
-
     """
-
     def __init__(self, name, **kwargs):
         ChatBot.__init__(self, name=name, **kwargs)
         self.emotion = Emotion.neutral
@@ -103,6 +95,7 @@ class SugaroidBot(ChatBot):
         self.temp_data = []
         self.username = None
         self.spell_checker = False  # FIXME
+        self.debug = {}
 
     def set_emotion(self, emotion):
         self.emotion = emotion
@@ -150,6 +143,8 @@ class SugaroidBot(ChatBot):
                     'Not processing the statement using {}'.format(
                         adapter.class_name)
                 )
+
+        self.gen_debug(statement=input_statement, adapter=final_adapter, confidence=max_confidence, results=result)
 
         class ResultOption:
             def __init__(self, statement, count=1):
@@ -225,6 +220,16 @@ class SugaroidBot(ChatBot):
         response.confidence = result.confidence
 
         return response
+
+    def gen_debug(self, statement, adapter, confidence, results):
+        self.debug['number_of_conversations'] = self.debug.get('number_of_conversations', 0) + 1
+        _id = self.debug['number_of_conversations']
+        val = dict()
+        val['adapter'] = adapter
+        val['confidence'] = confidence
+        val['response'] = results
+        val['request'] = str(statement)
+        self.debug[_id] = val
 
 
 class Sugaroid:
@@ -334,6 +339,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.oneword.OneWordAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.debug.DebugAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.why.WhyWhenAdapter',
