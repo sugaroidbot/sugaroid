@@ -68,7 +68,7 @@ try:
     v = gen_version()
 except Exception as e:
     print("WARNING: {}".format(e))
-    v = "0.4.x"
+    v = "0.5.x"
 
 
 setup(
