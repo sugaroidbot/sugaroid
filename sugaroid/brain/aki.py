@@ -195,7 +195,7 @@ class AkinatorAdapter(LogicAdapter):
         emotion = Emotion.genie
         if 'stop' in self.normalized:
             self.chatbot.akinator = False
-            response = 'I am sorry. You quit the game abrubtly. {}'.format(HOPE_GAME_WAS_GOOD)
+            response = 'I am sorry. You quit the game abrubtly. {}'.format(random_response(HOPE_GAME_WAS_GOOD))
         elif not self.chatbot.akinator:
             self.chatbot.aki = SugaroidAkinator(self.chatbot)
             response = self.chatbot.aki.start_game()
