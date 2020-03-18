@@ -283,10 +283,10 @@ class Hangman:
         return self.life
 
     def gen_dash(self):
-        return ["_"] * len(self.word)
+        return ["﹏"] * len(self.word)
 
     def process(self, statement):
-        if (self.life == 0) or ("_" not in self.dashes):
+        if (self.life == 0) or ("﹏" not in self.dashes):
             return self.game_over()
 
         processed = str(statement).strip()
@@ -318,7 +318,7 @@ class Hangman:
         Generates the results after a series of attempts
         :return: Boolean. True for User Win, False for lost
         """
-        if "_" in self.dashes:
+        if "﹏" in self.dashes:
             return False
         else:
             return True
@@ -354,7 +354,7 @@ class HangmanAdapter(LogicAdapter):
         emotion = Emotion.genie
         if 'stop' in self.normalized:
             self.chatbot.hangman = False
-            response = 'I am sorry. You quit the game abrubtly. {}'.format(HOPE_GAME_WAS_GOOD)
+            response = 'I am sorry. You quit the game abrubtly. {}'.format(random_response(HOPE_GAME_WAS_GOOD))
         else:
             if not self.chatbot.hangman:
                 self.chatbot.hangman_class = Hangman(self.chatbot)
