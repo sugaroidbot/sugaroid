@@ -93,6 +93,7 @@ class SugaroidBot(ChatBot):
         self.fun = True
         self.lp = LanguageProcessor()
         self.reverse = False
+        self.last_news = None
         self.next = None
         self.akinator = False
         self.aki = None
@@ -190,7 +191,8 @@ class SugaroidBot(ChatBot):
         except AttributeError:
             result.adapter = None
             adapter_type = None
-        if adapter_type:
+
+        if adapter_type and adapter_type != 'NewsAdapter':
             if adapter_type in self.history_types:
                 if adapter_type == self.history_types[-1]:
                     result.text = random_response(REPEAT)
@@ -278,6 +280,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.whoami.WhoAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.news.NewsAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.joke.JokeAdapter',

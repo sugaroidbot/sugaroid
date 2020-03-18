@@ -1,7 +1,9 @@
+newsapi-python
 chatterbot
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
 pyjokes
 pyspellchecker
+python-dotenv
 nltk
 git+git://github.com/gunthercox/chatterbot-corpus.git#egg=chatterbot-corpus
 freegames
