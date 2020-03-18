@@ -147,7 +147,8 @@ class NewsAdapter(LogicAdapter):
             _(processed, 'What top stories running right now')
 
         ])
-        if self.cos > 0.6 or 'news' in processed.lower() or 'headlines' in processed.lower():
+        logging.info("NewsAdapter received a cosine similarity of {}".format(self.cos))
+        if self.cos > 0.75 or 'news' in processed.lower() or 'headlines' in processed.lower():
             return True
         elif 'show me more' in str(statement).lower() and self.chatbot.last_news:
             for i in self.chatbot.lp.tokenize(str(statement)):
@@ -167,10 +168,13 @@ class NewsAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        confidence = 1.2  # Override the other answer when asked for
+
+        confidence = self.cos
         country = None
         keyword = False
-        normalize = self.chatbot.lp.tokenize(str(statement))
+        normalize = self.chatbot.lp.tokenize(str(statement))  # Override the other answer when asked for
+        if len(normalize) <= 2:
+            confidence = confidence + 0.5
         if self.integer and self.chatbot.last_news:
             response = "Your selected integer {}, response {}".format(self.integer, self.chatbot.last_news)
             try:
