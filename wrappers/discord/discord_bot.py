@@ -26,8 +26,13 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('<@684746563540484099>') or message.content.startswith('<@!684746563540484099>'):
-        msg = message.content.replace('<@684746563540484099>', '').replace('<@!684746563540484099>', '')
+    if message.content.startswith('<@684746563540484099>') or message.content.startswith('<@!684746563540484099>') or \
+            message.content.startswith('!S'):
+        msg = message.content\
+            .replace('<@684746563540484099>', '')\
+            .replace('<@!684746563540484099>', '')\
+            .replace('!S', '')\
+            .strip()
         response = sg.parse(msg)
         if len(str(response)) > 1999:
             response = str(response)[:1999]

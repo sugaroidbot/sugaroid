@@ -308,9 +308,12 @@ class Hangman:
                 self.life -= 1
                 prefix = "Oops, seems like you missed a letter.\n"
             else:
-                prefix = "Oops, seems like you missed a letter.\n"
-            response = "{prefix}[ {dashes} ] Life: {heart}"\
-                .format(prefix=prefix, dashes=' '.join(self.dashes), heart=HANGMAN_EMOJI[self.life - 1] * self.life)
+                prefix = "Okay, you got that one right!.\n"
+            if self.life == 0 or ("﹏" not in self.dashes):
+                return self.game_over()
+            else:
+                response = "{prefix}[ {dashes} ] Life: {heart}"\
+                    .format(prefix=prefix, dashes=' '.join(self.dashes), heart=HANGMAN_EMOJI[self.life - 1] * self.life)
             return response
 
     def get_results(self):
