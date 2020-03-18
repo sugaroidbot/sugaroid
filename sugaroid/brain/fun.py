@@ -79,8 +79,8 @@ class FunAdapter(LogicAdapter):
                 # for the visibility sake
             else:
                 prefix, suffix = random_response(FUN_LET_ME_TRY)
-                suffix = " '{}".format(suffix.format(random_response(EMOJI_SMILE)))
-                prefix = "{}' ".format(prefix)
+                suffix = "' {}".format(suffix.format(random_response(EMOJI_SMILE)))
+                prefix = "{} '".format(prefix)
                 emotion = Emotion.wink
 
         selected_statement = SugaroidStatement("{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix))
