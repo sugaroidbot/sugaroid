@@ -91,11 +91,19 @@ def post_user_input(request):
 def get_chatbot_response(request):
     print("D"*5, "K"*6, request.COOKIES.get('conversation'))
     conversation_local = eval(request.COOKIES.get('conversation'))
-    conv = sg.parse(conversation_local[-1][1])
-    r = emojize(str(conv))
-    r = r.encode('ascii', 'ignore').decode()
-    emotion = conv.emotion
-    conversation_local.append(['sent', r, emotion])
-    response = HttpResponseRedirect('/')
-    response.set_cookie('conversation', '{}'.format(conversation_local))
+    try:
+        conv = sg.parse(conversation_local[-1][1])
+        r = emojize(str(conv))
+        r = r.encode('ascii', 'ignore').decode()
+        emotion = conv.emotion
+        conversation_local.append(['sent', r, emotion])
+        response = HttpResponseRedirect('/')
+        response.set_cookie('conversation', '{}'.format(conversation_local))
+        return response
+    except Exception as e:
+        return error_404(request, str(e))
+
+
+def error_404(request, error=""):
+    response = render(request, '404.html', {'error': error})
     return response
