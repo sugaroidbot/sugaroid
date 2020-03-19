@@ -49,7 +49,7 @@ class OneWordAdapter(LogicAdapter):
         self.tokenized = None
 
     def can_process(self, statement):
-        self.normalized = normalize(str(statement))
+        self.normalized = normalize(str(statement).lower())
 
         if len(self.normalized) == 1:
             return True
@@ -71,9 +71,8 @@ class OneWordAdapter(LogicAdapter):
             response = str(ver.version().get_commit())
         elif 'name' in short:
             response = "What name? You should probably use better english"
-        elif 'help' in short:
-            response = 'The help is not very easily provided. If you are serious of what you are asking, type help404'
-        elif 'help404' in short:
+
+        elif ('help404' in short) or ('help' in short and '404' in short):
             import sugaroid
             import chatterbot
 
@@ -81,13 +80,10 @@ class OneWordAdapter(LogicAdapter):
             for i in self.chatbot.adapters:
                 help_files.append("{}: {}".format(i, eval(i).__doc__).strip())
             response = 'hmm. Sure. \n {}'.format('\n '.join(help_files))
-        """
-                elif ('name' in short) and ('my' in short):
-            myname = MyNameAdapter(self.chatbot)
-            response = myname.process(statement)
-        elif ('name' in short) and ('your' in short):
-            response = 'sugaroid'
-            """
+
+        elif 'help' in short:
+            response = 'The help is not very easily provided. If you are serious of what you are asking, type helpme'
+
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
