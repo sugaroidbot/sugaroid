@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -297,6 +297,7 @@ class Sugaroid:
             'sugaroid.brain.iam.MeAdapter',
             'sugaroid.brain.about.AboutAdapter',
             'sugaroid.brain.wiki.WikiAdapter',
+            'sugaroid.brain.dolike.DoLikeAdapter',
             'sugaroid.brain.feel.FeelAdapter',
             'sugaroid.brain.do.DoAdapter',
             'sugaroid.brain.emotion.EmotionAdapter',

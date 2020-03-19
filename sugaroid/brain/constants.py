@@ -187,7 +187,15 @@ FUN_ASK_QUESTION = [
     "Maybe you know a better answer for '{}' than me.",
     "I stumbled upon your question. I need official help! SOS",
     "Call Mr Google. 'Hey Google? Do you know what is the answer of '{}'. :/",
-    "I may not be smart. I do not know what I should answer this question"
+    "I may not be smart. I do not know what I should answer this question",
+    "I do not know the answer of this question. Maybe you should ask @srevinsaju",
+    "Huh. I guess I still need to learn a lot. I apologize. I can't answer this question",
+    "Maybe I am not designed to answer this question. I regret",
+    "Was that question right? I couldn't think that answer properly",
+    "Good question.",
+    "Hats off to that question. But the fact is, well, I don't know",
+    "All of us face failures. And here is my failure too",
+    "Try asking that to a smarter assistant. Maybe Auntie Siri should know it better"
 ]
 
 FUN_LET_ME_TRY = [
@@ -241,6 +249,49 @@ DIS_RESPONSES_HIM = [
     "I apologize. Maybe you can ask {} to get my assistance",
     "Ask {} to connect to me at the earliest.",
     "Convey my condolences to {}"
+]
+
+BOT_NEUTRAL = [
+    "Maybe.",
+    "I am not sure",
+    "Yes and no",
+    "Well, I do not know myself"
+]
+
+BOT_NEUTRAL_NOUN = [
+    "I am not sure if I like {nn}. But if you do like, I would too",
+    "Its a bit complicated for me to know if I really do like {nn}. Don't forget. I am still a newborn bot",
+    "Maybe I do like {nn}, but I repent, I do not know exactly.",
+]
+
+BOT_POSITIVE = [
+    "Yes. Sure",
+    'Yea. I like it I suppose'
+    'Yes. Yes I do',
+    "Why not. Its equally good",
+    "yes. for sure!"
+]
+
+BOT_POSITIVE_NOUN = [
+    "Yes. I guess I like {nn}",
+    'Yea. I like {nn}. They are probably very sweet and nice'
+    'Yes. Yes I do like {nn}',
+    "{nn} is nice. I might like {nn} more. Its looks cool"
+]
+
+BOT_NEGATIVE = [
+    "No. Probably not",
+    'Nope'
+    'Of course not',
+    "Maybe next time",
+    "Seriously not."
+]
+
+BOT_NEGATIVE_NOUN = [
+    "No. I guess I do not like {nn}",
+    'No. I do not like {nn}. They might be a bad thing to do'
+    'No. No I do like {nn}',
+    "{nn} is not good. Hence I do not like it."
 ]
 
 ANNOYED = [
