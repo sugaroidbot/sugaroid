@@ -37,10 +37,10 @@ from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement
 
 SUGAROID_LIKES = {
-    'birds': "I like birds a lot. Some of them look similar to me. "
+    'bird': "I like birds a lot. Some of them look similar to me. "
              "One of my creator's friend said I look like a Puffin, but I don't believe it",
-    'animals': "I love all the animals alike. I'm afraid, I do not have a favorite.",
-    'sweets': "I like donuts a lot. So do I like all of the desserts which come under the Android naming lineage. "
+    'animal': "I love all the animals alike. I'm afraid, I do not have a favorite.",
+    'sweet': "I like donuts a lot. So do I like all of the desserts which come under the Android naming lineage. "
               "I could have added one more to my list, if Android Q had a relatable dessert",
     'number': "Yup, my favorites is 1, coz that\'s why I am alive",
     'weapon': "No, I do not like weapons. I guess my heart is a weapon of mass destruction",
@@ -57,14 +57,14 @@ SUGAROID_LIKES = {
     "coffee": "No. I don't like coffee. It contains caffeine. But my developer likes it a lot. "
               "Maybe the reason why I am built",
     "game": "Yes I like games. Why not a gama of Akinator?",
-    "sports": "Yes, I like sports.",
+    "sport": "Yes, I like sports.",
     "football": 'More or less, I like football',
     "sugar": "Oh sweet! I love it.",
     "mobile": "Yes, I like mobiles",
     "desktop": "Yes. I like desktops too",
     "cream": "I have not tasted it yet",
     "flower": "Yes. They are too colorful",
-    "insects": "I like butterflies the most",
+    "insect": "I like butterflies the most",
     "butterfl": "Yes, I like them a lot",
     "education": "Yes, I like it a lot. Maybe you don't. But thats when I become smarter to answer your questions"
 }
