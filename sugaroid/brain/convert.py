@@ -48,7 +48,6 @@ class SugaroidCurrency:
 
 class CurrencyAdapter(LogicAdapter):
     """
-    FunAdapter
     Gives a random response, because Sugaroid tries not to say I don't know
     """
 

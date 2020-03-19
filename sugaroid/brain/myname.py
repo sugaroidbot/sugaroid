@@ -36,6 +36,9 @@ from sugaroid.ver import version
 
 
 class MyNameAdapter(LogicAdapter):
+    """
+    Handles sentences featuring 'my' and 'name'
+    """
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)

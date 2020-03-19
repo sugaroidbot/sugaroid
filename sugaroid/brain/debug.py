@@ -38,7 +38,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class DebugAdapter(LogicAdapter):
-
+    """
+    Internal Admin feature to debug Sugaroid statements
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None

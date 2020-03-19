@@ -37,8 +37,7 @@ from sugaroid.sugaroid import SugaroidStatement
 
 class AboutAdapter(LogicAdapter):
     """
-    AboutAdapter
-    Defines what sugaroid is
+    Defines the personality of sugaroid
     """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)

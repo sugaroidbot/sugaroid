@@ -175,7 +175,9 @@ class SugaroidAkinator:
 
 
 class AkinatorAdapter(LogicAdapter):
-
+    """
+    Adapter which ports the wrapper of the Akinator game to Sugaroid
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.aki = False

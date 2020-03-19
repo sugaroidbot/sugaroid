@@ -34,7 +34,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class BoolAdapter(LogicAdapter):
-
+    """
+    Processes Boolean based answers
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot

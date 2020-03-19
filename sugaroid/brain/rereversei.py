@@ -37,7 +37,11 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class ReReverseAdapter(LogicAdapter):
-
+    """
+    Processes statements featuring conversational flow. It scans the previous statements
+    and takes a cosine similarity of the statemnts, and TFiD Vector cross product to get
+    the most probable answer
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot

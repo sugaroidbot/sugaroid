@@ -38,7 +38,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class TwoWordAdapter(LogicAdapter):
-
+    """
+    Hanfles sentences having two wrods
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None

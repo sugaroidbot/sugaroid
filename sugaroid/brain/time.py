@@ -34,6 +34,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class TimeAdapter(LogicAdapter):
+    """
+    Provides time and time related functions except time conversion
+    """
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)

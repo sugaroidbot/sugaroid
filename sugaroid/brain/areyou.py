@@ -36,7 +36,9 @@ from sugaroid.ver import version
 
 
 class AreYouAdapter(LogicAdapter):
-
+    """
+    Adapter to process statements beginning with 'are you'
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

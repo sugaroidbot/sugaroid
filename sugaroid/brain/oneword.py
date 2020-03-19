@@ -38,6 +38,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class OneWordAdapter(LogicAdapter):
+    """
+    Logical adapter for processing data with one words
+    """
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
@@ -68,6 +71,8 @@ class OneWordAdapter(LogicAdapter):
             response = str(ver.version().get_commit())
         elif 'name' in short:
             response = "What name? You should probably use better english"
+        elif 'help' in short:
+            response = 'hmm. Sure.'
         """
                 elif ('name' in short) and ('my' in short):
             myname = MyNameAdapter(self.chatbot)

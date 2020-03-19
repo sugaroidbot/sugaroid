@@ -35,7 +35,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class DoAdapter(LogicAdapter):
-
+    """
+    Processes statements beginning with 'Do' and 'know'
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = False

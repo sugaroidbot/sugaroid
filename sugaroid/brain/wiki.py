@@ -36,7 +36,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class WikiAdapter(LogicAdapter):
-
+    """
+    Handles Wikipedia based questions
+    """
     def __init__(self, chatbot, **kwargs):
         # FIXME Add Language support
         super().__init__(chatbot, **kwargs)

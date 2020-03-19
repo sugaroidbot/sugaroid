@@ -36,7 +36,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class MeAdapter(LogicAdapter):
-
+    """
+    Processes the statements showing possessive
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

@@ -37,7 +37,7 @@ from sugaroid.brain.preprocessors import normalize
 
 class LearnAdapter(LogicAdapter):
     """
-    LearnAdapter for learning responses
+    a specific adapter for learning responses
     """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
