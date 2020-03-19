@@ -68,7 +68,7 @@ class OneWordAdapter(LogicAdapter):
         response = random_response(ANNOYED)
         short = str(statement).lower()
         if 'ver' in short:
-            response = str(ver.version().get_commit())
+            response = str(ver.version().get_commit())[:10]
         elif 'name' in short:
             response = "What name? You should probably use better english"
 
