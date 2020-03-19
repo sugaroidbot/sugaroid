@@ -100,6 +100,8 @@ class SugaroidBot(ChatBot):
         self.next_type = None
         self.temp_data = []
         self.username = None
+        self.learn = False
+        self.learn_last_conversation = []
         self.spell_checker = False  # FIXME
         self.debug = {}
 
@@ -211,7 +213,7 @@ class SugaroidBot(ChatBot):
             result.adapter = None
             adapter_type = None
 
-        if adapter_type and adapter_type != 'NewsAdapter':
+        if adapter_type and adapter_type not in ['NewsAdapter', 'LearnAdapter']:
             if adapter_type in self.history_types:
                 if adapter_type == self.history_types[-1]:
                     result.text = random_response(REPEAT)
@@ -309,6 +311,9 @@ class Sugaroid:
                 },
                 {
                     'import_path': 'sugaroid.brain.convert.CurrencyAdapter',
+                },
+                {
+                    'import_path': 'sugaroid.brain.learn.LearnAdapter',
                 },
                 {
                     'import_path': 'sugaroid.brain.trivia.TriviaAdapter',
@@ -420,7 +425,7 @@ class Sugaroid:
         self.trainer = ListTrainer(self.chatbot)
         self.corpusTrainer = ChatterBotCorpusTrainer(self.chatbot)
 
-        # initialize with minimum converstion
+        # initialize with minimum conversation
         self.list_train(conversation)
 
     def list_train(self, li):
