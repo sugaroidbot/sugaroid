@@ -72,7 +72,15 @@ class OneWordAdapter(LogicAdapter):
         elif 'name' in short:
             response = "What name? You should probably use better english"
         elif 'help' in short:
-            response = 'hmm. Sure.'
+            response = 'The help is not very easily provided. If you are serious of what you are asking, type help404'
+        elif 'help404' in short:
+            import sugaroid
+            import chatterbot
+
+            help_files = []
+            for i in self.chatbot.adapters:
+                help_files.append("{}: {}".format(i, eval(i).__doc__).strip())
+            response = 'hmm. Sure. \n {}'.format('\n '.join(help_files))
         """
                 elif ('name' in short) and ('my' in short):
             myname = MyNameAdapter(self.chatbot)

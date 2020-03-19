@@ -86,6 +86,7 @@ class SugaroidBot(ChatBot):
         ChatBot.__init__(self, name=name, **kwargs)
         self.emotion = Emotion.neutral
         self.history = [0]
+        self.adapters = []
         self.user_history = [0]
         self.history_types = [0]
         self.fun = True
@@ -273,6 +274,42 @@ class Sugaroid:
             os.path.join(self.cfgpath, 'sugaroid.db'))
         nltk.download('vader_lexicon')
 
+        self.adapters = [
+            'sugaroid.brain.yesno.BoolAdapter',
+            'sugaroid.brain.aki.AkinatorAdapter',
+            'sugaroid.brain.hangman.HangmanAdapter',
+            'sugaroid.brain.either.OrAdapter',
+            'sugaroid.brain.ok.OkayAdapter',
+            'sugaroid.brain.bye.ByeAdapter',
+            'sugaroid.brain.time.TimeAdapter',
+            'sugaroid.brain.convert.CurrencyAdapter',
+            'sugaroid.brain.learn.LearnAdapter',
+            'sugaroid.brain.trivia.TriviaAdapter',
+            'sugaroid.brain.whoami.WhoAdapter',
+            'sugaroid.brain.news.NewsAdapter',
+            'sugaroid.brain.joke.JokeAdapter',
+            'sugaroid.brain.play.PlayAdapter',
+            'sugaroid.brain.canmay.CanAdapter',
+            'sugaroid.brain.because.BecauseAdapter',
+            'sugaroid.brain.rereversei.ReReverseAdapter',
+            'sugaroid.brain.reversethink.ReverseAdapter',
+            'sugaroid.brain.myname.MyNameAdapter',
+            'sugaroid.brain.iam.MeAdapter',
+            'sugaroid.brain.about.AboutAdapter',
+            'sugaroid.brain.wiki.WikiAdapter',
+            'sugaroid.brain.feel.FeelAdapter',
+            'sugaroid.brain.do.DoAdapter',
+            'sugaroid.brain.emotion.EmotionAdapter',
+            'sugaroid.brain.dis.DisAdapter',
+            'sugaroid.brain.twoword.TwoWordAdapter',
+            'sugaroid.brain.oneword.OneWordAdapter',
+            'sugaroid.brain.debug.DebugAdapter',
+            'sugaroid.brain.why.WhyWhenAdapter',
+            'sugaroid.brain.imitate.ImitateAdapter',
+            'sugaroid.brain.fun.FunAdapter',
+            'chatterbot.logic.UnitConversion',
+        ]
+
         if self.audio:
             self.tts = Text2Speech()
         else:
@@ -283,120 +320,18 @@ class Sugaroid:
             'Sugaroid',
             storage_adapter='chatterbot.storage.SQLStorageAdapter',
             logic_adapters=[
-
                 {
                     'import_path': 'chatterbot.logic.BestMatch',
                     'maximum_similarity_threshold': 0.80
                 },
-                {
-                    'import_path': 'sugaroid.brain.yesno.BoolAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.aki.AkinatorAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.hangman.HangmanAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.either.OrAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.ok.OkayAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.bye.ByeAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.time.TimeAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.convert.CurrencyAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.learn.LearnAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.trivia.TriviaAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.whoami.WhoAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.news.NewsAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.joke.JokeAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.play.PlayAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.canmay.CanAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.because.BecauseAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.rereversei.ReReverseAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.reversethink.ReverseAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.myname.MyNameAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.iam.MeAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.about.AboutAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.wiki.WikiAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.feel.FeelAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.do.DoAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.emotion.EmotionAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.dis.DisAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.twoword.TwoWordAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.oneword.OneWordAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.debug.DebugAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.why.WhyWhenAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.imitate.ImitateAdapter',
-                },
-                {
-                    'import_path': 'sugaroid.brain.fun.FunAdapter',
-                },
-                # {
-                #    'import_path': 'sugaroid.brain.idk.DontKnowAdapter',
-                # }
-                {
-                    'import_path': 'chatterbot.logic.UnitConversion',
-                },
-
-            ],
+            ] + self.adapters,
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(
                 self.cfgpath),
         )
+
         # initialize language processs
         self.chatbot.lp = LanguageProcessor()
+        self.chatbot.adapters = self.adapters
         self.chatbot.history = [0]
         self.chatbot.report = False
         self.chatbot.reverse = False
