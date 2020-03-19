@@ -223,7 +223,7 @@ class MeAdapter(LogicAdapter):
         else:
             # FIXME : Add more logic here
             response = 'Ok'
-            confidence = 0.8
+            confidence = 0.4
             emotion = Emotion.non_expressive_left
 
         selected_statement = SugaroidStatement(response)
