@@ -122,8 +122,8 @@ class WikiAdapter(LogicAdapter):
                         if response:
                             break
                     else:
-                        response = 'I can give a reason for that at the moment. Maybe you might want to search the ' \
-                                   'internet. '
+                        response = 'I can\'t give a reason for that at the moment. Maybe you might want to search the ' \
+                                   'internet.'
                         confidence = 0.4
                         emotion = Emotion.cry_overflow
                         break
@@ -160,7 +160,8 @@ def wikipedia_search(self, question):
     print(question.lower(), a[0].lower())
     print("cos", cos)
     if cos > 0.9:
-
+        self.chatbot.reverse = False
+        self.chatbot.next = False
         response = wiki.page(a[0]).summary
         confidence = cos
         stat = True
