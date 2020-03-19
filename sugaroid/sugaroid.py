@@ -64,17 +64,23 @@ a = SUGAROID_INTRO
 
 
 class SugaroidStatement(Statement):
+    """
+    A modified chatterbot Statement with the additional parameters
+    The Chatterbot Statement did not preserve the capabilities to hold
+    fundamental data such as name of the adapter and emotion of the statemnt passed
+    The emotion was either a <class 'Emotion'> type or NoneType
+    The Adapter was the generic name of the adapter in string type determined
+    by the __gtype__ variable
+    """
     def __init__(self, text, in_response_to=None, **kwargs):
         Statement.__init__(self, text, in_response_to, **kwargs)
-        self.emotion = kwargs.get('emotion', '')
+        self.emotion = kwargs.get('emotion', Emotion.neutral)
         self.adapter = kwargs.get('type_', '')
 
 
 class SugaroidBot(ChatBot):
     """
-    Copyrighted (c) 2020 Adavanced NLP and personalized chatbot class
-    Use with caution
-    May give unrelated answers
+    The SugaroidBot inherits the class local variables from the Chat
     """
     def __init__(self, name, **kwargs):
         ChatBot.__init__(self, name=name, **kwargs)
@@ -98,15 +104,33 @@ class SugaroidBot(ChatBot):
         self.debug = {}
 
     def set_emotion(self, emotion):
+        """
+        Sets the emotion for the chatbot globally.
+        (Deprecated)
+        :param emotion:
+        :return:
+        """
         self.emotion = emotion
 
     def get_emotion(self):
+        """
+        Returns the emotion of the chatbot at a particular time
+        :return:
+        """
         return self.emotion
 
     def set_username(self):
+        """
+        Sets the Sugaroid user username
+        :return: None, Exceptopm FIXME
+        """
         raise NotImplementedError("LOL")
 
     def get_username(self):
+        """
+        Returns sugaroid username if store, otherwise None
+        :return: SugaroidBot.username <user name>
+        """
         return self.username
 
     def generate_response(self, input_statement, additional_response_selection_parameters=None):
@@ -195,20 +219,7 @@ class SugaroidBot(ChatBot):
                     if adapter_type == self.history_types[-2]:
                         result.text = random_response(REPEAT)
 
-        # if self.history[-1]:
-        #     if self.lp.similarity(result.text, str(self.history[-1])) > 0.9:
-        #         result.text = random_response(REPEAT)
-
         self.history_types.append(adapter_type)
-
-        # Clear attributes of ReverseiAdapter when ReverseiAdapter gave the answer
-        """  # FIXME once code base is static
-        if final_adapter == 'ReReverseAdapter':
-            logging.info("Reversei variables reset")
-            self.reverse = False
-            self.next = None
-            self.next_type = None
-        """
 
         response = Statement(
             text=result.text,
@@ -222,6 +233,16 @@ class SugaroidBot(ChatBot):
         return response
 
     def gen_debug(self, statement, adapter, confidence, results):
+        """
+        Create a debug dictionary key:value pair for Debug Conversation
+        The Google
+        :param statement: input_statement
+        :param adapter: Adapter __gtype__classname__
+        :param confidence: SugaroidStatement.confidence
+        :param results: Sugaroid Statement.text
+        :return:
+        """
+
         self.debug['number_of_conversations'] = self.debug.get('number_of_conversations', 0) + 1
         _id = self.debug['number_of_conversations']
         val = dict()
@@ -233,6 +254,12 @@ class SugaroidBot(ChatBot):
 
 
 class Sugaroid:
+    """
+    Sugaroid
+    Initates the chatbot class and connects logic Adapters together.
+    Initates the ConfigManager to store sugaroid data and connects scans sys.argv
+
+    """
     def __init__(self):
         self.trainer = None
         self.corpusTrainer = None
@@ -365,7 +392,6 @@ class Sugaroid:
         )
         # initialize language processs
         self.chatbot.lp = LanguageProcessor()
-
         self.chatbot.history = [0]
         self.chatbot.report = False
         self.chatbot.reverse = False
@@ -377,6 +403,10 @@ class Sugaroid:
         self.invoke_brain()
 
     def init_local_trainers(self):
+        """
+        Init local trainers with minimum conversation
+        :return:
+        """
         conversation = [
             "Hello",
             "Hi there!",
@@ -397,6 +427,12 @@ class Sugaroid:
         self.trainer.train(li)
 
     def read(self):
+        """
+        Train Sugaroid database from the sugaroid.trainer.json located in the configuration directory
+        if it exists. If the sugaroid.db file exists, the Database update is skipped
+
+        :return:
+        """
         if 'train' in sys.argv:
             from sugaroid.trainer.trainer import main as trainer
             # FIXME replace with dynamic trainer i.e GUI + CLI
@@ -446,10 +482,19 @@ class Sugaroid:
         return True
 
     def invoke_brain(self):
+        """
+        Initiate the Brain
+        :return:
+        """
         self.neuron = Neuron(self.chatbot)
 
     def parse(self, args):
-
+        """
+        Do a simple parsing of the init statement. Classify statement on the type of inupt_statement
+        and confidence of each statement
+        :param args:
+        :return:
+        """
         if type(args) is str:
             response = self.neuron.parse(args)
             self.chatbot.history.append(response)
@@ -459,6 +504,10 @@ class Sugaroid:
             raise ValueError("Invalid data type passed to Sugaroid.parse")
 
     def prompt_cli(self):
+        """
+        Classic prompt for Sugaroid Command Line Interface
+        :return:
+        """
         try:
             response = self.parse(input('( ဖ‿ဖ) @> '))
             return response
@@ -466,15 +515,30 @@ class Sugaroid:
             sys.exit()
 
     def display_cli(self, response):
+        """
+        Classic display adapter for TTY Sugaroid Command Line Interface
+        :param response:
+        :return:
+        """
         print(emojize(response.text))
         if self.audio:
             self.tts.speak(str(response))
 
     def loop_cli(self):
+        """
+        Sugaroid loop_cli for Sugaroid Command Line Interface
+        :return:
+        """
+
         while True:
             self.display_cli(self.prompt_cli())
 
     def loop_gui(self):
+        """
+        Launch the sugaroid PyQt5 gui with Breeze theme and custom features
+        If PyQt5 not installed, raise ModuleNotFoundError
+        :return:
+        """
         if not GUI_DEPS:
             raise ModuleNotFoundError(
                 "PyQt5 is not Installed. Install it by pip3 install PyQt5")
@@ -485,8 +549,8 @@ class Sugaroid:
         app = QtWidgets.QApplication(sys.argv)
         app.setStyle('Breeze')
         from sugaroid.gui.ux import InterfaceSugaroidQt
-        prog = InterfaceSugaroidQt(parent=self)
-        prog.init()
+        window = InterfaceSugaroidQt(parent=self)
+        window.init()
         try:
             app.exec_()
         except KeyboardInterrupt:
@@ -494,6 +558,11 @@ class Sugaroid:
 
 
 def main():
+    """
+    Launch a cli / gui based on the sys.argv
+    Entrypoint in setup.py console_entry_points
+    :return:
+    """
     print(a)
     sg = Sugaroid()
     if 'qt' in sys.argv:
