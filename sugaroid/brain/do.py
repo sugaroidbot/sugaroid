@@ -38,6 +38,7 @@ class DoAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
+        self.normalized = False
 
     def can_process(self, statement):
         self.normalized = nltk.word_tokenize(str(statement).lower())
