@@ -108,7 +108,7 @@ class CurrencyAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.rich
-        confidence = 1.0
+        confidence = 0.9
         response = None
         converted = []
 
