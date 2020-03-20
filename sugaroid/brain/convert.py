@@ -24,6 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
+import logging
+
 from chatterbot.logic import LogicAdapter
 from currency_converter import CurrencyConverter
 from sugaroid.sugaroid import SugaroidStatement
@@ -90,6 +92,8 @@ class CurrencyAdapter(LogicAdapter):
                     self.currencies_dest.append(str(self.tokenized[i + 1].text).upper())
 
         if self.currencies_dest and self.currencies_src:
+            logging.info("CurrencyAdapter: Recognized source and destination currency types. src: {} and dest: {}"
+                         .format(self.currencies_src, self.currencies_dest))
             return True
         else:
             return False
