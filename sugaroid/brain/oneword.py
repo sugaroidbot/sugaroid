@@ -69,8 +69,10 @@ class OneWordAdapter(LogicAdapter):
         short = str(statement).lower()
         if 'ver' in short:
             response = str(ver.version().get_commit())[:10]
+            confidence = 0.99
         elif 'name' in short:
             response = "What name? You should probably use better english"
+
 
         elif ('help404' in short) or ('help' in short and '404' in short):
             import sugaroid
@@ -80,11 +82,14 @@ class OneWordAdapter(LogicAdapter):
             for i in self.chatbot.adapters:
                 help_files.append("{}: {}".format(i, eval(i).__doc__).strip())
             response = 'hmm. Sure. \n {}'.format('\n '.join(help_files))
+            confidence = 0.99
 
         elif 'help' in short:
             response = 'The help is not very easily provided. If you are serious of what you are asking, type helpme'
+            confidence = 0.99
         elif 'disclaimer' in short:
             response = DISCLAIMER
+            confidence = 0.99
         elif 'license' in short:
             lic = """
                                             MIT License
@@ -112,6 +117,7 @@ class OneWordAdapter(LogicAdapter):
             SOFTWARE.
             """
             response = lic
+            confidence = 0.99
 
         selected_statement = SugaroidStatement(response)
         selected_statement.confidence = confidence
