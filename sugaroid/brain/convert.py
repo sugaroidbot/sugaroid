@@ -127,7 +127,7 @@ class CurrencyAdapter(LogicAdapter):
                     )
                 response = ' '.join(converted)
             except ValueError:
-                response = 'Seems like I cannot process {}. Maybe try a numberical value for me to understand better' \
+                response = 'Seems like I cannot process {}. Maybe try a numerical value for me to understand better' \
                     .format(self.currencies_src_ord)
 
         else:
