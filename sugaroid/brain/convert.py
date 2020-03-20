@@ -66,10 +66,12 @@ class CurrencyAdapter(LogicAdapter):
         )
         self.currencies_dest = []
         self.currencies_src = None
-        if len(self.tokenized) >= 3:
+        if len(self.tokenized) <= 3:
             for i in range(len(self.tokenized) - 1):
                 if self.tokenized[i].tag_ == 'TO':
-                    self.currencies_dest.append(str(self.tokenized[i + 1].text).upper())
+                    dst = str(self.tokenized[i + 1].text).upper()
+                    if len(dst) < 4:
+                        self.currencies_dest.append(dst)
                     try:
                         if len(self.tokenized[i - 1].lower_) < 4:
                             self.currencies_src = str(self.tokenized[i - 1].text).upper()
@@ -79,9 +81,13 @@ class CurrencyAdapter(LogicAdapter):
 
                     for j in range(i+1, len(self.tokenized)):
                         if self.tokenized[j].tag_ == 'IN':
-                            self.currencies_dest.append(str(self.tokenized[j + 1].text).upper())
+                            dst = str(self.tokenized[j + 1].text).upper()
+                            if len(dst) < 4:
+                                self.currencies_dest.append(dst)
                             try:
-                                self.currencies_src = str(self.tokenized[j-1].text).upper()
+                                src = str(self.tokenized[j-1].text).upper()
+                                if len(src) < 4:
+                                    self.currencies_src = src
                             except IndexError:
                                 pass
                     if self.currencies_dest and self.currencies_src:
@@ -89,7 +95,9 @@ class CurrencyAdapter(LogicAdapter):
                     else:
                         return False
                 elif self.tokenized[i].tag_ == 'IN':
-                    self.currencies_dest.append(str(self.tokenized[i + 1].text).upper())
+                    dst = str(self.tokenized[i + 1].text).upper()
+                    if len(dst) < 4:
+                        self.currencies_dest.append(dst)
 
         if self.currencies_dest and self.currencies_src:
             logging.info("CurrencyAdapter: Recognized source and destination currency types. src: {} and dest: {}"
