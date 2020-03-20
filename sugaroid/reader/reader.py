@@ -1,70 +1,93 @@
-"""
-MIT License
+import json
+import os
 
-Sugaroid Artificial Intelligence
-Chatbot Core
-Copyright (c) 2020 Srevin Saju
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-"""
-
-from rstparse import Parser
-
-from sugaroid.brain.utils import LanguageProcessor
+import mistletoe
+import wget
+from bs4 import BeautifulSoup
 
 
-class SugaroidCorpus:
-    def __init__(self, path=None):
-        if path is None:
-            raise FileNotFoundError("Invalid file 'NONE'")
-        self.path = path
-        self.corpus = None
-        self.parser = Parser()
-        self.lp = LanguageProcessor()
+class MarkdownReader:
+    """
+    Converts a Markdown into HTML for parsable output
+    """
+    def __init__(self, file_path):
+        self.file = self.check_file_path(file_path)
+        self.html = self.read_markdown(self.file)
+        self.soup = self.init_soup(self.html)
 
-    def read(self):
-        with open(self.path, 'r') as r:
-            self.parser.read(r)
-        return True
+        self.headings = []
+        self.content = []
+        pass
 
-    def rst(self):
-        self.parser.parse()
+    @staticmethod
+    def check_file_path(file_path):
+        if os.path.exists(os.path.abspath(file_path)):
+            return os.path.abspath(file_path)
+        else:
+            return FileNotFoundError("The specified file cannot be found")
 
-    def txt(self):
-        text = ''
-        for i in self.parser.lines:
-            text += " {} ".format(i)
-        return text
+    def get_headings(self):
+        pass
 
-    def parse(self, txt):
-        doc = self.lp.tokenize(txt)
-        l = list(doc.sent)
-        return l
+    def get_parsed_content(self):
+        headings = []
+        content = []
+        for i in self.soup.find_all():
+            if i.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+                headings.append(i.get_text())
+                content.append(i.get_text())
+            elif i.name in ['p', 'a', 'code']:
+                content.append(i.get_text())
+        return headings, content
 
-    def answer(self, lst, text):
-        cos = []
-        for i in lst:
-            cos.append(self.lp.tokenize(i).similarity(self.lp.tokenize(text)))
+    def get_content(self):
+        return self.soup.find_all()
 
-        mx_cos = max(cos)
-        return lst[cos.index(mx_cos)]
+    @staticmethod
+    def init_soup(html):
+        return BeautifulSoup(html, 'html.parser')
 
-    def readonly(self):
-        return True
+    @staticmethod
+    def read(file_path):
+        contents = []
+        with open(file_path, 'r') as r:
+            contents.append(r.read().strip())
+        return contents
+
+    @staticmethod
+    def read_markdown(path_to_md):
+        with open(path_to_md, 'r') as r:
+            contents = mistletoe.markdown(r)
+        return contents
+
+
+READ_FILES = dict()
+
+files = {}
+
+
+def main():
+    with open('scrawl.json', 'r') as r:
+        files = json.load(r)
+
+    sugar_files = files['sugar']
+    try:
+        os.makedirs('scrawled')
+    except FileExistsError:
+        pass
+    for i in sugar_files:
+        wget.download('https://raw.githubusercontent.com/sugarlabs/{}'
+                      .format(i), os.path.join('scrawled', i.split('/')[-1]))
+    for markdown_file in os.listdir(os.path.abspath('scrawled')):
+        READ_FILES[markdown_file] = MarkdownReader(os.path.join('scrawled', markdown_file))
+
+    scrawled = dict()
+    for markdown_file in READ_FILES:
+        scrawled[markdown_file] = READ_FILES[markdown_file].get_parsed_content()
+
+    with open('scrawled.py', 'w') as w:
+        w.write("SCRAWLED = {}".format(scrawled))
+
+
+if __name__ == '__main__':
+    main()

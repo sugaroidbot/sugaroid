@@ -115,6 +115,28 @@ class SugaroidBot(ChatBot):
         """
         self.emotion = emotion
 
+    def reset_variables(self):
+        self.emotion = Emotion.neutral
+        self.history = [0]
+        self.user_history = [0]
+        self.history_types = [0]
+        self.fun = True
+        self.lp = LanguageProcessor()
+        self.reverse = False
+        self.last_news = None
+        self.next = None
+        self.akinator = False
+        self.aki = None
+        self.hangman = False
+        self.hangman_class = None
+        self.next_type = None
+        self.temp_data = []
+        self.username = None
+        self.learn = False
+        self.learn_last_conversation = []
+        self.spell_checker = False  # FIXME
+        self.debug = {}
+
     def get_emotion(self):
         """
         Returns the emotion of the chatbot at a particular time
@@ -306,6 +328,7 @@ class Sugaroid:
             'sugaroid.brain.oneword.OneWordAdapter',
             'sugaroid.brain.debug.DebugAdapter',
             'sugaroid.brain.why.WhyWhenAdapter',
+            'sugaroid.brain.reader.ReaderAdapter',
             'sugaroid.brain.imitate.ImitateAdapter',
             'sugaroid.brain.fun.FunAdapter',
             'chatterbot.logic.UnitConversion',
