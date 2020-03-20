@@ -79,4 +79,15 @@ def main():
         wget.download('https://raw.githubusercontent.com/sugarlabs/{}'
                       .format(i), os.path.join('scrawled', i.split('/')[-1]))
     for markdown_file in os.listdir(os.path.abspath('scrawled')):
-        READ_FILES[markdown_file] = MarkdownReader(markdown_file)
+        READ_FILES[markdown_file] = MarkdownReader(os.path.join('scrawled', markdown_file))
+
+    scrawled = dict()
+    for markdown_file in READ_FILES:
+        scrawled[markdown_file] = READ_FILES[markdown_file].get_parsed_content()
+
+    with open('scrawled.py', 'w') as w:
+        w.write("SCRAWLED = {}".format(scrawled))
+
+
+if __name__ == '__main__':
+    main()

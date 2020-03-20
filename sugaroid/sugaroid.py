@@ -328,6 +328,7 @@ class Sugaroid:
             'sugaroid.brain.oneword.OneWordAdapter',
             'sugaroid.brain.debug.DebugAdapter',
             'sugaroid.brain.why.WhyWhenAdapter',
+            'sugaroid.brain.reader.ReaderAdapter',
             'sugaroid.brain.imitate.ImitateAdapter',
             'sugaroid.brain.fun.FunAdapter',
             'chatterbot.logic.UnitConversion',

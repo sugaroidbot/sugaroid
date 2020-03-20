@@ -85,7 +85,7 @@ class OneWordAdapter(LogicAdapter):
             confidence = 0.99
 
         elif 'help' in short:
-            response = 'The help is not very easily provided. If you are serious of what you are asking, type helpme'
+            response = 'The help is not very easily provided. If you are serious of what you are asking, type help404'
             confidence = 0.99
         elif 'disclaimer' in short:
             response = DISCLAIMER
