@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -341,6 +341,9 @@ class Hangman:
 
 
 class HangmanAdapter(LogicAdapter):
+    """
+    Plays hangman with you
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

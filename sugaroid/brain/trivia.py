@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -33,7 +33,9 @@ from sugaroid.trivia.trivia import SugaroidTrivia
 
 
 class TriviaAdapter(LogicAdapter):
-
+    """
+    Plays a short game of trivia
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.cos = None

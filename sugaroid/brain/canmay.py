@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -40,7 +40,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class CanAdapter(LogicAdapter):
-
+    """
+    Processes statements which features a Modal question (can, may)
+    """
     def __init__(self, chatbot, **kwargs):
 
         super().__init__(chatbot, **kwargs)

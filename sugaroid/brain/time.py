@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -34,6 +34,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class TimeAdapter(LogicAdapter):
+    """
+    Provides time and time related functions except time conversion
+    """
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)

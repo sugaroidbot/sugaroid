@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -27,6 +27,9 @@ SOFTWARE.
 
 
 class Emotion:
+    """
+    Defines a variety of Sugaroid compatible Emotion
+    """
     genie = 70
     sleep = 57
     adorable = 6

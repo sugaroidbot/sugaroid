@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -38,7 +38,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class WhyWhenAdapter(LogicAdapter):
-
+    """
+    Processes wh-adverbs
+    """
     def __init__(self, chatbot, **kwargs):
         # FIXME Add Language support
         super().__init__(chatbot, **kwargs)

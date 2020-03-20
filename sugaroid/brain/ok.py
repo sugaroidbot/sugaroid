@@ -34,7 +34,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class OkayAdapter(LogicAdapter):
-
+    """
+    Handles statements with a plain old okay
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 
@@ -46,7 +48,7 @@ class OkayAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        confidence = 1
+        confidence = 0.7
         ls = ['😀', '😁', '😂',
               '😏', '😝']
         selected_statement = SugaroidStatement(

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -35,9 +35,12 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class DoAdapter(LogicAdapter):
-
+    """
+    Processes statements beginning with 'Do' and 'know'
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
+        self.normalized = False
 
     def can_process(self, statement):
         self.normalized = nltk.word_tokenize(str(statement).lower())

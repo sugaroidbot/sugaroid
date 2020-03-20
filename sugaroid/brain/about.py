@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -37,8 +37,7 @@ from sugaroid.sugaroid import SugaroidStatement
 
 class AboutAdapter(LogicAdapter):
     """
-    AboutAdapter
-    Defines what sugaroid is
+    Defines the personality of sugaroid
     """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
@@ -118,6 +117,23 @@ class AboutAdapter(LogicAdapter):
                 elif 'actor' in self.normalized or ('actress' in self.normalized):
                     response = 'I do not watch movies, so yea!'
                     emotion = Emotion.neutral
+                elif 'music' in self.normalized or ('song' in self.normalized):
+                    response = 'I listen to the rotating CPU fan. Its a harmonic music! ' \
+                               'At my server, we have tons of them.'
+                    emotion = Emotion.lol
+                elif 'bird' in self.normalized:
+                    response = 'My favorite is a Puffin'
+                    emotion = Emotion.lol
+                elif 'animal' in self.normalized:
+                    response = 'My favorite animal is a Fossa'
+                    emotion = Emotion.positive
+                elif 'number' in self.normalized:
+                    response = 'My favorite number is 1'
+                    emotion = Emotion.positive
+                elif 'sweet' in self.normalized or 'dessert' in self.normalized:
+                    response = 'My favorite is the donut although I have not tasted it yet'
+                    emotion = Emotion.cry_overflow
+
                 elif 'athelete' in self.normalized:
                     response = 'I am not a sport lover, I don\'t have a favorite athelete'
                     emotion = Emotion.neutral

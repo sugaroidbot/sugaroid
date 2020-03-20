@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -38,7 +38,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class TwoWordAdapter(LogicAdapter):
-
+    """
+    Hanfles sentences having two wrods
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None

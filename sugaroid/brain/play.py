@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -33,7 +33,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class PlayAdapter(LogicAdapter):
-
+    """
+    [DEPRECATED] Plays a game on desktops only
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

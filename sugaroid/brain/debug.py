@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -38,7 +38,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class DebugAdapter(LogicAdapter):
-
+    """
+    Internal Admin feature to debug Sugaroid statements
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None

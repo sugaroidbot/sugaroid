@@ -31,6 +31,23 @@ from sugaroid.brain.ooo import Emotion
 
 EMOJI_SMILE = ['😀', '😁', '😂', '😏', '😝']
 
+DISCLAIMER = """
+Sugaroid AI (c) 2020 Srevin Saju < srevin03(at)gmail(dot)com >
+Sugaroid Bot is developed under Open Source license MIT.
+The author does not take any right in the validity of the information
+provided by thr bot in any platforms. The author will not be claimed to 
+be resonsible for any damage / vulnerability caused to your system 
+during the installation of the bot. 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+
+
 GRATIFY = [
     "Thank you, indeed its my pleasure ",
     "All my 0s and 1s are still smiling",
@@ -187,7 +204,15 @@ FUN_ASK_QUESTION = [
     "Maybe you know a better answer for '{}' than me.",
     "I stumbled upon your question. I need official help! SOS",
     "Call Mr Google. 'Hey Google? Do you know what is the answer of '{}'. :/",
-    "I may not be smart. I do not know what I should answer this question"
+    "I may not be smart. I do not know what I should answer this question",
+    "I do not know the answer of this question. Maybe you should ask @srevinsaju",
+    "Huh. I guess I still need to learn a lot. I apologize. I can't answer this question",
+    "Maybe I am not designed to answer this question. I regret",
+    "Was that question right? I couldn't think that answer properly",
+    "Good question.",
+    "Hats off to that question. But the fact is, well, I don't know",
+    "All of us face failures. And here is my failure too",
+    "Try asking that to a smarter assistant. Maybe Auntie Siri should know it better"
 ]
 
 FUN_LET_ME_TRY = [
@@ -241,6 +266,49 @@ DIS_RESPONSES_HIM = [
     "I apologize. Maybe you can ask {} to get my assistance",
     "Ask {} to connect to me at the earliest.",
     "Convey my condolences to {}"
+]
+
+BOT_NEUTRAL = [
+    "Maybe.",
+    "I am not sure",
+    "Yes and no",
+    "Well, I do not know myself"
+]
+
+BOT_NEUTRAL_NOUN = [
+    "I am not sure if I like {nn}. But if you do like, I would too",
+    "Its a bit complicated for me to know if I really do like {nn}. Don't forget. I am still a newborn bot",
+    "Maybe I do like {nn}, but I repent, I do not know exactly.",
+]
+
+BOT_POSITIVE = [
+    "Yes. Sure",
+    'Yea. I like it I suppose'
+    'Yes. Yes I do',
+    "Why not. Its equally good",
+    "yes. for sure!"
+]
+
+BOT_POSITIVE_NOUN = [
+    "Yes. I guess I like {nn}",
+    'Yea. I like {nn}. They are probably very sweet and nice'
+    'Yes. Yes I do like {nn}',
+    "{nn} is nice. I might like {nn} more. Its looks cool"
+]
+
+BOT_NEGATIVE = [
+    "No. Probably not",
+    'Nope'
+    'Of course not',
+    "Maybe next time",
+    "Seriously not."
+]
+
+BOT_NEGATIVE_NOUN = [
+    "No. I guess I do not like {nn}",
+    'No. I do not like {nn}. They might be a bad thing to do'
+    'No. No I do like {nn}',
+    "{nn} is not good. Hence I do not like it."
 ]
 
 ANNOYED = [

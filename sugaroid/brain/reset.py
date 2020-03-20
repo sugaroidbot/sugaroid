@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -31,7 +31,9 @@ from sugaroid.brain.preprocessors import normalize
 
 
 class ResetAdapter(LogicAdapter):
-
+    """
+    Resets the Sugaroid global variables
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

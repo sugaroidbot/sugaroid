@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -36,7 +36,9 @@ from sugaroid.sugaroid import SugaroidStatement
 
 
 class MeAdapter(LogicAdapter):
-
+    """
+    Processes the statements showing possessive
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 
@@ -223,7 +225,7 @@ class MeAdapter(LogicAdapter):
         else:
             # FIXME : Add more logic here
             response = 'Ok'
-            confidence = 0.8
+            confidence = 0.4
             emotion = Emotion.non_expressive_left
 
         selected_statement = SugaroidStatement(response)

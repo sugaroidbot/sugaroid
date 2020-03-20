@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -37,7 +37,9 @@ from sugaroid.ver import version
 
 
 class FeelAdapter(LogicAdapter):
-
+    """
+    Handles sentences containing the word feel
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Inteligence
+Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
@@ -36,7 +36,9 @@ from sugaroid.brain.preprocessors import normalize
 
 
 class ImitateAdapter(LogicAdapter):
-
+    """
+    Handles statements involving imitations of some sentences
+    """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None

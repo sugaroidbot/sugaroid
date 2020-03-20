@@ -6,8 +6,6 @@ import wget
 from bs4 import BeautifulSoup
 
 
-
-
 class MarkdownReader:
     """
     Converts a Markdown into HTML for parsable output
@@ -82,5 +80,3 @@ def main():
                       .format(i), os.path.join('scrawled', i.split('/')[-1]))
     for markdown_file in os.listdir(os.path.abspath('scrawled')):
         READ_FILES[markdown_file] = MarkdownReader(markdown_file)
-
-
