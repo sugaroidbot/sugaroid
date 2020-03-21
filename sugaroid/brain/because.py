@@ -111,7 +111,7 @@ class BecauseAdapter(LogicAdapter):
             response = 'Well, I cannot think of saying something. Your conversation began with reason. 🤯'
             emotion = Emotion.angry
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         selected_statement.adapter = None

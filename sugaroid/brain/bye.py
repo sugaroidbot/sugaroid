@@ -62,7 +62,7 @@ class ByeAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.neutral
         confidence = 1
-        selected_statement = SugaroidStatement("Bye")
+        selected_statement = SugaroidStatement("Bye", chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         selected_statement.adapter = None

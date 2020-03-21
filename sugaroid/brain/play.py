@@ -28,6 +28,7 @@ SOFTWARE.
 import time
 from chatterbot.logic import LogicAdapter
 from sugaroid.brain.ooo import Emotion
+from sugaroid.brain.preprocessors import spac_token
 from sugaroid.game.game import games
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -41,7 +42,7 @@ class PlayAdapter(LogicAdapter):
 
     def can_process(self, statement):
         game, askGame = False, False
-        for i in self.chatbot.lp.tokenize(str(statement)):
+        for i in spac_token(statement, chatbot=self.chatbot):
             if i.lower_ in games:
                 game = True
                 self.game = i.lower_
@@ -77,7 +78,7 @@ class PlayAdapter(LogicAdapter):
                 time.sleep(5)
         except KeyError:
             pass
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = maxcos
 
         selected_statement.emotion = Emotion.neutral

@@ -69,7 +69,7 @@ class ReverseAdapter(LogicAdapter):
             self.chatbot.next_type = response_raw[2]
 
         print(self.chatbot.next)
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = cos
         emotion = Emotion.neutral
         selected_statement.emotion = emotion

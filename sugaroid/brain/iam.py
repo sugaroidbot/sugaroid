@@ -228,7 +228,7 @@ class MeAdapter(LogicAdapter):
             confidence = 0.4
             emotion = Emotion.non_expressive_left
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

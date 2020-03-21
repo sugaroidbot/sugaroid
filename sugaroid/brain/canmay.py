@@ -343,7 +343,7 @@ class CanAdapter(LogicAdapter):
         elif confidence >= 1.0:
             confidence /= 1.2
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence + 0.2
         selected_statement.emotion = emotion
         selected_statement.adapter = adapter

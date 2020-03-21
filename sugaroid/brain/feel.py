@@ -31,7 +31,7 @@ from nltk import pos_tag
 from sugaroid.brain.constants import WHO_AM_I, WHO_ARE_YOU, SUGAROID, HOW_DO_YOU_FEEL, HOW_DO_I_FEEL, HOW_DO_HE_FEEL
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
-from sugaroid.brain.preprocessors import normalize
+from sugaroid.brain.preprocessors import normalize, spac_token
 from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.ver import version
 
@@ -56,7 +56,7 @@ class FeelAdapter(LogicAdapter):
         # FIXME Creates unusual response
         nn = False
         it = False
-        token = self.chatbot.lp.tokenize(str(statement))
+        token = spac_token(statement, chatbot=self.chatbot)
         for i in token:
             if (i.tag_ == 'NNP') or (i.tag_ == 'NN'):
                 nn = True
@@ -76,7 +76,7 @@ class FeelAdapter(LogicAdapter):
             emotion = Emotion.blush
             response = random_response(HOW_DO_YOU_FEEL)
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
 

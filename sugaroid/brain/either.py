@@ -81,7 +81,7 @@ class OrAdapter(LogicAdapter):
                 response = "{} 🎃".format(random_response(list(nouns)))
 
             confidence = 0.8
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
 

@@ -52,7 +52,7 @@ class OkayAdapter(LogicAdapter):
         ls = ['😀', '😁', '😂',
               '😏', '😝']
         selected_statement = SugaroidStatement(
-            "ok ok {}".format(random_response(ls)))
+            "ok ok {}".format(random_response(ls)), chatbot=True)
         selected_statement.confidence = confidence
         emotion = Emotion.wink
         selected_statement.emotion = emotion

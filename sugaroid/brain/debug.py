@@ -74,7 +74,7 @@ class DebugAdapter(LogicAdapter):
             else:
                 response = self.commands[self.normalized[1]][0]()
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         selected_statement.adapter = None

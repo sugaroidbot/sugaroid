@@ -34,6 +34,7 @@ from chatterbot.logic import LogicAdapter
 from newsapi import NewsApiClient
 from dotenv import load_dotenv
 from sugaroid.brain.ooo import Emotion
+from sugaroid.brain.preprocessors import spac_token
 
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -150,14 +151,14 @@ class NewsAdapter(LogicAdapter):
         if self.cos > 0.8 or 'news' in processed.lower() or 'headlines' in processed.lower():
             return True
         elif 'show me more' in str(statement).lower() and self.chatbot.last_news:
-            for i in self.chatbot.lp.tokenize(str(statement)):
+            for i in spac_token(statement, self.chatbot):
                 if i.tag_ in ['LS', 'CD']:
                     self.integer = i.lower_
                     return True
             else:
                 return False
         elif self.chatbot.last_news and (last_type == 'NewsAdapter'):
-            for i in self.chatbot.lp.tokenize(str(statement)):
+            for i in spac_token(statement, self.chatbot):
                 if i.tag_ in ['LS', 'CD']:
                     self.integer = i.lower_
                     return True
@@ -171,7 +172,7 @@ class NewsAdapter(LogicAdapter):
         confidence = self.cos
         country = None
         keyword = False
-        normalize = self.chatbot.lp.tokenize(str(statement))  # Override the other answer when asked for
+        normalize = spac_token(statement, self.chatbot)  # Override the other answer when asked for
         if len(normalize) <= 2:
             confidence = confidence + 0.5
         if self.integer and self.chatbot.last_news:
@@ -229,7 +230,7 @@ class NewsAdapter(LogicAdapter):
 
             response = ' '.join([bracketize(x) for x in enumerate(news)])
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         emotion = Emotion.neutral
         selected_statement.adapter = 'NewsAdapter'

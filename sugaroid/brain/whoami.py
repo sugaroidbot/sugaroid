@@ -78,7 +78,7 @@ class WhoAdapter(LogicAdapter):
             response = 'check the wiki'
             confidence = 0
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         emotion = Emotion.neutral
         selected_statement.emotion = emotion

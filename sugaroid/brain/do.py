@@ -91,7 +91,7 @@ class DoAdapter(LogicAdapter):
                 response = WikiAdapter.process(wk, Statement(' '.join(rectified)))
                 return response
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
 
         selected_statement.emotion = emotion

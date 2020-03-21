@@ -75,7 +75,7 @@ class LearnAdapter(LogicAdapter):
             list_trainer = ListTrainer(self.chatbot)
             list_trainer.train(self.chatbot.learn_last_conversation)
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = 9
         selected_statement.adapter = 'LearnAdapter'
         emotion = Emotion.lol

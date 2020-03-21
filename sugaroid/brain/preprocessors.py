@@ -128,6 +128,40 @@ def normalize(text):
     return lemma_list
 
 
+def purify(tokenized, args, lemma=False):
+    """
+    Scans tokenized text
+    removes any common words in args
+    :param tokenized:
+    :param args:
+    :return:
+    """
+    purified = []
+    for token in tokenized:
+        for element in args:
+            if token.lower_ == element:
+                break
+            elif lemma and token.is_stop:
+                break
+        else:
+            purified.append(str(token))
+    return purified
+
+
+def spac_token(statement, chatbot=False):
+    try:
+        if statement.doc:
+            return statement.doc
+        else:
+            if chatbot:
+                return chatbot.lp.nlp(str(statement))
+            return False
+    except AttributeError:
+        if chatbot:
+            return chatbot.lp.nlp(str(statement))
+        return False
+
+
 def tokenize(txt):
     word_token = nltk.word_tokenize(txt.lower())
     return word_token

@@ -70,14 +70,14 @@ class WikiAdapter(LogicAdapter):
             if i.lower() == 'what':
                 count += 1
         if count > 1:
-            selected_statement = SugaroidStatement('Nothing ' * count)
+            selected_statement = SugaroidStatement('Nothing ' * count, chatbot=True)
             selected_statement.confidence = 0.99
             emotion = Emotion.seriously
             selected_statement.emotion = emotion
             return selected_statement
         elif ('Srevin' in self.text) or ('srevin' in self.text):
             response = 'Srevin Saju is the creator of Sugaroid bot'
-            selected_statement = SugaroidStatement(response)
+            selected_statement = SugaroidStatement(response, chatbot=True)
             selected_statement.confidence = 1.0
             selected_statement.emotion = emotion
             return selected_statement
@@ -134,7 +134,7 @@ class WikiAdapter(LogicAdapter):
                     response = 'Well. maybe I do not know'
                     confidence = 0
 
-            selected_statement = SugaroidStatement(str(response))
+            selected_statement = SugaroidStatement(str(response), chatbot=True)
             selected_statement.confidence = confidence
 
         selected_statement.emotion = emotion

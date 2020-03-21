@@ -90,7 +90,7 @@ class ReReverseAdapter(LogicAdapter):
                     if len(self.chatbot.history) > 1:
                         if 'joke' in _(str(self.chatbot.history[-1])):
                             joke = pyjokes.get_joke('en', 'all')
-                            selected_statement = SugaroidStatement(joke)
+                            selected_statement = SugaroidStatement(joke, chatbot=True)
                             selected_statement.emotion = Emotion.lol
                             selected_statement.confidence = 0.95
                             return selected_statement
@@ -179,7 +179,7 @@ class ReReverseAdapter(LogicAdapter):
             response = "ok"
             confidence = 0
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
 
         selected_statement.emotion = emotion

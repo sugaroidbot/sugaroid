@@ -210,7 +210,7 @@ class AkinatorAdapter(LogicAdapter):
                 if self.chatbot.aki.start_check():
                     response = self.chatbot.aki.check_ans(statement)
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

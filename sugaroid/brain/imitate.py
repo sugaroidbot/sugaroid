@@ -32,7 +32,7 @@ from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.constants import IMITATE
 from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize
+from sugaroid.brain.preprocessors import normalize, spac_token
 
 
 class ImitateAdapter(LogicAdapter):
@@ -63,7 +63,7 @@ class ImitateAdapter(LogicAdapter):
         else:
             response = 'Ok!'
             confidence = 0
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

@@ -111,7 +111,7 @@ class EmotionAdapter(LogicAdapter):
                         ' '.join(reversed))
                     emotion = Emotion.dead
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

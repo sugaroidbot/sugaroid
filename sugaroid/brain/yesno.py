@@ -132,7 +132,7 @@ class BoolAdapter(LogicAdapter):
                         emotion = Emotion.angry
 
             confidence = 0.95
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
 
         selected_statement.emotion = emotion

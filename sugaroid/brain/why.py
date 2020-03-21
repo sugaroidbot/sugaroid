@@ -28,7 +28,7 @@ SOFTWARE.
 from chatterbot.logic import LogicAdapter
 from sugaroid.brain.wiki import WikiAdapter
 
-from sugaroid.brain.preprocessors import normalize
+from sugaroid.brain.preprocessors import normalize, spac_token
 
 from sugaroid.brain.postprocessor import random_response
 
@@ -44,9 +44,11 @@ class WhyWhenAdapter(LogicAdapter):
     def __init__(self, chatbot, **kwargs):
         # FIXME Add Language support
         super().__init__(chatbot, **kwargs)
+        self.tokenized = None
+        self.normalized = None
 
     def can_process(self, statement):
-        self.tokenized = self.chatbot.lp.tokenize(str(statement))
+        self.tokenized = spac_token(statement, chatbot=self.chatbot)
         self.normalized = normalize(str(statement))
         for i in self.tokenized:
             if i.tag_ == 'WRB':
@@ -74,7 +76,7 @@ class WhyWhenAdapter(LogicAdapter):
             # say idk
             response = ':)'
             confidence = 0.15
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
 

@@ -50,7 +50,7 @@ class JokeAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         joke = pyjokes.get_joke('en', 'all')
-        selected_statement = SugaroidStatement(joke)
+        selected_statement = SugaroidStatement(joke, chatbot=True)
         selected_statement.confidence = 0.95
 
         emotion = Emotion.lol

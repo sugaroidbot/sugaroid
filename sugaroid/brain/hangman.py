@@ -371,7 +371,7 @@ class HangmanAdapter(LogicAdapter):
             else:
                 response = self.chatbot.hangman_class.process(str(statement))
 
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

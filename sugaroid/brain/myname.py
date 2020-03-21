@@ -30,7 +30,7 @@ from nltk import pos_tag
 from sugaroid.brain.constants import WHO_AM_I, WHO_ARE_YOU, SUGAROID, GREET, BURN_IDK, I_AM
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
-from sugaroid.brain.preprocessors import normalize
+from sugaroid.brain.preprocessors import normalize, spac_token
 from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.ver import version
 
@@ -55,7 +55,7 @@ class MyNameAdapter(LogicAdapter):
         confidence = 1
         # FIXME Creates unusual response
 
-        nl = self.chatbot.lp.tokenize(str(statement))
+        nl = spac_token(statement, chatbot=self.chatbot)
 
         for i in nl:
             if (i.lower_ == 'my') or (i.lemma_ == 'be') or (i.lower_ == 'name'):
@@ -63,7 +63,7 @@ class MyNameAdapter(LogicAdapter):
             logging.info("{} {}".format(i, i.pos_))
             if (i.pos_ == 'NOUN') or (i.pos_ == 'PROPN'):
                 response = random_response(GREET).format(str(i.text).capitalize())
-                selected_statement = SugaroidStatement(response)
+                selected_statement = SugaroidStatement(response, chatbot=True)
                 selected_statement.confidence = confidence
                 emotion = Emotion.positive
                 selected_statement.emotion = emotion
@@ -72,7 +72,7 @@ class MyNameAdapter(LogicAdapter):
         else:
             response = ':)'
             confidence = 0
-            selected_statement = SugaroidStatement(response)
+            selected_statement = SugaroidStatement(response, chatbot=True)
             selected_statement.confidence = confidence
             emotion = Emotion.neutral
             selected_statement.emotion = emotion

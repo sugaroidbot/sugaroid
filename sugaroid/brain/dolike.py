@@ -34,6 +34,7 @@ from sugaroid.brain.constants import BOT_NEUTRAL, BOT_NEUTRAL_NOUN, BOT_POSITIVE
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.ooo import Emotion
+from sugaroid.brain.preprocessors import spac_token
 from sugaroid.sugaroid import SugaroidStatement
 
 SUGAROID_LIKES = {
@@ -89,7 +90,7 @@ class DoLikeAdapter(LogicAdapter):
         emotion = Emotion.neutral
         response = 'ok'
         confidence = 0
-        tokenized = self.chatbot.lp.tokenize(str(statement))
+        tokenized = spac_token(statement, chatbot=self.chatbot)
         if 'you' in self.normalized and 'I' not in self.normalized:
             sia = SentimentIntensityAnalyzer()
             scores = sia.polarity_scores(str(statement))
@@ -138,7 +139,7 @@ class DoLikeAdapter(LogicAdapter):
             else:
                 response = "Hmm, Well I don't know"
 
-        selected_statement = SugaroidStatement(response.format(nn=nn, vb=vb))
+        selected_statement = SugaroidStatement(response.format(nn=nn, vb=vb), chatbot=True)
         selected_statement.confidence = confidence
 
         selected_statement.emotion = emotion

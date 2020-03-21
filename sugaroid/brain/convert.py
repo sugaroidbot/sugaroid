@@ -132,7 +132,7 @@ class CurrencyAdapter(LogicAdapter):
 
         else:
             response = 'Seems like you forgot the important part of your currency conversion statement. The number!'
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

@@ -32,6 +32,7 @@ from nltk import word_tokenize
 from sugaroid.brain.constants import EMOJI_SMILE, FUN_ASK_QUESTION, FUN_LET_ME_TRY
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response, reverse
+from sugaroid.brain.preprocessors import spac_token
 from sugaroid.sugaroid import SugaroidStatement
 
 
@@ -59,7 +60,7 @@ class FunAdapter(LogicAdapter):
             emotion = Emotion.wink
         else:
             interrogation = False
-            token = self.chatbot.lp.tokenize(str(statement))
+            token = spac_token(statement, chatbot=self.chatbot)
             for i in token:
                 # checks if the statement contains any sequence of interrogative type of words
                 if i.tag_ == '.' and i.text == '?':
@@ -82,7 +83,7 @@ class FunAdapter(LogicAdapter):
                 prefix = "{} '".format(prefix)
                 emotion = Emotion.wink
 
-        selected_statement = SugaroidStatement("{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix))
+        selected_statement = SugaroidStatement("{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix), chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

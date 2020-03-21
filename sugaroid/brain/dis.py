@@ -31,7 +31,7 @@ from pyinflect import getInflection
 from sugaroid.brain.postprocessor import any_in, random_response
 from sugaroid.brain.constants import BYE, DIS_RESPONSES_YOU, CONSOLATION, DIS_RESPONSES_I, DIS_RESPONSES_HIM
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize
+from sugaroid.brain.preprocessors import normalize, spac_token
 from sugaroid.sugaroid import SugaroidStatement
 
 
@@ -92,7 +92,7 @@ class DisAdapter(LogicAdapter):
         else:
             nn = None
             pn = None
-            tokenized = self.chatbot.lp.tokenize(str(statement))
+            tokenized = spac_token(statement, chatbot=self.chatbot)
             for i in tokenized:
                 if (i.pos_ == "NOUN") or (i.pos_ == 'PROPN'):
                     nn = i.text
@@ -104,7 +104,7 @@ class DisAdapter(LogicAdapter):
             else:
                 response = random_response(DIS_RESPONSES_HIM).format(nn or pn)
                 emotion = Emotion.cry_overflow
-        selected_statement = SugaroidStatement(response)
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         selected_statement.adapter = None

@@ -55,7 +55,7 @@ class TriviaAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        selected_statement = SugaroidStatement('Ok!')
+        selected_statement = SugaroidStatement('Ok!', chatbot=True)
         selected_statement.confidence = 0
         selected_statement.emotion = Emotion.neutral
         return selected_statement
