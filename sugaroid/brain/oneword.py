@@ -73,7 +73,6 @@ class OneWordAdapter(LogicAdapter):
         elif 'name' in short:
             response = "What name? You should probably use better english"
 
-
         elif ('help404' in short) or ('help' in short and '404' in short):
             import sugaroid
             import chatterbot

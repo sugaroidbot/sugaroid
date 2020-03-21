@@ -82,11 +82,25 @@ async def on_message(message):
                 return
 
         response = sg.parse(msg)
-        if len(str(response)) >= 1999:
-            response1 = str(response)[:1999] + '...'
+        lim = 1995
+        if len(str(response)) >= lim:
+            response1 = str(response)[:lim] + '...'
             await message.channel.send(response1)
-            if len(str(response)) >= 4000:
-                response2 = str(response)[1999:] + '...'
+
+            if len(str(response)) >= (2 * lim):
+                response2 = str(response)[lim:2*lim] + '...'
+                await message.channel.send(response2)
+                
+                if len(str(response)) >= (3*lim):
+                    response2 = str(response)[2*lim:3*lim] + '...'
+                    await message.channel.send(response2)
+                    response2 = str(response)[3 * lim:4 * lim]
+                    await message.channel.send(response2)
+                else:
+                    response2 = str(response)[2 * lim:3 * lim]
+                    await message.channel.send(response2)
+            else:
+                response2 = str(response)[lim:2 * lim]
                 await message.channel.send(response2)
         else:
             await message.channel.send(response)

@@ -66,7 +66,7 @@ class CurrencyAdapter(LogicAdapter):
         )
         self.currencies_dest = []
         self.currencies_src = None
-        if len(self.tokenized) <= 3:
+        if len(self.tokenized) >= 3:
             for i in range(len(self.tokenized) - 1):
                 if self.tokenized[i].tag_ == 'TO':
                     dst = str(self.tokenized[i + 1].text).upper()
