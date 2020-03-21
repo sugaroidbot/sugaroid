@@ -321,6 +321,7 @@ class Sugaroid:
             'sugaroid.brain.wiki.WikiAdapter',
             'sugaroid.brain.dolike.DoLikeAdapter',
             'sugaroid.brain.feel.FeelAdapter',
+            'sugaroid.brain.dolike.DoLikeAdapter',
             'sugaroid.brain.do.DoAdapter',
             'sugaroid.brain.emotion.EmotionAdapter',
             'sugaroid.brain.dis.DisAdapter',

@@ -1,7 +1,7 @@
 """
 MIT License
 
-Sugaroid Artificial Intelligence
+Sugaroid Artificial Inteligence
 Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
