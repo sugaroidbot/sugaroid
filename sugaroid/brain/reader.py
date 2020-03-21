@@ -24,11 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
+import logging
 
 from sugaroid.reader.scrawled import SCRAWLED
 from chatterbot.logic import LogicAdapter
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize
+from sugaroid.brain.preprocessors import normalize, spac_token, purify
 from sugaroid.sugaroid import SugaroidStatement
 
 
@@ -54,9 +55,10 @@ class ReaderAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.seriously
         confidence = 0.60
+        closest_cos = 0
         response = "I couldn't find a similar heading in scrawled data"
         cleaned_text = []
-        for i in self.chatbot.lp.tokenize(str(statement)):
+        for i in spac_token(statement, chatbot=self.chatbot):
             if i.is_stop:
                 pass
             elif i.lower_ == 'reader':
@@ -68,11 +70,28 @@ class ReaderAdapter(LogicAdapter):
         for file in SCRAWLED:
             headings, content = SCRAWLED[file]
             for heading in headings:
-                if similarity(str(statement).lower(), str(heading).lower()) > 0.9:
-                    response = ' '.join(content)
-                    break
+                input_statement = ' '.join(purify(
+                    self.chatbot.lp.tokenize(str(statement).lower()),
+                    ['how', 'to', 'sugar'],
+                    lemma=True
+                ))
+                heading_processed = ' '.join(purify(
+                    self.chatbot.lp.tokenize(str(heading).lower()),
+                    ['how', 'to', 'sugar'],
+                    lemma=True
+                ))
 
-        selected_statement = SugaroidStatement(response)
+                sim = similarity(input_statement, heading_processed)
+                logging.info('ReaderAdapter: scanned {} against {}. cosine index of {}'
+                             .format(input_statement, heading_processed, sim))
+
+                if sim >= 0.9:
+                    if sim > closest_cos:
+                        response = ' '.join(content)
+                        closest_cos = sim
+                        break
+
+        selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         selected_statement.adapter = None
