@@ -12,3 +12,5 @@ setup.py-sugaroid-gui
 resetter
 sugaroid/web/websugaroid/.github/
 wrappers/discord/.github/
+sugaroid/web/flask
+sugaroid/web/flask/*
