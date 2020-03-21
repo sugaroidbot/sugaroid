@@ -17,3 +17,6 @@ sugaroid/web/flask/*
 scrawled/*
 Untitled.*
 untitled.*
+sugaroid/reader/scrawled/
+Dockerfile
+docker-compose.yml
