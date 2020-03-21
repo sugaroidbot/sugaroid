@@ -1,44 +1,100 @@
 # bot.py
+import importlib
 import os
 import random
+import shlex
+import shutil
+import subprocess
 from datetime import datetime
-
-import sugaroid
+import sugaroid as sug
+from sugaroid import sugaroid, ver
 import discord
 from dotenv import load_dotenv
-from sugaroid.ver import version
-from sugaroid.sugaroid import Sugaroid
+
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
-sg = Sugaroid()
+sg = sugaroid.Sugaroid()
 client = discord.Client()
 
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
-    os.chdir(os.path.dirname(sugaroid.__file__))
+    os.chdir(os.path.dirname(sug.__file__))
     await client.change_presence(activity=discord.Game(name='v{} since {:02d}:{:02d} UTC'
-                                 .format(version().get_commit(), datetime.utcnow().hour, datetime.utcnow().minute)))
+                                 .format(ver.version().get_commit(), datetime.utcnow().hour,
+                                         datetime.utcnow().minute)))
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
+        print(f'my id is {message.author}')
         return
 
     if message.content.startswith('<@684746563540484099>') or message.content.startswith('<@!684746563540484099>') or \
             message.content.startswith('!S'):
+
         msg = message.content\
             .replace('<@684746563540484099>', '')\
             .replace('<@!684746563540484099>', '')\
             .replace('!S', '')\
             .strip()
+        if 'update' in message.content:
+            if str(message.author) == 'srevinsaju#8324':
+                await message.channel.send(f"Starting Python pip upgrade. Updating sugaroid from "
+                                           f"https://github.com/srevinsaju/sugaroid/archive/master.zip")
+                pop = subprocess.Popen(
+                    shlex.split('{pip} install -U https://github.com/srevinsaju/sugaroid/archive/master.zip'
+                                .format(pip=shutil.which('pip'))),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE
+                )
+                pop.communicate()
+                try:
+                    stdout = pop.stdout.read().decode()
+                except ValueError:
+                    stdout = None
+                try:
+                    stderr = pop.stderr.read().decode()
+                except ValueError:
+                    stderr = None
+
+                await message.channel.send(f"pip3 install gives traceback stdout={stdout} "
+                                           f"stderr={stderr}")
+                os.chdir('/')
+                importlib.reload(sug)
+                importlib.reload(sugaroid)
+                importlib.reload(ver)
+
+                await message.channel.send("Sugaroid reloaded")
+
+                os.chdir(os.path.dirname(sug.__file__))
+
+                await client.change_presence(activity=discord.Game(name='v{} since {:02d}:{:02d} UTC'
+                                                                   .format(ver.version().get_commit(),
+                                                                           datetime.utcnow().hour,
+                                                                           datetime.utcnow().minute)))
+                await message.channel.send("version refreshed")
+                return
+            else:
+                await message.channel.send(f"I am sorry @{message.author}. I would not be able to update myself.\n"
+                                           f"Seems like you do not have sufficient permissions")
+                return
+
         response = sg.parse(msg)
-        if len(str(response)) > 1999:
-            response = str(response)[:1999]
-        await message.channel.send(response)
+        if len(str(response)) >= 1999:
+            response1 = str(response)[:1999] + '...'
+            await message.channel.send(response1)
+            if len(str(response)) >= 4000:
+                response2 = str(response)[1999:] + '...'
+                await message.channel.send(response2)
+        else:
+            await message.channel.send(response)
+        return
+
     else:
         print(message.content)
+        return
 
 @client.event
 async def on_member_join(member):

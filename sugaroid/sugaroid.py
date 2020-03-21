@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
+import importlib
 import shutil
 from emoji import emojize
 from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
@@ -100,6 +101,7 @@ class SugaroidBot(ChatBot):
         self.fun = True
         self.lp = LanguageProcessor()
         self.reverse = False
+        self.update = False
         self.last_news = None
         self.next = None
         self.akinator = False
