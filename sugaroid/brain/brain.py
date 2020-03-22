@@ -64,9 +64,10 @@ class Neuron:
             for i in ARITHMETIC:
                 if i in var:
                     response = self.alu(self.normalize(var))
-                    if response:
+                    if str(response).strip() == '-':
+                        pass
+                    elif response:
                         break
-                    
             else:
                 if self.bot.spell_checker:
                     wt = var.split(' ')
