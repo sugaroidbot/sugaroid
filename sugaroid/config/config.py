@@ -77,6 +77,9 @@ class ConfigManager:
         if not os.path.exists(self.cfgpath):
             os.mkdir(self.cfgpath)
         if not os.path.exists(os.path.join(self.cfgpath, self.jsonfile)):
+            import nltk
+            for lexicon in ['stopwords', 'wordnet', 'vader_lexicon', 'punkt']:
+                nltk.download(lexicon)
             self.write_file()
         self.read_file()
 

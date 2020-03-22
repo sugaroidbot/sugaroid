@@ -97,6 +97,8 @@ class SugaroidBot(ChatBot):
         self.history = [0]
         self.adapters = []
         self.user_history = [0]
+        self.discord = False
+        self.authors = []
         self.history_types = [0]
         self.fun = True
         self.lp = LanguageProcessor()
@@ -106,6 +108,7 @@ class SugaroidBot(ChatBot):
         self.next = None
         self.akinator = False
         self.aki = None
+        self.interrupt = 0
         self.hangman = False
         self.hangman_class = None
         self.next_type = None
@@ -115,6 +118,9 @@ class SugaroidBot(ChatBot):
         self.learn_last_conversation = []
         self.spell_checker = False  # FIXME
         self.debug = {}
+
+    def toggle_discord(self):
+        self.discord = not self.discord
 
     def set_emotion(self, emotion):
         """
@@ -129,12 +135,14 @@ class SugaroidBot(ChatBot):
         self.emotion = Emotion.neutral
         self.history = [0]
         self.user_history = [0]
+        self.authors = []
         self.history_types = [0]
         self.fun = True
         self.lp = LanguageProcessor()
         self.reverse = False
         self.last_news = None
         self.next = None
+        self.interrupt = 0
         self.akinator = False
         self.aki = None
         self.hangman = False
@@ -179,7 +187,10 @@ class SugaroidBot(ChatBot):
         result = None
         max_confidence = -1
         final_adapter = None
+        interrupt = False
         for adapter in self.logic_adapters:
+            if adapter.class_name == 'InterruptAdapter':
+                interrupt = adapter
             if adapter.can_process(input_statement):
 
                 output = adapter.process(
@@ -201,6 +212,23 @@ class SugaroidBot(ChatBot):
                     'Not processing the statement using {}'.format(
                         adapter.class_name)
                 )
+        if max_confidence < 0.5:
+            if self.discord:
+                if interrupt and interrupt.can_process(input_statement):
+                    try:
+                        username=self.authors[-1]
+                    except IndexError:
+                        username = None
+                    output = interrupt.process(input_statement, username=username)
+                    self.logger.info(
+                        '{} selected "{}" as a response with a confidence of {}'.format(
+                            interrupt.class_name, output.text, output.confidence
+                        )
+                    )
+
+                    result = output
+                    final_adapter = interrupt.class_name
+                    max_confidence = output.confidence
 
         self.gen_debug(statement=input_statement, adapter=final_adapter, confidence=max_confidence, results=result)
 
@@ -382,7 +410,6 @@ class Sugaroid:
         self.cfgpath = self.cfgmgr.get_cfgpath()
         self.database_exists = os.path.exists(
             os.path.join(self.cfgpath, 'sugaroid.db'))
-        nltk.download('vader_lexicon')
 
         self.adapters = [
             'sugaroid.brain.yesno.BoolAdapter',
@@ -421,6 +448,7 @@ class Sugaroid:
             'sugaroid.brain.imitate.ImitateAdapter',
             'sugaroid.brain.fun.FunAdapter',
             'chatterbot.logic.UnitConversion',
+            'sugaroid.brain.interrupt.InterruptAdapter',
         ]
 
         if self.audio:
@@ -478,6 +506,15 @@ class Sugaroid:
 
     def list_train(self, li):
         self.trainer.train(li)
+
+    def interrupt_ds(self):
+        self.chatbot.interrupt = 2
+
+    def toggle_discord(self):
+        self.chatbot.discord = not self.chatbot.discord
+
+    def append_author(self, author):
+        self.chatbot.authors.append(author)
 
     def read(self):
         """

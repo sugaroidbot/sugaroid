@@ -6,6 +6,9 @@ import shlex
 import shutil
 import subprocess
 from datetime import datetime
+
+from nltk import word_tokenize
+
 import sugaroid as sug
 from sugaroid import sugaroid, ver
 import discord
@@ -15,6 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 sg = sugaroid.Sugaroid()
+sg.toggle_discord()
 client = discord.Client()
 
 @client.event
@@ -107,7 +111,21 @@ async def on_message(message):
         return
 
     else:
-        print(message.content)
+        token = word_tokenize(message.content)
+        for i in range(len(token)):
+            if str(token[i]).startswith('@'):
+                token.pop(i)
+        if len(token) <= 5:
+
+            messages = ' '.join(token)
+            author = message.author.mention
+            sg.append_author(author)
+            sg.interrupt_ds()
+            response = sg.parse(message.content)
+
+
+            print(response, 's'*5)
+            await message.channel.send(response)
         return
 
 @client.event

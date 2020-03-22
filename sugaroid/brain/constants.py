@@ -56,6 +56,13 @@ GRATIFY = [
     "Thank you for being my angel.",
 ]
 
+THANK = [
+    "Thank you for teaching me this novel thing",
+    "I feel great. Thanks for making me understand this",
+    "Sugaroid will always be greatful to you. Thanks a lot",
+    "I'm indeed happy. Thanks for that wonderful piece of information",
+]
+
 CONSOLATION = [
     "Your limitation—it’s only your imagination.",
     "Push yourself, because no one else is going to do it for you.",
@@ -154,6 +161,21 @@ GREET = [
     "Hola amigo {}. How can I help",
     "Hello {}. It was really a pleasant surprise meeting you",
     "Hey {}! How do you do?"
+]
+
+ASK_AND_YOU_SHALL_RECEIVE = [
+    'Will you be kind enough to',
+    'May you please',
+    'If you are not busy at the moment, will you be helpful to me to',
+    'Sorry if I am interrupting you, but could you please'
+]
+
+SEEK_AND_YOU_SHALL_FIND = [
+    'explain me',
+    'teach me',
+    'tell me',
+    'make me understand',
+    'help me out in understanding'
 ]
 
 SATISFIED = [

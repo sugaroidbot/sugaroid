@@ -1,19 +1,26 @@
 <img src=sugaroid/gui/ui/sugaroid.png width=25%>
 
-
 # Sugaroid
 
 ## Introduction
 
-Sugaroid is a new Artificial Intelligence which uses Natural Language Processing (NLP) with Machine Learning and neural networks to manipulate user input to provide a intuitive response. The AI is built on Python 3.8 and was built out of personal interest, to tackle three important issues in the Python framework
+Sugaroid is a new Artificial Intelligence which uses Natural Language Processing (NLP) with Machine Learning and neural networks to manipulate user input to provide a intuitive response. The AI is built on `Python 3.8.2` and was built out of personal interest, to tackle three important issues in the Python framework
 
 * Natural Language Processing / Machine Learning
 * Graphical User Interface
 * Database Management, Configuration file management and Web Development
 
-Sugaroid Chatbot has a comprehensive and modular interface utilizing Object Oriented Programming to benefit activities of [Sugarlabs](www.sugarlabs.org), a non-profit educational organization. The bot aims to understand the comprehensive [documentation](https://en.wikipedia.org/wiki/Documentation) to provide intuitive answers to a user who, may not want to read the entire documentation, or to get a very specific answer
+Sugaroid Chatbot has a comprehensive and modular interface utilizing Object Oriented Programming to benefit activities of [Sugarlabs](www.sugarlabs.org), a non-profit educational organization. Initially built to serve as a companion bot, the Sugaroid Virtual Assistant helps to comprehend most of the messages, to generate a probable response. The future plans of sugaroid aims to extend Sugaroid as a documentation reader of which beta previews are `still under testing`. 
+
+The Sugaroid bot is deployed in production servers particularly for testing. 
+
+* [The web interface](https://sed.lol/sugaroid)
+* The discord bot
+* IRC bot hosted on self when necessary
 
 ## Installation
+
+### Installing from PYPI
 
 The Sugaroid Chatbot is built on [wheels](https://pythonwheels.com/) and is also published on the [Python Packaging Index (PYPI)](pypi.org). This was done, so as to provide easy access to the bot without the end-user undergoing a lot of hassle
 
@@ -21,7 +28,7 @@ The Sugaroid Chatbot is built on [wheels](https://pythonwheels.com/) and is also
 pip3 install sugaroid
 ```
 
-> NOTE: Users have reported cases when installation was
+> `NOTE`: Users have reported cases when installation was unsuccessful especially if the native operating system  is Windows. The testing on the `Windows` and related operating systems like `ReactOS` is only under progress. If you would like to contribute to windows testing, let me know as an issue on the repository or a mail
 
 ### Installation from Source
 
@@ -60,7 +67,15 @@ There are few arguments that can be passed to sugaroid
 * `train`: Running `sugaroid train` will start the sugaroid trainer, which you can use to train sugaroid for some responses 
 * `update` : Running `sugaroid update` will clear the current database and train the new data and store it persistently to the configuration path as `sugaroid.db` . (See [Configuration](#Configuraton) for more details)
 
+To launch the sugaroid web server on any IP address, do a local clone of the package by
 
+```bash
+git clone https://github.com/srevinsaju/sugaroid-wsgi --depth=1
+cd sugaroid-wsgi
+python manage.py runserver
+```
+
+Follow the on-screen instructions to get it running on your web browser. If the command completed with a status `OK`, you should be able to see sugaroid running on https://0.0.0.0:8000
 
 ## Interfaces
 
@@ -74,11 +89,11 @@ sugaroid.sugaroid.verbosity = logging.INFO
 
 The `INFO` can be replaced to match any of the following `WARNING`, `ERROR` , `INFO`
 
-![image-20200227190619754](/home/ss/repo/sugaroid/docs/img/image-20200227190619754.png)
+![sugaroid console](docs/img/sugaroid_console.png)
 
 ### Graphical User Interface (Local)
 
-![image-20200227190829956](/home/ss/repo/sugaroid/docs/img/image-20200227190829956.png)
+![](/home/ss/repo/sugaroid/docs/img/sugaroid_qt.gif)
 
 The modular capacity of Sugaroid makes it easy to implement a GUI without rewriting the code. This is highly efficient because it reuses objects and reduces the size of the end distribution. The GUI for sugaroid is built on `LGPL` based open source GUI framework, viz. `PyQt5`. The implemented `PyQt5` framework in `Sugaroid` looks similar to the following image. (Image may vary with updates)
 
@@ -86,7 +101,7 @@ The modular capacity of Sugaroid makes it easy to implement a GUI without rewrit
 
 In order to provide a server side chatbot server, the sugaroid AI was configured to be used to Django. This used open source bootstrap templates to create a chatbot appearance that was pretty neat and effective way to host it on a Django server (if one exists)
 
-![image-20200228215804751](/home/ss/repo/sugaroid/docs/img/image-20200228215804751.png)
+![sugaroid_django](docs/img/sugaroid_django.gif)
 
 The current work left on the Django system is to enable cookies to store the data on the client side temporarily and not on the server side. The current Django implementation is based on server-side, which implies the chat history is saved on the server
 
@@ -188,7 +203,58 @@ The Sugaroid bot has been designed to provide an acceptable answer and the autho
 
 This is because, a lot of unnecessary objects have been created in the memory. This should be removed before the release of `sugaroid` version 1.0
 
+### Update v 0.7
+
+The unnecessary `spaCy` tokenizers were forced to be implemented into a single function called `sugaroid.sugaroid.SugaroidStatement`  which calculates the `spacy.nlp.Doc` on each object initialization. All the rest of the statement tokenizers were replaced by the base class usage. This prevents the recalculation of the similarity and tokens for each adapter. However, the number of adapters have increased considerably. The net memory decrease cannot be plotted, nevertheless. On the addition of each Adapter, the average RAM increases logarithmically as far as 1% of the total RAM used. This increases exponentially until the bases state where the coverage of sugaroid has been achieved to be above 75% and all the adapters have been significantly used to process at least 1 statement.
+
 ## CPU Usage
 
-The Sugaroid bot does not have significant CPU usage. Tested on Windows 10 running with 1.8 GHz with other applications running did not affect system stability. 
+The Sugaroid bot does not have significant CPU usage. Tested on Linux Manjaro running with 1.8 GHz with other applications running did not affect system stability. 
 
+## Adapters
+
+The brain of sugaroid relies in the modules it uses. Sugaroid uses many modules to process statements called `Adapters` to process statements. Each statement is checked against two functions `LogicAdapter.can_process()` and `LogicAdapter.process()`.  `LogicAdapter.can_process()` gives a boolean response if the statement can or cannot be processed. If the statement can be processed, `LogicAdapter.process()` is called. 
+
+As of Sugaroid `v0.7`, it has:
+
+* BoolAdapter: Processes Boolean based answers
+* AkinatorAdapter: Adapter which ports the wrapper of the Akinator game to Sugaroid
+* HangmanAdapter: Plays hangman with you 
+* OrAdapter: Selects a random operand of the provided statement 
+* OkayAdapter: Handles statements with a plain old okay 
+* ByeAdapter: Destroys Sugaroid on bye 
+* TimeAdapter: Provides time and time related functions except time conversion 
+* CurrencyAdapter: Gives a random response, because Sugaroid tries not to say I don't know 
+* LearnAdapter: a specific adapter for learning responses 
+* TriviaAdapter: Plays a short game of trivia 
+* WhoAdapter: Handles statements with 'who' as one of the tokens 
+* NewsAdapter: Ports the SugaroidNews Wrapper for easier access by the SugaroidChatbot Class 
+* JokeAdapter: Gets a random joke from the Chuck Norris Database 
+* PlayAdapter: [DEPRECATED] Plays a game on desktops only 
+* CanAdapter: Processes statements which features a Modal question (can, may) 
+* BecauseAdapter: Processes statements which starts with Because or gives a reason 
+* ReReverseAdapter: Processes statements featuring conversational flow. It scans the previous statements 
+     and takes a cosine similarity of the statemnts, and TFiD Vector cross product to get 
+     the most probable answer 
+* ReverseAdapter: A random adapter. Top Secret 
+* MyNameAdapter: Handles sentences featuring 'my' and 'name' 
+* MeAdapter: Processes the statements showing possessive 
+* AboutAdapter: Defines the personality of sugaroid 
+* WikiAdapter: Handles Wikipedia based questions 
+   DoLikeAdapter: Handles likes of Sugaroid 
+   FeelAdapter: Handles sentences containing the word feel 
+   DoLikeAdapter: Handles likes of Sugaroid 
+   DoAdapter: Processes statements beginning with 'Do' and 'know' 
+   EmotionAdapter: Handles positive and negative emotional statements 
+   DisAdapter: A complex algorithm sorting the words beginning with negative based on the probability. 
+     and achieving a similar confidence ratio of the word percentage. 
+     The DisAdapter keeps the confidence below 0.5 so that the BestAdapter may find some 
+     other answer similar to 
+   TwoWordAdapter: Hanfles sentences having two wrods 
+   OneWordAdapter: Logical adapter for processing data with one words 
+   DebugAdapter: Internal Admin feature to debug Sugaroid statements 
+   WhyWhenAdapter: Processes wh-adverbs 
+   ReaderAdapter: Logical adapter for processing data with one words 
+   ImitateAdapter: Handles statements involving imitations of some sentences 
+   FunAdapter: Gives a random response, because Sugaroid tries not to say I don't know 
+   UnitConversion: The UnitConversion logic adapter parse inputs to convert values
