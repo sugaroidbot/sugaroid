@@ -54,7 +54,7 @@ class ReaderAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.seriously
-        confidence = 0.60
+        confidence = 0
         closest_cos = 0
         response = "I couldn't find a similar heading in scrawled data"
         cleaned_text = []
@@ -82,17 +82,21 @@ class ReaderAdapter(LogicAdapter):
                 ))
 
                 sim = similarity(input_statement, heading_processed)
-                logging.info('ReaderAdapter: scanned {} against {}. cosine index of {}'
-                             .format(input_statement, heading_processed, sim))
+                if sim > 0.9:
+                    suffix = "⬆"
+                else:
+                    suffix = ""
+                logging.info('ReaderAdapter: scanned {} against {}. cosine index of {}{}'
+                             .format(input_statement, heading_processed, sim, suffix))
 
-                if sim >= 0.9:
-                    if sim > closest_cos:
-                        response = ' '.join(content)
-                        closest_cos = sim
-                        break
+                
+                if sim > confidence:
+                    response = 'The closest match I could find is this:\n' + '\n'.join(content)
+                    confidence = sim
+                    break
 
         selected_statement = SugaroidStatement(response, chatbot=True)
-        selected_statement.confidence = confidence
+        selected_statement.confidence = 8 + confidence
         selected_statement.emotion = emotion
         selected_statement.adapter = None
         return selected_statement
