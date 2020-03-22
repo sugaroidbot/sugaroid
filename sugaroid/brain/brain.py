@@ -64,7 +64,9 @@ class Neuron:
             for i in ARITHMETIC:
                 if i in var:
                     response = self.alu(self.normalize(var))
-                    break
+                    if response:
+                        break
+                    
             else:
                 if self.bot.spell_checker:
                     wt = var.split(' ')
@@ -94,8 +96,11 @@ class Neuron:
         return 'The current time is {}'.format(strftime("%a, %d %b %Y %H:%M:%S", localtime()))
 
     def gen_arithmetic(self, parsed):
-        me = MathematicalEvaluation(self.bot)
-        return me.process(Statement(parsed))
+        try:
+            me = MathematicalEvaluation(self.bot)
+            return me.process(Statement(parsed))
+        except Exception as e:
+            return False
 
     @staticmethod
     def normalize(text):

@@ -65,10 +65,22 @@ class ReaderAdapter(LogicAdapter):
                 pass
             else:
                 cleaned_text.append(str(i.lower_))
-
+        md = False
         similarity = self.chatbot.lp.similarity
         for file in SCRAWLED:
             headings, content = SCRAWLED[file]
+            for k in cleaned_text:
+                
+                if '.md' in k:
+                    response = 'The markdown file {} is not scrawled'.format(k)
+                    if k in SCRAWLED.keys():
+                        md = k
+                if md:
+                    response = '\n'.join(SCRAWLED[k][1])
+                    break
+            if md:
+                break
+            
             for heading in headings:
                 input_statement = ' '.join(purify(
                     self.chatbot.lp.tokenize(str(statement).lower()),
