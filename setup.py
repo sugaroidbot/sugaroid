@@ -89,8 +89,8 @@ setup(
                   '.': [".git/info/*"]
                   },
     include_package_data=True,
-    install_requires=['chatterbot', 'GitPython' , 'googletrans', 'google', 'Django', 'pyjokes',
-                      'scikit-learn', 'nltk', 'lxml', 'chatterbot-corpus', 'pyinflect'] + REQUIREMENTS,
+    install_requires=['GitPython' , 'googletrans', 'google', 'Django', 'pyjokes',
+                      'scikit-learn', 'nltk', 'lxml', 'pyinflect'] + REQUIREMENTS,
     dependency_links=DEPENDENCIES,
     entry_points={
         'console_scripts': [
