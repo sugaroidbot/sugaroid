@@ -25,16 +25,12 @@ SOFTWARE.
 
 """
 import logging
-
 from chatterbot.logic import LogicAdapter
 from chatterbot.trainers import ListTrainer
-from nltk import word_tokenize
 from sugaroid.brain.postprocessor import random_response, any_in
-
 from sugaroid.brain.constants import ASK_AND_YOU_SHALL_RECEIVE, SEEK_AND_YOU_SHALL_FIND, THANK
 from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize
 
 
 class InterruptAdapter(LogicAdapter):
@@ -47,6 +43,7 @@ class InterruptAdapter(LogicAdapter):
 
     def can_process(self, statement):
         if self.chatbot.interrupt:
+            logging.info("InterruptAdapter: Found Discord")
             self.tokenized = self.chatbot.lp.nlp(str(statement))
             if 6 > len(self.tokenized) > 2:
                 for i in self.tokenized:
