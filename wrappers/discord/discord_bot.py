@@ -116,12 +116,11 @@ async def on_message(message):
             if str(token[i]).startswith('@'):
                 token.pop(i)
         if len(token) <= 5:
-
             messages = ' '.join(token)
             author = message.author.mention
             sg.append_author(author)
             sg.interrupt_ds()
-            response = sg.parse(message.content)
+            response = sg.parse(messages)
             print(response, 's'*5)
             await message.channel.send(response)
         return
