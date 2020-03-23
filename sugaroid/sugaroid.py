@@ -536,6 +536,9 @@ class Sugaroid:
     def interrupt_ds(self):
         self.chatbot.interrupt = 2
 
+    def disable_interrupt_ds(self):
+        self.chatbot.interrupt = 0
+
     def toggle_discord(self):
         self.chatbot.discord = not self.chatbot.discord
 

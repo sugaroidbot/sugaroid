@@ -42,7 +42,7 @@ class InterruptAdapter(LogicAdapter):
         self.nn = False
 
     def can_process(self, statement):
-        if self.chatbot.interrupt:
+        if self.chatbot.interrupt == 2:
             logging.info("InterruptAdapter: Found Discord")
             self.tokenized = self.chatbot.lp.nlp(str(statement))
             if 6 > len(self.tokenized) > 2:
@@ -54,6 +54,8 @@ class InterruptAdapter(LogicAdapter):
             else:
                 self.chatbot.interrupt = False
                 return False
+        elif self.chatbot.interrupt == 1:
+            return True
         else:
             return False
 

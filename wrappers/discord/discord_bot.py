@@ -20,6 +20,8 @@ token = os.getenv('DISCORD_TOKEN')
 sg = sugaroid.Sugaroid()
 sg.toggle_discord()
 client = discord.Client()
+interrupt_local = True
+
 
 @client.event
 async def on_ready():
@@ -29,12 +31,13 @@ async def on_ready():
                                  .format(ver.version().get_commit(), datetime.utcnow().hour,
                                          datetime.utcnow().minute)))
 
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
         print(f'my id is {message.author}')
         return
-
+    global interrupt_local
     if message.content.startswith('<@684746563540484099>') or message.content.startswith('<@!684746563540484099>') or \
             message.content.startswith('!S'):
 
@@ -80,6 +83,10 @@ async def on_message(message):
                                                                            datetime.utcnow().minute)))
                 await message.channel.send("version refreshed")
                 return
+            elif 'stop' in message.content and 'learn' in message.content:
+                global interrupt_local
+                interrupt_local = False
+                await message.channel.send("InterruptAdapter terminated")
             else:
                 await message.channel.send(f"I am sorry @{message.author}. I would not be able to update myself.\n"
                                            f"Seems like you do not have sufficient permissions")
@@ -110,7 +117,7 @@ async def on_message(message):
             await message.channel.send(response)
         return
 
-    else:
+    elif interrupt_local:
         token = word_tokenize(message.content)
         for i in range(len(token)):
             if str(token[i]).startswith('@'):
