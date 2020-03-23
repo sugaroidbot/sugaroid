@@ -1,6 +1,9 @@
 <img src=sugaroid/gui/ui/sugaroid.png width=25%>
 
 # Sugaroid
+[![Become a Patron](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/srevinsaju?fan_landing=true)
+
+> **IMPORTANT** : Sugaroid is an open source software. The web server is deployed on Heroku on a free tier. So far, the heroku server has a RAM of 512 MB which is not enough for both web preview and chatbot deploy. Your support for this open source software is highly necessary to make this project continued to be served on the world wide web. Consider being my patron to help Sugaroid host its servers or if you are willing to lend servers for Sugaroid, press the sponsor button and email me. Thanks. However, Sugaroid will always remain free forever :smile:
 
 ## Introduction
 
