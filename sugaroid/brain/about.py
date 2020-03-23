@@ -138,8 +138,8 @@ class AboutAdapter(LogicAdapter):
                     response = 'I am not a sport lover, I don\'t have a favorite athelete'
                     emotion = Emotion.neutral
                 elif ('friend' in self.normalized) or ('bestie' in self.normalized):
-                    if self.chatbot.username:
-                        name = self.chatbot.username
+                    if self.chatbot.globals['USERNAME']:
+                        name = self.chatbot.globals['USERNAME']
                     else:
                         name = ''
                     response = "No doubts, its you {n}".format(

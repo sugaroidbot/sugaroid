@@ -59,7 +59,7 @@ class TriviaAdapter(LogicAdapter):
         response = st.ask()
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = self.cos
-        self.chatbot.trivia_answer = st.answer()
+        self.chatbot.globals['trivia_answer'] = st.answer()
         emotion = Emotion.neutral
         selected_statement.emotion = emotion
         return selected_statement

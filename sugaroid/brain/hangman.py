@@ -261,6 +261,10 @@ HANGMAN_LOS = [
 ]
 
 HANGMAN_EMOJI = [
+    ':yellow_heart:',
+    ':blue_heart:',
+    ':green_heart:',
+    ':yellow_heart:',
     ':blue_heart:',
     ':green_heart:',
     ':yellow_heart:'
@@ -276,8 +280,8 @@ class Hangman:
         self.word = random_response(HANGMAN_WORDS)
         self.dashes = self.gen_dash()
         self.chatbot = chatbot
-        self.chatbot.hangman = True
-        self.life = 3
+        self.chatbot.globals['hangman']['enabled'] = True
+        self.life = 7
 
     def get_remaining_life(self):
         return self.life
@@ -331,7 +335,7 @@ class Hangman:
         Congratulation message as response at the end of the game
         :return:
         """
-        self.chatbot.hangman = False
+        self.chatbot.globals['hangman']['enabled'] = False
         results = self.get_results()
         if results:
             response = random_response(HANGMAN_WIN)
@@ -352,24 +356,24 @@ class HangmanAdapter(LogicAdapter):
         if ('hangman' in self.normalized) and ('not' not in self.normalized):
             return True
         else:
-            return self.chatbot.hangman
+            return self.chatbot.globals['hangman']['enabled']
 
     def process(self, statement, additional_response_selection_parameters=None):
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
         if 'stop' in self.normalized:
-            self.chatbot.hangman = False
+            self.chatbot.globals['hangman']['enabled'] = False
             response = 'I am sorry. You quit the game abrubtly. {}'.format(random_response(HOPE_GAME_WAS_GOOD))
         else:
-            if not self.chatbot.hangman:
-                self.chatbot.hangman_class = Hangman(self.chatbot)
+            if not self.chatbot.globals['hangman']['enabled']:
+                self.chatbot.globals['hangman']['class'] = Hangman(self.chatbot)
                 response = "[ {dashes} ] Life: {heart}" \
-                    .format(dashes=' '.join(self.chatbot.hangman_class.gen_dash()),
-                            heart=HANGMAN_EMOJI[self.chatbot.hangman_class.get_remaining_life()-1] *
-                                  self.chatbot.hangman_class.get_remaining_life())
+                    .format(dashes=' '.join(self.chatbot.globals['hangman']['class'].gen_dash()),
+                            heart=HANGMAN_EMOJI[self.chatbot.globals['hangman']['class'].get_remaining_life()-1] *
+                                  self.chatbot.globals['hangman']['class'].get_remaining_life())
             else:
-                response = self.chatbot.hangman_class.process(str(statement))
+                response = self.chatbot.globals['hangman']['class'].process(str(statement))
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence

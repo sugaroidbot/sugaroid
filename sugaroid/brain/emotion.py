@@ -88,7 +88,7 @@ class EmotionAdapter(LogicAdapter):
                                     ('irritation' in parsed):
                                 response = "Ok! I will switch off my fun mode for sometime"
                                 emotion = Emotion.neutral
-                                self.chatbot.fun = False
+                                self.chatbot.globals['fun'] = False
                             else:
                                 response = "I am depressed. Is there anything which I hurt you? I apologize for that"
                                 emotion = Emotion.depressed

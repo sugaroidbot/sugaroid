@@ -29,7 +29,7 @@ import logging
 from chatterbot.logic import LogicAdapter
 from chatterbot.trainers import ListTrainer
 from nltk import word_tokenize
-from sugaroid.brain.postprocessor import random_response
+from sugaroid.brain.postprocessor import random_response, any_in
 
 from sugaroid.brain.constants import ASK_AND_YOU_SHALL_RECEIVE, SEEK_AND_YOU_SHALL_FIND, THANK
 from sugaroid.sugaroid import SugaroidStatement
@@ -48,13 +48,14 @@ class InterruptAdapter(LogicAdapter):
     def can_process(self, statement):
         if self.chatbot.interrupt:
             self.tokenized = self.chatbot.lp.nlp(str(statement))
-            if len(self.tokenized) < 6:
+            if 6 > len(self.tokenized) > 2:
                 for i in self.tokenized:
                     if str(i.tag_).startswith('N'):
                         self.nn = i.lemma_
 
                 return True
             else:
+                self.chatbot.interrupt = False
                 return False
         else:
             return False
@@ -83,13 +84,18 @@ class InterruptAdapter(LogicAdapter):
                     )
                 self.chatbot.interrupt = str(statement)
         else:
-            response = random_response(THANK)
-            learner = ListTrainer(self.chatbot)
-            learner.train([
-                'What is {} ?'.format(self.chatbot.interrupt),
-                str(statement)
-            ])
-            self.chatbot.interrupt = False
+            if any_in(['no', 'not', 'later', 'busy', 'nah'], self.tokenized) or \
+                    (('next' in self.tokenized or 'another' in self.tokenized) and 'time' in self.tokenized):
+                response = 'Ok.'
+                self.chatbot.interrupt = False
+            else:
+                response = random_response(THANK)
+                learner = ListTrainer(self.chatbot)
+                learner.train([
+                    'What is {} ?'.format(self.chatbot.interrupt),
+                    str(statement)
+                ])
+                self.chatbot.interrupt = False
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = 9
         emotion = Emotion.lol

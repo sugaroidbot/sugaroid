@@ -48,10 +48,10 @@ class TriviaAdapter(LogicAdapter):
             boolean = True
         else:
             boolean = False
-        if self.chatbot.trivia_answer and boolean:
+        if self.chatbot.globals['trivia_answer'] and boolean:
             return True
         else:
-            self.chatbot.trivia_answer = None
+            self.chatbot.globals['trivia_answer'] = None
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):

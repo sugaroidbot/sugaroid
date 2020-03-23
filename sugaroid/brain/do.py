@@ -65,7 +65,7 @@ class DoAdapter(LogicAdapter):
         else:
             if ('my' in self.normalized) and ('name' in self.normalized):
                 if self.chatbot.get_username():
-                    response = 'Your name is {}'.format(self.chatbot.username)
+                    response = 'Your name is {}'.format(self.chatbot.globals['username'])
                     emotion = Emotion.neutral
                     confidence = 1
                 else:

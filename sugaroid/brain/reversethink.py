@@ -64,11 +64,10 @@ class ReverseAdapter(LogicAdapter):
         else:
             response_raw = random_response(RNDQUESTIONS)
             response = response_raw[0]
-            self.chatbot.reverse = True
-            self.chatbot.next = response_raw[1]
-            self.chatbot.next_type = response_raw[2]
+            self.chatbot.globals['reversei']['enabled'] = True
+            self.chatbot.globals['reversei']['uid'] = response_raw[1]
+            self.chatbot.globals['reversei']['type'] = response_raw[2]
 
-        print(self.chatbot.next)
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = cos
         emotion = Emotion.neutral

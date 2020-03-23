@@ -67,7 +67,7 @@ class MyNameAdapter(LogicAdapter):
                 selected_statement.confidence = confidence
                 emotion = Emotion.positive
                 selected_statement.emotion = emotion
-                self.chatbot.username = i.text
+                self.chatbot.globals['USERNAME'] = i.text
                 return selected_statement
         else:
             response = ':)'

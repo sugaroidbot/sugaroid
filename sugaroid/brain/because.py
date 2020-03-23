@@ -59,7 +59,7 @@ class BecauseAdapter(LogicAdapter):
         adj = None
         verb = None
         confidence = 0.90
-        last_response = self.chatbot.history[-1]
+        last_response = self.chatbot.globals['history']['total'][-1]
         emotion = Emotion.neutral
         self.last_normalized = normalize(str(last_response))
         print(self.last_normalized)

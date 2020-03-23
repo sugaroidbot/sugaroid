@@ -83,14 +83,14 @@ class DebugAdapter(LogicAdapter):
     def track(self, number, number_out=None):
         if number_out is not None:
             if number_out > number:
-                return _([self.chatbot.debug[x] for x in range(number, number_out)])
+                return _([self.chatbot.globals['DEBUG'][x] for x in range(number, number_out)])
             else:
-                return _([self.chatbot.debug[x] for x in range(number_out, number)])
+                return _([self.chatbot.globals['DEBUG'][x] for x in range(number_out, number)])
         else:
-            return _([self.chatbot.debug[number]])
+            return _([self.chatbot.globals['DEBUG'][number]])
 
     def gen_num(self):
-        return self.chatbot.debug['number_of_conversations']
+        return self.chatbot.globals['DEBUG']['number_of_conversations']
 
     def help(self):
         response = []

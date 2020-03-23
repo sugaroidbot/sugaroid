@@ -68,8 +68,8 @@ class TwoWordAdapter(LogicAdapter):
         short = str(statement).lower()
 
         if ('name' in short) and ('my' in short):
-            if self.chatbot.username:
-                response = 'You are {}'.format(self.chatbot.username)
+            if self.chatbot.globals['USERNAME']:
+                response = 'You are {}'.format(self.chatbot.globals['USERNAME'])
             else:
                 response = random_response(WHO_AM_I)
 

@@ -21,3 +21,5 @@ sugaroid/reader/scrawled/
 Dockerfile
 docker-compose.yml
 .coverage
+wrappers/irc_client/autobot/src/logs/
+wrappers/irc_client/autobot/src/autobot.conf

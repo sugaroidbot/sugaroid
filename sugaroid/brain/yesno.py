@@ -71,18 +71,18 @@ class BoolAdapter(LogicAdapter):
                 response = 'Ok, I will not report it.'
                 self.chatbot.report = False
             confidence = 1.0
-        elif self.chatbot.trivia_answer:
-            if self.chatbot.trivia_answer == self.bool:
+        elif self.chatbot.globals['trivia_answer']:
+            if self.chatbot.globals['trivia_answer'] == self.bool:
                 response = "Exactly! You are right"
                 reset_reverse(self)
             else:
                 response = 'Nope, You got it wrong. The correct answer was {}'.format(
-                    self.chatbot.trivia_answer)
+                    self.chatbot.globals['trivia_answer'])
                 reset_reverse(self)
-            self.chatbot.trivia_answer = None
+            self.chatbot.globals['trivia_answer'] = None
             confidence = 1.1
         else:
-            if self.chatbot.history[-1] == 0:
+            if self.chatbot.globals['history']['total'][-1] == 0:
                 if bool_yes:
                     response = 'I shall annoy you. A big NO'
                 else:
@@ -91,7 +91,7 @@ class BoolAdapter(LogicAdapter):
                 md = False
                 vb = False
                 nn = False
-                self.last_normalized = normalize(str(self.chatbot.history[-1]))
+                self.last_normalized = normalize(str(self.chatbot.globals['history']['total'][-1]))
                 self.tagged = nltk.pos_tag(self.last_normalized)
                 iteration = 0
                 for j in self.tagged:

@@ -162,20 +162,20 @@ def wikipedia_search(self, question):
     print(question.lower(), a[0].lower())
     print("cos", cos)
     if cos > 0.9:
-        self.chatbot.reverse = False
-        self.chatbot.next = False
+        self.chatbot.globals['reversei']['enabled'] = False
+        self.chatbot.globals['reversei']['uid'] = False
         response = wiki.page(a[0]).summary
         confidence = cos
         stat = True
     else:
-        self.chatbot.reverse = True
-        self.chatbot.next = 30000000002
-        self.chatbot.next_type = int
-        self.chatbot.temp_data = a
+        self.chatbot.globals['reversei']['enabled'] = True
+        self.chatbot.globals['reversei']['uid'] = 30000000002
+        self.chatbot.globals['reversei']['type'] = int
+        self.chatbot.globals['temp_data'] = a
         def bracketize(x): return '\n[{}] {}'.format(x[0]+1, str(x[1]))
         response = "Did you mean any of these {}".format(
             ' '.join([bracketize(x) for x in enumerate(a)]))
-        confidence = 0.5
+        confidence = 0.9
         stat = False
 
     return response, confidence, stat

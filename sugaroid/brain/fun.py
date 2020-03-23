@@ -44,7 +44,7 @@ class FunAdapter(LogicAdapter):
         super().__init__(chatbot, **kwargs)
 
     def can_process(self, statement):
-        if self.chatbot.fun:
+        if self.chatbot.globals['fun']:
             return True
         else:
             return False

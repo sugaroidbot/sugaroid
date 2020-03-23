@@ -93,33 +93,59 @@ class SugaroidBot(ChatBot):
     """
     def __init__(self, name, **kwargs):
         ChatBot.__init__(self, name=name, **kwargs)
-        self.emotion = Emotion.neutral
-        self.history = [0]
-        self.adapters = []
-        self.user_history = [0]
+        self.lp = LanguageProcessor()
+        self.spell_checker = False  # FIXME
         self.discord = False
         self.authors = []
-        self.history_types = [0]
-        self.fun = True
-        self.lp = LanguageProcessor()
-        self.reverse = False
-        self.update = False
-        self.last_news = None
-        self.next = None
-        self.akinator = False
-        self.aki = None
         self.interrupt = 0
-        self.hangman = False
-        self.hangman_class = None
-        self.next_type = None
-        self.temp_data = []
-        self.username = None
-        self.learn = False
-        self.learn_last_conversation = []
-        self.spell_checker = False  # FIXME
-        self.debug = {}
+
+        self.report = False
+        self.globals = {
+            'emotion': Emotion.neutral,
+            'history': {
+                'total': [0],
+                'user': [0],
+                'types': [0]
+            },
+            'reversei': {
+                'enabled': False,
+                'uid': None,
+                'type': None,
+            },
+            'akinator': {
+                'enabled': False,
+                'class': None
+            },
+            'hangman': {
+                'enabled': False,
+                'class': None
+            },
+            'adapters': [],
+            'fun': True,
+            'update': False,
+            'last_news': None,
+            'USERNAME': None,
+            'learn': False,
+            'trivia_answer': None,
+            'learn_last_conversation': [],
+            'DEBUG': {}
+        }
+        # self.emotion = Emotion.neutral
+
+
+    def get_global(self, key):
+        """
+        Returns a global constant
+        :param key:
+        :return:
+        """
+        return self.globals.get(key, None)
 
     def toggle_discord(self):
+        """
+        Toggle Discord Configuration
+        :return:
+        """
         self.discord = not self.discord
 
     def set_emotion(self, emotion):
@@ -132,28 +158,38 @@ class SugaroidBot(ChatBot):
         self.emotion = emotion
 
     def reset_variables(self):
-        self.emotion = Emotion.neutral
-        self.history = [0]
-        self.user_history = [0]
+        self.globals = {
+            'emotion': Emotion.neutral,
+            'history': {
+                'total': [0],
+                'user': [0],
+                'types': [0]
+            },
+            'reversei': {
+                'enabled': False,
+                'uid': None,
+                'type': None,
+            },
+            'akinator': {
+                'enabled': None,
+                'class': None
+            },
+            'hangman': {
+                'enabled': False,
+                'class': None
+            },
+            'adapters': [],
+            'fun': True,
+            'update': False,
+            'last_news': None,
+            'USERNAME': None,
+            'learn': False,
+            'trivia_answer': None,
+            'learn_last_conversation': [],
+            'DEBUG': {}
+        }
         self.authors = []
-        self.history_types = [0]
-        self.fun = True
-        self.lp = LanguageProcessor()
-        self.reverse = False
-        self.last_news = None
-        self.next = None
-        self.interrupt = 0
-        self.akinator = False
-        self.aki = None
-        self.hangman = False
-        self.hangman_class = None
-        self.next_type = None
-        self.temp_data = []
-        self.username = None
-        self.learn = False
-        self.learn_last_conversation = []
         self.spell_checker = False  # FIXME
-        self.debug = {}
 
     def get_emotion(self):
         """
@@ -174,7 +210,7 @@ class SugaroidBot(ChatBot):
         Returns sugaroid username if store, otherwise None
         :return: SugaroidBot.username <user name>
         """
-        return self.username
+        return self.get_global('USERNAME')
 
     def generate_response(self, input_statement, additional_response_selection_parameters=None):
         """
@@ -274,14 +310,14 @@ class SugaroidBot(ChatBot):
             adapter_type = None
 
         if adapter_type and adapter_type not in ['NewsAdapter', 'LearnAdapter']:
-            if adapter_type in self.history_types:
-                if adapter_type == self.history_types[-1]:
+            if adapter_type in self.globals['history']['types']:
+                if adapter_type == self.globals['history']['types'][-1]:
                     result.text = random_response(REPEAT)
-                elif len(self.history_types) > 2:
-                    if adapter_type == self.history_types[-2]:
+                elif len( self.globals['history']['types']) > 2:
+                    if adapter_type == self.globals['history']['types'][-2]:
                         result.text = random_response(REPEAT)
 
-        self.history_types.append(adapter_type)
+        self.globals['history']['types'].append(adapter_type)
 
         response = SugaroidStatement(
             text=result.text,
@@ -306,14 +342,14 @@ class SugaroidBot(ChatBot):
         :return:
         """
 
-        self.debug['number_of_conversations'] = self.debug.get('number_of_conversations', 0) + 1
-        _id = self.debug['number_of_conversations']
+        self.globals['DEBUG']['number_of_conversations'] = self.globals['DEBUG'].get('number_of_conversations', 0) + 1
+        _id = self.globals['DEBUG']['number_of_conversations']
         val = dict()
         val['adapter'] = adapter
         val['confidence'] = confidence
         val['response'] = results
         val['request'] = str(statement)
-        self.debug[_id] = val
+        self.globals['DEBUG'][_id] = val
 
     def get_response(self, statement=None, **kwargs):
         """
@@ -470,16 +506,6 @@ class Sugaroid:
                 self.cfgpath),
         )
 
-        # initialize language processs
-        self.chatbot.lp = LanguageProcessor()
-        self.chatbot.adapters = self.adapters
-        self.chatbot.history = [0]
-        self.chatbot.report = False
-        self.chatbot.reverse = False
-        self.chatbot.next = None
-        self.chatbot.username = None
-        self.chatbot.next_type = None
-        self.chatbot.trivia_answer = None
         self.read()
         self.invoke_brain()
 
@@ -587,8 +613,8 @@ class Sugaroid:
         """
         if type(args) is str:
             response = self.neuron.parse(args)
-            self.chatbot.history.append(response)
-            self.chatbot.user_history.append(args)
+            self.chatbot.globals['history']['total'].append(response)
+            self.chatbot.globals['history']['user'].append(args)
             return response
         else:
             raise ValueError("Invalid data type passed to Sugaroid.parse")

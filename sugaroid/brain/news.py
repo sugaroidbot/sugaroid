@@ -80,10 +80,10 @@ class SugaroidNews:
             return self.process(response)
         except Exception as e:
             if str(e) == 'invalid country':
-                self.chatbot.last_news = False
+                self.chatbot.globals['last_news'] = False
                 logging.info(f'SugaroidNews: Failed to get the news. country=[{type(country)}, {country}]')
                 return ['The country you provided does not exist in my database. I am sorry.']
-            self.chatbot.last_news = False
+            self.chatbot.globals['last_news'] = False
             return ['Failed to establish connection with the server. Error: {}'.format(e)]
 
     def get_news_keyword(self, keyword):
@@ -91,7 +91,7 @@ class SugaroidNews:
             response = self.api.get_everything(q=keyword)
             return self.process(response)
         except Exception as e:
-            self.chatbot.last_news = False
+            self.chatbot.globals['last_news'] = False
             return ['Failed to establish connection with the server. Error: {}'.format(e)]
 
     def process(self, response):
@@ -108,9 +108,9 @@ class SugaroidNews:
             except Exception as e:
                 pass
         if not news_headlines:
-            self.chatbot.last_news = False
+            self.chatbot.globals['last_news'] = False
             return ['There was an error collecting the latest news headlines. Please try again later.']
-        self.chatbot.last_news = response
+        self.chatbot.globals['last_news'] = response
         return news_headlines
 
 
@@ -131,7 +131,7 @@ class NewsAdapter(LogicAdapter):
         """
         _ = self.chatbot.lp.similarity
         try:
-            last_type = self.chatbot.history_types[-1]
+            last_type = self.chatbot.globals['history']['types'][-1]
         except IndexError:
             last_type = False
 
@@ -150,14 +150,14 @@ class NewsAdapter(LogicAdapter):
         logging.info("NewsAdapter received a cosine similarity of {}".format(self.cos))
         if self.cos > 0.8 or 'news' in processed.lower() or 'headlines' in processed.lower():
             return True
-        elif 'show me more' in str(statement).lower() and self.chatbot.last_news:
+        elif 'show me more' in str(statement).lower() and self.chatbot.globals['last_news']:
             for i in spac_token(statement, self.chatbot):
                 if i.tag_ in ['LS', 'CD']:
                     self.integer = i.lower_
                     return True
             else:
                 return False
-        elif self.chatbot.last_news and (last_type == 'NewsAdapter'):
+        elif self.chatbot.globals['last_news'] and (last_type == 'NewsAdapter'):
             for i in spac_token(statement, self.chatbot):
                 if i.tag_ in ['LS', 'CD']:
                     self.integer = i.lower_

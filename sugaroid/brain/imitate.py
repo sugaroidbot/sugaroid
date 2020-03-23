@@ -46,17 +46,17 @@ class ImitateAdapter(LogicAdapter):
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
         more_words = len(self.normalized) > 3
-        logging.info("ImitatorSensei: userhistory {}, history: {}".format(self.chatbot.user_history, self.chatbot.history))
-        if self.chatbot.user_history[-1] and self.chatbot.history[-1] and more_words:
+        logging.info("ImitatorSensei: userhistory {}, history: {}".format(self.chatbot.globals['history']['user'], self.chatbot.globals['history']['total']))
+        if self.chatbot.globals['history']['user'][-1] and self.chatbot.globals['history']['total'][-1] and more_words:
             return True
         else:
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.lol
-        sim = self.chatbot.lp.similarity(str(statement), str(self.chatbot.history[-1]))
+        sim = self.chatbot.lp.similarity(str(statement), str(self.chatbot.globals['history']['total'][-1]))
         logging.info("ImitatorSensei compared {} and {}. Sim: {}"
-                     .format(str(statement), self.chatbot.user_history[-1], sim))
+                     .format(str(statement), self.chatbot.globals['history']['user'][-1], sim))
         if sim > 0.8:
             response = random_response(IMITATE)
             confidence = sim

@@ -48,7 +48,7 @@ class ReReverseAdapter(LogicAdapter):
         self.normalized = None
 
     def can_process(self, statement):
-        if self.chatbot.reverse:
+        if self.chatbot.get_global('reverse'):
             return True
         else:
             return False
@@ -57,28 +57,28 @@ class ReReverseAdapter(LogicAdapter):
         _ = normalize
         emotion = Emotion.neutral
         self.normalized = normalize(str(statement))
-        print(self.chatbot.next)
-        if self.chatbot.next_type is str:
+        if self.chatbot.globals['reversei']['type'] is str:
             ordinal_statement = str(statement).replace('9th', 'ninth')
-            if cosine_similarity(_(ordinal_statement), _(self.chatbot.next)) > 0.8:
+            # FIXME PORT RO
+            if cosine_similarity(_(ordinal_statement), _(self.chatbot.globals['reversei']['uid'])) > 0.8:
                 response = 'Exactly, you got it right!'
                 emotion = Emotion.positive
                 reset_reverse(self)
             else:
-                response = 'Close! it was {}'.format(self.chatbot.next)
+                response = 'Close! it was {}'.format(self.chatbot.globals['reversei']['uid'])
                 emotion = Emotion.lol
                 reset_reverse(self)
             confidence = 0.99
-        elif self.chatbot.next_type is bool:
+        elif self.chatbot.globals['reversei']['type'] is bool:
 
-            if self.chatbot.next == 30000000001:
+            if self.chatbot.globals['reversei']['uid'] == 30000000001:
                 """
                 NameAdapter: token 30000000001
                 """
                 if ('yes' in self.normalized) or ('yea' in self.normalized):
                     response = "Ok, will keep that in mind!"
-                    self.chatbot.username = self.chatbot.nn
-                    self.chatbot.nn = None
+                    self.chatbot.globals['USERNAME'] = self.chatbot.nn
+                    self.chatbot.globals['nn'] = None
                     reset_reverse(self)
                 else:
                     response = "Ok, I guess I am smart"
@@ -87,8 +87,8 @@ class ReReverseAdapter(LogicAdapter):
                 confidence = 1.0
             else:
                 if ('yes' in self.normalized) or ('yea' in self.normalized):
-                    if len(self.chatbot.history) > 1:
-                        if 'joke' in _(str(self.chatbot.history[-1])):
+                    if len(self.chatbot.globals['history']['total']) > 1:
+                        if 'joke' in _(str(self.chatbot.globals['history']['total'][-1])):
                             joke = pyjokes.get_joke('en', 'all')
                             selected_statement = SugaroidStatement(joke, chatbot=True)
                             selected_statement.emotion = Emotion.lol
@@ -102,7 +102,7 @@ class ReReverseAdapter(LogicAdapter):
                     response = 'Ok then, probably next time'
                     reset_reverse(self)
                 confidence = 1.0
-        elif self.chatbot.next_type is None:
+        elif self.chatbot.globals['reversei']['type'] is None:
             fname = False
             name = difference(self.normalized, [
                               'my', 'name', 'is', 'good', 'be'])
@@ -120,10 +120,10 @@ class ReReverseAdapter(LogicAdapter):
                 emotion = Emotion.non_expressive_left
                 reset_reverse(self)
             confidence = 1
-        elif self.chatbot.next_type is int:
+        elif self.chatbot.globals['reversei']['type'] is int:
             confidence = 2.0  # FIXME: Override Mathematical Evaluation when not necessary
 
-            if self.chatbot.next == 30000000002:
+            if self.chatbot.globals['reversei']['uid'] == 30000000002:
                 """
                 WikiAdapter: token 30000000002
                 """
@@ -136,7 +136,7 @@ class ReReverseAdapter(LogicAdapter):
                     emotion = Emotion.dead
                     reset_reverse(self)
                 else:
-                    chatbot_temporary_data = self.chatbot.temp_data
+                    chatbot_temporary_data = self.chatbot.globals['temp_data']
                     tokenized = nltk.pos_tag(tokenize(str(statement)))
                     print(tokenized)
                     for i in tokenized:
@@ -188,6 +188,6 @@ class ReReverseAdapter(LogicAdapter):
 
 
 def reset_reverse(self):
-    self.chatbot.next = None
-    self.chatbot.next_type = None
-    self.chatbot.reverse = False
+    self.chatbot.globals['reversei']['uid'] = None
+    self.chatbot.globals['reversei']['type'] = None
+    self.chatbot.globals['reversei']['enabled'] = False

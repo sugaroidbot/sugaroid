@@ -76,18 +76,18 @@ class MeAdapter(LogicAdapter):
                 logging.info("MeAdapter: Scanning :: {} : {}".format(i.text, i.pos_))
                 if (i.pos_ == 'PROPN') or (i.tag_ == 'NN'):
                     nn = i.text
-                    if self.chatbot.username:
+                    if self.chatbot.globals['USERNAME']:
                         response = "Are you sure you are {n}? I thought you were {u}".format(
-                            n=nn, u=self.chatbot.username)
+                            n=nn, u=self.chatbot.globals['USERNAME'])
                         emotion = Emotion.wink
                         if i.pos_ == 'PROPN':
                             confidence = 0.95
                         else:
                             confidence = 0.8
-                        self.chatbot.nn = nn
-                        self.chatbot.next = 30000000001
-                        self.chatbot.next_type = bool
-                        self.chatbot.reverse = True
+                        self.chatbot.globals['nn'] = nn
+                        self.chatbot.globals['reversei']['uid'] = 30000000001
+                        self.chatbot.globals['reversei']['type'] = bool
+                        self.chatbot.globals['reversei']['enabled'] = True
                         emotion = Emotion.non_expressive_left
                         break
                     else:
@@ -99,7 +99,7 @@ class MeAdapter(LogicAdapter):
                             else:
                                 response = random_response(GREET).format(str(nn).capitalize())
                                 confidence = 0.9
-                                self.chatbot.username = nn
+                                self.chatbot.globals['USERNAME'] = nn
                                 emotion = Emotion.positive
                             break
                         else:
