@@ -122,8 +122,6 @@ async def on_message(message):
             sg.append_author(author)
             sg.interrupt_ds()
             response = sg.parse(message.content)
-
-
             print(response, 's'*5)
             await message.channel.send(response)
         return

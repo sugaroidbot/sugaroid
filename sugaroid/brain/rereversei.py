@@ -138,9 +138,7 @@ class ReReverseAdapter(LogicAdapter):
                 else:
                     chatbot_temporary_data = self.chatbot.globals['temp_data']
                     tokenized = nltk.pos_tag(tokenize(str(statement)))
-                    print(tokenized)
                     for i in tokenized:
-                        print(i, "H")
                         if i[1] == 'CD':
                             try:
                                 num = int(i[0])

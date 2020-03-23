@@ -62,19 +62,15 @@ class BecauseAdapter(LogicAdapter):
         last_response = self.chatbot.globals['history']['total'][-1]
         emotion = Emotion.neutral
         self.last_normalized = normalize(str(last_response))
-        print(self.last_normalized)
         if last_response:
             self.tagged_last = pos_tag(self.last_normalized)
             self.tagged_now = pos_tag(self.normalized)
-            print(self.tagged_last)
-            print(self.tagged_now)
             sm = SequenceMatcher(None, self.tagged_last, self.tagged_now)
             for i in self.tagged_now:
                 if i[1] == 'JJ':
                     adj = i[0]
                 elif i[1] == 'VB' and (not i[0] == 'be'):
                     verb = i[0]
-            print(sm.ratio())
             if sm.ratio() > 0.5:
                 if adj:
                     response = 'Well, Its not a good reason for me to be {}'.format(adj)

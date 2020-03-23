@@ -55,7 +55,6 @@ class EmotionAdapter(LogicAdapter):
         # parsed = str(statement).lower().strip()
         raw_statement = str(statement)
         parsed = tokenize(str(statement))
-        print(parsed)
         emotion = Emotion.neutral
         a = self.sia.polarity_scores(raw_statement)
         response = ":)"

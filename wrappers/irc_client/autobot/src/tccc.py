@@ -34,7 +34,7 @@ class announce():
             self.second_thread.join()
 
     def uppercase(self, message):
-        print (message.upper())
+        print(message.upper())
 
     def repeat(self, message):
         print(message)

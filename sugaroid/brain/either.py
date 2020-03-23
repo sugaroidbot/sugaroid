@@ -46,7 +46,6 @@ class OrAdapter(LogicAdapter):
 
         self.text = word_tokenize(str(statement))
         self.tagged = nltk.pos_tag(self.text)
-        print(self.tagged)
         for i in self.tagged:
             if i[1] == 'CC':
                 return True

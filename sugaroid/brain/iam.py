@@ -51,7 +51,6 @@ class MeAdapter(LogicAdapter):
         self.tokenized = self.nlp(str(statement))
 
         for i in range(len(self.tokenized) - 1):
-            print(self.tokenized[i].pos_, self.tokenized[i + 1].pos_)
             if self.tokenized[i].pos_ == 'PRON' and str(self.tokenized[i + 1].tag_).startswith('VB'):
                 return True
         else:

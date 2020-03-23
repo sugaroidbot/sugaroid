@@ -106,8 +106,6 @@ class CanAdapter(LogicAdapter):
         neutral_statement = (
             sentiments['pos'] + sentiments['neg']) < sentiments['neu']
 
-        print(self.tagged, "SSSS")
-
         if aimed >= 100:
             if neutral_statement:
                 confidence = aimed / 100 + 0.7
@@ -317,12 +315,9 @@ class CanAdapter(LogicAdapter):
                         ((sentiments['neg'] + sentiments['pos'])/2)
 
         if verb == 'be':
-            print("OK")
             ind = self.normalized.index('be')
             for j in range(ind, len(self.normalized)-1):
-                print(self.tagged[j])
                 if self.tagged[j][1].startswith('NN'):
-                    print("OKOK")
                     polarity_adj = self.sia.polarity_scores(self.tagged[j][0])
                     if polarity_adj['pos'] + polarity_adj['neg'] < polarity_adj['neu']:
                         response = "I am not sure if I can ever be a '{}'".format(

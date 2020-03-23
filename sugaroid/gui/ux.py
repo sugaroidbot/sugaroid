@@ -100,9 +100,6 @@ class BotRequests(QThread):
         time.sleep(0.1)
 
         if response.emotion != 0:
-            # print(response.emotion, emotion[response.emotion])
-            # em = EmotionRequests(self.parent, response.emotion)
-            # em.start()
             self.parent.label.setPixmap(
                 QPixmap(":/home/{}.png".format(emotion[response.emotion])))
             self.parent.conv.scrollToBottom()
