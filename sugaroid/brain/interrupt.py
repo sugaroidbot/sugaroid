@@ -42,14 +42,16 @@ class InterruptAdapter(LogicAdapter):
         self.nn = False
 
     def can_process(self, statement):
+
         if self.chatbot.interrupt == 2:
             logging.info("InterruptAdapter: Found Discord")
             self.tokenized = self.chatbot.lp.nlp(str(statement))
             if 6 > len(self.tokenized) > 2:
                 for i in self.tokenized:
-                    if str(i.tag_).startswith('N'):
+                    if str(i.tag_).startswith('NNP'):
                         self.nn = i.lemma_
-
+                        if self.nn in self.chatbot.globals['learned']:
+                            return False
                 return True
             else:
                 self.chatbot.interrupt = False
@@ -80,7 +82,7 @@ class InterruptAdapter(LogicAdapter):
                         .format(
                             random_response(ASK_AND_YOU_SHALL_RECEIVE),
                             random_response(SEEK_AND_YOU_SHALL_FIND),
-                    )
+                        )
                 self.chatbot.interrupt = str(statement)
         else:
             if any_in(['no', 'not', 'later', 'busy', 'nah'], self.tokenized) or \
@@ -94,6 +96,7 @@ class InterruptAdapter(LogicAdapter):
                     'What is {} ?'.format(self.chatbot.interrupt),
                     str(statement)
                 ])
+                self.chatbot.globals['learned'].append(self.chatbot.interrupt)
                 self.chatbot.interrupt = False
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = 9

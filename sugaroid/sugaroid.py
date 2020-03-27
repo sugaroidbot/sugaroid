@@ -179,6 +179,7 @@ class SugaroidBot(ChatBot):
                 'enabled': False,
                 'class': None
             },
+            'learned': [],
             'adapters': [],
             'fun': True,
             'update': False,
