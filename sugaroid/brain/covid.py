@@ -26,7 +26,7 @@ SOFTWARE.
 """
 
 from chatterbot.logic import LogicAdapter
-from tensorflow_core._api.v2.compat.v1 import logging
+import logging
 
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response, any_in

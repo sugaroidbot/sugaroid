@@ -1,4 +1,3 @@
-
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
 discord.py
 python-dotenv
@@ -8,5 +7,6 @@ gunicorn
 django_heroku
 freegames
 wikipedia-api
+chatterbot
 mediawikiapi
 git+git://github.com/gunthercox/chatterbot-corpus.git#egg=chatterbot-corpus
