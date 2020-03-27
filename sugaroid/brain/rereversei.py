@@ -50,7 +50,7 @@ class ReReverseAdapter(LogicAdapter):
         self.normalized = None
 
     def can_process(self, statement):
-        if self.chatbot.get_global('reverse'):
+        if self.chatbot.get_global('reverse')['enabled']:
             return True
         else:
             return False
