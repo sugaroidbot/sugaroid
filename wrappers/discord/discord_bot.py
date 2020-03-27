@@ -28,7 +28,7 @@ async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
     os.chdir(os.path.dirname(sug.__file__))
     await client.change_presence(activity=discord.Game(name='v{} since {:02d}:{:02d} UTC'
-                                 .format(ver.version().get_commit(), datetime.utcnow().hour,
+                                 .format(ver.version().get_commit()[:10], datetime.utcnow().hour,
                                          datetime.utcnow().minute)))
 
 
@@ -78,15 +78,22 @@ async def on_message(message):
                 os.chdir(os.path.dirname(sug.__file__))
 
                 await client.change_presence(activity=discord.Game(name='v{} since {:02d}:{:02d} UTC'
-                                                                   .format(ver.version().get_commit(),
+                                                                   .format(ver.version().get_commit()[:10],
                                                                            datetime.utcnow().hour,
                                                                            datetime.utcnow().minute)))
                 await message.channel.send("version refreshed")
                 return
-            elif 'stop' in message.content and 'learn' in message.content:
+
+            else:
+                await message.channel.send(f"I am sorry @{message.author}. I would not be able to update myself.\n"
+                                           f"Seems like you do not have sufficient permissions")
+                return
+        elif 'stop' in message.content and 'learn' in message.content:
+            if str(message.author) == 'srevinsaju#8324':
                 global interrupt_local
                 interrupt_local = False
                 await message.channel.send("InterruptAdapter terminated")
+                return
             else:
                 await message.channel.send(f"I am sorry @{message.author}. I would not be able to update myself.\n"
                                            f"Seems like you do not have sufficient permissions")

@@ -49,7 +49,8 @@ COVID_QUESTIONS = [
     [3, 'Do you have shortness of breath', 2],
     [4, 'Have you travelled outside your house in the last 14 days?', 1],
     [5, 'Have you been tested for covid before, with negative results?', 0.1],
-    [6, 'Do you have any chronic diseases, eg: asthma or faced pneumonia in the past', 1]
+    [6, 'Do you have any chronic diseases, eg: asthma or faced pneumonia in the past', 1],
+    [7, '{}', 0]
 ]
 
 
@@ -71,6 +72,7 @@ class CovidAdapter(LogicAdapter):
     """
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
+        self.normalized = None
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
@@ -85,7 +87,12 @@ class CovidAdapter(LogicAdapter):
         response = ABOUT_CORONAVIRUS
 
         if 'I' in self.normalized:
-            response = "I will do a short approximation if you do have coronavirus\n{covidq}".format(covidq=)
+            response = "I will do a short approximation if you do have coronavirus\n{covidq}"\
+                .format(covidq=COVID_QUESTIONS[0][1])
+            self.chatbot.globals['reversei']['uid'] = 'CORONAVIRUS'
+            self.chatbot.globals['reversei']['enabled'] = True
+            self.chatbot.globals['reversei']['data'] = [1, 0]
+
         elif 'you' in self.normalized:
             response = 'Someone told that I had been contracted with corona from somewhere, but thats extremely wrong.'\
                        ' I will not get infected by any physical virus, (except Trojan or NO_HEROKU_CREDIT virus)'

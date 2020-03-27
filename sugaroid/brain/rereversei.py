@@ -29,8 +29,10 @@ import logging
 import nltk
 from chatterbot.logic import LogicAdapter
 from pyjokes import pyjokes
+
+from sugaroid.brain.covid import COVID_QUESTIONS
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import cosine_similarity, difference, text2int
+from sugaroid.brain.postprocessor import cosine_similarity, difference, text2int, any_in
 from sugaroid.brain.preprocessors import normalize, tokenize
 from sugaroid.brain.wiki import wikipedia_search
 from sugaroid.sugaroid import SugaroidStatement
@@ -171,8 +173,22 @@ class ReReverseAdapter(LogicAdapter):
                         confidence = 1.2
 
             else:
-                if self.chatbot.globals['reversei']['uid'] == N:
-                    pass
+                if self.chatbot.globals['reversei']['uid'] == 'CORONAVIRUS':
+                    NUM = self.chatbot.globals['reversei']['data'][0]
+                    score = self.chatbot.globals['reversei']['data'][1]
+                    if any_in(['yes' 'yea', 'y', 'yup' , 'true'], self.normalized):
+                        score += COVID_QUESTIONS[NUM-1][2]
+                    response = COVID_QUESTIONS[NUM][1]
+                    if NUM == 7:
+                        self.chatbot.globals['reversei']['enabled'] = False
+                        if score > 3:
+                            response = 'You have a high risk of COVID-19'
+                        else:
+                            response = 'As per my approximation, you do not have a high risk of COVID-19'
+                        response += "\n My approximations might not be correct. " \
+                                    "You might confirm my results by a legal test"
+                    self.chatbot.globals['reversei']['data'] = [NUM + 1, score]
+
                 else:
                     response = 'ok'
         else:

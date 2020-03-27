@@ -169,6 +169,7 @@ class SugaroidBot(ChatBot):
                 'enabled': False,
                 'uid': None,
                 'type': None,
+                'data': None
             },
             'akinator': {
                 'enabled': None,
