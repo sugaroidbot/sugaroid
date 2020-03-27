@@ -253,9 +253,10 @@ class SugaroidBot(ChatBot):
             if self.discord:
                 if interrupt and interrupt.can_process(input_statement):
                     try:
-                        username=self.authors[-1]
+                        username = self.authors[-1]
                     except IndexError:
                         username = None
+
                     output = interrupt.process(input_statement, username=username)
                     self.logger.info(
                         '{} selected "{}" as a response with a confidence of {}'.format(
@@ -467,6 +468,7 @@ class Sugaroid:
             'sugaroid.brain.because.BecauseAdapter',
             'sugaroid.brain.rereversei.ReReverseAdapter',
             'sugaroid.brain.reversethink.ReverseAdapter',
+            'sugaroid.brain.covid.CovidAdapter',
             'sugaroid.brain.myname.MyNameAdapter',
             'sugaroid.brain.iam.MeAdapter',
             'sugaroid.brain.about.AboutAdapter',

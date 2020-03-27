@@ -26,6 +26,8 @@ SOFTWARE.
 """
 
 from chatterbot.logic import LogicAdapter
+from tensorflow_core._api.v2.compat.v1 import logging
+
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response, any_in
 from sugaroid.brain.preprocessors import normalize
@@ -73,6 +75,7 @@ class CovidAdapter(LogicAdapter):
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None
+        self.chatbot = chatbot
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
@@ -86,11 +89,12 @@ class CovidAdapter(LogicAdapter):
         # FIXME Creates unusual response
         response = ABOUT_CORONAVIRUS
 
-        if 'I' in self.normalized:
+        if any_in(['I', 'i'], self.normalized):
             response = "I will do a short approximation if you do have coronavirus\n{covidq}"\
                 .format(covidq=COVID_QUESTIONS[0][1])
             self.chatbot.globals['reversei']['uid'] = 'CORONAVIRUS'
             self.chatbot.globals['reversei']['enabled'] = True
+            logging.info(f"CovidAdapter sets ['reversei']['enabled'] as {self.chatbot.globals['reversei']['enabled']}")
             self.chatbot.globals['reversei']['data'] = [1, 0]
 
         elif 'you' in self.normalized:

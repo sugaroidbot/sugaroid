@@ -50,10 +50,9 @@ class ReReverseAdapter(LogicAdapter):
         self.normalized = None
 
     def can_process(self, statement):
-        if self.chatbot.get_global('reversei')['enabled']:
-            return True
-        else:
-            return False
+        soln = self.chatbot.get_global('reversei')['enabled']
+        logging.info(f"ReReverseiAdapter: {soln}")
+        return soln
 
     def process(self, statement, additional_response_selection_parameters=None):
         _ = normalize
@@ -104,7 +103,8 @@ class ReReverseAdapter(LogicAdapter):
                     response = 'Ok then, probably next time'
                     reset_reverse(self)
                 confidence = 1.0
-        elif self.chatbot.globals['reversei']['type'] is None:
+        elif self.chatbot.globals['reversei']['type'] is None and \
+                (not self.chatbot.globals['reversei']['uid'] == 'CORONAVIRUS'):
             fname = False
             name = difference(self.normalized, [
                               'my', 'name', 'is', 'good', 'be'])
@@ -171,29 +171,34 @@ class ReReverseAdapter(LogicAdapter):
                         emotion = Emotion.seriously
                         reset_reverse(self)
                         confidence = 1.2
+        else:
+            if self.chatbot.globals['reversei']['uid'] == 'CORONAVIRUS':
+                confidence = 1
+                NUM = self.chatbot.globals['reversei']['data'][0]
 
-            else:
-                if self.chatbot.globals['reversei']['uid'] == 'CORONAVIRUS':
-                    NUM = self.chatbot.globals['reversei']['data'][0]
-                    score = self.chatbot.globals['reversei']['data'][1]
-                    if any_in(['yes' 'yea', 'y', 'yup' , 'true'], self.normalized):
-                        score += COVID_QUESTIONS[NUM-1][2]
+                score = self.chatbot.globals['reversei']['data'][1]
+                if NUM == 6:
+                    self.chatbot.globals['reversei']['enabled'] = False
+                    import pdb; pdb.set_trace()
+                    if score > 3:
+                        response = 'You have a high risk of COVID-19'
+                    else:
+                        response = 'As per my approximation, you do not have a high risk of COVID-19'
+                    response += "\n My approximations might not be correct. " \
+                                "You might confirm my results by a legal test"
+                else:
+                    import pdb; pdb.set_trace()
+                    true_responses = ['yes', 'yea', 'y', 'yup', 'true']
+                    if any_in(true_responses + [x.capitalize() for x in true_responses], self.normalized):
+                        score += COVID_QUESTIONS[NUM - 1][2]
                     response = COVID_QUESTIONS[NUM][1]
-                    if NUM == 7:
-                        self.chatbot.globals['reversei']['enabled'] = False
-                        if score > 3:
-                            response = 'You have a high risk of COVID-19'
-                        else:
-                            response = 'As per my approximation, you do not have a high risk of COVID-19'
-                        response += "\n My approximations might not be correct. " \
-                                    "You might confirm my results by a legal test"
+
                     self.chatbot.globals['reversei']['data'] = [NUM + 1, score]
 
-                else:
-                    response = 'ok'
-        else:
-            response = "ok"
-            confidence = 0
+            else:
+                response = 'ok'
+
+                confidence = 0
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
