@@ -171,8 +171,10 @@ class ReReverseAdapter(LogicAdapter):
                         confidence = 1.2
 
             else:
-                # TODO NOT IMPLEMENTED YET
-                response = 'ok'
+                if self.chatbot.globals['reversei']['uid'] == N:
+                    pass
+                else:
+                    response = 'ok'
         else:
             response = "ok"
             confidence = 0
