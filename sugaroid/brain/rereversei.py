@@ -179,7 +179,6 @@ class ReReverseAdapter(LogicAdapter):
                 score = self.chatbot.globals['reversei']['data'][1]
                 if NUM == 6:
                     self.chatbot.globals['reversei']['enabled'] = False
-                    import pdb; pdb.set_trace()
                     if score > 3:
                         response = 'You have a high risk of COVID-19'
                     else:
