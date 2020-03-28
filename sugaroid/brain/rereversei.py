@@ -187,7 +187,6 @@ class ReReverseAdapter(LogicAdapter):
                     response += "\n My approximations might not be correct. " \
                                 "You might confirm my results by a legal test"
                 else:
-                    import pdb; pdb.set_trace()
                     true_responses = ['yes', 'yea', 'y', 'yup', 'true']
                     if any_in(true_responses + [x.capitalize() for x in true_responses], self.normalized):
                         score += COVID_QUESTIONS[NUM - 1][2]
