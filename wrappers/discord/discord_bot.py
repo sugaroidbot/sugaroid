@@ -20,7 +20,7 @@ token = os.getenv('DISCORD_TOKEN')
 sg = sugaroid.Sugaroid()
 sg.toggle_discord()
 client = discord.Client()
-interrupt_local = True
+interrupt_local = False
 
 
 @client.event
