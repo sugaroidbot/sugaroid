@@ -406,10 +406,10 @@ class SugaroidBot(ChatBot):
         # Make sure the input statement has its search text saved
 
         if not input_statement.search_text:
-            input_statement.search_text = self.storage.tagger.get_bigram_pair_string(input_statement.text)
+            input_statement.search_text = self.storage.tagger.get_text_index_string(input_statement.text)
 
         if not input_statement.search_in_response_to and input_statement.in_response_to:
-            input_statement.search_in_response_to = self.storage.tagger.get_bigram_pair_string(input_statement.in_response_to)
+            input_statement.search_in_response_to = self.storage.tagger.get_text_index_string(input_statement.in_response_to)
 
         response = self.generate_response(input_statement, additional_response_selection_parameters)
 
@@ -589,19 +589,6 @@ class Sugaroid:
         """
         db_dir = os.path.join(os.path.dirname(__file__), 'data', 'sugaroid.db')
         shutil.copy(db_dir, os.path.join(self.cfgpath, 'sugaroid.db'))
-        self.corpusTrainer.train(
-            "chatterbot.corpus.english.ai",
-            "chatterbot.corpus.english.botprofile",
-            "chatterbot.corpus.english.computers",
-            "chatterbot.corpus.english.food",
-            "chatterbot.corpus.english.history",
-            "chatterbot.corpus.english.literature",
-            "chatterbot.corpus.english.money",
-            "chatterbot.corpus.english.movies",
-            "chatterbot.corpus.english.politics",
-            "chatterbot.corpus.english.science",
-            "chatterbot.corpus.english.sports",
-        )
         return True
 
     def invoke_brain(self):
@@ -678,6 +665,10 @@ class Sugaroid:
             app.exec_()
         except KeyboardInterrupt:
             sys.exit()
+
+
+def gui_main():
+    sg = Sugaroid(); sg.loop_gui()
 
 
 def main():

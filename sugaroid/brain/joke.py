@@ -45,6 +45,8 @@ class JokeAdapter(LogicAdapter):
             return True
         elif (len(normalized) == 1) and (self.chatbot.lp.similarity("joke", str(statement).lower()) >= 0.9):
             return True
+        elif 'joke' in normalized:
+            return True
         else:
             return False
 

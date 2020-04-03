@@ -28,12 +28,15 @@ SOFTWARE.
 import nltk
 import wikipediaapi
 from chatterbot.logic import LogicAdapter
-from mediawikiapi import MediaWikiAPI
 from nltk import word_tokenize
 from sugaroid.brain.brain import Neuron
 from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement
-
+try:
+    from mediawikiapi import MediaWikiAPI
+    media_wiki_found = True
+except ModuleNotFoundError:
+    media_wiki_found = False
 
 class WikiAdapter(LogicAdapter):
     """
@@ -107,9 +110,13 @@ class WikiAdapter(LogicAdapter):
                                     stat = True
                                     break
                                 else:
-                                    response, confidence, stat = wikipedia_search(
-                                        self, question)
-                                    break
+                                    if media_wiki_found:
+                                        response, confidence, stat = wikipedia_search(
+                                            self, question)
+                                        break
+                                    else:
+                                        response = "Seems like MediaWikiAPI is not installed on your PC"
+                                        confidence =0.9
                         else:
                             response = 'I am not sure what you are asking for.'
                             confidence = 0.4

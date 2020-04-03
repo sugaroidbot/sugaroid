@@ -355,7 +355,7 @@ IMITATE = [
     "If imitating me makes you happy, I will be happier to see you laugh"
 ]
 
-if platform.platform() == 'Windows':
+if platform.system() == 'Windows':
     SUGAROID_INTRO = \
         """
 MMMMMMMMMMMMMMMMMMMMMMMCCCCMMMMMMMMMMMMMMMMMMMMMMM

@@ -31,8 +31,7 @@ from chatterbot.logic import LogicAdapter
 from nltk.sentiment import SentimentIntensityAnalyzer
 
 from sugaroid.brain.constants import BOT_NEUTRAL, BOT_NEUTRAL_NOUN, BOT_POSITIVE_NOUN, BOT_POSITIVE
-from sugaroid.brain.postprocessor import random_response
-
+from sugaroid.brain.postprocessor import random_response, any_in
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import spac_token
 from sugaroid.sugaroid import SugaroidStatement
@@ -83,6 +82,7 @@ class DoLikeAdapter(LogicAdapter):
         self.normalized = nltk.word_tokenize(str(statement).lower())
         if ('do' in self.normalized or 'did' in self.normalized) and 'like' in self.normalized:
             return True
+        if ('who' in self.normalized or 'which' in self.normalized or 'what' in self.normalized) and 'you' in str(statement) and any_in(list(SUGAROID_LIKES.keys(), self.normalized)):
         else:
             return False
 

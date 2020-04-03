@@ -1,11 +1,13 @@
+wikipedia-API
+pyyaml
 newsapi-python
-https://github.com/srevinsaju/ChatterBot/archive/master.zip
+sugaroid-chatterbot
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
 pyjokes
 pyspellchecker
 python-dotenv
 nltk
-git+git://github.com/gunthercox/chatterbot-corpus.git#egg=chatterbot-corpus
+sugaroid-chatterbot-corpus
 freegames
 spacy
 requests
@@ -14,10 +16,8 @@ beautifulsoup4
 django-googlesearch
 scikit-learn
 googletrans
-MediaWikiAPI
 wikipedia
 akinator.py
 emoji
-
 pyinflect
 currencyconverter

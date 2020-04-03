@@ -3,11 +3,11 @@
 block_cipher = None
 
 
-a = Analysis(['sugaroid/__main__.py'],
-             pathex=['/run/media/ss/ARCH_DATA/git/sugaroid'],
-             binaries=[],
+a = Analysis(['launcher.py'],
+             pathex=['C:\\Windows\\System32\\vcomp140.dll', 'O:\\'],
+             binaries=[('C:\\Windows\\System32\\vcomp140.dll', '.')],
              datas=[],
-             hiddenimports=[],
+             hiddenimports=['sugaroid', 'sugaroid_chatterbot', 'sugaroid_chatterbot_corpus', 'pkg_resources.py2_warn', 'en_core_web_sm'],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True )
+          console=True , icon='sugaroid.ico')
