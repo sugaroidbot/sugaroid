@@ -23,7 +23,7 @@ import logging
 
 try:
     import git
-except ModuleNotFoundError:
+except Exception as e:
     logging.warning(
         'GitPython not installed. Fallback to pip3 version reading')
     git = None
