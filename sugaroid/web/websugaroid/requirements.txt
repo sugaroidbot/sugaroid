@@ -1,13 +1,11 @@
 GitPython
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
--e git://github.com/srevinsaju/sugaroid.git#egg=sugaroid
+sugaroid
 Django
 gunicorn
 django_heroku
 freegames
 wikipedia-api
 mediawikiapi
-git+git://github.com/gunthercox/chatterbot-corpus.git#egg=chatterbot-corpus
-
-
-
+sugaroid-chatterbot
+sugaroid-chatterbot-corpus
