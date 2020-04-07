@@ -82,7 +82,7 @@ class DoLikeAdapter(LogicAdapter):
         self.normalized = nltk.word_tokenize(str(statement).lower())
         if ('do' in self.normalized or 'did' in self.normalized) and 'like' in self.normalized:
             return True
-        if ('who' in self.normalized or 'which' in self.normalized or 'what' in self.normalized) and 'you' in str(statement) and any_in(list(SUGAROID_LIKES.keys(), self.normalized)):
+        if ('who' in self.normalized or 'which' in self.normalized or 'what' in self.normalized) and 'you' in str(statement) and any_in(list(SUGAROID_LIKES.keys()), self.normalized):
         	return True
         else:
             return False
