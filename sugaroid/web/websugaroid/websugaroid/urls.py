@@ -50,7 +50,7 @@ urlpatterns = [
     path('user', post_user_input),
     path('chatbot', get_chatbot_response)
 ]
-handler404 = 'sugaroid_chatbot.views.error_404'
-handler500 = 'sugaroid_chatbot.views.error_404'
-handler403 = 'sugaroid_chatbot.views.error_404'
-handler400 = 'sugaroid_chatbot.views.error_404'
+#handler404 = 'sugaroid_chatbot.views.error_404'
+#handler500 = 'sugaroid_chatbot.views.error_404'
+#handler403 = 'sugaroid_chatbot.views.error_404'
+#handler400 = 'sugaroid_chatbot.views.error_404'
