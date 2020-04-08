@@ -31,18 +31,22 @@
 		}
 		function myFunction() {
 		  var x = document.getElementById("cookies");
-			var y = document.getElementById("cokies");
+		  var y = document.getElementById("cokies");
 		  if (x.style.display === "none") {
 		    x.style.display = "block";
 		  } else {
-				y.style.display = "block";
+		    cokie = getCookie("some");
+       		if (cokie == null){
+		    	y.style.display = "block";
+	        }
+			  
 		    x.style.display = "none";
 		  }
 		}
 		function myFFunction() {
 		  var x = document.getElementById("cokies");
 		  if (x.style.display === "none") {
-		    x.style.display = "block";
+		    x.style.display = "none";
 		  } else {
 		    x.style.display = "none";
 		  }
@@ -81,6 +85,7 @@
 
 		    if (myCookie == null) {
 		        setCookie('some', 'True', 1);
+			myFFunction();
 		    }
 		    else {
 		        myFunction();
@@ -809,7 +814,7 @@
 </div>
 <div id="cokies" class="cookie-alert" style="display: none">
      Feels like responses are slow? Sugaroid's servers are hosted on Microsoft Azure. You can help me out through contributions for open source and free development<br />
-    <a href="https://patreon.com/srevinsaju" target="_blank">Become my Patreon</a>
+    <a onclick="myFFunction();" href="https://patreon.com/srevinsaju" target="_blank">Become my Patreon</a>
 </div>
 <div id="frame">
 

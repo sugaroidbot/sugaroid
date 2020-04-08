@@ -5,6 +5,20 @@
 
 > **IMPORTANT** : Sugaroid is an open source software. The web server is deployed on Microsoft Azure. Your support for this open source software is highly necessary to make this project continued to be served on the world wide web. Consider being my patron to help Sugaroid host its servers or if you are willing to lend servers for Sugaroid, press the sponsor button and email me. Thanks. However, Sugaroid will always remain free forever :smile:
 
+
+
+## Acknowledgements 
+
+**Sugaroid AI** has become possible to millions of open source developers. Particularly to mention, I would like to thank **[@GuntherCox](https://github.com/gunthercox)** for the `chatterbot` library and **[@explosion](https://explosion.ai) for [`spaCy`](https://github.com/explosion/spaCy)** , the machine learning library with which it was possible to make natural language processing easy as pie. Also, the millions of word collection on `en_core_web_sm`, `en_core_web_md` was contributed by developers across the globe for translation and linguistic differentiation. I would also like to thank, Sugar Labs 2019 GCI Team, **Sashreek Magan** (aka [@smag](https://github.com/smag)), **Andrea Gonzales** (aka [@andreagon](https://github.com/AndreaGon)), **Zakiyah Hasanah** (aka [@kiy4h](https://github.com/Kiy4h)), **Rishikesh Joshi** (aka [@Creatune](https://github.com/Creatune)), **Szymon** (aka [@sdziuda](https://github.com/sdziuda)) and **Marcus Chong** (aka [@pidddgy](https://github.com/pidddgy)) for continuous testing on servers and reporting bugs. It is only possible to rectify bugs with the help of repeated testing. I would also like to thank friends and family who also helped me to work on this project. Along with this, I would like to extend gratitude to **Microsoft** for sponsoring [Sugaroid’s hosting on Azure](https://sugaroid.azurewebsites.net).
+
+<br>
+
+## Table of Contents
+
+[TOC]
+
+<br>
+
 ## Introduction
 
 Sugaroid is a new Artificial Intelligence which uses Natural Language Processing (NLP) with Machine Learning and neural networks to manipulate user input to provide a intuitive response. The AI is built on `Python 3.8.2` and was built out of personal interest, to tackle three important issues in the Python framework
@@ -21,6 +35,8 @@ The Sugaroid bot is deployed in production servers particularly for testing.
 * The discord bot
 * IRC bot hosted on self when necessary
 
+<br>
+
 ## Installation
 
 ### Installing from PYPI
@@ -31,7 +47,17 @@ The Sugaroid Chatbot is built on [wheels](https://pythonwheels.com/) and is also
 pip3 install sugaroid
 ```
 
-> `NOTE`: Users have reported cases when installation was unsuccessful especially if the native operating system  is Windows. The testing on the `Windows` and related operating systems like `ReactOS` is only under progress. If you would like to contribute to windows testing, let me know as an issue on the repository or a mail
+The Sugaroid Chatbot depends indirectly on `ChatterBot` by @Gunthercox. However, it was quite important to create a fork of the `ChatterBot` repo due to the conflicting and outdated dependencies. It is possible that, the installation and procedural working of sugaroid will fail, provided you have previously installed `ChatterBot` or `chatterbot-corpus`. As an alternative, a beta tracking branch of `Chatterbot` and `Chatterbot-corpus` have been released under the alias `sugaroid-chatterbot` and `sugaroid-chatterbot-corpus`. In any such case , the following method of installation might be useful
+
+```bash
+pip3 uninstall chatterbot chatterbot-corpus
+pip3 install -U sugaroid
+pip3 install -U sugaroid-chatterbot sugaroid-chatterbot-corpus
+```
+
+In addition, on Windows, it is possible that the absence of a valid `Git` executable can cause failure to start. These are very rare cases. In that case, we have to install the latest git from git-scm.org
+
+<br>
 
 ### Installation from Source
 
@@ -44,10 +70,12 @@ pip3 install https://github.com/srevinsaju/sugaroid/archive/master.zip
 Alternatively
 
 ```bash
-git clone https://github.com/srevinsaju/sugaroid
+git clone https://github.com/srevinsaju/sugaroid --dep
 cd sugaroid
 python3 setup.py install --user
 ```
+
+<br>
 
 
 
@@ -70,7 +98,7 @@ There are few arguments that can be passed to sugaroid
 * `train`: Running `sugaroid train` will start the sugaroid trainer, which you can use to train sugaroid for some responses 
 * `update` : Running `sugaroid update` will clear the current database and train the new data and store it persistently to the configuration path as `sugaroid.db` . (See [Configuration](#Configuraton) for more details)
 
-To launch the sugaroid web server on any IP address, do a local clone of the package by
+To launch the sugaroid web server on any `IP` address, do a local clone of the package by
 
 ```bash
 git clone https://github.com/srevinsaju/sugaroid-wsgi --depth=1
@@ -79,6 +107,8 @@ python manage.py runserver
 ```
 
 Follow the on-screen instructions to get it running on your web browser. If the command completed with a status `OK`, you should be able to see sugaroid running on https://0.0.0.0:8000
+
+<br>
 
 ## Interfaces
 
@@ -108,6 +138,8 @@ In order to provide a server side chatbot server, the sugaroid AI was configured
 
 The current work left on the Django system is to enable cookies to store the data on the client side temporarily and not on the server side. The current Django implementation is based on server-side, which implies the chat history is saved on the server
 
+<br>
+
 ## Similarity Algorithms
 
 ### Jaccard Similarity
@@ -121,6 +153,8 @@ Where n, number of common words in list x and list y, and (x+ y) shows the union
 The benefits of using Jaccard similarity is that, sugaroid can implement `can_process` methods in an object with optimal resource usage. There is no need to use complex cosine dot product for finding similarity in cases there are only one word as list x and list y respectively. This helped to optimize the sugaroid bot partly
 
 Jaccard Similarity can be accessed by `sugaroid.brain.preprocessors.sigma_similarity`
+
+<br>
 
 ### Cosine Dot product 
 
@@ -136,6 +170,8 @@ Words are classified as vectors in this case. Similar words are given similar bu
 This complex collection of details helped to club similar nouns and verbs together and provide customized answers, reduce training data and increasing program logic. Therefore, each data was not to be separately forced to the sugaroid bot to understand and learn but also learn the phrases of message input by itself and store it in the SQL Database for future reference
 
 Cosine Dot product can be accessed within sugaroid by `sugaroid.brain.postprocessors.cosine_similarity`
+
+<br>
 
 ### Jensen Shannon Distance (JSD)
 
@@ -160,13 +196,15 @@ Sometimes, the similarity algorithms may give a completely incorrect answer that
 
 The other complex and efficient algorithms have been neglected. This is to reduce the size of the distribution as well as reduce the time of installation on an end-user's PC. Complex and accurate Natural Language Processing systems like `pytorch` and `tensorflow` exists, but this may result in the net user installation size to be approximately 2 GB +, which is probably not what the end-user requires.
 
+<br>
+
 ## Configuration
 
 Sugaroid saves some data to your PC. The path where `sugaroid` saves the data is `~/.config/sugaroid` on Linux and Mac OS, but on Windows it is in `C:\Users\<username>\AppData\sugaroid\ ` 
 
 This is the training database used my sugaroid to answer your questions. Particularly related to `sugaroid` brain, the files are `sugaroid.db` and `sugaroid.trainer.json` 
 
-* `sugaroid.db` : The Sugaroid bot uses `SQLite` to read data from a persistent database. Remove `sugaroid.db` will reset `sugaroid`s brain, and a fresh database will be created  from scratch
+* `sugaroid.db` : The Sugaroid bot uses `SQLite` to read data from a persistent database. Remove `sugaroid.db` will reset `sugaroid`'s brain, and a fresh database will be created  from scratch
 * `sugaroid.trainer.json` : Is a JavaScript Object Notation file which stores trained responses in order to reset or retrain them whenever there is a necessity. This file may or may not be present in end user's systems and depends solely on the type of release `dev` or `stable`
 
 There might also be additional files in the configuration directory. These are Audio files, In the case that the `audio` keyword is passed as an argument, it creates samples of audio files downloaded from the `Google` server to serve [TTS (Text to Speech)](https://cloud.google.com/text-to-speech) to the end user. 
@@ -189,7 +227,7 @@ graph LR
 
 This algorithm is implemented to prevent the download of Audio files on each request by the sugaroid bot.
 
-
+<br>
 
 ## Memory 
 
@@ -206,13 +244,13 @@ The Sugaroid bot has been designed to provide an acceptable answer and the autho
 
 This is because, a lot of unnecessary objects have been created in the memory. This should be removed before the release of `sugaroid` version 1.0
 
-### Update v 0.7
+### Update v0.5.2+
 
 The unnecessary `spaCy` tokenizers were forced to be implemented into a single function called `sugaroid.sugaroid.SugaroidStatement`  which calculates the `spacy.nlp.Doc` on each object initialization. All the rest of the statement tokenizers were replaced by the base class usage. This prevents the recalculation of the similarity and tokens for each adapter. However, the number of adapters have increased considerably. The net memory decrease cannot be plotted, nevertheless. On the addition of each Adapter, the average RAM increases logarithmically as far as 1% of the total RAM used. This increases exponentially until the bases state where the coverage of sugaroid has been achieved to be above 75% and all the adapters have been significantly used to process at least 1 statement.
 
 ## CPU Usage
 
-The Sugaroid bot does not have significant CPU usage. Tested on Linux Manjaro running with 1.8 GHz with other applications running did not affect system stability. 
+The Sugaroid bot does not have significant CPU usage. Tested on Linux `Manjaro` running with 1.8 GHz with other applications running did not affect system stability. 
 
 ## Adapters
 
@@ -220,44 +258,56 @@ The brain of sugaroid relies in the modules it uses. Sugaroid uses many modules 
 
 As of Sugaroid `v0.7`, it has:
 
-* BoolAdapter: Processes Boolean based answers
-* AkinatorAdapter: Adapter which ports the wrapper of the Akinator game to Sugaroid
-* HangmanAdapter: Plays hangman with you 
-* OrAdapter: Selects a random operand of the provided statement 
-* OkayAdapter: Handles statements with a plain old okay 
-* ByeAdapter: Destroys Sugaroid on bye 
-* TimeAdapter: Provides time and time related functions except time conversion 
-* CurrencyAdapter: Gives a random response, because Sugaroid tries not to say I don't know 
-* LearnAdapter: a specific adapter for learning responses 
-* TriviaAdapter: Plays a short game of trivia 
-* WhoAdapter: Handles statements with 'who' as one of the tokens 
-* NewsAdapter: Ports the SugaroidNews Wrapper for easier access by the SugaroidChatbot Class 
-* JokeAdapter: Gets a random joke from the Chuck Norris Database 
-* PlayAdapter: [DEPRECATED] Plays a game on desktops only 
-* CanAdapter: Processes statements which features a Modal question (can, may) 
-* BecauseAdapter: Processes statements which starts with Because or gives a reason 
-* ReReverseAdapter: Processes statements featuring conversational flow. It scans the previous statements 
-     and takes a cosine similarity of the statemnts, and TFiD Vector cross product to get 
+* `BoolAdapter`: Processes Boolean based answers
+* `AkinatorAdapter`: Adapter which ports the wrapper of the Akinator game to Sugaroid
+* `HangmanAdapter`: Plays hangman with you 
+* `OrAdapter`: Selects a random operand of the provided statement 
+* `OkayAdapter`: Handles statements with a plain old okay 
+* `ByeAdapter`: Destroys Sugaroid on bye 
+* `TimeAdapter`: Provides time and time related functions except time conversion 
+* `CurrencyAdapter`: Gives a random response, because Sugaroid tries not to say I don't know 
+* `LearnAdapter`: a specific adapter for learning responses 
+* `TriviaAdapter`: Plays a short game of trivia 
+* `WhoAdapter`: Handles statements with 'who' as one of the tokens 
+* `NewsAdapter`: Ports the `SugaroidNews` Wrapper for easier access by the `SugaroidChatbot` Class 
+* `JokeAdapter`: Gets a random joke from the Chuck Norris Database 
+* `PlayAdapter`: `[DEPRECATED]` Plays a game on desktops only 
+* `CanAdapter`: Processes statements which features a Modal question (can, may) 
+* `BecauseAdapter`: Processes statements which starts with Because or gives a reason 
+* `ReReverseAdapter`: Processes statements featuring conversational flow. It scans the previous statements 
+     and takes a cosine similarity of the statements, and `TFiD` Vector cross product to get 
      the most probable answer 
-* ReverseAdapter: A random adapter. Top Secret 
-* MyNameAdapter: Handles sentences featuring 'my' and 'name' 
-* MeAdapter: Processes the statements showing possessive 
-* AboutAdapter: Defines the personality of sugaroid 
-* WikiAdapter: Handles Wikipedia based questions 
-   DoLikeAdapter: Handles likes of Sugaroid 
-   FeelAdapter: Handles sentences containing the word feel 
-   DoLikeAdapter: Handles likes of Sugaroid 
-   DoAdapter: Processes statements beginning with 'Do' and 'know' 
-   EmotionAdapter: Handles positive and negative emotional statements 
-   DisAdapter: A complex algorithm sorting the words beginning with negative based on the probability. 
+* `ReverseAdapter:` A random adapter. Top Secret 
+* `MyNameAdapter`: Handles sentences featuring 'my' and 'name' 
+* `MeAdapter`: Processes the statements showing possessive 
+* `AboutAdapter`: Defines the personality of sugaroid 
+* `WikiAdapter`: Handles Wikipedia based questions 
+* `DoLikeAdapter`: Handles likes of Sugaroid 
+* `FeelAdapter`: Handles sentences containing the word feel 
+* `DoAdapter`: Processes statements beginning with 'Do' and 'know'
+* `EmotionAdapter`: Handles positive and negative emotional statements
+* `DisAdapter`: A complex algorithm sorting the words beginning with negative based on the probability. 
      and achieving a similar confidence ratio of the word percentage. 
-     The DisAdapter keeps the confidence below 0.5 so that the BestAdapter may find some 
+     The `DisAdapter` keeps the confidence below 0.5 so that the `BestAdapte`r may find some 
      other answer similar to 
-   TwoWordAdapter: Hanfles sentences having two wrods 
-   OneWordAdapter: Logical adapter for processing data with one words 
-   DebugAdapter: Internal Admin feature to debug Sugaroid statements 
-   WhyWhenAdapter: Processes wh-adverbs 
-   ReaderAdapter: Logical adapter for processing data with one words 
-   ImitateAdapter: Handles statements involving imitations of some sentences 
-   FunAdapter: Gives a random response, because Sugaroid tries not to say I don't know 
-   UnitConversion: The UnitConversion logic adapter parse inputs to convert values
+* `TwoWordAdapte`: Handles sentences having two words 
+* `OneWordAdapter`: Logical adapter for processing data with one words 
+* `DebugAdapter`: Internal administrator feature to debug Sugaroid statements 
+* `WhyWhenAdapter`: Processes `wh`-adverbs 
+* `ReaderAdapter`: Logical adapter for processing data with one words 
+* `ImitateAdapter`: Handles statements involving imitations of some sentences 
+* `FunAdapter`: Gives a random response, because Sugaroid tries not to say I don't know 
+* `UnitConversion`: The `UnitConversion` logic adapter parse inputs to convert values
+
+### Boolean Adapter (`sugaroid.brain.bool.BooleanAdapter`)
+
+The Boolean Adapter retrieves the input statement and finds for instances of Boolean answers. This includes words like “Yes”, “Yea”, “No”, “True” or “False”. The unique identification code is received from `sugaroid.SugaroidStatement.uid` and then conditionally processes the statements to do a task or direct the answer to another conversations.
+
+### Akinator Adapter (`sugaroid.brain.aki.AkinatorAdapter`)
+
+The Akinator Adapter is a wrapper class, that takes the acts like a server with [akinator.org](akinator.org), and then checks the `sugaroid.SugaroidStatement.uid` for the continuity of the question answering sequence. The Akinator class for the session is stored across chat checks, by the help of `sugaroid.SugaroidBot.globals`. The data is temporarily stored into a dictionary, so that it can be received on the next answer.
+
+### Hangman Adapter (`sugaroid.brain.aki.Hangman`)
+
+To be filled in later :rofl:
+
