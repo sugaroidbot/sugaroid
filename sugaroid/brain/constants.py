@@ -54,6 +54,11 @@ GRATIFY = [
     "You knocked me off my feet!",
     "I'm touched beyond words",
     "Thank you for being my angel.",
+    "Thanks a lot. I always want to keep learning and this is possible just because of you",
+    "Thank you!",
+    "Thanks for your comments. You inspire me",
+    "Thanks a lot. Your messages inspire me to perform better everytime.",
+    "Aww. Thanks a million. You are my charm"
 ]
 
 THANK = [
