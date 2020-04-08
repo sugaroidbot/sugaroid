@@ -245,6 +245,9 @@ class SugaroidBot(ChatBot):
                     result = output
                     final_adapter = adapter.class_name
                     max_confidence = output.confidence
+                if max_confidence >= 9:
+                    # optimize: if the confidence is greater than 9, just break dude, why check more
+                    break
             else:
                 self.logger.info(
                     'Not processing the statement using {}'.format(

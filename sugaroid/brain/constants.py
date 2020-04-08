@@ -274,6 +274,18 @@ DIS_RESPONSES_I = [
     "I am sorry."
 ]
 
+APPRECIATION = [
+    'commend',
+    'congrats',
+    'congratulate',
+    'congratulations',
+    'kudos',
+    'commendable',
+    'commentary',
+    'appreciate',
+    'appreciation'
+]
+
 DIS_RESPONSES_YOU = [
     "I will try not to be {}",
     "I don't think I am {}",
