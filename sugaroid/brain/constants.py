@@ -48,6 +48,26 @@ SOFTWARE.
 """
 
 
+WHAT_I_AM_GOING_TO_DO = {
+    "tomorrow": "I will try to learn cryptography. I will try working on Casesar's Cipher and decrypting random codes",
+    "today": "I am creating a report of the world-wide usage history. "
+             "I am checking if my answer responses are becoming more valid, or more foolish. :)",
+    "weekend": "Hmm. I have not thought about it so far.",
+    "weekday": "Hmm. I have not thought about it so far.",
+    'month': "Its quite far away. I have quite wonderful things to keep doing, "
+             "rather than thinking what I am going to do next month. Who knows if anyone would live that long",
+    "year": "I am quite worried that, I will still remain a 'newborn' bot, unless my code is changed the next year to",
+    "yesterday": "Past is past. Isn't it?",
+    "sunday": "I will try taking some rest. But I am too restless you know.",
+    "monday": "I will be fixing bug reports and diagnosing myself",
+    "tuesday": "Will try to create some pull request for Sugar Labs",
+    "wednesday": "Got to break the turing test. XD",
+    "thursday": "I got to update myself and read the old books I read. Someone might have added new stuff to the docs.",
+    "friday": 'I have to think what I should do on Saturday',
+    "saturday": "Probably, I will repenting the waste of time, that I did on Friday. Lol"
+}
+
+
 GRATIFY = [
     "Thank you, indeed its my pleasure ",
     "All my 0s and 1s are still smiling",
