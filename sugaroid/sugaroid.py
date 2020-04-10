@@ -487,6 +487,10 @@ class Sugaroid:
             'sugaroid.brain.news.NewsAdapter',
             'sugaroid.brain.joke.JokeAdapter',
             'sugaroid.brain.play.PlayAdapter',
+            'sugaroid.brain.let.LetAdapter',
+            'sugaroid.brain.whatwhat.WhatWhatAdapter',
+            'sugaroid.brain.waitwhat.WaitWhatAdapter',
+            'sugaroid.brain.assertive.AssertiveAdapter',
             'sugaroid.brain.canmay.CanAdapter',
             'sugaroid.brain.because.BecauseAdapter',
             'sugaroid.brain.rereversei.ReReverseAdapter',
@@ -648,7 +652,10 @@ class Sugaroid:
         :param response:
         :return:
         """
-        print(emojize(response.text))
+        try:
+            print(emojize(response.text))
+        except AttributeError:
+            print(emojize(response))
         if self.audio:
             self.tts.speak(str(response))
 
