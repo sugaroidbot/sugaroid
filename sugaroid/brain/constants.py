@@ -88,6 +88,31 @@ THANK = [
     "I'm indeed happy. Thanks for that wonderful piece of information",
 ]
 
+LET_THIS_HAPPEN = [
+    "Sure!",
+    "Why not",
+    "Theoretically possible. Why not try it practically?",
+    "I grant you the royal proclamation to proceed assuming",
+    "Asumptions are good. Literally.",
+    "Yea, then?",
+]
+
+SUGAROID_CAN_AGREE = [
+    "Yup! I agree.",
+    "Yea. I feel the same.",
+    "I have nothing to say, but I agree with you.",
+    "Yea. We have similar opinions",
+    "True.",
+    "Yup"
+]
+
+SUGAROID_CAN_DISAGREE = [
+    "Maybe not.",
+    "Why? Is it necessary?",
+    "I do not agree.",
+    "Why do you feel like that?"
+]
+
 CONSOLATION = [
     "Your limitation—it’s only your imagination.",
     "Push yourself, because no one else is going to do it for you.",
