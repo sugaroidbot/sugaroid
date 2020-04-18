@@ -95,7 +95,10 @@ def get_chatbot_response(request):
     conv = sg.parse(conversation_local[-1][1])
     r = emojize(str(conv))
     r = r.encode('ascii', 'ignore').decode()
-    emotion = conv.emotion
+    try:
+        emotion = conv.emotion
+    except AttributeError:
+        emotion = 0
     conversation_local.append(['sent', r, emotion])
     response = HttpResponseRedirect('/')
     response.set_cookie('conversation', '{}'.format(conversation_local))
