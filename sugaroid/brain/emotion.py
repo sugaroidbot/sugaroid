@@ -29,9 +29,9 @@ SOFTWARE.
 from random import randint
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from sugaroid.brain.constants import GRATIFY, CONSOLATION, SIT_AND_SMILE
+from sugaroid.brain.constants import GRATIFY, CONSOLATION, SIT_AND_SMILE, APPRECIATION
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import reverse, random_response
+from sugaroid.brain.postprocessor import reverse, random_response, any_in
 from sugaroid.brain.preprocessors import tokenize
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -92,11 +92,16 @@ class EmotionAdapter(LogicAdapter):
                                 response = "I am depressed. Is there anything which I hurt you? I apologize for that"
                                 emotion = Emotion.depressed
                     else:
-                        # FIXME : Make it more smart
-                        response = random_response(SIT_AND_SMILE)
-                        emotion = Emotion.lol
-                        if confidence > 0.8:
-                            confidence -= 0.2
+                        if any_in(APPRECIATION, parsed):
+                            response = random_response(GRATIFY)
+                            emotion = Emotion.angel
+                            confidence = 0.8
+                        else:
+                            # FIXME : Make it more smart
+                            response = random_response(SIT_AND_SMILE)
+                            emotion = Emotion.lol
+                            if confidence > 0.8:
+                                confidence -= 0.2
             else:
                 if 'i' in parsed:
                     response = "Its ok,  {}.".format(

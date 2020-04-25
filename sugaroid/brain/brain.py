@@ -32,6 +32,7 @@ from time import strftime, localtime
 from chatterbot.conversation import Statement
 from chatterbot.logic import MathematicalEvaluation
 from nltk.tokenize import WordPunctTokenizer
+
 from sugaroid.brain.preprocessors import preprocess
 
 ARITHMETIC = ['+', '-', '*', '/', '^']

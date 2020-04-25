@@ -48,6 +48,7 @@ warnings.filterwarnings("ignore")
 
 try:
     from sugaroid.tts.tts import Text2Speech
+
     AUD_DEPS = True
 except ModuleNotFoundError:
     AUD_DEPS = False
@@ -57,12 +58,12 @@ logging.basicConfig(level=verbosity)
 try:
     from PyQt5 import QtCore, QtWidgets
     from PyQt5.QtWidgets import QApplication
+
     GUI_DEPS = True
 except ModuleNotFoundError:
     GUI_DEPS = False
 
 a = SUGAROID_INTRO
-
 
 SPACY_LANG_PROCESSOR = LanguageProcessor()
 
@@ -76,6 +77,7 @@ class SugaroidStatement(Statement):
     The Adapter was the generic name of the adapter in string type determined
     by the __gtype__ variable
     """
+
     def __init__(self, text, in_response_to=None, **kwargs):
         Statement.__init__(self, text, in_response_to, **kwargs)
         self.emotion = kwargs.get('emotion', Emotion.neutral)
@@ -91,6 +93,7 @@ class SugaroidBot(ChatBot):
     """
     The SugaroidBot inherits the class local variables from the Chat
     """
+
     def __init__(self, name, **kwargs):
         ChatBot.__init__(self, name=name, **kwargs)
         self.lp = LanguageProcessor()
@@ -131,7 +134,6 @@ class SugaroidBot(ChatBot):
             'DEBUG': {}
         }
         # self.emotion = Emotion.neutral
-
 
     def get_global(self, key):
         """
@@ -226,6 +228,7 @@ class SugaroidBot(ChatBot):
         max_confidence = -1
         final_adapter = None
         interrupt = False
+        adapter_index = 0
         for adapter in self.logic_adapters:
             if adapter.class_name == 'InterruptAdapter':
                 interrupt = adapter
@@ -245,11 +248,20 @@ class SugaroidBot(ChatBot):
                     result = output
                     final_adapter = adapter.class_name
                     max_confidence = output.confidence
+                if max_confidence >= 9:
+                    # optimize: if the confidence is greater than 9,
+                    # just break dude, why check more
+                    break
+                elif max_confidence >= 1 and adapter_index >= 3:
+                    # optimize: if the confidence is greater than 9,
+                    # just break dude, why check more
+                    break
             else:
                 self.logger.info(
                     'Not processing the statement using {}'.format(
                         adapter.class_name)
                 )
+            adapter_index += 1
         if max_confidence < 0.5:
             if self.discord:
                 if interrupt and interrupt.can_process(input_statement):
@@ -258,10 +270,16 @@ class SugaroidBot(ChatBot):
                     except IndexError:
                         username = None
 
-                    output = interrupt.process(input_statement, username=username)
+                    output = interrupt.process(
+                        input_statement,
+                        username=username
+                    )
                     self.logger.info(
-                        '{} selected "{}" as a response with a confidence of {}'.format(
-                            interrupt.class_name, output.text, output.confidence
+                        '{} selected "{}" as a response '
+                        'with a confidence of {}'.format(
+                            interrupt.class_name,
+                            output.text,
+                            output.confidence
                         )
                     )
 
@@ -269,7 +287,12 @@ class SugaroidBot(ChatBot):
                     final_adapter = interrupt.class_name
                     max_confidence = output.confidence
 
-        self.gen_debug(statement=input_statement, adapter=final_adapter, confidence=max_confidence, results=result)
+        self.gen_debug(
+            statement=input_statement,
+            adapter=final_adapter,
+            confidence=max_confidence,
+            results=result
+        )
 
         class ResultOption:
             def __init__(self, statement, count=1):
@@ -282,11 +305,12 @@ class SugaroidBot(ChatBot):
             result_options = {}
             for result_option in results:
                 result_string = result_option.text + ':' + \
-                    (result_option.in_response_to or '')
+                                (result_option.in_response_to or '')
 
                 if result_string in result_options:
                     result_options[result_string].count += 1
-                    if result_options[result_string].statement.confidence < result_option.confidence:
+                    if result_options[result_string].statement.confidence < \
+                            result_option.confidence:
                         result_options[result_string].statement = result_option
                 else:
                     result_options[result_string] = ResultOption(
@@ -312,11 +336,12 @@ class SugaroidBot(ChatBot):
             result.adapter = None
             adapter_type = None
 
-        if adapter_type and adapter_type not in ['NewsAdapter', 'LearnAdapter']:
+        if adapter_type and \
+                adapter_type not in ['NewsAdapter', 'LearnAdapter']:
             if adapter_type in self.globals['history']['types']:
                 if adapter_type == self.globals['history']['types'][-1]:
                     result.text = random_response(REPEAT)
-                elif len( self.globals['history']['types']) > 2:
+                elif len(self.globals['history']['types']) > 2:
                     if adapter_type == self.globals['history']['types'][-2]:
                         result.text = random_response(REPEAT)
 
@@ -345,7 +370,8 @@ class SugaroidBot(ChatBot):
         :return:
         """
 
-        self.globals['DEBUG']['number_of_conversations'] = self.globals['DEBUG'].get('number_of_conversations', 0) + 1
+        self.globals['DEBUG']['number_of_conversations'] = \
+            self.globals['DEBUG'].get('number_of_conversations', 0) + 1
         _id = self.globals['DEBUG']['number_of_conversations']
         val = dict()
         val['adapter'] = adapter
@@ -362,19 +388,21 @@ class SugaroidBot(ChatBot):
         :returns: A response to the input.
         :rtype: Statement
 
-        :param additional_response_selection_parameters: Parameters to pass to the
+        :param additional_response_selection_parameters: Parameters to pass to
             chat bot's logic adapters to control response selection.
         :type additional_response_selection_parameters: dict
 
-        :param persist_values_to_response: Values that should be saved to the response
-            that the chat bot generates.
+        :param persist_values_to_response: Values that should be saved to the
+            response that the chat bot generates.
         :type persist_values_to_response: dict
         """
         Statement = SugaroidStatement
 
-        additional_response_selection_parameters = kwargs.pop('additional_response_selection_parameters', {})
+        additional_response_selection_parameters = \
+            kwargs.pop('additional_response_selection_parameters', {})
 
-        persist_values_to_response = kwargs.pop('persist_values_to_response', {})
+        persist_values_to_response = \
+            kwargs.pop('persist_values_to_response', {})
 
         if isinstance(statement, str):
             kwargs['text'] = statement
@@ -406,18 +434,34 @@ class SugaroidBot(ChatBot):
         # Make sure the input statement has its search text saved
 
         if not input_statement.search_text:
-        	try:
-        		input_statement.search_text = self.storage.tagger.get_text_index_string(input_statement.text)
-        	except AttributeError:
-        		input_statement.search_text = self.storage.tagger.get_bigram_pair_string(input_statement.text)
+            try:
+                input_statement.search_text = \
+                    self.storage.tagger.get_text_index_string(
+                        input_statement.text
+                    )
+            except AttributeError:
+                input_statement.search_text = \
+                    self.storage.tagger.get_bigram_pair_string(
+                        input_statement.text
+                    )
 
-        if not input_statement.search_in_response_to and input_statement.in_response_to:
-        	try:
-        		input_statement.search_in_response_to = self.storage.tagger.get_text_index_string(input_statement.in_response_to)
-        	except AttributeError:
-        		input_statement.search_in_response_to = self.storage.tagger.get_bigram_pair_string(input_statement.in_response_to)
+        if not input_statement.search_in_response_to and \
+                input_statement.in_response_to:
+            try:
+                input_statement.search_in_response_to = \
+                    self.storage.tagger.get_text_index_string(
+                        input_statement.in_response_to
+                    )
+            except AttributeError:
+                input_statement.search_in_response_to = \
+                    self.storage.tagger.get_bigram_pair_string(
+                        input_statement.in_response_to
+                    )
 
-        response = self.generate_response(input_statement, additional_response_selection_parameters)
+        response = self.generate_response(
+            input_statement,
+            additional_response_selection_parameters
+        )
 
         # Update any response data that needs to be changed
         if persist_values_to_response:
@@ -443,9 +487,11 @@ class Sugaroid:
     """
     Sugaroid
     Initates the chatbot class and connects logic Adapters together.
-    Initates the ConfigManager to store sugaroid data and connects scans sys.argv
+    Initates the ConfigManager to store sugaroid data and connects scans
+    sys.argv
 
     """
+
     def __init__(self):
         self.trainer = None
         self.corpusTrainer = None
@@ -455,7 +501,11 @@ class Sugaroid:
         self.cfgpath = self.cfgmgr.get_cfgpath()
         self.database_exists = os.path.exists(
             os.path.join(self.cfgpath, 'sugaroid.db'))
-
+        self.commands = [
+            'sugaroid.brain.debug.DebugAdapter',
+            'sugaroid.brain.interrupt.InterruptAdapter',
+            'sugaroid.brain.learn.LearnAdapter',
+        ]
         self.adapters = [
             'sugaroid.brain.yesno.BoolAdapter',
             'sugaroid.brain.aki.AkinatorAdapter',
@@ -465,12 +515,15 @@ class Sugaroid:
             'sugaroid.brain.bye.ByeAdapter',
             'sugaroid.brain.time.TimeAdapter',
             'sugaroid.brain.convert.CurrencyAdapter',
-            'sugaroid.brain.learn.LearnAdapter',
             'sugaroid.brain.trivia.TriviaAdapter',
             'sugaroid.brain.whoami.WhoAdapter',
             'sugaroid.brain.news.NewsAdapter',
             'sugaroid.brain.joke.JokeAdapter',
             'sugaroid.brain.play.PlayAdapter',
+            'sugaroid.brain.let.LetAdapter',
+            'sugaroid.brain.whatwhat.WhatWhatAdapter',
+            'sugaroid.brain.waitwhat.WaitWhatAdapter',
+            'sugaroid.brain.assertive.AssertiveAdapter',
             'sugaroid.brain.canmay.CanAdapter',
             'sugaroid.brain.because.BecauseAdapter',
             'sugaroid.brain.rereversei.ReReverseAdapter',
@@ -488,13 +541,12 @@ class Sugaroid:
             'sugaroid.brain.dis.DisAdapter',
             'sugaroid.brain.twoword.TwoWordAdapter',
             'sugaroid.brain.oneword.OneWordAdapter',
-            'sugaroid.brain.debug.DebugAdapter',
             'sugaroid.brain.why.WhyWhenAdapter',
             'sugaroid.brain.reader.ReaderAdapter',
             'sugaroid.brain.imitate.ImitateAdapter',
             'sugaroid.brain.fun.FunAdapter',
             'chatterbot.logic.UnitConversion',
-            'sugaroid.brain.interrupt.InterruptAdapter',
+
         ]
 
         if self.audio:
@@ -506,14 +558,17 @@ class Sugaroid:
         self.chatbot = SugaroidBot(
             'Sugaroid',
             storage_adapter='chatterbot.storage.SQLStorageAdapter',
-            logic_adapters=[
+            logic_adapters=
+            self.commands + \
+            [
                 {
                     'import_path': 'chatterbot.logic.BestMatch',
                     'maximum_similarity_threshold': 0.80
-                },
-            ] + self.adapters,
-            database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(
-                self.cfgpath),
+                }
+            ] +
+            self.adapters,
+            database_uri='sqlite+pysqlite:///{}/sugaroid.db'
+                .format(self.cfgpath),
         )
 
         self.read()
@@ -636,7 +691,10 @@ class Sugaroid:
         :param response:
         :return:
         """
-        print(emojize(response.text))
+        try:
+            print(emojize(response.text))
+        except AttributeError:
+            print(emojize(response))
         if self.audio:
             self.tts.speak(str(response))
 
@@ -674,7 +732,8 @@ class Sugaroid:
 
 
 def gui_main():
-    sg = Sugaroid(); sg.loop_gui()
+    sg = Sugaroid();
+    sg.loop_gui()
 
 
 def main():

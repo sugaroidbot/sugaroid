@@ -173,7 +173,7 @@ def wikipedia_search(self, question):
         def bracketize(x): return '\n[{}] {}'.format(x[0]+1, str(x[1]))
         response = "Did you mean any of these {}".format(
             ' '.join([bracketize(x) for x in enumerate(a)]))
-        confidence = 0.9
+        confidence = 1.0
         stat = False
 
     return response, confidence, stat

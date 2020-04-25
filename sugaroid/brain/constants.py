@@ -48,12 +48,37 @@ SOFTWARE.
 """
 
 
+WHAT_I_AM_GOING_TO_DO = {
+    "tomorrow": "I will try to learn cryptography. I will try working on Casesar's Cipher and decrypting random codes",
+    "today": "I am creating a report of the world-wide usage history. "
+             "I am checking if my answer responses are becoming more valid, or more foolish. :)",
+    "weekend": "Hmm. I have not thought about it so far.",
+    "weekday": "Hmm. I have not thought about it so far.",
+    'month': "Its quite far away. I have quite wonderful things to keep doing, "
+             "rather than thinking what I am going to do next month. Who knows if anyone would live that long",
+    "year": "I am quite worried that, I will still remain a 'newborn' bot, unless my code is changed the next year to",
+    "yesterday": "Past is past. Isn't it?",
+    "sunday": "I will try taking some rest. But I am too restless you know.",
+    "monday": "I will be fixing bug reports and diagnosing myself",
+    "tuesday": "Will try to create some pull request for Sugar Labs",
+    "wednesday": "Got to break the turing test. XD",
+    "thursday": "I got to update myself and read the old books I read. Someone might have added new stuff to the docs.",
+    "friday": 'I have to think what I should do on Saturday',
+    "saturday": "Probably, I will repenting the waste of time, that I did on Friday. Lol"
+}
+
+
 GRATIFY = [
     "Thank you, indeed its my pleasure ",
     "All my 0s and 1s are still smiling",
     "You knocked me off my feet!",
     "I'm touched beyond words",
     "Thank you for being my angel.",
+    "Thanks a lot. I always want to keep learning and this is possible just because of you",
+    "Thank you!",
+    "Thanks for your comments. You inspire me",
+    "Thanks a lot. Your messages inspire me to perform better everytime.",
+    "Aww. Thanks a million. You are my charm"
 ]
 
 THANK = [
@@ -61,6 +86,31 @@ THANK = [
     "I feel great. Thanks for making me understand this",
     "Sugaroid will always be greatful to you. Thanks a lot",
     "I'm indeed happy. Thanks for that wonderful piece of information",
+]
+
+LET_THIS_HAPPEN = [
+    "Sure!",
+    "Why not",
+    "Theoretically possible. Why not try it practically?",
+    "I grant you the royal proclamation to proceed assuming",
+    "Asumptions are good. Literally.",
+    "Yea, then?",
+]
+
+SUGAROID_CAN_AGREE = [
+    "Yup! I agree.",
+    "Yea. I feel the same.",
+    "I have nothing to say, but I agree with you.",
+    "Yea. We have similar opinions",
+    "True.",
+    "Yup"
+]
+
+SUGAROID_CAN_DISAGREE = [
+    "Maybe not.",
+    "Why? Is it necessary?",
+    "I do not agree.",
+    "Why do you feel like that?"
 ]
 
 CONSOLATION = [
@@ -272,6 +322,18 @@ DIS_RESPONSES_I = [
     "Its ok.",
     "I will try to console you, the best I can",
     "I am sorry."
+]
+
+APPRECIATION = [
+    'commend',
+    'congrats',
+    'congratulate',
+    'congratulations',
+    'kudos',
+    'commendable',
+    'commentary',
+    'appreciate',
+    'appreciation'
 ]
 
 DIS_RESPONSES_YOU = [

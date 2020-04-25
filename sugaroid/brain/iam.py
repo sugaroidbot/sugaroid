@@ -32,6 +32,7 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from sugaroid.brain.constants import GREET, BURN_IDK, I_AM
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import cosine_similarity, random_response, raw_in, raw_lower_in
+from sugaroid.brain.whatamidoing import process_what_ami_doing
 from sugaroid.sugaroid import SugaroidStatement
 
 
@@ -201,16 +202,21 @@ class MeAdapter(LogicAdapter):
                         sia = SentimentIntensityAnalyzer()
                         ps = sia.polarity_scores(str(i.sent))
                         if ps['neu'] == 1.0:
+                            # try presence adapter pieces
+                            presence_statement = process_what_ami_doing(statement)
+                            if presence_statement.confidence == 0:
 
-                            response = 'I will need more time to learn if that actually makes sense with respect to ' \
-                                       'myself. '
-                            emotion = Emotion.cry
+                                response = 'I will need more time to learn if that actually makes sense with respect to ' \
+                                           'myself. '
+                                emotion = Emotion.cry
+                            else:
+                                return presence_statement
                         elif ps['pos'] > ps['neg']:
                             response = 'I guess I am {}. Thanks!'.format(
                                 i.text)
                             emotion = Emotion.wink
                         else:
-                            response = 'I am not {}! I am Sugaroid'.format(
+                            response = 'I am not {}! I am Sugaroid.'.format(
                                 i.lower_)
                             emotion = Emotion.angry
 
@@ -222,10 +228,14 @@ class MeAdapter(LogicAdapter):
                         confidence = 0.8
 
         else:
-            # FIXME : Add more logic here
-            response = 'Ok'
-            confidence = 0.4
-            emotion = Emotion.non_expressive_left
+            presence_statement = process_what_ami_doing(statement)
+            if presence_statement.confidence == 0:
+                # FIXME : Add more logic here
+                response = 'Ok'
+                confidence = 0.4
+                emotion = Emotion.non_expressive_left
+            else:
+                return presence_statement
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence

@@ -223,11 +223,14 @@ class CanAdapter(LogicAdapter):
                             else:
                                 response = "Am I really {}".format(adj)
                                 emotion = Emotion.non_expressive
-                        else:
+                        elif verb:
                             if self.chatbot.lp.lemma(verb)[0] == 'do':
                                 confidence = 0
                             response = "I think I would not be able to {}. I apologize".format(
                                 self.chatbot.lp.lemma(verb)[0])
+                        else:
+                            response = "Oops. I didn't get what you just told? Try rephrasing it out"
+                            confidence = 0.2
 
         elif aimed >= 50:
             if neutral_statement:

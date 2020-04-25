@@ -311,3 +311,14 @@ The Akinator Adapter is a wrapper class, that takes the acts like a server with 
 
 To be filled in later :rofl:
 
+
+
+
+
+## Dependencies
+
+Have a look at the dependency chat of Sugaroid. I have provided an `<iframe` below to view each of the dependencies with **precision**
+
+![Sugaroid Dependencies](sugaroid_deps.svg)
+
+<iframe src="sugaroid_deps.svg" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="yes" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
