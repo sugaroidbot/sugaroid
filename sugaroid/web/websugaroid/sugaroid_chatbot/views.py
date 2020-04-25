@@ -28,11 +28,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
 from emoji import emojize
-
+from uuid import uuid4
 from sugaroid.brain.constants import emotion_mapping
 from sugaroid.sugaroid import Sugaroid
 
-
+globals_local_storage = dict()
 sg = Sugaroid()
 
 
@@ -46,6 +46,10 @@ class Conversation:
 def reinit_cookie(request):
     response = HttpResponseRedirect('/')
     response.set_cookie('conversation', '[]')
+    uuid = uuid4().hex
+    response.set_cookie('globals_uid', str(uuid))
+    sg.chatbot.reset_variables()
+    globals_local_storage[str(uuid)] = sg.chatbot.globals
     return response
 
 
@@ -53,21 +57,32 @@ def index(request):
     print("H"*5, request.COOKIES.get('conversation'))
     if request.COOKIES.get('conversation') is None:
         return reinit_cookie(request)
+    elif request.COOKIES.get('globals_uid') is None:
+        return reinit_cookie(request)
     else:
         if eval(request.COOKIES.get('conversation')) is None:
             return reinit_cookie(request)
-        print("J"*55, request.COOKIES.get('conversation'))
 
-        conversation_local = [[x[0], x[1], x[2]] for x in eval(request.COOKIES.get('conversation'))]
+        conversation_local = [
+            [x[0], x[1], x[2]] for x in eval(
+                request.COOKIES.get('conversation')
+            )
+        ]
         try:
             emo = emotion_mapping[conversation_local[-1][2]]
         except IndexError:
             emo = 'sugaroid'
-        response = render(request, 'app.html', {'all_items': [Conversation(x[0], x[1], x[2]) for x in conversation_local],
-                                                'emo': emo
-                                                })
+        response = render(
+            request,
+            'app.html',
+            {
+                'all_items': [
+                    Conversation(x[0], x[1], x[2]) for x in conversation_local
+                ],
+                'emo': emo
+            }
+        )
         response.set_cookie('conversation', '{}'.format(conversation_local))
-
         return response
 
 
@@ -80,7 +95,6 @@ def post_user_input(request):
 
     conversation_local = eval(request.COOKIES.get('conversation'))
     conversation_local.append(['replies', c, 0])
-    # import pdb; pdb.set_trace()
     response = HttpResponseRedirect('/chatbot')
     print("SETTING COOKIE", conversation_local)
 
@@ -91,7 +105,9 @@ def post_user_input(request):
 def get_chatbot_response(request):
     print("D"*5, "K"*6, request.COOKIES.get('conversation'))
     conversation_local = eval(request.COOKIES.get('conversation'))
-    # try:
+    globals_uid = request.COOKIES.get('globals_uid')
+    print(globals_local_storage)
+    sg.chatbot.globals = globals_local_storage[globals_uid]
     conv = sg.parse(conversation_local[-1][1])
     r = emojize(str(conv))
     r = r.encode('ascii', 'ignore').decode()
@@ -102,9 +118,8 @@ def get_chatbot_response(request):
     conversation_local.append(['sent', r, emotion])
     response = HttpResponseRedirect('/')
     response.set_cookie('conversation', '{}'.format(conversation_local))
+    sg.chatbot.reset_variables()
     return response
-    #except Exception as e:
-    #    return error_404(request, str(e))
 
 
 def error_404(request, error=""):
