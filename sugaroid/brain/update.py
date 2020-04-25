@@ -43,6 +43,7 @@ class UpdateAdapter(LogicAdapter):
     """
     [DO NOT CONNECT] a specific adapter for updating the sugaroid bot
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

@@ -39,6 +39,7 @@ class AboutAdapter(LogicAdapter):
     """
     Defines the personality of sugaroid
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
@@ -77,7 +78,8 @@ class AboutAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         # FIXME : THIS ADAPTER IS INCOMPLETE
         self.normalized = normalize(str(statement))
-        self.lemma = [x.lemma_ for x in spac_token(statement, chatbot=self.chatbot)]
+        self.lemma = [x.lemma_ for x in spac_token(
+            statement, chatbot=self.chatbot)]
         logging.info("{}".format(self.lemma))
         confidence = 0
         adapter = None

@@ -62,7 +62,8 @@ class MyNameAdapter(LogicAdapter):
                 continue
             logging.info("{} {}".format(i, i.pos_))
             if (i.pos_ == 'NOUN') or (i.pos_ == 'PROPN'):
-                response = random_response(GREET).format(str(i.text).capitalize())
+                response = random_response(GREET).format(
+                    str(i.text).capitalize())
                 selected_statement = SugaroidStatement(response, chatbot=True)
                 selected_statement.confidence = confidence
                 emotion = Emotion.positive
@@ -78,4 +79,3 @@ class MyNameAdapter(LogicAdapter):
             selected_statement.emotion = emotion
 
             return selected_statement
-

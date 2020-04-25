@@ -40,6 +40,7 @@ class WhoAdapter(LogicAdapter):
     """
     Handles statements with 'who' as one of the tokens
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

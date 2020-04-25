@@ -49,10 +49,12 @@ class WhatWhatAdapter(LogicAdapter):
             return False
         if 'what' in self.normalized:
             try:
-                word_before_what = self.normalized[self.normalized.index('what') - 1]
+                word_before_what = self.normalized[self.normalized.index(
+                    'what') - 1]
             except IndexError:
                 return False
-            self.last_word = normalize(str(self.chatbot.globals['history']['total'][-1]))
+            self.last_word = normalize(
+                str(self.chatbot.globals['history']['total'][-1]))
             if word_before_what in self.last_word:
                 self.last_word_idx = self.last_word.index(word_before_what)
                 return True

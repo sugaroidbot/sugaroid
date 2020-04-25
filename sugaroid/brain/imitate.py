@@ -39,6 +39,7 @@ class ImitateAdapter(LogicAdapter):
     """
     Handles statements involving imitations of some sentences
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None
@@ -46,7 +47,8 @@ class ImitateAdapter(LogicAdapter):
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
         more_words = len(self.normalized) > 3
-        logging.info("ImitatorSensei: userhistory {}, history: {}".format(self.chatbot.globals['history']['user'], self.chatbot.globals['history']['total']))
+        logging.info("ImitatorSensei: userhistory {}, history: {}".format(
+            self.chatbot.globals['history']['user'], self.chatbot.globals['history']['total']))
         if self.chatbot.globals['history']['user'][-1] and self.chatbot.globals['history']['total'][-1] and more_words:
             return True
         else:
@@ -54,7 +56,8 @@ class ImitateAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.lol
-        sim = self.chatbot.lp.similarity(str(statement), str(self.chatbot.globals['history']['total'][-1]))
+        sim = self.chatbot.lp.similarity(str(statement), str(
+            self.chatbot.globals['history']['total'][-1]))
         logging.info("ImitatorSensei compared {} and {}. Sim: {}"
                      .format(str(statement), self.chatbot.globals['history']['user'][-1], sim))
         if sim > 0.8:

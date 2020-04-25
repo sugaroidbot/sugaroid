@@ -41,6 +41,7 @@ class DebugAdapter(LogicAdapter):
     """
     Internal Admin feature to debug Sugaroid statements
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None
@@ -68,9 +69,11 @@ class DebugAdapter(LogicAdapter):
             response = 'Debugger: Invalid command'
         else:
             if len(self.normalized) > 3:
-                response = self.commands[self.normalized[1]][0](int(self.normalized[2], int(self.normalized[3])))
+                response = self.commands[self.normalized[1]][0](
+                    int(self.normalized[2], int(self.normalized[3])))
             elif len(self.normalized) > 2:
-                response = self.commands[self.normalized[1]][0](int(self.normalized[2]))
+                response = self.commands[self.normalized[1]][0](
+                    int(self.normalized[2]))
             else:
                 response = self.commands[self.normalized[1]][0]()
 
@@ -109,6 +112,7 @@ def _(ls):
     for dictionary in ls:
         response_per_dictionary = []
         for key in dictionary:
-            response_per_dictionary.append('{}\t {}\n'.format(key, dictionary[key]))
+            response_per_dictionary.append(
+                '{}\t {}\n'.format(key, dictionary[key]))
         response.append(' '.join(response_per_dictionary))
     return '\n'.join(response)

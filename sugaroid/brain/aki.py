@@ -106,6 +106,7 @@ probably: p, probably, 3
 I don't know: idk, i dont know, i don't know, 2
 """
 
+
 class SugaroidAkinator:
     def __init__(self, chatbot):
         self.chatbot = chatbot
@@ -124,7 +125,8 @@ class SugaroidAkinator:
         # We are about to start the game. Lets send a fascinating entry
         response = "Lets start the play of Akinator™ with me. I, Sugaroid, am your host genie :crystal_ball: for your "\
             "competition{}" \
-            "Here is your first question\n{}".format(AKINATOR_RULES, self.game_instance)
+            "Here is your first question\n{}".format(
+                AKINATOR_RULES, self.game_instance)
         self.chatbot.globals['akinator']['enabled'] = True
         return response
 
@@ -168,7 +170,8 @@ class SugaroidAkinator:
         else:
             response = "Oh. I failed the same. Seems like you are smarter than me. :weary:"
         response = response + \
-            "\n{}\n I am back to my business".format(random_response(HOPE_GAME_WAS_GOOD))
+            "\n{}\n I am back to my business".format(
+                random_response(HOPE_GAME_WAS_GOOD))
         self.chatbot.globals['akinator']['enabled'] = False
         self.chatbot.globals['akinator']['class'] = None
         return response
@@ -178,6 +181,7 @@ class AkinatorAdapter(LogicAdapter):
     """
     Adapter which ports the wrapper of the Akinator game to Sugaroid
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.aki = False
@@ -197,18 +201,22 @@ class AkinatorAdapter(LogicAdapter):
         emotion = Emotion.genie
         if 'stop' in self.normalized:
             self.chatbot.globals['akinator']['enabled'] = False
-            response = 'I am sorry. You quit the game abrubtly. {}'.format(random_response(HOPE_GAME_WAS_GOOD))
+            response = 'I am sorry. You quit the game abrubtly. {}'.format(
+                random_response(HOPE_GAME_WAS_GOOD))
         elif not self.chatbot.globals['akinator']['enabled']:
-            self.chatbot.globals['akinator']['class'] = SugaroidAkinator(self.chatbot)
+            self.chatbot.globals['akinator']['class'] = SugaroidAkinator(
+                self.chatbot)
             response = self.chatbot.globals['akinator']['class'].start_game()
         else:
             if not self.chatbot.globals['akinator']['class'].game_over():
-                response = self.chatbot.globals['akinator']['class'].progression(statement)
+                response = self.chatbot.globals['akinator']['class'].progression(
+                    statement)
                 if not response:
                     response = self.chatbot.globals['akinator']['class'].win()
             else:
                 if self.chatbot.globals['akinator']['class'].start_check():
-                    response = self.chatbot.globals['akinator']['class'].check_ans(statement)
+                    response = self.chatbot.globals['akinator']['class'].check_ans(
+                        statement)
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence

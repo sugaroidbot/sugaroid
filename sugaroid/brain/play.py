@@ -37,6 +37,7 @@ class PlayAdapter(LogicAdapter):
     """
     [DEPRECATED] Plays a game on desktops only
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

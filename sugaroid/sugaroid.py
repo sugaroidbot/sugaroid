@@ -305,7 +305,7 @@ class SugaroidBot(ChatBot):
             result_options = {}
             for result_option in results:
                 result_string = result_option.text + ':' + \
-                                (result_option.in_response_to or '')
+                    (result_option.in_response_to or '')
 
                 if result_string in result_options:
                     result_options[result_string].count += 1
@@ -558,8 +558,7 @@ class Sugaroid:
         self.chatbot = SugaroidBot(
             'Sugaroid',
             storage_adapter='chatterbot.storage.SQLStorageAdapter',
-            logic_adapters=
-            self.commands + \
+            logic_adapters=self.commands +
             [
                 {
                     'import_path': 'chatterbot.logic.BestMatch',
@@ -568,7 +567,7 @@ class Sugaroid:
             ] +
             self.adapters,
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'
-                .format(self.cfgpath),
+            .format(self.cfgpath),
         )
 
         self.read()
@@ -732,7 +731,7 @@ class Sugaroid:
 
 
 def gui_main():
-    sg = Sugaroid();
+    sg = Sugaroid()
     sg.loop_gui()
 
 

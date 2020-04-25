@@ -62,7 +62,8 @@ class CurrencyAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.tokenized = self.chatbot.lp.tokenize(
-            str(statement).replace('$', ' USD ').replace('₹', ' INR ').replace('€', ' EUR ').replace('£', ' GBP ')
+            str(statement).replace('$', ' USD ').replace(
+                '₹', ' INR ').replace('€', ' EUR ').replace('£', ' GBP ')
         )
         self.currencies_dest = []
         self.currencies_src = None
@@ -74,7 +75,8 @@ class CurrencyAdapter(LogicAdapter):
                         self.currencies_dest.append(dst)
                     try:
                         if len(self.tokenized[i - 1].lower_) < 4:
-                            self.currencies_src = str(self.tokenized[i - 1].text).upper()
+                            self.currencies_src = str(
+                                self.tokenized[i - 1].text).upper()
                     except IndexError:
                         pass
                 elif self.tokenized[i].lower_ == 'is':
@@ -122,7 +124,8 @@ class CurrencyAdapter(LogicAdapter):
                 sg_currency = SugaroidCurrency()
                 for destination in self.currencies_dest:
                     converted.append('{} {}'.format(
-                        sg_currency.convert(self.currencies_src.upper(), destination.upper(), self.currencies_src_ord),
+                        sg_currency.convert(self.currencies_src.upper(
+                        ), destination.upper(), self.currencies_src_ord),
                         destination.upper())
                     )
                 response = ' '.join(converted)

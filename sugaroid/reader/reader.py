@@ -10,6 +10,7 @@ class MarkdownReader:
     """
     Converts a Markdown into HTML for parsable output
     """
+
     def __init__(self, file_path):
         self.file = self.check_file_path(file_path)
         self.html = self.read_markdown(self.file)
@@ -79,7 +80,8 @@ def main():
         wget.download('https://raw.githubusercontent.com/sugarlabs/{}'
                       .format(i), os.path.join('scrawled', i.split('/')[-1]))
     for markdown_file in os.listdir(os.path.abspath('scrawled')):
-        READ_FILES[markdown_file] = MarkdownReader(os.path.join('scrawled', markdown_file))
+        READ_FILES[markdown_file] = MarkdownReader(
+            os.path.join('scrawled', markdown_file))
 
     scrawled = dict()
     for markdown_file in READ_FILES:

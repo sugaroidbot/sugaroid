@@ -37,6 +37,7 @@ class BoolAdapter(LogicAdapter):
     """
     Processes Boolean based answers
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
@@ -91,7 +92,8 @@ class BoolAdapter(LogicAdapter):
                 md = False
                 vb = False
                 nn = False
-                self.last_normalized = normalize(str(self.chatbot.globals['history']['total'][-1]))
+                self.last_normalized = normalize(
+                    str(self.chatbot.globals['history']['total'][-1]))
                 self.tagged = nltk.pos_tag(self.last_normalized)
                 iteration = 0
                 for j in self.tagged:
@@ -112,16 +114,20 @@ class BoolAdapter(LogicAdapter):
                         some_nouns = ' '.join(self.last_normalized[nn_index:])
                     if bool_yes:
                         if nn:
-                            response = 'Ok, here comes your {} 😝😝'.format(some_nouns)
+                            response = 'Ok, here comes your {} 😝😝'.format(
+                                some_nouns)
                         elif vb:
-                            response = 'You should {}'.format(verb.replace('ing', ''))
+                            response = 'You should {}'.format(
+                                verb.replace('ing', ''))
                         else:
                             response = 'I will keep thinking 🚀'
                     else:
                         if nn:
-                            response = 'Ok, I will have the {}'.format(some_nouns)
+                            response = 'Ok, I will have the {}'.format(
+                                some_nouns)
                         elif vb:
-                            response = "You shouldn't {} then".format(verb.replace('ing', ''))
+                            response = "You shouldn't {} then".format(
+                                verb.replace('ing', ''))
                         else:
                             response = 'Okay!'
                 else:

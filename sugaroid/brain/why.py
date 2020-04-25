@@ -41,6 +41,7 @@ class WhyWhenAdapter(LogicAdapter):
     """
     Processes wh-adverbs
     """
+
     def __init__(self, chatbot, **kwargs):
         # FIXME Add Language support
         super().__init__(chatbot, **kwargs)

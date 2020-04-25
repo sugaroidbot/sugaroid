@@ -38,10 +38,12 @@ try:
 except ModuleNotFoundError:
     media_wiki_found = False
 
+
 class WikiAdapter(LogicAdapter):
     """
     Handles Wikipedia based questions
     """
+
     def __init__(self, chatbot, **kwargs):
         # FIXME Add Language support
         super().__init__(chatbot, **kwargs)
@@ -72,7 +74,8 @@ class WikiAdapter(LogicAdapter):
             if i.lower() == 'what':
                 count += 1
         if count > 1:
-            selected_statement = SugaroidStatement('Nothing ' * count, chatbot=True)
+            selected_statement = SugaroidStatement(
+                'Nothing ' * count, chatbot=True)
             selected_statement.confidence = 0.99
             emotion = Emotion.seriously
             selected_statement.emotion = emotion
@@ -116,7 +119,7 @@ class WikiAdapter(LogicAdapter):
                                         break
                                     else:
                                         response = "Seems like MediaWikiAPI is not installed on your PC"
-                                        confidence =0.9
+                                        confidence = 0.9
                         else:
                             response = 'I am not sure what you are asking for.'
                             confidence = 0.4

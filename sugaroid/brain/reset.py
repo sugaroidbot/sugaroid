@@ -34,6 +34,7 @@ class ResetAdapter(LogicAdapter):
     """
     Resets the Sugaroid global variables
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 
@@ -46,7 +47,8 @@ class ResetAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         self.chatbot.reset_variables()
-        selected_statement = SugaroidStatement("Reset of chatbot variables. SUCCESS", chatbot=True)
+        selected_statement = SugaroidStatement(
+            "Reset of chatbot variables. SUCCESS", chatbot=True)
         selected_statement.confidence = 0.95
 
         emotion = Emotion.neutral

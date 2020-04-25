@@ -340,7 +340,8 @@ class Hangman:
         if results:
             response = random_response(HANGMAN_WIN)
         else:
-            response = "{}. The word was {}".format(random_response(HANGMAN_LOS), self.word)
+            response = "{}. The word was {}".format(
+                random_response(HANGMAN_LOS), self.word)
         return response
 
 
@@ -348,6 +349,7 @@ class HangmanAdapter(LogicAdapter):
     """
     Plays hangman with you
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 
@@ -364,16 +366,19 @@ class HangmanAdapter(LogicAdapter):
         emotion = Emotion.genie
         if 'stop' in self.normalized:
             self.chatbot.globals['hangman']['enabled'] = False
-            response = 'I am sorry. You quit the game abrubtly. {}'.format(random_response(HOPE_GAME_WAS_GOOD))
+            response = 'I am sorry. You quit the game abrubtly. {}'.format(
+                random_response(HOPE_GAME_WAS_GOOD))
         else:
             if not self.chatbot.globals['hangman']['enabled']:
-                self.chatbot.globals['hangman']['class'] = Hangman(self.chatbot)
+                self.chatbot.globals['hangman']['class'] = Hangman(
+                    self.chatbot)
                 response = "[ {dashes} ] Life: {heart}" \
                     .format(dashes=' '.join(self.chatbot.globals['hangman']['class'].gen_dash()),
                             heart=HANGMAN_EMOJI[self.chatbot.globals['hangman']['class'].get_remaining_life()-1] *
-                                  self.chatbot.globals['hangman']['class'].get_remaining_life())
+                            self.chatbot.globals['hangman']['class'].get_remaining_life())
             else:
-                response = self.chatbot.globals['hangman']['class'].process(str(statement))
+                response = self.chatbot.globals['hangman']['class'].process(
+                    str(statement))
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence

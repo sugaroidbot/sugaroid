@@ -83,7 +83,8 @@ class TimeAdapter(LogicAdapter):
                 response = "You are staying up late, you should sleep right now."
                 emotion = Emotion.seriously
 
-        selected_statement = SugaroidStatement("{}".format(response), chatbot=True)
+        selected_statement = SugaroidStatement(
+            "{}".format(response), chatbot=True)
         selected_statement.confidence = 1
 
         selected_statement.emotion = emotion

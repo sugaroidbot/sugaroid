@@ -37,6 +37,7 @@ class OkayAdapter(LogicAdapter):
     """
     Handles statements with a plain old okay
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

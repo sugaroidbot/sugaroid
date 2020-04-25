@@ -43,6 +43,7 @@ class Neuron:
     Main processing object.
     sugaroid.brain.Neuron classifies texts initially
     """
+
     def __init__(self, bot):
         self.bot = bot
         if self.bot.spell_checker:

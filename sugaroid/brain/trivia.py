@@ -36,6 +36,7 @@ class TriviaAdapter(LogicAdapter):
     """
     Plays a short game of trivia
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.cos = None
@@ -43,9 +44,11 @@ class TriviaAdapter(LogicAdapter):
     def can_process(self, statement):
         self.cos = max([
             self.chatbot.lp.similarity(str(statement), 'Ask ne a question'),
-            self.chatbot.lp.similarity(str(statement), 'Lets have some trivia'),
+            self.chatbot.lp.similarity(
+                str(statement), 'Lets have some trivia'),
             self.chatbot.lp.similarity(str(statement), 'Play trivia'),
-            self.chatbot.lp.similarity(str(statement), 'Can you ask some quiz'),
+            self.chatbot.lp.similarity(
+                str(statement), 'Can you ask some quiz'),
             self.chatbot.lp.similarity(str(statement), 'Can you quiz'),
             self.chatbot.lp.similarity(str(statement), 'Can you play trivia'),
         ])

@@ -35,7 +35,7 @@ from sugaroid.brain.ooo import Emotion
 
 class InterruptAdapter(LogicAdapter):
     __adapter__ = 'interr'
-    
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.tokenized = None
@@ -75,7 +75,7 @@ class InterruptAdapter(LogicAdapter):
                             random_response(ASK_AND_YOU_SHALL_RECEIVE),
                             random_response(SEEK_AND_YOU_SHALL_FIND),
                             username
-                    )
+                        )
 
                 else:
                     response = "{} {} what is actually meant in the previous message?" \

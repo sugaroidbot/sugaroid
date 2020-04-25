@@ -40,6 +40,7 @@ class FunAdapter(LogicAdapter):
     """
     Gives a random response, because Sugaroid tries not to say I don't know
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 
@@ -79,11 +80,13 @@ class FunAdapter(LogicAdapter):
                 # for the visibility sake
             else:
                 prefix, suffix = random_response(FUN_LET_ME_TRY)
-                suffix = "' {}".format(suffix.format(random_response(EMOJI_SMILE)))
+                suffix = "' {}".format(suffix.format(
+                    random_response(EMOJI_SMILE)))
                 prefix = "{} '".format(prefix)
                 emotion = Emotion.wink
 
-        selected_statement = SugaroidStatement("{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix), chatbot=True)
+        selected_statement = SugaroidStatement("{pre}{main}{fix}".format(
+            pre=prefix, main=parsed, fix=suffix), chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

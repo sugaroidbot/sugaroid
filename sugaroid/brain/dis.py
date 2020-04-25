@@ -42,6 +42,7 @@ class DisAdapter(LogicAdapter):
     The DisAdapter keeps the confidence below 0.5 so that the BestAdapter may find some
     other answer similar to
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None
@@ -64,7 +65,8 @@ class DisAdapter(LogicAdapter):
                    'distance', 'distribution', 'distilled'], self.normalized):
             confidence = 0
         else:
-            logging.info("DisAdapter: Starting Advanced scan. dis_word == {}".format(self.dis)[0])
+            logging.info(
+                "DisAdapter: Starting Advanced scan. dis_word == {}".format(self.dis)[0])
             dis_word = self.dis[3:]
             logging.info("DisAdapter: Distilled word == {}".format(dis_word))
             sia = SentimentIntensityAnalyzer().polarity_scores(dis_word)
@@ -78,16 +80,19 @@ class DisAdapter(LogicAdapter):
                 confidence -= 0.2
 
             confidence += sia['neg']
-        inflection = getInflection(self.chatbot.lp.tokenize(self.dis)[0].lemma_, 'VBD')
+        inflection = getInflection(
+            self.chatbot.lp.tokenize(self.dis)[0].lemma_, 'VBD')
         if inflection is None:
             past_participle_form_of_verb = self.dis
         else:
             past_participle_form_of_verb = inflection[0]
         if 'you' in self.normalized:
-            response = random_response(DIS_RESPONSES_YOU).format(past_participle_form_of_verb)
+            response = random_response(DIS_RESPONSES_YOU).format(
+                past_participle_form_of_verb)
             emotion = Emotion.angry_non_expressive
         elif 'I' in self.normalized:
-            response = "{} {}".format(random_response(DIS_RESPONSES_I), random_response(CONSOLATION))
+            response = "{} {}".format(random_response(
+                DIS_RESPONSES_I), random_response(CONSOLATION))
             emotion = Emotion.angel
         else:
             nn = None

@@ -38,7 +38,7 @@ from sugaroid.sugaroid import SugaroidStatement
 
 SUGAROID_LIKES = {
     'bird': "I like birds a lot. Some of them look similar to me. "
-             "One of my creator's friend said I look like a Puffin, but I don't believe it",
+    "One of my creator's friend said I look like a Puffin, but I don't believe it",
     'animal': "I love all the animals alike. I'm afraid, I do not have a favorite.",
     'sweet': "I like donuts a lot. So do I like all of the desserts which come under the Android naming lineage. "
               "I could have added one more to my list, if Android Q had a relatable dessert",
@@ -74,6 +74,7 @@ class DoLikeAdapter(LogicAdapter):
     """
     Handles likes of Sugaroid
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = False
@@ -83,7 +84,7 @@ class DoLikeAdapter(LogicAdapter):
         if ('do' in self.normalized or 'did' in self.normalized) and 'like' in self.normalized:
             return True
         if ('who' in self.normalized or 'which' in self.normalized or 'what' in self.normalized) and 'you' in str(statement) and any_in(list(SUGAROID_LIKES.keys()), self.normalized):
-        	return True
+            return True
         else:
             return False
 
@@ -106,14 +107,16 @@ class DoLikeAdapter(LogicAdapter):
                 if nn:
                     response = random_response(BOT_NEUTRAL_NOUN)
                 elif vb:
-                    response = random_response(BOT_NEUTRAL_NOUN).format(nn="to {vb}")
+                    response = random_response(
+                        BOT_NEUTRAL_NOUN).format(nn="to {vb}")
                 else:
                     response = random_response(BOT_NEUTRAL)
             elif scores['pos'] > scores['neg']:
                 if nn:
                     response = random_response(BOT_POSITIVE_NOUN)
                 elif vb:
-                    response = random_response(BOT_POSITIVE_NOUN).format(nn="to {vb}")
+                    response = random_response(
+                        BOT_POSITIVE_NOUN).format(nn="to {vb}")
                 else:
                     response = random_response(BOT_POSITIVE)
             else:
@@ -140,7 +143,8 @@ class DoLikeAdapter(LogicAdapter):
             else:
                 response = "Hmm, Well I don't know"
 
-        selected_statement = SugaroidStatement(response.format(nn=nn, vb=vb), chatbot=True)
+        selected_statement = SugaroidStatement(
+            response.format(nn=nn, vb=vb), chatbot=True)
         selected_statement.confidence = confidence
 
         selected_statement.emotion = emotion

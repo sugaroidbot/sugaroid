@@ -40,6 +40,7 @@ class MeAdapter(LogicAdapter):
     """
     Processes the statements showing possessive
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 
@@ -64,16 +65,19 @@ class MeAdapter(LogicAdapter):
         if raw_in('I', self.tokenized):
             logging.info(str(["{} {} {}".format(k, k.tag_, k.pos_)
                               for k in self.tokenized]))
-            start_scanning = False  # check if the pronoun has been reached yet, otherwise may detect some other nouns
+            # check if the pronoun has been reached yet, otherwise may detect some other nouns
+            start_scanning = False
             for i in self.tokenized:
                 if i.pos_ == 'PRON' and not i.tag_.startswith("W"):
                     start_scanning = True
                 if start_scanning:
                     pass
                 elif (i.pos_ != 'PRON') or (not start_scanning) or (i.tag_.startswith('W')):
-                    logging.info("MeAdapter: Skipping {} {}".format(i.lower_, i.tag_))
+                    logging.info(
+                        "MeAdapter: Skipping {} {}".format(i.lower_, i.tag_))
                     continue
-                logging.info("MeAdapter: Scanning :: {} : {}".format(i.text, i.pos_))
+                logging.info(
+                    "MeAdapter: Scanning :: {} : {}".format(i.text, i.pos_))
                 if (i.pos_ == 'PROPN') or (i.tag_ == 'NN'):
                     nn = i.text
                     if self.chatbot.globals['USERNAME']:
@@ -97,7 +101,8 @@ class MeAdapter(LogicAdapter):
                                 emotion = Emotion.lol
                                 confidence = 0.95
                             else:
-                                response = random_response(GREET).format(str(nn).capitalize())
+                                response = random_response(
+                                    GREET).format(str(nn).capitalize())
                                 confidence = 0.9
                                 self.chatbot.globals['USERNAME'] = nn
                                 emotion = Emotion.positive
@@ -139,7 +144,8 @@ class MeAdapter(LogicAdapter):
                     logging.info("MeAdapter: Skipping {} {} ss={} {}"
                                  .format(i.lower_, i.tag_, not start_scanning, i.pos_))
                     continue
-                logging.info("MeAdapter: Scanning :: {} : {}".format(i.text, i.pos_))
+                logging.info(
+                    "MeAdapter: Scanning :: {} : {}".format(i.text, i.pos_))
                 if i.pos_ == 'ADJ':
 
                     cos = cosine_similarity([str(i.lower_)], ['sugaroid'])
@@ -182,7 +188,8 @@ class MeAdapter(LogicAdapter):
                     else:
 
                         nn = i.text
-                        response = "Nope, I am not {n}, I am sugaroid".format(n=nn)
+                        response = "Nope, I am not {n}, I am sugaroid".format(
+                            n=nn)
                         emotion = Emotion.angry
                         confidence = 0.9
 
@@ -197,13 +204,15 @@ class MeAdapter(LogicAdapter):
                         confidence = 0.9
                         emotion = Emotion.vomit
                     else:
-                        logging.info("MeAdapter: Couldn't classify type of noun {}".format(i.lower_))
+                        logging.info(
+                            "MeAdapter: Couldn't classify type of noun {}".format(i.lower_))
                         confidence = 0.9
                         sia = SentimentIntensityAnalyzer()
                         ps = sia.polarity_scores(str(i.sent))
                         if ps['neu'] == 1.0:
                             # try presence adapter pieces
-                            presence_statement = process_what_ami_doing(statement)
+                            presence_statement = process_what_ami_doing(
+                                statement)
                             if presence_statement.confidence == 0:
 
                                 response = 'I will need more time to learn if that actually makes sense with respect to ' \

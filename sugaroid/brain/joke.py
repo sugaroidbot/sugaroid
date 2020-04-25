@@ -36,6 +36,7 @@ class JokeAdapter(LogicAdapter):
     """
     Gets a random joke from the Chuck Norris Database
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

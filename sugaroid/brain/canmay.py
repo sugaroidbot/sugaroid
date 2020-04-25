@@ -43,6 +43,7 @@ class CanAdapter(LogicAdapter):
     """
     Processes statements which features a Modal question (can, may)
     """
+
     def __init__(self, chatbot, **kwargs):
 
         super().__init__(chatbot, **kwargs)
@@ -272,7 +273,8 @@ class CanAdapter(LogicAdapter):
                 confidence = (sentiments['neg'] + sentiments['pos']) + \
                     ((sentiments['neg'] + sentiments['pos'])/2)
                 if sentiments['neu'] == 1:
-                    response = "Well. I am unsure if you really need to {} {}".format(self.chatbot.lp.lemma(verb)[0], noun)
+                    response = "Well. I am unsure if you really need to {} {}".format(
+                        self.chatbot.lp.lemma(verb)[0], noun)
                     confidence = confidence - 0.2
                     emotion = Emotion.cry_overflow
                 elif sentiments['neg'] > sentiments['pos']:

@@ -70,7 +70,7 @@ class ReaderAdapter(LogicAdapter):
         for file in SCRAWLED:
             headings, content = SCRAWLED[file]
             for k in cleaned_text:
-                
+
                 if '.md' in k:
                     response = 'The markdown file {} is not scrawled'.format(k)
                     if k in SCRAWLED.keys():
@@ -80,7 +80,7 @@ class ReaderAdapter(LogicAdapter):
                     break
             if md:
                 break
-            
+
             for heading in headings:
                 input_statement = ' '.join(purify(
                     self.chatbot.lp.tokenize(str(statement).lower()),
@@ -101,9 +101,9 @@ class ReaderAdapter(LogicAdapter):
                 logging.info('ReaderAdapter: scanned {} against {}. cosine index of {}{}'
                              .format(input_statement, heading_processed, sim, suffix))
 
-                
                 if sim > confidence:
-                    response = 'The closest match I could find is this:\n' + '\n'.join(content)
+                    response = 'The closest match I could find is this:\n' + \
+                        '\n'.join(content)
                     confidence = sim
                     break
 

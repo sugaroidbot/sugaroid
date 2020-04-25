@@ -35,6 +35,7 @@ class TriviaAdapter(LogicAdapter):
     """
     Resets the game of a trivia game
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.cos = None

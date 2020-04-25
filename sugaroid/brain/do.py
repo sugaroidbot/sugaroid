@@ -38,6 +38,7 @@ class DoAdapter(LogicAdapter):
     """
     Processes statements beginning with 'Do' and 'know'
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = False
@@ -65,7 +66,8 @@ class DoAdapter(LogicAdapter):
         else:
             if ('my' in self.normalized) and ('name' in self.normalized):
                 if self.chatbot.get_username():
-                    response = 'Your name is {}'.format(self.chatbot.globals['username'])
+                    response = 'Your name is {}'.format(
+                        self.chatbot.globals['username'])
                     emotion = Emotion.neutral
                     confidence = 1
                 else:
@@ -88,7 +90,8 @@ class DoAdapter(LogicAdapter):
             else:
                 wk = WikiAdapter(self.chatbot)
                 wk.text = self.normalized
-                response = WikiAdapter.process(wk, Statement(' '.join(rectified)))
+                response = WikiAdapter.process(
+                    wk, Statement(' '.join(rectified)))
                 return response
 
         selected_statement = SugaroidStatement(response, chatbot=True)

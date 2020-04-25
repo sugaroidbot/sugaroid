@@ -44,6 +44,7 @@ class ReReverseAdapter(LogicAdapter):
     and takes a cosine similarity of the statemnts, and TFiD Vector cross product to get
     the most probable answer
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
@@ -66,7 +67,8 @@ class ReReverseAdapter(LogicAdapter):
                 emotion = Emotion.positive
                 reset_reverse(self)
             else:
-                response = 'Close! it was {}'.format(self.chatbot.globals['reversei']['uid'])
+                response = 'Close! it was {}'.format(
+                    self.chatbot.globals['reversei']['uid'])
                 emotion = Emotion.lol
                 reset_reverse(self)
             confidence = 0.99
@@ -91,7 +93,8 @@ class ReReverseAdapter(LogicAdapter):
                     if len(self.chatbot.globals['history']['total']) > 1:
                         if 'joke' in _(str(self.chatbot.globals['history']['total'][-1])):
                             joke = pyjokes.get_joke('en', 'all')
-                            selected_statement = SugaroidStatement(joke, chatbot=True)
+                            selected_statement = SugaroidStatement(
+                                joke, chatbot=True)
                             selected_statement.emotion = Emotion.lol
                             selected_statement.confidence = 0.95
                             return selected_statement

@@ -79,7 +79,8 @@ class OneWordAdapter(LogicAdapter):
 
             help_files = []
             for i in self.chatbot.globals['adapters']:
-                help_files.append("{}: {}".format(i.split('.')[-1].strip(), eval(i).__doc__.strip()).strip())
+                help_files.append("{}: {}".format(
+                    i.split('.')[-1].strip(), eval(i).__doc__.strip()).strip())
             response = 'hmm. Sure. \n {}'.format('\n '.join(help_files))
             confidence = 0.99
 

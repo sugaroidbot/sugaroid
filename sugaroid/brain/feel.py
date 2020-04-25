@@ -40,6 +40,7 @@ class FeelAdapter(LogicAdapter):
     """
     Handles sentences containing the word feel
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 

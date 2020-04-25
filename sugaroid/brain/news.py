@@ -55,11 +55,11 @@ NEWSAPI_COUNTRIES = {
 }
 
 
-
 class SugaroidNews:
     """
     A dedicated class for processing news from the API
     """
+
     def __init__(self, chatbot=None):
         load_dotenv()
         self.chatbot = chatbot
@@ -81,7 +81,8 @@ class SugaroidNews:
         except Exception as e:
             if str(e) == 'invalid country':
                 self.chatbot.globals['last_news'] = False
-                logging.info(f'SugaroidNews: Failed to get the news. country=[{type(country)}, {country}]')
+                logging.info(
+                    f'SugaroidNews: Failed to get the news. country=[{type(country)}, {country}]')
                 return ['The country you provided does not exist in my database. I am sorry.']
             self.chatbot.globals['last_news'] = False
             return ['Failed to establish connection with the server. Error: {}'.format(e)]
@@ -104,7 +105,8 @@ class SugaroidNews:
         news_headlines = []
         for i in response['articles']:
             try:
-                news_headlines.append("{} from {}".format(i['title'], i['source']['name']))
+                news_headlines.append("{} from {}".format(
+                    i['title'], i['source']['name']))
             except Exception as e:
                 pass
         if not news_headlines:
@@ -118,6 +120,7 @@ class NewsAdapter(LogicAdapter):
     """
     Ports the SugaroidNews Wrapper for easier access by the SugaroidChatbot Class
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.cos = None
@@ -135,7 +138,8 @@ class NewsAdapter(LogicAdapter):
         except IndexError:
             last_type = False
 
-        logging.info('NewsAdapter: can_process() last_adapter was {}'.format(last_type))
+        logging.info(
+            'NewsAdapter: can_process() last_adapter was {}'.format(last_type))
         processed = str(statement).replace('?', '').replace('.', '')
         self.cos = max([
             _(processed, 'Whats happening'),
@@ -147,7 +151,8 @@ class NewsAdapter(LogicAdapter):
             _(processed, 'What top stories running right now')
 
         ])
-        logging.info("NewsAdapter received a cosine similarity of {}".format(self.cos))
+        logging.info(
+            "NewsAdapter received a cosine similarity of {}".format(self.cos))
         if self.cos > 0.8 or 'news' in processed.lower() or 'headlines' in processed.lower():
             return True
         elif 'show me more' in str(statement).lower() and self.chatbot.globals['last_news']:
@@ -172,11 +177,13 @@ class NewsAdapter(LogicAdapter):
         confidence = self.cos
         country = None
         keyword = False
-        normalize = spac_token(statement, self.chatbot)  # Override the other answer when asked for
+        # Override the other answer when asked for
+        normalize = spac_token(statement, self.chatbot)
         if len(normalize) <= 2:
             confidence = confidence + 0.5
         if self.integer and self.chatbot.last_news:
-            response = "Your selected integer {}, response {}".format(self.integer, self.chatbot.last_news)
+            response = "Your selected integer {}, response {}".format(
+                self.integer, self.chatbot.last_news)
             try:
                 self.integer = int(self.integer)
             except ValueError:
@@ -219,11 +226,14 @@ class NewsAdapter(LogicAdapter):
                         keyword = ' '.join(keyword_words)
             sg_news = SugaroidNews(self.chatbot)
             if keyword:
-                logging.info("NewsAdapter: Getting news of keyword {}".format(keyword))
+                logging.info(
+                    "NewsAdapter: Getting news of keyword {}".format(keyword))
                 news = sg_news.get_news_keyword(str(keyword))
             else:
-                logging.info("NewsAdapter: Getting news of country {}".format(country))
-                news = sg_news.get_top_headlines(country=NEWSAPI_COUNTRIES.get(str(country).lower(), None))
+                logging.info(
+                    "NewsAdapter: Getting news of country {}".format(country))
+                news = sg_news.get_top_headlines(
+                    country=NEWSAPI_COUNTRIES.get(str(country).lower(), None))
 
             def bracketize(x):
                 return '\n:large_blue_diamond: [{}] {}'.format(x[0] + 1, str(x[1]))
@@ -237,6 +247,3 @@ class NewsAdapter(LogicAdapter):
         selected_statement.emotion = emotion
 
         return selected_statement
-
-
-

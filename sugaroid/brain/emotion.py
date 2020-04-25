@@ -40,6 +40,7 @@ class EmotionAdapter(LogicAdapter):
     """
     Handles positive and negative emotional statements
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.sia = SentimentIntensityAnalyzer()

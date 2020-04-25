@@ -72,6 +72,7 @@ class CovidAdapter(LogicAdapter):
     You (GCI GPW 2019) live in this, and dwell in lovers’ (coder's) eyes."
             ~ William Shakespeare (Sonnet 55)
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None
@@ -94,7 +95,8 @@ class CovidAdapter(LogicAdapter):
                 .format(covidq=COVID_QUESTIONS[0][1])
             self.chatbot.globals['reversei']['uid'] = 'CORONAVIRUS'
             self.chatbot.globals['reversei']['enabled'] = True
-            logging.info(f"CovidAdapter sets ['reversei']['enabled'] as {self.chatbot.globals['reversei']['enabled']}")
+            logging.info(
+                f"CovidAdapter sets ['reversei']['enabled'] as {self.chatbot.globals['reversei']['enabled']}")
             self.chatbot.globals['reversei']['data'] = [1, 0]
 
         elif 'you' in self.normalized:
@@ -107,4 +109,3 @@ class CovidAdapter(LogicAdapter):
         selected_statement.emotion = emotion
 
         return selected_statement
-

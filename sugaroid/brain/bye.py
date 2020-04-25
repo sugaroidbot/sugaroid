@@ -42,6 +42,7 @@ class ByeAdapter(LogicAdapter):
     """
     Destroys Sugaroid on bye
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None

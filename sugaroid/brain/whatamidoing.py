@@ -11,7 +11,8 @@ def process_what_ami_doing(statement: SugaroidStatement):
             response = WHAT_I_AM_GOING_TO_DO[i.lower_]
             break
     if response:
-        st = SugaroidStatement(response, confidence=0.8, chatbot=True, emotion=Emotion.cry_overflow)
+        st = SugaroidStatement(response, confidence=0.8,
+                               chatbot=True, emotion=Emotion.cry_overflow)
         st.confidence = 0.8
         return st
     else:

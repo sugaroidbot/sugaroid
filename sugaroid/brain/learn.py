@@ -39,6 +39,7 @@ class LearnAdapter(LogicAdapter):
     """
     a specific adapter for learning responses
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
 
@@ -48,7 +49,8 @@ class LearnAdapter(LogicAdapter):
             last_type = self.chatbot.globals['history']['types'][-1]
         except IndexError:
             last_type = False
-        logging.info('LearnAdapter: can_process() last_adapter was {}'.format(last_type))
+        logging.info(
+            'LearnAdapter: can_process() last_adapter was {}'.format(last_type))
 
         if 'learn' in normalized and 'not' not in normalized:
             return True
@@ -66,11 +68,13 @@ class LearnAdapter(LogicAdapter):
             self.chatbot.globals['learn'] = 2
         elif self.chatbot.globals['learn'] == 2:
             response = 'What should I respond to the above statement?'
-            self.chatbot.globals['learn_last_conversation'].append(str(statement))
+            self.chatbot.globals['learn_last_conversation'].append(
+                str(statement))
             self.chatbot.globals['learn'] -= 1
         elif self.chatbot.globals['learn'] == 1:
             response = 'Thanks for teaching me something new. I will always try to remember that'
-            self.chatbot.globals['learn_last_conversation'].append(str(statement))
+            self.chatbot.globals['learn_last_conversation'].append(
+                str(statement))
             self.chatbot.globals['learn'] -= 1
             list_trainer = ListTrainer(self.chatbot)
             list_trainer.train(self.chatbot.globals['learn_last_conversation'])

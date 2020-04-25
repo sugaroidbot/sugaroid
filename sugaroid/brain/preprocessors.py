@@ -71,7 +71,8 @@ def preprocess(string_arg: str):
     """
     logging.info("PREPROCESSOR: Received {}".format(string_arg))
     proc = string_arg
-    proc = proc.replace("n't", ' not').replace("'re", ' are')  # replace short word to expanded words
+    proc = proc.replace("n't", ' not').replace(
+        "'re", ' are')  # replace short word to expanded words
     proc = proc.replace(' i ', ' I ')
     k = nltk.word_tokenize(proc)
     if len(k) >= 1:

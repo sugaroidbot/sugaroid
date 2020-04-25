@@ -41,6 +41,7 @@ class TwoWordAdapter(LogicAdapter):
     """
     Hanfles sentences having two wrods
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.normalized = None
@@ -69,7 +70,8 @@ class TwoWordAdapter(LogicAdapter):
 
         if ('name' in short) and ('my' in short):
             if self.chatbot.globals['USERNAME']:
-                response = 'You are {}'.format(self.chatbot.globals['USERNAME'])
+                response = 'You are {}'.format(
+                    self.chatbot.globals['USERNAME'])
             else:
                 response = random_response(WHO_AM_I)
 

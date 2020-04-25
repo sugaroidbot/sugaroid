@@ -37,6 +37,7 @@ class ReverseAdapter(LogicAdapter):
     """
     A random adapter. Top Secret
     """
+
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
         self.chatbot = chatbot
