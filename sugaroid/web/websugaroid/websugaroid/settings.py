@@ -25,8 +25,8 @@ SOFTWARE.
 
 """
 try:
-import os
-import django_heroku
+    import os
+    import django_heroku
 except:
     pass
 
