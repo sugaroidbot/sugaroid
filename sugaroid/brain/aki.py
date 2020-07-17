@@ -199,6 +199,15 @@ class AkinatorAdapter(LogicAdapter):
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
+        selected_statement = SugaroidStatement(
+            "Akinator's servers are temporarily down. I am sorry for the "
+            "inconvenience.",
+           chatbot=True
+        )
+        selected_statement.confidence = confidence
+        selected_statement.emotion = emotion
+        return selected_statement
+
         if 'stop' in self.normalized:
             self.chatbot.globals['akinator']['enabled'] = False
             response = 'I am sorry. You quit the game abrubtly. {}'.format(
@@ -209,14 +218,18 @@ class AkinatorAdapter(LogicAdapter):
             response = self.chatbot.globals['akinator']['class'].start_game()
         else:
             if not self.chatbot.globals['akinator']['class'].game_over():
-                response = self.chatbot.globals['akinator']['class'].progression(
-                    statement)
+                response = \
+                    self.chatbot.globals['akinator']['class'].progression(
+                        statement
+                    )
                 if not response:
                     response = self.chatbot.globals['akinator']['class'].win()
             else:
                 if self.chatbot.globals['akinator']['class'].start_check():
-                    response = self.chatbot.globals['akinator']['class'].check_ans(
-                        statement)
+                    response = \
+                        self.chatbot.globals['akinator']['class'].check_ans(
+                            statement
+                        )
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence

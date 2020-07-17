@@ -85,13 +85,15 @@ class OneWordAdapter(LogicAdapter):
             confidence = 0.99
 
         elif 'help' in short:
-            response = 'The help is not very easily provided. If you are serious of what you are asking, type help404'
+            response = 'The help is not very easily provided. ' \
+                       'If you are serious of what you are asking, ' \
+                       'type help404'
             confidence = 0.99
         elif 'disclaimer' in short:
             response = DISCLAIMER
             confidence = 0.99
         elif 'license' in short:
-            lic = """
+            lic = """```
                                             MIT License
             
                                   Sugaroid Artificial Intelligence
@@ -114,7 +116,7 @@ class OneWordAdapter(LogicAdapter):
             AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
             LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
             OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-            SOFTWARE.
+            SOFTWARE.```
             """
             response = lic
             confidence = 0.99
