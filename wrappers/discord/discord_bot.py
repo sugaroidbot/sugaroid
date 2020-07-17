@@ -21,6 +21,7 @@ sg = sugaroid.Sugaroid()
 sg.toggle_discord()
 client = discord.Client()
 interrupt_local = False
+start_time = datetime.now()
 
 
 @client.event
@@ -46,7 +47,35 @@ async def on_message(message):
             .replace('<@!684746563540484099>', '')\
             .replace('!S', '')\
             .strip()
-        if 'update' in message.content:
+        if 'stat' in str(message.content).lower():
+            print("Found stat")
+            info = await client.application_info()
+            
+            embed = discord.Embed(
+                title=f'{info.name}',
+                description=f'{info.description}',
+                colour=0x1aaae5,
+            ).add_field(
+                name='Guild Count',
+                value=len(client.guilds),
+                inline=True
+            ).add_field(
+                name='User Count',
+                value=len(client.users),
+                inline=True
+            ).add_field(
+                name='Uptime',
+                value=f'{datetime.now() - start_time}',
+                inline=True
+            ).add_field(
+                name='Latency',
+                value=f'{round(client.latency * 1000, 2)}ms',
+                inline=True
+            ).set_footer(text=f'Made by {info.owner}', icon_url=info.owner.avatar_url)
+            await message.channel.send(embed=embed)
+            return
+
+        elif 'update' in message.content:
             if str(message.author) == 'srevinsaju#8324':
                 await message.channel.send(f"Starting Python pip upgrade. Updating sugaroid from "
                                            f"https://github.com/srevinsaju/sugaroid/archive/master.zip")
