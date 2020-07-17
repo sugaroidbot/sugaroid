@@ -1,0 +1,4 @@
+[submodule "wrappers/discord"]
+	path = wrappers/discord
+	url = git@github.com:srevinsaju/sugaroid-ds
+	branch = master
