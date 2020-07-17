@@ -5,12 +5,21 @@ import random
 import shlex
 import shutil
 import subprocess
+import psutil
+import discord
+import sugaroid_commands as scom
 from datetime import datetime
 from nltk import word_tokenize
 import sugaroid as sug
 from sugaroid import sugaroid, ver
-import discord
 from dotenv import load_dotenv
+import time
+from datetime import timedelta
+
+process = psutil.Process()
+init_cpu_time = process.cpu_percent()
+
+
 
 
 load_dotenv()
@@ -22,6 +31,81 @@ interrupt_local = False
 start_time = datetime.now()
 
 
+async def update_sugaroid(message):
+    # initiate and announce to the user of the upgrade
+    await message.channel.send(
+        "Updating my brain with new features :smile:"
+        "(https://github.com/srevinsaju/sugaroid)"
+    )
+
+    # execute pip3 install
+    pip=shutil.which('pip')
+    pip_popen_subprocess = subprocess.Popen(
+        shlex.split(
+            f'{pip} install -U '
+            f'https://github.com/srevinsaju/sugaroid/archive/master.zip'
+        ),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+
+    # process information from the pip installer from Popen
+    ecode = pip_popen_subprocess.wait(10000)
+    out, err = pip_popen_subprocess.communicate()
+    stdout, stderr = out.decode(), err.decode()
+    await message.channel.send(
+        f"I updated my brain. ```{stdout}``` "
+        f"stderr=```{stderr}```. Exited with {ecode}"
+    )
+
+    # reload modules
+    os.chdir('/')
+    importlib.reload(sug)
+    importlib.reload(sugaroid)
+    importlib.reload(ver)
+
+    # updating the bot
+    os.chdir(os.path.dirname(sug.__file__))
+    git=shutil.which('git')
+    # reset --hard
+    git_reset_popen_subprocess = subprocess.Popen(
+        shlex.split(f'{git} reset --hard origin/master'),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    ).wait(500)
+    # git pull
+    git_pull_popen_subprocess = subprocess.Popen(
+        shlex.split(f'{git} pull'),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
+    # process information from the git
+    ecode = git_pull_popen_subprocess.wait(10000)
+    out, err = git_pull_popen_subprocess.communicate()
+    stdout, stderr = out.decode(), err.decode()
+
+    importlib.reload(scom)
+
+    # announce to the users
+    await message.channel.send(
+        f"I updated the bot. ```{stdout}``` "
+        f"stderr=```{stderr}``` Exited with {ecode}"
+    )
+
+    await client.change_presence(
+        activity=discord.Game(
+            name='v{} since {:02d}:{:02d} UTC'.format(
+                ver.version().get_commit()[:10],
+                datetime.utcnow().hour,
+                datetime.utcnow().minute
+            )
+        )
+    )
+    await message.channel.send("Update completed. :smile:")
+    return
+
+
+
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
@@ -31,100 +115,56 @@ async def on_ready():
                                          datetime.utcnow().minute)))
 
 
+
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
-        print(f'my id is {message.author}')
+        print("Ignoring message sent by another Sugaroid Instance")
         return
     global interrupt_local
-    if message.content.startswith('<@684746563540484099>') or message.content.startswith('<@!684746563540484099>') or \
-            message.content.startswith('!S'):
 
+    if any((
+        message.content.startswith('<@684746563540484099>'),
+        message.content.startswith('<@!684746563540484099>'),
+        message.content.startswith('!S')
+    )):
+        # clean the message
         msg = message.content\
             .replace('<@684746563540484099>', '')\
             .replace('<@!684746563540484099>', '')\
             .replace('!S', '')\
             .strip()
-        if 'stat' in str(message.content).lower() and len(str(message.content)) < 10:
-            print("Found stat")
-            info = await client.application_info()
-            
-            embed = discord.Embed(
-                title=f'{info.name}',
-                description=f'{info.description}',
-                colour=0x1aaae5,
-            ).add_field(
-                name='Guild Count',
-                value=len(client.guilds),
-                inline=True
-            ).add_field(
-                name='User Count',
-                value=len(client.users),
-                inline=True
-            ).add_field(
-                name='Uptime',
-                value=f'{datetime.now() - start_time}',
-                inline=True
-            ).add_field(
-                name='Latency',
-                value=f'{round(client.latency * 1000, 2)}ms',
-                inline=True
-            ).set_footer(text=f'Made by {info.owner}', icon_url=info.owner.avatar_url)
-            await message.channel.send(embed=embed)
+
+        command_processor = scom.SugaroidDiscordCommands(client)
+
+        is_valid_command = await command_processor.call_command(msg, message)
+        print("Recv")
+        if is_valid_command:
             return
 
-        elif 'update' in message.content:
+        elif 'update' in msg and len(msg) <= 7:
             if str(message.author) == 'srevinsaju#8324':
-                await message.channel.send(f"Starting Python pip upgrade. Updating sugaroid from "
-                                           f"https://github.com/srevinsaju/sugaroid/archive/master.zip")
-                pop = subprocess.Popen(
-                    shlex.split('{pip} install -U https://github.com/srevinsaju/sugaroid/archive/master.zip'
-                                .format(pip=shutil.which('pip'))),
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE
-                )
-                pop.communicate()
-                try:
-                    stdout = pop.stdout.read().decode()
-                except ValueError:
-                    stdout = None
-                try:
-                    stderr = pop.stderr.read().decode()
-                except ValueError:
-                    stderr = None
-
-                await message.channel.send(f"pip3 install gives traceback stdout={stdout} "
-                                           f"stderr={stderr}")
-                os.chdir('/')
-                importlib.reload(sug)
-                importlib.reload(sugaroid)
-                importlib.reload(ver)
-
-                await message.channel.send("Sugaroid reloaded")
-
-                os.chdir(os.path.dirname(sug.__file__))
-
-                await client.change_presence(activity=discord.Game(name='v{} since {:02d}:{:02d} UTC'
-                                                                   .format(ver.version().get_commit()[:10],
-                                                                           datetime.utcnow().hour,
-                                                                           datetime.utcnow().minute)))
-                await message.channel.send("version refreshed")
-                return
-
+                update_sugaroid(message)
             else:
-                await message.channel.send(f"I am sorry @{message.author}. I would not be able to update myself.\n"
-                                           f"Seems like you do not have sufficient permissions")
-                return
+                # no permissions
+                await message.channel.send(
+                    f"I am sorry @{message.author}. I would not be able to update myself.\n"
+                    f"Seems like you do not have sufficient permissions"
+                )
+            return
+
         elif 'stop' in message.content and 'learn' in message.content:
             if str(message.author) == 'srevinsaju#8324':
                 global interrupt_local
                 interrupt_local = False
                 await message.channel.send("InterruptAdapter terminated")
-                return
             else:
-                await message.channel.send(f"I am sorry @{message.author}. I would not be able to update myself.\n"
-                                           f"Seems like you do not have sufficient permissions")
-                return
+                await message.channel.send(
+                    f"I am sorry @{message.author}. I would not be able to update myself.\n"
+                    f"Seems like you do not have sufficient permissions"
+                )
+            return
 
         response = sg.parse(msg)
         lim = 1995
