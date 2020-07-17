@@ -160,7 +160,7 @@ class SugaroidBot(ChatBot):
         self.emotion = emotion
 
     def reset_variables(self):
-        self.globals = {
+        self.globals.update({
             'emotion': Emotion.neutral,
             'history': {
                 'total': [0],
@@ -182,7 +182,6 @@ class SugaroidBot(ChatBot):
                 'class': None
             },
             'learned': [],
-            'adapters': [],
             'fun': True,
             'update': False,
             'last_news': None,
@@ -191,7 +190,7 @@ class SugaroidBot(ChatBot):
             'trivia_answer': None,
             'learn_last_conversation': [],
             'DEBUG': {}
-        }
+        })
         self.authors = []
         self.spell_checker = False  # FIXME
 
@@ -239,7 +238,8 @@ class SugaroidBot(ChatBot):
                 results.append(output)
 
                 self.logger.info(
-                    '{} selected "{}" as a response with a confidence of {}'.format(
+                    '{} selected "{}" as a response with a '
+                    'confidence of {}'.format(
                         adapter.class_name, output.text, output.confidence
                     )
                 )
@@ -558,17 +558,19 @@ class Sugaroid:
         self.chatbot = SugaroidBot(
             'Sugaroid',
             storage_adapter='chatterbot.storage.SQLStorageAdapter',
-            logic_adapters=self.commands +
-            [
-                {
-                    'import_path': 'chatterbot.logic.BestMatch',
-                    'maximum_similarity_threshold': 0.80
-                }
-            ] +
-            self.adapters,
+            logic_adapters=
+                self.commands +
+                    [
+                        {
+                            'import_path': 'chatterbot.logic.BestMatch',
+                            'maximum_similarity_threshold': 0.80
+                        }
+                    ] +
+                self.adapters,
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'
             .format(self.cfgpath),
         )
+        self.chatbot.globals['adapters'] = self.adapters
 
         self.read()
         self.invoke_brain()
@@ -660,7 +662,8 @@ class Sugaroid:
 
     def parse(self, args):
         """
-        Do a simple parsing of the init statement. Classify statement on the type of inupt_statement
+        Do a simple parsing of the init statement. Classify statement on the
+        type of input_statement
         and confidence of each statement
         :param args:
         :return:
