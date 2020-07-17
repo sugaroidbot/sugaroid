@@ -6,9 +6,7 @@ import shlex
 import shutil
 import subprocess
 from datetime import datetime
-
 from nltk import word_tokenize
-
 import sugaroid as sug
 from sugaroid import sugaroid, ver
 import discord
