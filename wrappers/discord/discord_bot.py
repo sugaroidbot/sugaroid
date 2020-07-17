@@ -47,7 +47,7 @@ async def on_message(message):
             .replace('<@!684746563540484099>', '')\
             .replace('!S', '')\
             .strip()
-        if 'stat' in str(message.content).lower():
+        if 'stat' in str(message.content).lower() and len(str(message.content)) < 10:
             print("Found stat")
             info = await client.application_info()
             
