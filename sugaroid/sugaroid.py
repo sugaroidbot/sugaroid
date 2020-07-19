@@ -60,7 +60,8 @@ try:
     from PyQt5.QtWidgets import QApplication
 
     GUI_DEPS = True
-except ModuleNotFoundError:
+except (ModuleNotFoundError, ImportError) as e:
+    print("warn: Could not import PyQt5", e)
     GUI_DEPS = False
 
 a = SUGAROID_INTRO
