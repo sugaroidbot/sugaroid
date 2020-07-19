@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=0.6.post50.dev
+Name=sugaroid
+GenericName=sugaroid
+Comment=Sugaroid Bot
+Exec=sugaroid
+Icon=sugaroid
+Type=Application
+Categories=Utility;Development;
+StartupWMClass=UGENE
