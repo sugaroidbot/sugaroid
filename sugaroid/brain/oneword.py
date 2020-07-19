@@ -28,7 +28,7 @@ SOFTWARE.
 from chatterbot.logic import LogicAdapter
 from nltk import word_tokenize, pos_tag
 
-from sugaroid import ver
+from sugaroid.version import VERSION
 from sugaroid.brain.constants import BYE, ANNOYED, DISCLAIMER
 from sugaroid.brain.myname import MyNameAdapter
 from sugaroid.brain.ooo import Emotion
@@ -68,7 +68,7 @@ class OneWordAdapter(LogicAdapter):
         response = random_response(ANNOYED)
         short = str(statement).lower()
         if 'ver' in short:
-            response = str(ver.version().get_commit())[:10]
+            response = VERSION
             confidence = 0.99
         elif 'name' in short:
             response = "What name? You should probably use better english"

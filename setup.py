@@ -50,7 +50,7 @@ elif platform.system() == 'Linux':
 
 setup(
     name='sugaroid',
-    version='0.6.post50.dev',
+    version='0.8',
     description='Open Source Natural Language Processing Bot.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -58,7 +58,6 @@ setup(
     author='srevinsaju',
     author_email="srevin03@gmail.com",
     packages=['sugaroid', 'sugaroid.brain', 'sugaroid.gui', 'sugaroid.cli', 'sugaroid.config', 'sugaroid.reader', 'sugaroid.config', 'sugaroid.game', 'sugaroid.web', 'sugaroid.trivia', 'sugaroid.platform', 'sugaroid.google', 'sugaroid.translator', 'sugaroid.tts', 'sugaroid.trainer'],
-    data_files=data_files,
     url="https://srevinsaju.github.io/sugaroid",
     download_url="https://github.com/srevinsaju/sugaroid/archive/master.zip",
     package_data={'sugaroid': ['data/*', 'gui/ui/*']},  # noqa: E501

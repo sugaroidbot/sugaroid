@@ -26,4 +26,4 @@ SOFTWARE.
 
 """
 
-VERSION = '0.6.post50.dev'
+VERSION = '0.8'
