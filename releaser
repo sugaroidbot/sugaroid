@@ -1,0 +1,222 @@
+#!/usr/bin/env python3
+import sys
+from os import path
+
+COPYRIGHT = \
+    """
+MIT License
+
+Copyright (c) 2020 Srevin Saju
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+"""
+
+RAW_VERSION = "4.0"
+PACKAGE_DIR = {
+    'sugaroid': [
+        'data/*', 'gui/ui/*'
+    ]
+}
+
+CONSOLE_SCRIPTS = {
+    'console_scripts': [
+        'sugaroid = sugaroid.sugaroid:main',
+    ]
+}
+
+DESKTOP_FILE = \
+"""[Desktop Entry]
+Version={v}
+Name=sugaroid
+GenericName=sugaroid
+Comment=Sugaroid Bot
+Exec=sugaroid
+Icon={icon_path}
+Type=Application
+Categories=Utility;Development;
+StartupWMClass=UGENE
+"""
+
+
+DATA_FILES_MANIPULATE = {
+    "setup.py": "",
+    "setup.py-manylinux2014-scrcpy": """
+
+def get_scrcpy_libs():
+    libs = []
+    ls = os.listdir('lib')
+    for i in ls:
+        libs.append('lib/{}'.format(i))
+    return libs
+
+if os.path.exists("bin/scrcpy") and os.path.exists("bin/adb") \
+and os.path.exists("lib"):
+    data_files.extend([
+        ('lib', get_scrcpy_libs() ),
+        ('bin', ['bin/scrcpy', 'bin/adb'])
+    ])
+    """
+}
+
+
+
+def gen_version():
+    """
+    Generates a version from the available git repositories
+    If git repository is not valid, fallback to __version__
+    :return:
+    """
+    import git
+    repo = git.Repo(search_parent_directories=True)
+    ver = repo.git.describe("--tags")
+    raw_version = ver.split('-')
+    if 'release' in sys.argv:
+        print("Checking out sugaroid to release")
+        if "releaser" in sys.argv[0] and len(sys.argv) >= 3:
+            pass
+        elif "releaser" in sys.argv[1] and len(sys.argv) >= 4:
+            pass
+        else:
+            raise Exception("Invalid data provided.")
+        print("Releasing", sys.argv[-1])
+        return str(sys.argv[-1])
+    else:
+        if len(raw_version) == 1:
+            # Stable Release
+            git_version = "{}".format(raw_version[0])
+        elif len(raw_version) == 2:
+            # Release Candidate
+            git_version = "{major}.post{minor}".format(
+                major=raw_version[0], minor=raw_version[1])
+        else:
+            # Revision Dev
+            git_version = "{major}.post{minor}.dev".format(
+                major=raw_version[0], minor=raw_version[1])
+    return git_version
+
+
+try:
+    v = gen_version()
+except Exception as e:
+    print("WARNING: {}".format(e))
+    v = f"{RAW_VERSION}.x.src.dev"
+
+# Attach requirements
+
+setupfile = \
+    '''#!/usr/bin/env python3
+"""
+{COPYRIGHT}
+"""
+
+from setuptools import setup
+import os
+import platform
+
+try:
+    this_directory = os.path.abspath(os.path.dirname(__file__))
+    with open(
+        os.path.join(this_directory, 'README.md'),
+        encoding='utf-8'
+    ) as f:
+        long_description = f.read()
+except FileNotFoundError:
+    long_description = \\
+        "Sugaroid Bot by @srevinsaju"
+
+requirements = ['PyQt5>=5.14,<5.16', 'pynput']
+if platform.system() == 'Windows':
+    requirements.extend(['pywin32', 'psutil'])
+elif platform.system() == 'Linux':
+    requirements.extend(['fonttools', 'psutil', 'cairosvg'])
+
+{DATA_FILE_MANIPULATE}
+setup(
+    name='sugaroid',
+    version='{version}',
+    description='Open Source Natural Language Processing Bot.',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    license='MIT',
+    author='srevinsaju',
+    author_email="srevin03@gmail.com",
+    packages=['sugaroid', 'sugaroid.brain', 'sugaroid.gui', 'sugaroid.cli', 'sugaroid.config', 'sugaroid.reader', 'sugaroid.config', 'sugaroid.game', 'sugaroid.web', 'sugaroid.trivia', 'sugaroid.platform', 'sugaroid.google', 'sugaroid.translator', 'sugaroid.tts', 'sugaroid.trainer'],
+    data_files=data_files,
+    url="https://srevinsaju.github.io/sugaroid",
+    download_url="https://github.com/srevinsaju/sugaroid/archive/master.zip",
+    package_data={package_data},  # noqa: E501
+    include_package_data=True,
+    install_requires=requirements,
+    entry_points={entry_points},  # noqa: E501
+    classifiers=[
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.8',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+    ],
+)
+'''
+
+VERSION_FILE = \
+    '''#!/usr/bin/env python3
+"""
+{COPYRIGHT}
+"""
+
+VERSION = '{version}'
+'''
+
+# Create a new setup.py with all the information raw.
+# this was because GitPython created a lot of problems
+# hardcoding the information before each release, solved the problem
+
+for setup in ("setup.py", ):
+    with open(setup, 'w') as w:
+        w.write(setupfile.format(
+            COPYRIGHT=COPYRIGHT,
+            version=v,
+            package_data=PACKAGE_DIR,
+            entry_points=CONSOLE_SCRIPTS,
+            DATA_FILE_MANIPULATE=DATA_FILES_MANIPULATE[setup]
+        ))
+
+with open("sugaroid/version.py", 'w') as w:
+    w.write(VERSION_FILE.format(
+        COPYRIGHT=COPYRIGHT,
+        version=v,
+    ))
+
+
+with open('sugaroid.desktop', 'w') as w:
+    w.write(DESKTOP_FILE.format(v=v, icon_path='sugaroid'))
+
+
+
+print("Setup filename generated.")
+print("SUGAROID >> VERSION : {}".format(v))
+
+# Issue #82, #80
+# https://stackoverflow.com/questions/25284879/ \
+# install-desktop-file-with-setup-py/44462146#44462146
