@@ -52,13 +52,14 @@ class FunAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.neutral
-        confidence = 0.1
+        confidence = 0.05
         parsed = str(statement)
         if 'not' in parsed:
             # if you are not, who then is?
             suffix = " either. "
             prefix = ""
             emotion = Emotion.wink
+            confidence *= 2
         else:
             interrogation = False
             token = spac_token(statement, chatbot=self.chatbot)
@@ -71,6 +72,7 @@ class FunAdapter(LogicAdapter):
 
             if interrogation:
                 prefix, suffix = '', ''
+                confidence *= 2
                 parsed = random_response(FUN_ASK_QUESTION).format(
                     ' '.join(reverse(word_tokenize(str(statement)))))  # This seems complex.
                 # The tokenized input statement is reversed using the reverse unction

@@ -492,7 +492,7 @@ class Sugaroid:
 
     """
 
-    def __init__(self):
+    def __init__(self, readonly=True):
         self.trainer = None
         self.corpusTrainer = None
         self.neuron = None
@@ -569,6 +569,7 @@ class Sugaroid:
                 self.adapters,
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'
             .format(self.cfgpath),
+            read_only=readonly
         )
         self.chatbot.globals['adapters'] = self.adapters
 
@@ -745,7 +746,7 @@ def main():
     :return:
     """
     print(a)
-    sg = Sugaroid()
+    sg = Sugaroid(readonly=True if 'update' in sys.argv else False)
     if 'qt' in sys.argv:
         os.environ['SUGAROID'] = 'GUI'
         sg.loop_gui()

@@ -169,7 +169,7 @@ class MeAdapter(LogicAdapter):
                         else:
                             response = 'seriously?'
                             emotion = Emotion.angry
-                            confidence = 0.1
+                            confidence = 0.09
 
                 elif i.pos_ == 'PROPN':
                     cos = cosine_similarity([str(i.lower_)], ['sugaroid'])
@@ -241,7 +241,7 @@ class MeAdapter(LogicAdapter):
             if presence_statement.confidence == 0:
                 # FIXME : Add more logic here
                 response = 'Ok'
-                confidence = 0.4
+                confidence = 0.3
                 emotion = Emotion.non_expressive_left
             else:
                 return presence_statement
