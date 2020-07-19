@@ -40,28 +40,12 @@ module.exports = {
           title: 'Docs',
           items: [
             {
-              label: 'Style Guide',
+              label: 'Get Started',
               to: 'docs/',
             },
-            {
-              label: 'Second Doc',
-              to: 'docs/doc2/',
-            },
           ],
         },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/xxx00xxxxxx',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/srevinsaju',
-            },
-          ],
-        },
+
         {
           title: 'More',
           items: [
