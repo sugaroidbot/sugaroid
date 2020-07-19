@@ -41,12 +41,12 @@ except FileNotFoundError:
     long_description = \
         "Sugaroid Bot by @srevinsaju"
 
-requirements = ['googletrans', 'google', 'pyjokes','scikit-learn', 'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API', 'pyspellchecker', 'python-dotenv', 'psutil']
+requirements = ['googletrans', 'google', 'Django', 'pyjokes','scikit-learn', 'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API', 'pyspellchecker', 'python-dotenv', 'psutil']
 
 
 setup(
     name='sugaroid',
-    version='0.8',
+    version='0.9',
     description='Open Source Natural Language Processing Bot.',
     long_description=long_description,
     long_description_content_type='text/markdown',
