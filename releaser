@@ -3,8 +3,7 @@ import sys
 from os import path
 
 COPYRIGHT = \
-    """
-MIT License
+    """MIT License
 
 Copyright (c) 2020 Srevin Saju
 
