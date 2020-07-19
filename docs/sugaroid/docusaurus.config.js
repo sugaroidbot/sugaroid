@@ -7,7 +7,7 @@ module.exports = {
   title: 'Sugaroid',
   tagline: 'Your personal friendly robot assistant',
   url: 'https://www.srevinsaju.me',
-  baseUrl: '/',
+  baseUrl: '/sugaroid/',
   favicon: 'img/favicon.ico',
   organizationName: 'srevinsaju', // Usually your GitHub org/user name.
   projectName: 'sugaroid', // Usually your repo name.
