@@ -6,3 +6,7 @@
 	path = wrappers/api
 	url = git@github.com:srevinsaju/sugaroid-backend
 	branch = master
+[submodule "wrappers/web"]
+	path = wrappers/web
+	url = git@github.com:srevinsaju/sugaroid-backend
+	branch = master
