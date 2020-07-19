@@ -28,7 +28,7 @@ SOFTWARE.
 from chatterbot.logic import LogicAdapter
 from nltk import word_tokenize, pos_tag
 
-from sugaroid.ver import version
+from sugaroid.version import VERSION
 from sugaroid.brain.constants import BYE, ANNOYED, WHO_AM_I, WHO_ARE_YOU, SUGAROID
 from sugaroid.brain.myname import MyNameAdapter
 from sugaroid.brain.ooo import Emotion
