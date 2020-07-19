@@ -52,6 +52,9 @@ jobs:
           GIT_USER: git
         run: |
           cd docs/sugaroid/
+          cd docs
+          sed -i 's,../static/img/docs,/sugaroid/img/docs,g' ./**/*.md
+          cd ..
           git config --global user.email "actions@gihub.com"
           git config --global user.name "gh-actions"
           if [ -e yarn.lock ]; then
