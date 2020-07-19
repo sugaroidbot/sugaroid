@@ -120,6 +120,7 @@ class WikiAdapter(LogicAdapter):
                                     else:
                                         response = "Seems like MediaWikiAPI is not installed on your PC"
                                         confidence = 0.9
+                                        break
                         else:
                             response = 'I am not sure what you are asking for.'
                             confidence = 0.4
