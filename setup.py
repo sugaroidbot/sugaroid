@@ -89,7 +89,7 @@ setup(
                   '.': [".git/info/*"]
                   },
     include_package_data=True,
-    install_requires=['GitPython' , 'googletrans', 'google', 'Django', 'pyjokes',
+    install_requires=['GitPython' , 'googletrans', 'google', 'pyjokes',
                       'scikit-learn', 'nltk', 'lxml', 'pyinflect'] + REQUIREMENTS,
     dependency_links=DEPENDENCIES,
     entry_points={
