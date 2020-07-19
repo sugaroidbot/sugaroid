@@ -1,8 +1,7 @@
+#!/usr/bin/env python3
 """
 MIT License
 
-Sugaroid Artificial Intelligence
-Chatbot Core
 Copyright (c) 2020 Srevin Saju
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,86 +22,57 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
+
 """
 
 from setuptools import setup
-
-
-from os import path
-this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
-
-REQUIREMENTS = []
-DEPENDENCIES = []
-
-with open('requirements.txt') as requirements:
-    for requirement in requirements.readlines():
-        if requirement.startswith('git+git://') or (requirement.startswith('https://')) \
-                or (requirement.startswith('git+https://')):
-            DEPENDENCIES.append(requirement)
-        else:
-            REQUIREMENTS.append(requirement)
-
-
-def gen_version():
-    import git
-
-    repo = git.Repo(search_parent_directories=True)
-    sha = repo.head.object.hexsha
-    ver = repo.git.describe("--tags")
-    raw_version = ver.split('-')
-    if len(raw_version) == 1:
-        # Stable Release
-        v = "{}".format(raw_version[0])
-    elif len(raw_version) == 2:
-        # Release Candidate
-        v = "{major}.post{minor}".format(major=raw_version[0], minor=raw_version[1])
-    else:
-        # Revision Dev
-        v = "{major}.post{minor}.dev".format(major=raw_version[0], minor=raw_version[1])
-
-    return v
+import os
+import platform
 
 try:
-    v = gen_version()
-except Exception as e:
-    print("WARNING: {}".format(e))
-    v = "0.5.x"
+    this_directory = os.path.abspath(os.path.dirname(__file__))
+    with open(
+        os.path.join(this_directory, 'README.md'),
+        encoding='utf-8'
+    ) as f:
+        long_description = f.read()
+except FileNotFoundError:
+    long_description = \
+        "Sugaroid Bot by @srevinsaju"
+
+requirements = ['PyQt5>=5.14,<5.16', 'pynput']
+if platform.system() == 'Windows':
+    requirements.extend(['pywin32', 'psutil'])
+elif platform.system() == 'Linux':
+    requirements.extend(['fonttools', 'psutil', 'cairosvg'])
 
 
 setup(
     name='sugaroid',
-    version="{}".format(v),
-    description='sugaroid',
+    version='0.6.post50.dev',
+    description='Open Source Natural Language Processing Bot.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    license='GPL v3',
+    license='MIT',
     author='srevinsaju',
     author_email="srevin03@gmail.com",
-    packages=['sugaroid'],
-    url="https://srevinsaju.github.io/guiscrcpy",
-    download_url="https://github.com/srevinsaju/guiscrcpy/archive/master.zip",
-    package_data={'sugaroid': ['*', '*.*', 'brain/*', 'reader/*', 'trainer/*', 'translator/*', 'web/*', 'cli/*',
-                               'platform/*', 'tts/*', 'config/*', 'google/*', 'qt/*', 'game/*', 'trivia/*', 'gui/*',
-                               'gui/ui/*', 'data/*'],
-                  '.': [".git/info/*"]
-                  },
+    packages=['sugaroid', 'sugaroid.brain', 'sugaroid.gui', 'sugaroid.cli', 'sugaroid.config', 'sugaroid.reader', 'sugaroid.config', 'sugaroid.game', 'sugaroid.web', 'sugaroid.trivia', 'sugaroid.platform', 'sugaroid.google', 'sugaroid.translator', 'sugaroid.tts', 'sugaroid.trainer'],
+    data_files=data_files,
+    url="https://srevinsaju.github.io/sugaroid",
+    download_url="https://github.com/srevinsaju/sugaroid/archive/master.zip",
+    package_data={'sugaroid': ['data/*', 'gui/ui/*']},  # noqa: E501
     include_package_data=True,
-    install_requires=['GitPython' , 'googletrans', 'google', 'pyjokes',
-                      'scikit-learn', 'nltk', 'lxml', 'pyinflect'] + REQUIREMENTS,
-    dependency_links=DEPENDENCIES,
-    entry_points={
-        'console_scripts': [
-            'sugaroid = sugaroid.sugaroid:main',
-        ]
-    },
-    classifiers=['Operating System :: OS Independent',
-                 'Programming Language :: Python :: 3.7',
-                 'Programming Language :: Python :: 3.6',
-                 'Programming Language :: Python :: 3.8',
-                 'Operating System :: MacOS :: MacOS X',
-                 'Operating System :: Microsoft :: Windows',
-                 'Operating System :: POSIX',
-                 'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'],
+    install_requires=requirements,
+    entry_points={'console_scripts': ['sugaroid = sugaroid.sugaroid:main']},  # noqa: E501
+    classifiers=[
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.8',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
+    ],
 )
