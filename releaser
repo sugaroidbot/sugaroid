@@ -118,9 +118,6 @@ except Exception as e:
     print("WARNING: {}".format(e))
     v = f"{RAW_VERSION}.x.src.dev"
 
-# Attach requirements
-requirements = ['googletrans', 'google', 'Django', 'pyjokes','scikit-learn', 'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API', 'pyspellchecker', 'python-dotenv']
-
 
 setupfile = \
     '''#!/usr/bin/env python3
@@ -143,11 +140,7 @@ except FileNotFoundError:
     long_description = \\
         "Sugaroid Bot by @srevinsaju"
 
-requirements = ['PyQt5>=5.14,<5.16', 'pynput']
-if platform.system() == 'Windows':
-    requirements.extend(['pywin32', 'psutil'])
-elif platform.system() == 'Linux':
-    requirements.extend(['fonttools', 'psutil', 'cairosvg'])
+requirements = ['googletrans', 'google', 'Django', 'pyjokes','scikit-learn', 'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API', 'pyspellchecker', 'python-dotenv', 'psutil']
 
 {DATA_FILE_MANIPULATE}
 setup(

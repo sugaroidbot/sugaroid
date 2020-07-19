@@ -41,11 +41,7 @@ except FileNotFoundError:
     long_description = \
         "Sugaroid Bot by @srevinsaju"
 
-requirements = ['PyQt5>=5.14,<5.16', 'pynput']
-if platform.system() == 'Windows':
-    requirements.extend(['pywin32', 'psutil'])
-elif platform.system() == 'Linux':
-    requirements.extend(['fonttools', 'psutil', 'cairosvg'])
+requirements = ['googletrans', 'google', 'Django', 'pyjokes','scikit-learn', 'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API', 'pyspellchecker', 'python-dotenv', 'psutil']
 
 
 setup(
