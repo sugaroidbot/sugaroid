@@ -6,7 +6,7 @@ const rehypeKatex = require("rehype-katex");
 module.exports = {
   title: 'Sugaroid',
   tagline: 'Your personal friendly robot assistant',
-  url: 'https://docs.sugaroid.srevinsaju.me',
+  url: 'https://www.srevinsaju.me',
   baseUrl: '/',
   favicon: 'img/favicon.ico',
   organizationName: 'srevinsaju', // Usually your GitHub org/user name.
