@@ -70,7 +70,7 @@ class AreYouAdapter(LogicAdapter):
                 confidence = 0.5
                 response = 'You!'
             else:
-                v = version()
+                v = VERSION
                 response = "\n{} \n{}. \nBuild: {}".format(
                     SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())
         else:

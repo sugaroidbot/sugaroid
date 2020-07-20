@@ -76,7 +76,7 @@ class TwoWordAdapter(LogicAdapter):
                 response = random_response(WHO_AM_I)
 
         elif ('name' in short) and ('your' in short):
-            v = version()
+            v = VERSION
             response = "\n{} \n{}. \nBuild: {}".format(
                 SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())
 
