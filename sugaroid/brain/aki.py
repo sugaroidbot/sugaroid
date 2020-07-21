@@ -199,14 +199,6 @@ class AkinatorAdapter(LogicAdapter):
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
-        selected_statement = SugaroidStatement(
-            "Akinator's servers are temporarily down. I am sorry for the "
-            "inconvenience.",
-           chatbot=True
-        )
-        selected_statement.confidence = confidence
-        selected_statement.emotion = emotion
-        return selected_statement
 
         if 'stop' in self.normalized:
             self.chatbot.globals['akinator']['enabled'] = False
