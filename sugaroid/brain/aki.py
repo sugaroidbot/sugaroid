@@ -114,10 +114,10 @@ class SugaroidAkinator:
         self.winning = False
         self.check = False
         try:
-            self.game_instance = self.aki.start_game("en2")
+            self.game_instance = self.aki.start_game("en")
         except (AkiServerDown, AkiTechnicalError):
             try:
-                self.game_instance = self.aki.start_game("en3")
+                self.game_instance = self.aki.start_game("en")
             except (AkiServerDown, AkiTechnicalError):
                 self.game_instance = self.aki.start_game("en3")
 
