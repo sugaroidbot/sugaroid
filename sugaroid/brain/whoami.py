@@ -74,7 +74,7 @@ class WhoAdapter(LogicAdapter):
 
                 v = VERSION
                 response = "\n{} \n{}. \nBuild: {}".format(
-                    SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())
+                    SUGAROID[0], random_response(WHO_ARE_YOU), v)
         else:
             response = 'check the wiki'
             confidence = 0
