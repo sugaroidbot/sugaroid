@@ -503,3 +503,38 @@ emotion_mapping = \
         Emotion.vomit: "sugaroid_dead",
         Emotion.sleep: "sugaroid_sleep"
     }
+
+
+HI_WORDS = [
+    "hola",
+    "hey",
+    "helloz",
+    "hi",
+    "hai",
+    "dude",
+    "hallo",
+    "helo",
+    "gday",
+    "g'day",
+    "yo",
+    "howdy",
+    "heyy",
+    "sup",
+    "whazzup",
+    "heyyy",
+    "heyyyy",
+    "ahoy",
+    "ello",
+    "halo"
+]
+
+HI_RESPONSES = [
+    "Hi there",
+    "Hola amigo!",
+    "Hello, welcome to sugaroid",
+    "Hey, how can I help you?",
+    "Hey dude, how can I help you?",
+    "Hey there",
+    "Hey",
+    "Hi, nice to meet you"
+]
