@@ -29,12 +29,13 @@ from chatterbot.logic import LogicAdapter
 from nltk import word_tokenize, pos_tag
 
 from sugaroid.version import VERSION
-from sugaroid.brain.constants import BYE, ANNOYED, DISCLAIMER
+from sugaroid.brain.constants import BYE, ANNOYED, DISCLAIMER, HI_WORDS, HI_RESPONSES
 from sugaroid.brain.myname import MyNameAdapter
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize
 from sugaroid.sugaroid import SugaroidStatement
+
 
 
 class OneWordAdapter(LogicAdapter):
@@ -120,6 +121,11 @@ class OneWordAdapter(LogicAdapter):
             """
             response = lic
             confidence = 0.99
+            
+        elif short in HI_WORDS:
+            response = random_response(HI_RESPONSES)
+            confidence = 0.99
+            
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
