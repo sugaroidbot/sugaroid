@@ -142,9 +142,12 @@ class DoLikeAdapter(LogicAdapter):
                 response = 'Well, try asking {nn}'
             else:
                 response = "Hmm, Well I don't know"
-
-        selected_statement = SugaroidStatement(
-            response.format(nn=nn, vb=vb), chatbot=True)
+        try:
+            selected_statement = SugaroidStatement(
+                response.format(nn=nn, vb=vb), chatbot=True)
+        except UnboundLocalError:
+            selected_statement = SugaroidStatement(
+                response.format(nn=nn), chatbot=True)
         selected_statement.confidence = confidence
 
         selected_statement.emotion = emotion
