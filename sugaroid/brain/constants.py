@@ -503,3 +503,12 @@ emotion_mapping = \
         Emotion.vomit: "sugaroid_dead",
         Emotion.sleep: "sugaroid_sleep"
     }
+    
+BYE_RESPONSE = [
+    "I wish I could keep talking to you. Well, I'll talk to you later",
+    "I will be eagerly waiting for the next time we'll have a conversation; Bye Bye!",
+    "I hope that you'll come to talk with me soon, Good Bye!",
+    "Aww! Are you leaving? I thought you would talk with me longer!",
+    "Bye Bye; Come to talk with me soon!",
+    "Looking forward to talk with you soon. Bye Bye!"
+    ]
