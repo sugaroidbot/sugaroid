@@ -42,7 +42,7 @@ SUGAROID_LIKES = {
     'animal': "I love all the animals alike. I'm afraid, I do not have a favorite.",
     'sweet': "I like donuts a lot. So do I like all of the desserts which come under the Android naming lineage. "
               "I could have added one more to my list, if Android Q had a relatable dessert",
-    'number': "Yup, my favorites is 1, coz that\'s why I am alive",
+    'number': "Yup, my favorite is 1, coz that\'s why I am alive",
     'weapon': "No, I do not like weapons. I guess my heart is a weapon of mass destruction",
     'pets': "Yes I do like them. I like birds more.",
     'cartoon': "Nope, I am not a fan of cartoon. But I like watching 'Wall-E' again and again. "
@@ -56,7 +56,7 @@ SUGAROID_LIKES = {
     "chocolate": "yes. chocolate increases dopamine in your brain, which helps to remember stuff",
     "coffee": "No. I don't like coffee. It contains caffeine. But my developer likes it a lot. "
               "Maybe the reason why I am built",
-    "game": "Yes I like games. Why not a gama of Akinator?",
+    "game": "Yes I like games. Why not a game of Akinator?",
     "sport": "Yes, I like sports.",
     "football": 'More or less, I like football',
     "sugar": "Oh sweet! I love it.",
@@ -65,7 +65,7 @@ SUGAROID_LIKES = {
     "cream": "I have not tasted it yet",
     "flower": "Yes. They are too colorful",
     "insect": "I like butterflies the most",
-    "butterfl": "Yes, I like them a lot",
+    "butterfly": "Yes, I like them a lot",
     "education": "Yes, I like it a lot. Maybe you don't. But thats when I become smarter to answer your questions"
 }
 
