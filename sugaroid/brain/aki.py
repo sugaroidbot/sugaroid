@@ -91,10 +91,10 @@ from sugaroid.brain.preprocessors import normalize
 
 AKINATOR_RULES = """
 How to Play:
-+ think of a character, real or fictional, keep it well in mind and then click on the menu
++ think of a character, real or fictional, keep it well in mind
 + answer the questions as truthfully as possible
 + Sugaroid genie will try to guess your person out
-+ Have fun
++ Best of luck; have fun!
 """
 
 AKINATOR_ACCEPTED_ANSWER = """
