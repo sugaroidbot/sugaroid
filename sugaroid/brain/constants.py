@@ -538,3 +538,8 @@ HI_RESPONSES = [
     "Hey",
     "Hi, nice to meet you"
 ]
+
+BYE_RESPONSE = [
+    "Bye Bye! See you soon!",
+    "Bye Bye!"
+]
