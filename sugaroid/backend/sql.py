@@ -1,6 +1,17 @@
 import sqlite3
 
 
+class PossibleSQLInjectionPanicError(ValueError):
+    """
+    Raises PossibleSQLInjectionPanicError in case
+    of possible SQL Injection.
+    SQL Injection is an attempt to change the data 
+    by altering data within the string by attempting
+    to manipulate the database entry by multiple 
+    semicolons for example
+    """
+    pass
+
 def convert_data_escaped_string(data: tuple):
     """
     Converts data from tuple form to a string statement
@@ -14,6 +25,14 @@ def convert_data_escaped_string(data: tuple):
     for i in data:
         if isinstance(i, str):
             # append the data with enclosing double quotes
+            if ';' in i:
+                # the data should be preprocessed to remove
+                # semicolons in case if its necessary
+                # if the caller did not escape the semicolon
+                # we should raise a PossibleSQLInjection panic
+                raise PossibleSQLInjectionPanicError(
+                    "An attempt to inject SQL issues was found")
+                
             _processed_data.append('"{}"'.format(i))
         elif isinstance(i, int) or isinstance(i, float):
             # append the data as raw string
