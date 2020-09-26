@@ -25,6 +25,9 @@ SOFTWARE.
 
 """
 import shutil
+
+from colorama import Fore, Style
+from colorama import init as colorama_init
 from emoji import emojize
 from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
 from sugaroid.brain.postprocessor import random_response
@@ -688,8 +691,8 @@ class Sugaroid:
         """
         try:
             response = self.parse(input(
-                colorama
-                '( ဖ‿ဖ) @> '))
+                Fore.CYAN +
+                '( ဖ‿ဖ) @> ' + Fore.RESET))
             return response
         except (KeyboardInterrupt, EOFError):
             sys.exit()
@@ -701,9 +704,17 @@ class Sugaroid:
         :return:
         """
         try:
-            print(emojize(response.text))
+            print(
+                Style.BRIGHT + Fore.GREEN +
+                "sugaroid: " + Fore.RESET + Style.RESET_ALL + Fore.BLUE +
+                emojize(response.text) + Fore.RESET + "\n"
+            )
         except AttributeError:
-            print(emojize(response))
+            print(
+                Style.BRIGHT + Fore.GREEN +
+                "sugaroid: " + Fore.RESET + Style.RESET_ALL + Fore.BLUE +
+                emojize(response) + Fore.RESET + "\n"
+            )
         if self.audio:
             self.tts.speak(str(response))
 
@@ -753,6 +764,7 @@ def main():
     :return:
     """
     print(a)
+    colorama_init()
     sg = Sugaroid(readonly=True if 'update' in sys.argv else False)
     if 'qt' in sys.argv:
         os.environ['SUGAROID'] = 'GUI'
