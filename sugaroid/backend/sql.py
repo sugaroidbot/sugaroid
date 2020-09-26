@@ -4,6 +4,15 @@ import logging
 logger = logging.getLogger('sugaroid')
 
 
+CREATE_TABLE = \
+    """CREATE TABLE IF NOT EXISTS sugaroid_hist (
+statement varchar(500),
+in_response_to varchar(500),
+time FLOAT,
+processing_time FLOAT
+);
+"""
+
 class PossibleSQLInjectionPanicError(ValueError):
     """
     Raises PossibleSQLInjectionPanicError in case
@@ -58,11 +67,12 @@ def convert_data_escaped_string(data: tuple):
 
 
 class SqlDatabaseManagement:
-    def __init__(self, path_to_db, table="sg_history"):
+    def __init__(self, path_to_db, table="sugaroid_hist"):
         self._path_to_db = path_to_db
         self.database_instance = sqlite3.connect(self._path_to_db)
         self._cnx = self.database_instance.cursor()
         self._table = table
+        self._execute(CREATE_TABLE)
 
     @property
     def table(self):
@@ -95,6 +105,17 @@ class SqlDatabaseManagement:
         self._cnx.execute(
             "INSERT INTO {tablename} VALUES({values})".format(
                 tablename=self.table,
-                values=", ".join(data)
+                values=convert_data_escaped_string(data)
             )
         )
+
+    def append(self, statement, in_reponse_to, time, processing_time):
+        self._add((statement, in_reponse_to, time, processing_time))
+
+    def close(self):
+        """
+        Closes the connection to the mysql database
+        """
+        self.database_instance.commit()
+        self.database_instance.close()
+        return True
