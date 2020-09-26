@@ -769,6 +769,7 @@ class Sugaroid:
             app.exec_()
         except KeyboardInterrupt:
             pass
+        self.database.close()
 
 
 def gui_main():
