@@ -15,6 +15,7 @@ class PossibleSQLInjectionPanicError(ValueError):
     """
     pass
 
+
 def convert_data_escaped_string(data: tuple):
     """
     Converts data from tuple form to a string statement
