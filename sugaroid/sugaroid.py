@@ -50,8 +50,13 @@ try:
     AUD_DEPS = True
 except ModuleNotFoundError:
     AUD_DEPS = False
-verbosity = logging.INFO
-logging.basicConfig(level=verbosity)
+
+
+if os.getenv('SUGAROID_DEBUG') in ('true', 'True'):
+    # set the verbosity
+    verbosity = logging.INFO
+    logging.basicConfig(level=verbosity)
+
 
 try:
     from PyQt5 import QtCore, QtWidgets  # noqa:
@@ -61,6 +66,7 @@ try:
 except (ModuleNotFoundError, ImportError) as e:
     print("warn: Could not import PyQt5", e)
     GUI_DEPS = False
+
 
 a = SUGAROID_INTRO
 
@@ -681,7 +687,9 @@ class Sugaroid:
         :return:
         """
         try:
-            response = self.parse(input('( ဖ‿ဖ) @> '))
+            response = self.parse(input(
+                colorama
+                '( ဖ‿ဖ) @> '))
             return response
         except (KeyboardInterrupt, EOFError):
             sys.exit()

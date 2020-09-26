@@ -8,6 +8,7 @@ pyspellchecker
 python-dotenv
 nltk
 sugaroid-chatterbot-corpus
+colorama
 freegames
 spacy
 requests
