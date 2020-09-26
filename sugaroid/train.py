@@ -24,3 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
+
+class SugaroidTrainer:
+    def __init__(self, path_to_local_database):

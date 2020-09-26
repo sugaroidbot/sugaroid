@@ -54,8 +54,9 @@ verbosity = logging.INFO
 logging.basicConfig(level=verbosity)
 
 try:
-    from PyQt5 import QtCore, QtWidgets
-    from PyQt5.QtWidgets import QApplication
+    from PyQt5 import QtCore, QtWidgets  # noqa:
+    from PyQt5.QtWidgets import QApplication  # noqa:
+
     GUI_DEPS = True
 except (ModuleNotFoundError, ImportError) as e:
     print("warn: Could not import PyQt5", e)
@@ -213,7 +214,10 @@ class SugaroidBot(ChatBot):
         """
         return self.get_global('USERNAME')
 
-    def generate_response(self, input_statement, additional_response_selection_parameters=None):
+    def generate_response(
+            self,
+            input_statement,
+            additional_response_selection_parameters=None):
         """
         Return a response based on a given input statement.
 
@@ -303,7 +307,7 @@ class SugaroidBot(ChatBot):
             result_options = {}
             for result_option in results:
                 result_string = result_option.text + ':' + \
-                    (result_option.in_response_to or '')
+                                (result_option.in_response_to or '')
 
                 if result_string in result_options:
                     result_options[result_string].count += 1
@@ -552,21 +556,17 @@ class Sugaroid:
         else:
             self.tts = None
 
-        # Create a new chat bot named Charlie
         self.chatbot = SugaroidBot(
             'Sugaroid',
             storage_adapter='chatterbot.storage.SQLStorageAdapter',
-            logic_adapters=
-                self.commands +
-                    [
-                        {
-                            'import_path': 'chatterbot.logic.BestMatch',
-                            'maximum_similarity_threshold': 0.80
-                        }
-                    ] +
-                self.adapters,
-            database_uri='sqlite+pysqlite:///{}/sugaroid.db'
-            .format(self.cfgpath),
+            logic_adapters=self.commands +
+                           [
+                               {
+                                   'import_path': 'chatterbot.logic.BestMatch',
+                                   'maximum_similarity_threshold': 0.80
+                               }
+                           ] + self.adapters,
+            database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(self.cfgpath),
             read_only=readonly
         )
         self.chatbot.globals['adapters'] = self.adapters
@@ -717,6 +717,7 @@ class Sugaroid:
         if not GUI_DEPS:
             raise ModuleNotFoundError(
                 "PyQt5 is not Installed. Install it by pip3 install PyQt5")
+
         print("Launching GUI")
         QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
         QApplication.setAttribute(
@@ -729,7 +730,7 @@ class Sugaroid:
         try:
             app.exec_()
         except KeyboardInterrupt:
-            sys.exit()
+            pass
 
 
 def gui_main():
