@@ -25,10 +25,13 @@ SOFTWARE.
 
 """
 import shutil
+import time
 
 from colorama import Fore, Style
 from colorama import init as colorama_init
 from emoji import emojize
+
+from sugaroid.backend.sql import SqlDatabaseManagement
 from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.config.config import ConfigManager
@@ -44,6 +47,7 @@ import sys
 import warnings
 from chatterbot.conversation import Statement
 from sugaroid.brain.ooo import Emotion
+from sugaroid.version import VERSION
 
 warnings.filterwarnings("ignore")
 
@@ -70,8 +74,6 @@ except (ModuleNotFoundError, ImportError) as e:
     print("warn: Could not import PyQt5", e)
     GUI_DEPS = False
 
-
-a = SUGAROID_INTRO
 
 SPACY_LANG_PROCESSOR = LanguageProcessor()
 
@@ -510,6 +512,8 @@ class Sugaroid:
         self.audio = 'audio' in sys.argv
         self.cfgmgr = ConfigManager()
         self.cfgpath = self.cfgmgr.get_cfgpath()
+        self.database = SqlDatabaseManagement(
+            os.path.join(self.cfgpath, 'sugaroid_internal.db'))
         self.database_exists = os.path.exists(
             os.path.join(self.cfgpath, 'sugaroid.db'))
         self.commands = [
@@ -677,9 +681,24 @@ class Sugaroid:
         :return:
         """
         if type(args) is str:
+            preflight_time = time.time()
             response = self.neuron.parse(args)
             self.chatbot.globals['history']['total'].append(response)
             self.chatbot.globals['history']['user'].append(args)
+            success_time = time.time()
+            delta_time = success_time - preflight_time
+            try:
+                _text_response = response.text
+            except AttributeError:
+                _text_response = response
+
+            assert isinstance(_text_response, str)
+            self.database.append(
+                statement=_text_response,
+                in_reponse_to=args,
+                time=preflight_time,
+                processing_time=delta_time
+            )
             return response
         else:
             raise ValueError("Invalid data type passed to Sugaroid.parse")
@@ -689,13 +708,11 @@ class Sugaroid:
         Classic prompt for Sugaroid Command Line Interface
         :return:
         """
-        try:
-            response = self.parse(input(
-                Fore.CYAN +
-                '( ဖ‿ဖ) @> ' + Fore.RESET))
-            return response
-        except (KeyboardInterrupt, EOFError):
-            sys.exit()
+
+        response = self.parse(input(
+            Fore.CYAN +
+            '( ဖ‿ဖ) @> ' + Fore.RESET))
+        return response
 
     def display_cli(self, response):
         """
@@ -723,9 +740,11 @@ class Sugaroid:
         Sugaroid loop_cli for Sugaroid Command Line Interface
         :return:
         """
-
-        while True:
-            self.display_cli(self.prompt_cli())
+        try:
+            while True:
+                self.display_cli(self.prompt_cli())
+        except (KeyboardInterrupt, EOFError):
+            self.database.close()
 
     def loop_gui(self):
         """
@@ -763,10 +782,12 @@ def main():
     Entrypoint in setup.py console_entry_points
     :return:
     """
-    print(a)
+    print(SUGAROID_INTRO)
     colorama_init()
-    sg = Sugaroid(readonly=True if 'update' in sys.argv else False)
-    if 'qt' in sys.argv:
+    read_only = False if 'update' in sys.argv else True
+    print("Sugaroid v{} RO:{}\n".format(VERSION, read_only))
+    sg = Sugaroid(readonly=read_only)
+    if 'gui' in sys.argv:
         os.environ['SUGAROID'] = 'GUI'
         sg.loop_gui()
     elif 'web' in sys.argv:
