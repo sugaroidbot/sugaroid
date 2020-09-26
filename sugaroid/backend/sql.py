@@ -1,4 +1,7 @@
 import sqlite3
+import logging
+
+logger = logging.getLogger('sugaroid')
 
 
 class PossibleSQLInjectionPanicError(ValueError):
@@ -58,7 +61,7 @@ class SqlDatabaseManagement:
         self._path_to_db = path_to_db
         self.database_instance = sqlite3.connect(self._path_to_db)
         self._cnx = self.database_instance.cursor()
-        sel._table = table
+        self._table = table
 
     @property
     def table(self):
@@ -91,6 +94,6 @@ class SqlDatabaseManagement:
         self._cnx.execute(
             "INSERT INTO {tablename} VALUES({values})".format(
                 tablename=self.table,
-                values=", ".join([data)
-
-
+                values=", ".join(data)
+            )
+        )
