@@ -24,7 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
-import importlib
 import shutil
 from emoji import emojize
 from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
@@ -35,7 +34,6 @@ from sugaroid.trainer.trainer import SugaroidTrainer
 from chatterbot.trainers import ChatterBotCorpusTrainer
 from chatterbot.trainers import ListTrainer
 from chatterbot import ChatBot
-import nltk
 from sugaroid.brain.utils import LanguageProcessor
 import logging
 import os
