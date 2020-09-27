@@ -604,8 +604,6 @@ class Sugaroid:
         self.trainer = ListTrainer(self.chatbot)
         self.corpusTrainer = ChatterBotCorpusTrainer(self.chatbot)
 
-        # initialize with minimum conversation
-        self.list_train(conversation)
 
     def list_train(self, li):
         self.trainer.train(li)
