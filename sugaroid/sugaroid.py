@@ -591,19 +591,9 @@ class Sugaroid:
         Init local trainers with minimum conversation
         :return:
         """
-        conversation = [
-            "Hello",
-            "Hi there!",
-            "How are you doing?",
-            "I'm doing great.",
-            "That is good to hear",
-            "Thank you.",
-            "You're welcome."
-        ]
         # initialize the trainer
         self.trainer = ListTrainer(self.chatbot)
         self.corpusTrainer = ChatterBotCorpusTrainer(self.chatbot)
-
 
     def list_train(self, li):
         self.trainer.train(li)
