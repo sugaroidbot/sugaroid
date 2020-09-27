@@ -53,7 +53,6 @@ warnings.filterwarnings("ignore")
 
 try:
     from sugaroid.tts.tts import Text2Speech
-
     AUD_DEPS = True
 except ModuleNotFoundError:
     AUD_DEPS = False
