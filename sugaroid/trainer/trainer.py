@@ -30,6 +30,7 @@ __version__ = '0.1'
 import json
 import os
 import time
+from colorama import Fore
 from sugaroid.config.config import ConfigManager
 
 
@@ -55,10 +56,13 @@ class SugaroidTrainer:
 
     @staticmethod
     def prompt_cli():
-        a = input("trainer @>")
-        if a == "Q" or a == 'q':
+        try:
+            a = input("trainer @>")
+            if a == "Q" or a == 'q':
+                return False
+            return a
+        except KeyboardInterrupt:
             return False
-        return a
 
     def reset(self):
         self.cfgmgr.reset_config()
