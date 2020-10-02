@@ -1,13 +1,13 @@
 wikipedia-API
 pyyaml
 newsapi-python
-sugaroid-chatterbot
+chatterbot
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz
 pyjokes
 pyspellchecker
 python-dotenv
 nltk
-sugaroid-chatterbot-corpus
+chatterbot-corpus
 colorama
 freegames
 spacy
