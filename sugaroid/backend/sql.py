@@ -37,6 +37,7 @@ def convert_data_escaped_string(data: tuple):
     _processed_data = list()
     for i in data:
         if isinstance(i, str):
+            i = i.replace(';', ',')
             # append the data with enclosing double quotes
             if ';' in i:
                 # the data should be preprocessed to remove
