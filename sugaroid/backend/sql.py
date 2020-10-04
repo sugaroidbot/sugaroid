@@ -37,9 +37,9 @@ def convert_data_escaped_string(data: tuple):
     _processed_data = list()
     for i in data:
         if isinstance(i, str):
-            i = i.replace(';', ',')
+            b = i.replace(';', ',')
             # append the data with enclosing double quotes
-            if ';' in i:
+            if ';' in b:
                 # the data should be preprocessed to remove
                 # semicolons in case if its necessary
                 # if the caller did not escape the semicolon
@@ -47,7 +47,7 @@ def convert_data_escaped_string(data: tuple):
                 raise PossibleSQLInjectionPanicError(
                     "An attempt to inject SQL issues was found")
                 
-            _processed_data.append('"{}"'.format(i))
+            _processed_data.append('"{}"'.format(b))
         elif isinstance(i, int) or isinstance(i, float):
             # append the data as raw string
             _processed_data.append("{}".format(i))
