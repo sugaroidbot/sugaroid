@@ -26,8 +26,9 @@ SOFTWARE.
 
 """
 
-from setuptools import setup, find_packages
+from setuptools import setup
 import os
+import platform
 
 try:
     this_directory = os.path.abspath(os.path.dirname(__file__))
@@ -40,22 +41,19 @@ except FileNotFoundError:
     long_description = \
         "Sugaroid Bot by @srevinsaju"
 
-requirements = ['googletrans', 'google', 'Django', 'pyjokes','scikit-learn',
-                'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API',
-                'pyspellchecker', 'python-dotenv', 'psutil', 'emoji',
-                'akinator.py', 'CurrencyConverter', 'colorama']
+requirements = ['googletrans', 'google', 'Django', 'pyjokes','scikit-learn', 'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API', 'pyspellchecker', 'python-dotenv', 'psutil', 'emoji', 'akinator.py', 'CurrencyConverter']
 
 
 setup(
     name='sugaroid',
-    version='0.9.a1',
+    version='v0.10',
     description='Open Source Natural Language Processing Bot.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT',
     author='srevinsaju',
     author_email="srevin03@gmail.com",
-    packages=find_packages(),
+    packages=['sugaroid', 'sugaroid.brain', 'sugaroid.gui', 'sugaroid.cli', 'sugaroid.config', 'sugaroid.reader', 'sugaroid.config', 'sugaroid.game', 'sugaroid.web', 'sugaroid.trivia', 'sugaroid.platform', 'sugaroid.google', 'sugaroid.translator', 'sugaroid.tts', 'sugaroid.trainer'],
     url="https://srevinsaju.github.io/sugaroid",
     download_url="https://github.com/srevinsaju/sugaroid/archive/master.zip",
     package_data={'sugaroid': ['data/*', 'gui/ui/*']},  # noqa: E501
