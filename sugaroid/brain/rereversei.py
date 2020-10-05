@@ -30,6 +30,7 @@ import nltk
 from chatterbot.logic import LogicAdapter
 from pyjokes import pyjokes
 
+from nltk.sentiment import SentimentIntensityAnalyzer
 from sugaroid.brain.covid import COVID_QUESTIONS
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import cosine_similarity, difference, text2int, any_in
@@ -189,8 +190,14 @@ class ReReverseAdapter(LogicAdapter):
                     response += "\n My approximations might not be correct. " \
                                 "You might confirm my results by a legal test"
                 else:
+                    sia = SentimentIntensityAnalyzer()
+                    _scores = sia.polarity_scores(str(statement))
                     true_responses = ['yes', 'yea', 'y', 'yup', 'true']
-                    if any_in(true_responses + [x.capitalize() for x in true_responses], self.normalized):
+                    if any_in(
+                        true_responses + 
+                        [x.capitalize() for x in true_responses],
+                        self.normalized
+                    ) or (_scores['pos'] > _scores['neg']):
                         score += COVID_QUESTIONS[NUM - 1][2]
                     response = COVID_QUESTIONS[NUM][1]
 
