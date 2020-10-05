@@ -80,7 +80,7 @@ class ReReverseAdapter(LogicAdapter):
                 """
                 if ('yes' in self.normalized) or ('yea' in self.normalized):
                     response = "Ok, will keep that in mind!"
-                    self.chatbot.globals['USERNAME'] = self.chatbot.nn
+                    self.chatbot.globals['USERNAME'] = self.chatbot.globals['nn']
                     self.chatbot.globals['nn'] = None
                     reset_reverse(self)
                 else:
