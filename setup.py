@@ -26,7 +26,7 @@ SOFTWARE.
 
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
 import platform
 
@@ -53,7 +53,7 @@ setup(
     license='MIT',
     author='srevinsaju',
     author_email="srevin03@gmail.com",
-    packages=['sugaroid', 'sugaroid.brain', 'sugaroid.gui', 'sugaroid.cli', 'sugaroid.config', 'sugaroid.reader', 'sugaroid.config', 'sugaroid.game', 'sugaroid.web', 'sugaroid.trivia', 'sugaroid.platform', 'sugaroid.google', 'sugaroid.translator', 'sugaroid.tts', 'sugaroid.trainer'],
+    packages=find_packages(),
     url="https://srevinsaju.github.io/sugaroid",
     download_url="https://github.com/srevinsaju/sugaroid/archive/master.zip",
     package_data={'sugaroid': ['data/*', 'gui/ui/*']},  # noqa: E501
