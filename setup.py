@@ -44,7 +44,7 @@ except FileNotFoundError:
 requirements = ['googletrans', 'google', 'Django', 'pyjokes','scikit-learn',
                 'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API',
                 'pyspellchecker', 'python-dotenv', 'psutil', 'emoji',
-                'akinator.py', 'CurrencyConverter', 'colorama']
+                'akinator.py', 'CurrencyConverter', 'colorama', 'regex']
 
 
 setup(
