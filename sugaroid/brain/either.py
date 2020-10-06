@@ -83,7 +83,7 @@ class OrAdapter(LogicAdapter):
                 # because we did not detect any nouns
                 # just say neither
                 response = "Neither"
-                confidence = 0.7
+                confidence = 0.8
             else:
                 response = "{} 🎃".format(random_response(list(nouns)))
 
