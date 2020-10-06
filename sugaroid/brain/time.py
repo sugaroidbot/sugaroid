@@ -82,7 +82,12 @@ class TimeAdapter(LogicAdapter):
             else:
                 response = "You are staying up late, you should sleep right now."
                 emotion = Emotion.seriously
-
+        if "what" in str(statement).lower():
+            # the user might be asking the time
+            # so we have to inform it instead of wishing 
+            # the person good morning
+            response = "The current time is {:02d}:{:02d}".format(hour, minutes)
+            emotion = Emotion.adorable
         selected_statement = SugaroidStatement(
             "{}".format(response), chatbot=True)
         selected_statement.confidence = 1
