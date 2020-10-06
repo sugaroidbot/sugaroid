@@ -46,8 +46,10 @@ def convert_data_escaped_string(data: tuple):
                 # we should raise a PossibleSQLInjection panic
                 raise PossibleSQLInjectionPanicError(
                     "An attempt to inject SQL issues was found")
-                
-            _processed_data.append('"{}"'.format(b))
+            if len(i) > 50:
+                _processed_data.append('"{}"'.format(b))
+            else:
+                _processed_data.append('"{}"'.format("LONG_BLOB_TEXT"))
         elif isinstance(i, int) or isinstance(i, float):
             # append the data as raw string
             _processed_data.append("{}".format(i))
