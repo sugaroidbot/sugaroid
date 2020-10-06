@@ -57,7 +57,7 @@ class OrAdapter(LogicAdapter):
         nouns = set()
         response = None
         emotion = Emotion.neutral
-        confidence = 0
+        confidence = 0.8
         if (len(self.tagged) == 1) or (self.tagged[0][1] == 'CC'):
             response = "Are you serious, just an {}".format(self.tagged[0][0])
             emotion = Emotion.angry
@@ -77,10 +77,17 @@ class OrAdapter(LogicAdapter):
             if ('boy' in nouns) or ('girl' in nouns):
                 response = "I am neither"
                 emotion = Emotion.angry_non_expressive
+            elif len(tuple(nouns)) == 0:
+                # implies that the list is empty
+                # we might not know what is the answer
+                # because we did not detect any nouns
+                # just say neither
+                response = "Neither"
+                confidence = 0.7
             else:
                 response = "{} 🎃".format(random_response(list(nouns)))
 
-            confidence = 0.8
+
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
