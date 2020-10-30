@@ -257,7 +257,4 @@ The Akinator Adapter is a wrapper class, that takes the acts like a server with 
 
 To be filled in later :rofl:
 
-### Dependencies
-
-Have a look at the dependency chat of Sugaroid. I have provided an `<iframe` below to view each of the dependencies with **precision**
 
