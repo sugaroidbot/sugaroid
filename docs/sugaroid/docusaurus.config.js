@@ -18,7 +18,7 @@ module.exports = {
         alt: 'Sugaroid Logo',
         src: 'img/logo.png',
       },
-      links: [
+      items: [
         {
           to: 'docs/',
           activeBasePath: 'docs',
