@@ -65,4 +65,4 @@ The Akinator Adapter is a wrapper class, that takes the acts like a server with 
 
 #### Hangman Adapter \(`sugaroid.brain.aki.Hangman`\)
 
-To be filled in later :rofl:
+The Hangman Adapter has the code ehich is used for playing Hangman with the user. 
