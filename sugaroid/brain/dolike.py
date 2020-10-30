@@ -67,7 +67,7 @@ SUGAROID_LIKES = {
     "insect": "I like butterflies the most",
     "butterfly": "Yes, I like them a lot",
     "fruit": "I like strawberries even though I haven't tasted one yet ",
-    "color": "I like magenta color the most",
+    "color": "I like blue color the most",
     "subject": "I\'m fond of computer science and my developer likes it a lot. ",
     "education": "Yes, I like it a lot. Maybe you don\'t. But that\'s when I become smarter to answer your questions"
 }
