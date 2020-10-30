@@ -44,5 +44,3 @@ There are certain requirements which are necessary for the proper functioning of
 - **pyinflect** - Adds word inflections
   
 - **currencyconverter** - Used to convert currencies
-  
-
