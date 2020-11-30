@@ -1,6 +1,6 @@
 module.exports = {
   docs: [
-	'introduction',
+  'introduction',
 	{
     type: 'category',
     label: 'Getting Started',
@@ -8,7 +8,7 @@ module.exports = {
       {
         type: 'category',
         label: 'Installation',
-        items: ['installation', 'installation-pypi'],
+        items: ['installation', 'installation-pypi', 'installation-requirements' , 'configuration'],
       }
     ],
   },
@@ -29,8 +29,7 @@ module.exports = {
 
       ],
   },
-    'datasets',
-      'databases'
+  'adapters','datasets','databases'
 
   ]
 };
