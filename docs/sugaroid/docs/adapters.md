@@ -61,7 +61,7 @@ The Boolean Adapter retrieves the input statement and finds for instances of Boo
 
 #### Akinator Adapter \(`sugaroid.brain.aki.AkinatorAdapter`\)
 
-The Akinator Adapter is a wrapper class, that takes the acts like a server with [akinator.org](akinator.org), and then checks the `sugaroid.SugaroidStatement.uid` for the continuity of the question answering sequence. The Akinator class for the session is stored across chat checks, by the help of `sugaroid.SugaroidBot.globals`. The data is temporarily stored into a dictionary, so that it can be received on the next answer.
+The Akinator Adapter is a wrapper class, that takes the acts like a server with [akinator.org](https://akinator.org), and then checks the `sugaroid.SugaroidStatement.uid` for the continuity of the question answering sequence. The Akinator class for the session is stored across chat checks, by the help of `sugaroid.SugaroidBot.globals`. The data is temporarily stored into a dictionary, so that it can be received on the next answer.
 
 #### Hangman Adapter \(`sugaroid.brain.aki.Hangman`\)
 
