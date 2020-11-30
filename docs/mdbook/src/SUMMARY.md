@@ -48,8 +48,8 @@
 
 ## Performance
 - [Performance]()
-    - [Memory](./memory.md)
-    - [CPU Usage](./cpu-usage.md)
+    - [Memory](./performance/memory.md)
+    - [CPU Usage](./performance/cpu-usage.md)
 
 ## Acknowledgments
 - [Acknowledgments](./acknowledgements.md)
