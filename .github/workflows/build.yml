@@ -27,7 +27,7 @@ jobs:
           mdbook build
           mv book /tmp/docs
           cd "$INIT_DIR"
-          git pull origin gh-pages
+          git pull origin
           git checkout gh-pages
           git clean -fdX
           git reset --hard HEAD
