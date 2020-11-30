@@ -1,6 +1,6 @@
 module.exports = {
   docs: [
-  'introduction',
+    'introduction',
 	{
     type: 'category',
     label: 'Getting Started',
