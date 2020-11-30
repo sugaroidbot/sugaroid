@@ -30,18 +30,16 @@ jobs:
           cd docs/mdbook
           mdbook build
           mv book /tmp/docs
+          
           cd "$INIT_DIR"
-          git pull origin
-          git checkout gh-pages
-          git clean -fdX
-          git reset --hard HEAD
-          rm -rf docs
-          mv /tmp/docs .
+          git clone https://github.com/srevinsaju/sugaroid --single-branch --branch=gh-pages deploy
+          rm -rf deploy/docs
+          mv /tmp/docs deploy/.
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@3.5.9
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: .  # The folder the action should deploy.
+          FOLDER: deploy  # The folder the action should deploy.
 
