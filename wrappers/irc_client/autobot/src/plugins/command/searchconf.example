@@ -1,0 +1,4 @@
+[Key]
+api_key_omdb = <api key>
+
+copy this file to search.conf, add your api key for open movie database, and delete this message

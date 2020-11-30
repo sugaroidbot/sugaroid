@@ -1,0 +1,27 @@
+{
+  "sugar": [
+    "sugar/master/docs/development-environment.md",
+    "sugar/master/docs/fedora.md",
+    "sugar/master/docs/ubuntu.md",
+    "sugar-docs/master/README.md",
+    "sugar-docs/master/src/android.md",
+    "sugar-docs/master/src/contact.md",
+    "sugar-docs/master/src/contributing.md",
+    "sugar-docs/master/src/desktop-activity.md",
+    "sugar-docs/master/src/docs.md",
+    "sugar-docs/master/src/gtk3-porting-guide.md",
+    "sugar-docs/master/src/how-can-i-help.md",
+    "sugar-docs/master/src/javascript-style.md",
+    "sugar-docs/master/src/languages.md",
+    "sugar-docs/master/src/memory-leaks.md",
+    "sugar-docs/master/src/python-coverage-guide.md",
+    "sugar-docs/master/src/python-porting-guide.md",
+    "sugar-docs/master/src/python-style.md",
+    "sugar-docs/master/src/sugar-iconify.md",
+    "sugar-docs/master/src/sugar-logging-in.md",
+    "sugar-docs/master/src/web-activity.md",
+    "sugar-docs/master/src/web-architecture.md",
+    "sugar-docs/master/src/web-style.md",
+    "sugar-docs/master/src/what-can-i-do.md"
+  ]
+}

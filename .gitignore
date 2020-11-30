@@ -10,3 +10,17 @@ build
 setup.py-sugaroid-gui
 .env
 resetter
+sugaroid/web/websugaroid/.github/
+wrappers/discord/.github/
+sugaroid/web/flask
+sugaroid/web/flask/*
+scrawled/*
+Untitled.*
+untitled.*
+sugaroid/reader/scrawled/
+Dockerfile
+docker-compose.yml
+.coverage
+coverage.xml
+wrappers/irc_client/autobot/src/logs/
+wrappers/irc_client/autobot/src/autobot.conf
