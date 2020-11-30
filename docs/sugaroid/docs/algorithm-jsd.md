@@ -9,6 +9,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 
 Jaccard Similarity / sigma similarity uses a simple, but less memory  intensive algorithm to analyze the statements. The equation is given as  follows 
+
 $$
 \theta = \frac {n}{x+y}
 $$

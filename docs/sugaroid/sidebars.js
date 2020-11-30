@@ -29,5 +29,8 @@ module.exports = {
 
       ],
   },
+    'datasets',
+      'databases'
+
   ]
 };
