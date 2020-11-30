@@ -34,3 +34,10 @@
 ## Configuration
 
 - [Configuration](./configuration.md)
+
+## Databases
+
+- [Databases](./databases.md)
+
+## Requirements 
+- [Dependencies](./dependencies.md)
