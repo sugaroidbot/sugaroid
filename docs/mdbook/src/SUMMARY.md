@@ -46,9 +46,10 @@
 ## Requirements 
 - [Dependencies](./dependencies.md)
 
-## Memory
-
-- [Memory](./memory.md)
+## Performance
+- [Performance]()
+    - [Memory](./memory.md)
+    - [CPU Usage](./cpu-usage.md)
 
 ## Acknowledgments
 - [Acknowledgments](./acknowledgements.md)
