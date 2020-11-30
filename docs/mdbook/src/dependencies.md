@@ -1,3 +1,4 @@
+# Dependencies
 
 There are certain requirements which are necessary for the proper functioning of Sugaroid chat bot.
 
