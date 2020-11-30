@@ -15,5 +15,5 @@ The `data` field is used by the Sugaroid Bot in getting the message context (_se
 
 The data is decoded on the server side. `sugaroid.chatbot.globals` is reset-ed with the new context and the new message is produced and the same, modified context is resent back to the user / client. Client decodes the context and extracts the response of the Unicode string from the server and appends to the User Interface. The other data is publicly maintained in a [JavaScript](https://www.javascript.com) variable and then, will be resent to the server on the next user message. This process happens asynchronously on the client side using `JQuery` , AJAX `POST` and `GET` requests with callback handlers,
 
-![](../static/img/docs/sugaroid_flask.png)
+![](./img/sugaroid_flask.png)
 
