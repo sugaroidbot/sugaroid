@@ -525,7 +525,8 @@ HI_WORDS = [
     "heyyyy",
     "ahoy",
     "ello",
-    "halo"
+    "halo",
+    "hello"
 ]
 
 HI_RESPONSES = [
