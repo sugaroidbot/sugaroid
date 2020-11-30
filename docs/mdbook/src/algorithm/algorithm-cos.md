@@ -1,16 +1,12 @@
+# Cosine Dot Product
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
-
-<link rel="stylesheet" href={useBaseUrl("katex.min.css")} />
-
-The Sugaroid AI selectively uses Cosine Dot product for comparing  statements on the ratio of similarity and selects an appropriate  statement stored to the database. 
-$$
+\\[
 \vec A.\vec B = ABcos\theta \\
-$$
+\\]
 
-$$
+\\[
 \cos \theta = \frac{\vec A . \vec B}{A.B}
-$$
+\\]
 
 
  Words are classified as vectors in this case. Similar words are given  similar but unique vector quantity, such that only equal phrases can  have the common cosine dot product. This vector model was downloaded  from the universal `nltk.wordnet` is a collection of word and their classification

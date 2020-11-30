@@ -19,4 +19,18 @@
         - [Django Web App](./interfaces/interfaces-django.md)
 
 
+## Algorithms
 
+- [Algorithms]()
+    - [Naive Bayers Classifier Algorithm](./algorithm/algorithm-naive-bayes-classifier.md)
+    - [Cosine Dot Product](./algorithm/algorithm-cos.md)
+    - [Jensen Shannon Distance](./algorithm/algorithm-jensenshannon.md)
+    - [Jaccard Similarity Algorithm](./algorithm/algorithm-jsd.md)
+
+## Adapters
+
+- [Adapters](./adapters.md)
+
+## Configuration
+
+- [Configuration](./configuration.md)

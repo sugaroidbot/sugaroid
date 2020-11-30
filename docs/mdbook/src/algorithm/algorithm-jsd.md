@@ -1,14 +1,10 @@
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
-
-<link rel="stylesheet" href={useBaseUrl("katex.min.css")} />
-
 
 Jaccard Similarity / sigma similarity uses a simple, but less memory  intensive algorithm to analyze the statements. The equation is given as  follows 
 
-$$
+\\[
 \theta = \frac {n}{x+y}
-$$
+\\]
 
 
 Where n, number of common words in list x and list y, and (x+ y) shows  the union of x and y similarity.

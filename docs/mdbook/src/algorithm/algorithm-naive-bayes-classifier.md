@@ -1,4 +1,4 @@
-
+# Naive Bayers Classifier Algorithm 
 
 [Naive Bayers Classifiers][bayers-wiki] is the most 
 prominent algorithm used in Sugaroid. Most responses
@@ -22,15 +22,10 @@ The lesser complex version of the Naive Bayers Classifier is used
 explicitly in Sugaroid for deriving the responses. The 
 equation used, is given below
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 
-<link rel="stylesheet" href={useBaseUrl("katex.min.css")} />
-
-
-
-$$
+\\[
 p(D|C) = \Pi_i p(\omega_i | C )
-$$
+\\]
 
 where `p` is the Probability, `D|C` is the conditional probability. 
 

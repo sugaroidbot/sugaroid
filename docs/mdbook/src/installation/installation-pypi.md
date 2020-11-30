@@ -1,4 +1,4 @@
-
+# Installation from PyPI
 Installation from PyPI is the easiest method of installation for a normal user. PyPI is the Python Packaging Index, and is a collection of python modules or python based software, which can be installed by using `pip` or `pip3`, or any other `pip*` based python package management software like `poetry`, `pipx` etc. 
 
 ## System-wide installation

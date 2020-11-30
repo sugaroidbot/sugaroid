@@ -1,4 +1,4 @@
-
+# Installation from source
 Installation from source is useful if installation of wheels fail due to some incompatible distribution for your operating system / architecture. Source installations are recommended if you would like to 
 
 * Develop / Contribute to Sugaroid AI
