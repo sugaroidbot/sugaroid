@@ -8,7 +8,7 @@
     - [Installation from Source](./installation/installation-source.md)
 
 ## Interfaces
-- [Interfaces]()
+- [Interfaces](./run.md)
     - [Command Line Interface](./interfaces/interfaces-cli.md)
     - [Graphical User Intefrace](./interfaces/interfaces-gui.md)
     - [Discord Bot](./interfaces/interfaces-discord.md)

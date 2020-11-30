@@ -1,4 +1,4 @@
-
+# Getting Started
 
 
 There are a few possible methods to run sugaroid. It depends on the type of developer / user you are. I offer five versions of the sugaroid which uses the same `core`. 
@@ -9,7 +9,6 @@ There are a few possible methods to run sugaroid. It depends on the type of deve
 * Discord Bot
 * IRC Bot
 
-<br></br>
 
 ## Command Line Interface
 
@@ -17,7 +16,6 @@ Command Line Interface is popular among developers and for those systems with ve
 
 ![Command Line Interface of Interface](../static/img/docs/sugaroid_cli.png)
 
-<br></br>
 
 ## Graphical User Interface
 
@@ -25,7 +23,6 @@ Graphical User Interface, built on top of `PyQt5`, by Riverbank Computing is use
 
 ![Sugaroid Graphical User Interface](../static/img/docs/sugaroid_gui.png)
 
-<br></br>
 
 ## Web Interface
 
@@ -35,5 +32,4 @@ However, it makes Sugaroid Accessible on the world wide web. :smile:
 
 ![Sugaroid Django Web Interface](https://raw.githubusercontent.com/srevinsaju/sugaroid/430dd87fa8fd4831fc1b717676d5e8923146d020/docs/img/sugaroid_django.gif)
 
-<br></br>
 
