@@ -12,6 +12,7 @@
     "@docusaurus/core": "^2.0.0-alpha.69",
     "@docusaurus/preset-classic": "^2.0.0-alpha.69",
     "clsx": "^1.1.1",
+    "docusaurus-pdf": "^1.2.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "rehype-katex": "^3.0.0",

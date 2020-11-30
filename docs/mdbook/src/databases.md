@@ -1,7 +1,3 @@
---- 
-id: databases
-title: Databases
----
 
 Sugaroid uses an `sqlite3`-type database for portability. 
 All the responses are explicitly saved and trained on sugaroid.
