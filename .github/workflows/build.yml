@@ -33,6 +33,7 @@ jobs:
           git checkout gh-pages
           git clean -fdX
           git reset --hard HEAD
+          rm -rf docs
           mv /tmp/docs .
 
       - name: Deploy 🚀
