@@ -1,3 +1,4 @@
+# Flask Backend
 
 Sugaroid Core Backend is built on the simple and powerful [Flask](https://flask.palletsprojects.com/en/1.1.x/tutorial/layout/) Web Server powered by `gunicorn` on 4 threads run on another dedicated Heroku Server and Microsoft Azure Server. 
 
@@ -15,5 +16,5 @@ The `data` field is used by the Sugaroid Bot in getting the message context (_se
 
 The data is decoded on the server side. `sugaroid.chatbot.globals` is reset-ed with the new context and the new message is produced and the same, modified context is resent back to the user / client. Client decodes the context and extracts the response of the Unicode string from the server and appends to the User Interface. The other data is publicly maintained in a [JavaScript](https://www.javascript.com) variable and then, will be resent to the server on the next user message. This process happens asynchronously on the client side using `JQuery` , AJAX `POST` and `GET` requests with callback handlers,
 
-![](./img/sugaroid_flask.png)
+![Sugaroid Flask Demonstration](../img/sugaroid_flask.png)
 
