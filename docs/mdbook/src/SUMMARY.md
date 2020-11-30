@@ -42,3 +42,7 @@
 
 ## Requirements 
 - [Dependencies](./dependencies.md)
+
+## Memory
+
+- [Memory](./memory.md)
