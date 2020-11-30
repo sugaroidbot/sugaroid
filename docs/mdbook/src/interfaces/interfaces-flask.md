@@ -1,4 +1,4 @@
-# Flask Backend
+## Flask Backend
 
 ![Sugaroid Flask Demonstration](../img/sugaroid_flask.png)
 
