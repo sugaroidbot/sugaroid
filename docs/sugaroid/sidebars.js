@@ -24,7 +24,9 @@ module.exports = {
     items: [
       'algorithm-jsd',
       'algorithm-cos',
-      'algorithm-jensen-shannon-distance'
+      'algorithm-jensen-shannon-distance',
+      'naive-bayer-classifier'
+
       ],
   },
   ]
