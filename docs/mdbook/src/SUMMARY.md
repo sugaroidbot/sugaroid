@@ -37,7 +37,7 @@
 
 ## Databases
 
-- [Databases](./databases.md)
+- [Databases and Training](./databases.md)
 
 ## Requirements 
 - [Dependencies](./dependencies.md)

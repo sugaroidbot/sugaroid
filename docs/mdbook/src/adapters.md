@@ -1,3 +1,4 @@
+# Adapters
 
 The brain of sugaroid relies in the modules it uses. Sugaroid uses many modules to process statements called `Adapters` to process statements. Each statement is checked against two functions `LogicAdapter.can_process()` and `LogicAdapter.process()`. `LogicAdapter.can_process()` gives a boolean response if the statement can or cannot be processed. If the statement can be processed, `LogicAdapter.process()` is called.
 
