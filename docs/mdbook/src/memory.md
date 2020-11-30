@@ -1,4 +1,4 @@
-## Memory
+# Memory
 
 The Sugaroid bot has been designed to provide an acceptable answer and the author had been focusing on refining the response by the bot more and more better. However this has resulted in bad PEP practices and disallocated memory modules.
 
