@@ -51,5 +51,12 @@
     - [Memory](./performance/memory.md)
     - [CPU Usage](./performance/cpu-usage.md)
 
+## Faults 
+- [Faults](./faults.md)
+
+
 ## Acknowledgments
 - [Acknowledgments](./acknowledgements.md)
+
+## Bibliography
+- [Bibliography](./bibliography.md)

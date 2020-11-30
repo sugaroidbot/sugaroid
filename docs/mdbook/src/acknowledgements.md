@@ -1,5 +1,5 @@
 
-## Acknowledgements 
+# Acknowledgements 
 
 **Sugaroid AI** has become possible to millions of open 
 source developers. Particularly to mention, I would like
