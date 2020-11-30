@@ -18,6 +18,9 @@
         - [Flask Web App](./interfaces/interfaces-flask.md)
         - [Django Web App](./interfaces/interfaces-django.md)
 
+## Execution
+- [Execution](./execution.md)
+
 
 ## Algorithms
 
