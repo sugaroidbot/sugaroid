@@ -49,3 +49,6 @@
 ## Memory
 
 - [Memory](./memory.md)
+
+## Acknowledgments
+- [Acknowledgments](./acknowledgements.md)
