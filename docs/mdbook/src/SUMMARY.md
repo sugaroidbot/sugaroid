@@ -47,8 +47,10 @@
 - [Dependencies](./dependencies.md)
 
 ## Memory
-
 - [Memory](./memory.md)
+
+## CPU Usage
+- [CPU Usage](./cpu-usage.md)
 
 ## Acknowledgments
 - [Acknowledgments](./acknowledgements.md)
