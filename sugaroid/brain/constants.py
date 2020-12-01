@@ -390,7 +390,7 @@ BOT_NEGATIVE = [
 
 BOT_NEGATIVE_NOUN = [
     "No. I guess I do not like {nn}",
-    'No. I do not like {nn}. They might be a bad thing to do'
+    'No. I do not like {nn}. They might be a bad thing to do',
     'No. No I do like {nn}',
     "{nn} is not good. Hence I do not like it."
 ]
@@ -413,7 +413,7 @@ ONE_WORD = [
     "Perhaps, I could understand you better if you used more words",
     "I apologize, I do not understand",
     "Hmm, can you make it a more structured sentence?",
-    "Could you use better grammar? Thenks",
+    "Could you use better grammar? Thanks",
     "I'm not Google Assistant to understand your sentence this quick!",
     "I wish you provided more words, so that I can understand",
     "Sometimes, one or two words does not help me understand"
@@ -434,7 +434,7 @@ DONT_KNOW_WHERE = [
 
 IMITATE = [
     "Stop imitating me. I do not like it much!",
-    "Imitation is both good and bad. What if you develop a career in comedy?"
+    "Imitation is both good and bad. What if you develop a career in comedy?",
     "I am a pro at imitation. Don't mess with me.",
     "If you are seriously having fun repeating what I said, lol, just proceed dude",
     "If imitating me makes you happy, I will be happier to see you laugh"
