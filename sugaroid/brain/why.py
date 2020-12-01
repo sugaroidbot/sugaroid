@@ -32,7 +32,7 @@ from sugaroid.brain.preprocessors import normalize, spac_token
 
 from sugaroid.brain.postprocessor import random_response
 
-from sugaroid.brain.constants import WHY_IDK, HOW_DO_YOU_FEEL
+from sugaroid.brain.constants import WHY_IDK, HOW_DO_YOU_FEEL, WHERE_LIVE, DONT_KNOW_WHERE
 from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -79,7 +79,21 @@ class WhyWhenAdapter(LogicAdapter):
             # possibly the person asked
             # 'how are you'
             response = random_response(HOW_DO_YOU_FEEL)
-            confidence = 0.75 
+            confidence = 0.75
+        elif 'where' in self.normalized:
+            if 'you' in self.normalized:
+                if 'live' in self.normalized or 'stay' in self.normalized:
+                    # the person is asking something like
+                    # "where do you live"
+                    response = random_response(WHERE_LIVE)
+                    confidence = 0.75
+                else:
+                    response = random_response(DONT_KNOW_WHERE)
+                    confidence = 0.65
+            else:
+                # the person is asking something like
+                # where is india
+                return WikiAdapter(self.chatbot).process(statement)
         else:
             # say idk
             response = ':)'

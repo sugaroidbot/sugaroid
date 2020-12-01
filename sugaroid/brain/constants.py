@@ -419,6 +419,19 @@ ONE_WORD = [
     "Sometimes, one or two words does not help me understand"
 ]
 
+WHERE_LIVE = [
+    "In your heart"
+]
+
+DONT_KNOW_WHERE = [
+    "Don't know where...",
+    "Somewhere...",
+    "Perhaps, you can decide..",
+    "I am sure its in a place you know.",
+    "Why do you want to know where?",
+    "Do you know where? I do not."
+]
+
 IMITATE = [
     "Stop imitating me. I do not like it much!",
     "Imitation is both good and bad. What if you develop a career in comedy?"
