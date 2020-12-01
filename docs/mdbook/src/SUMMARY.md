@@ -1,4 +1,4 @@
-# Summary
+# Contents
 
 - [Introduction](./introduction.md)
 
@@ -13,7 +13,6 @@
     - [Graphical User Intefrace](./interfaces/interfaces-gui.md)
     - [Discord Bot](./interfaces/interfaces-discord.md)
     - [IRC Bot](./interfaces/interfaces-ircbot.md)
-
     - [Web Interfaces]()
         - [Flask Web App](./interfaces/interfaces-flask.md)
         - [Django Web App](./interfaces/interfaces-django.md)
