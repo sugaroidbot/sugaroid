@@ -60,7 +60,9 @@ short_forms = {
     "'ll":"will",
     "'d":"would",
     "btw":"by the way",
-    "becoz":"because"
+    "becoz":"because",
+    "yaya":"yea",
+    "thnx":"thanks"
 }
 
 
