@@ -62,6 +62,7 @@ short_forms = {
     "btw":"by the way",
     "becoz":"because",
     "yaya":"yea",
+    "yea":"yes",
     "thnx":"thanks"
 }
 
