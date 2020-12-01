@@ -409,6 +409,16 @@ ANNOYED = [
     "I quit!"
 ]
 
+ONE_WORD = [
+    "Perhaps, I could understand you better if you used more words",
+    "I apologize, I do not understand",
+    "Hmm, can you make it a more structured sentence?",
+    "Could you use better grammar? Thenks",
+    "I'm not Google Assistant to understand your sentence this quick!",
+    "I wish you provided more words, so that I can understand",
+    "Sometimes, one or two words does not help me understand"
+]
+
 IMITATE = [
     "Stop imitating me. I do not like it much!",
     "Imitation is both good and bad. What if you develop a career in comedy?"
