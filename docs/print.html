@@ -380,7 +380,9 @@ This being a complex and CPU intensive process, is handled  systematically by a 
 <p>The benefits of using Jaccard similarity is that, sugaroid can implement <code>can_process</code> methods in an object with optimal resource usage. There is no need to  use complex cosine dot product for finding similarity in cases there are only one word as list x and list y respectively. This helped to  optimize the sugaroid bot partly</p>
 <p>Jaccard Similarity can be accessed by <code>sugaroid.brain.preprocessors.sigma_similarity</code></p>
 <h1><a class="header" href="#adapters" id="adapters">Adapters</a></h1>
-<p>The brain of sugaroid relies in the modules it uses. Sugaroid uses many modules to process statements called <code>Adapters</code> to process statements. Each statement is checked against two functions <code>LogicAdapter.can_process()</code> and <code>LogicAdapter.process()</code>. <code>LogicAdapter.can_process()</code> gives a boolean response if the statement can or cannot be processed. If the statement can be processed, <code>LogicAdapter.process()</code> is called.</p>
+<p>Internally, the working of Sugaroid is really complex.
+<img src="./img/sugaroid.structure.deps.svg" alt="Sugaroid Adapters are interconnected" />
+The brain of sugaroid relies in the modules it uses. Sugaroid uses many modules to process statements called <code>Adapters</code> to process statements. Each statement is checked against two functions <code>LogicAdapter.can_process()</code> and <code>LogicAdapter.process()</code>. <code>LogicAdapter.can_process()</code> gives a boolean response if the statement can or cannot be processed. If the statement can be processed, <code>LogicAdapter.process()</code> is called.</p>
 <p>As of Sugaroid <code>v0.7</code>, it has:</p>
 <ul>
 <li>
@@ -643,7 +645,8 @@ interrogative mood, imperative mood, negation, etc.</p>
 <li><code>pip</code>, preferably on <code>PATH</code> </li>
 </ul>
 <h1><a class="header" href="#dependencies" id="dependencies">Dependencies</a></h1>
-<p>There are certain requirements which are necessary for the proper functioning of Sugaroid chat bot.</p>
+<p><img src="./img/sugaroid.brain.deps.svg" alt="Sugaroid's dependencies" />
+There are certain requirements which are necessary for the proper functioning of Sugaroid chat bot.</p>
 <ul>
 <li>
 <p><strong>wikipedia-API</strong> - Handles Wikipedia based questions</p>

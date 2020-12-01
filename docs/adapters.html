@@ -167,7 +167,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#adapters" id="adapters">Adapters</a></h1>
-<p>The brain of sugaroid relies in the modules it uses. Sugaroid uses many modules to process statements called <code>Adapters</code> to process statements. Each statement is checked against two functions <code>LogicAdapter.can_process()</code> and <code>LogicAdapter.process()</code>. <code>LogicAdapter.can_process()</code> gives a boolean response if the statement can or cannot be processed. If the statement can be processed, <code>LogicAdapter.process()</code> is called.</p>
+<p>Internally, the working of Sugaroid is really complex.
+<img src="./img/sugaroid.structure.deps.svg" alt="Sugaroid Adapters are interconnected" />
+The brain of sugaroid relies in the modules it uses. Sugaroid uses many modules to process statements called <code>Adapters</code> to process statements. Each statement is checked against two functions <code>LogicAdapter.can_process()</code> and <code>LogicAdapter.process()</code>. <code>LogicAdapter.can_process()</code> gives a boolean response if the statement can or cannot be processed. If the statement can be processed, <code>LogicAdapter.process()</code> is called.</p>
 <p>As of Sugaroid <code>v0.7</code>, it has:</p>
 <ul>
 <li>
