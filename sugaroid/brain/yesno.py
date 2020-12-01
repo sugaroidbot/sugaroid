@@ -50,8 +50,8 @@ class BoolAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement).lower())
-        if ('yes' in self.normalized) or ('no' in self.normalized) or ('true' in self.normalized) or ('false' in self.normalized):
-            if ('yes' in self.normalized) or ('true' in self.normalized):
+        if ('yes' in self.normalized) or ('yea' in self.normalized) or ('no' in self.normalized) or ('true' in self.normalized) or ('false' in self.normalized):
+            if ('yes' in self.normalized) or ('yea' in self.normalized) or ('true' in self.normalized):
                 self.bool = True
             else:
                 self.bool = False
@@ -60,7 +60,7 @@ class BoolAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        bool_yes = 'yes' in self.normalized
+        bool_yes = 'yes' in self.normalized or 'yea' in self.normalized
         emotion = Emotion.neutral
         if self.chatbot.report:
             if bool_yes:
