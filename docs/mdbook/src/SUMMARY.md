@@ -43,7 +43,8 @@
     - [Databases and Training](./databases.md)
     - [Datasets](./datasets.md)
 
-## Requirements 
+## Requirements
+- [Requirements](./requirements.md)
 - [Dependencies](./dependencies.md)
 
 ## Performance
