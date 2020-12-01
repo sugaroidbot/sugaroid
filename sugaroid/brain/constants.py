@@ -237,7 +237,7 @@ SATISFIED = [
 
 BURN_IDK = [
     "I guess I don't know either",
-    "ROTFL Guess what? I don't know wither",
+    "ROTFL Guess what? I don't know either",
     "Snap! Neither do I know!",
     "If you are clueless, who do you think is not!"
 ]
