@@ -1,5 +1,6 @@
 # Dependencies
 
+![Sugaroid's dependencies](./img/sugaroid.brain.deps.svg)
 There are certain requirements which are necessary for the proper functioning of Sugaroid chat bot.
 
 - **wikipedia-API** - Handles Wikipedia based questions
