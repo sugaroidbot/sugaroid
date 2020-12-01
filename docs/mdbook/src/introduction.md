@@ -1,6 +1,6 @@
 ![Sugaroid smiling](./img/sugaroid.png)
 
-# Introduction
+# Sugaroid
 
 
 [![Become a Patron](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/srevinsaju?fan_landing=true)
