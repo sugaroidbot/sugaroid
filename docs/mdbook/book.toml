@@ -10,3 +10,5 @@ description = "Open Source, machine learning cute and friendly bot"
 mathjax-support = true
 git-repository-url = "https://github.com/srevinsaju/sugaroid"
 site-url = "/sugaroid/docs/"
+
+[preprocessor.katex]
