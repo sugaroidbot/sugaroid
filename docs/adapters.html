@@ -170,7 +170,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#adapters" id="adapters">Adapters</a></h1>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1><a class="header" href="#adapters" id="adapters">Adapters</a></h1>
 <p>Internally, the working of Sugaroid is really complex.
 <img src="./img/sugaroid.structure.deps.svg" alt="Sugaroid Adapters are interconnected" />
 The brain of sugaroid relies in the modules it uses. Sugaroid uses many modules to process statements called <code>Adapters</code> to process statements. Each statement is checked against two functions <code>LogicAdapter.can_process()</code> and <code>LogicAdapter.process()</code>. <code>LogicAdapter.can_process()</code> gives a boolean response if the statement can or cannot be processed. If the statement can be processed, <code>LogicAdapter.process()</code> is called.</p>
