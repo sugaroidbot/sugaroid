@@ -24,6 +24,7 @@
 ## Algorithms
 
 - [Algorithms]()
+    - [Bayes' Theorum](./algorithm/algorithm-bayes-probability.md)
     - [Naive Bayers Classifier Algorithm](./algorithm/algorithm-naive-bayes-classifier.md)
     - [Cosine Dot Product](./algorithm/algorithm-cos.md)
     - [Jensen Shannon Distance](./algorithm/algorithm-jensenshannon.md)
