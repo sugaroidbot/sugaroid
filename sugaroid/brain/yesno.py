@@ -60,7 +60,7 @@ class BoolAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        bool_yes = 'yes' in self.normalized or 'yea' in self.normalized
+        bool_yes = self.bool
         emotion = Emotion.neutral
         if self.chatbot.report:
             if bool_yes:
