@@ -13,7 +13,7 @@ As of Sugaroid `v0.7`, it has:
 * `OkayAdapter`: Handles statements with a plain old okay
 * `ByeAdapter`: Destroys Sugaroid on bye
 * `TimeAdapter`: Provides time and time related functions except time conversion
-* `CurrencyAdapter`: Gives a random response, because Sugaroid tries not to say I don't know
+* `CurrencyAdapter`: Helps convert from one currency to another.
 * `LearnAdapter`: a specific adapter for learning responses
 * `TriviaAdapter`: Plays a short game of trivia
 * `WhoAdapter`: Handles statements with 'who' as one of the tokens
@@ -51,7 +51,7 @@ As of Sugaroid `v0.7`, it has:
 * `WhyWhenAdapter`: Processes `wh`-adverbs
 * `ReaderAdapter`: Reads documentation and extracts information
 * `ImitateAdapter`: Handles statements involving imitations of some sentences
-* `FunAdapter`: Gives a random response, because Sugaroid tries not to say I don't know
+* `FunAdapter`: Adapter that does fun things 
 * `UnitConversion`: The `UnitConversion` logic adapter parse inputs to convert values
 
 #### Boolean Adapter \(`sugaroid.brain.bool.BooleanAdapter`\)
