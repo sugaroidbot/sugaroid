@@ -26,4 +26,4 @@ SOFTWARE.
 
 """
 
-VERSION = 'v0.10.0'
+VERSION = 'v0.11.1'
