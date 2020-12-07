@@ -37,6 +37,7 @@ jobs:
   Release:
     needs: [Wheel]
     runs-on: ubuntu-latest
+    steps:
     - uses: actions/download-artifact@v1
       with:
         name: sugaroid-continuous-none-any-py3.whl
