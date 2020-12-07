@@ -8,50 +8,50 @@ As of Sugaroid `v0.7`, it has:
 
 * `BoolAdapter`: Processes Boolean based answers
 * `AkinatorAdapter`: Adapter which ports the wrapper of the Akinator game to Sugaroid
-* `HangmanAdapter`: Plays hangman with you 
-* `OrAdapter`: Selects a random operand of the provided statement 
-* `OkayAdapter`: Handles statements with a plain old okay 
-* `ByeAdapter`: Destroys Sugaroid on bye 
-* `TimeAdapter`: Provides time and time related functions except time conversion 
-* `CurrencyAdapter`: Gives a random response, because Sugaroid tries not to say I don't know 
-* `LearnAdapter`: a specific adapter for learning responses 
-* `TriviaAdapter`: Plays a short game of trivia 
-* `WhoAdapter`: Handles statements with 'who' as one of the tokens 
-* `NewsAdapter`: Ports the `SugaroidNews` Wrapper for easier access by the `SugaroidChatbot` Class 
-* `JokeAdapter`: Gets a random joke from the Chuck Norris Database 
-* `PlayAdapter`: `[DEPRECATED]` Plays a game on desktops only 
-* `CanAdapter`: Processes statements which features a Modal question \(can, may\) 
-* `BecauseAdapter`: Processes statements which starts with Because or gives a reason 
-* `ReReverseAdapter`: Processes statements featuring conversational flow. It scans the previous statements 
+* `HangmanAdapter`: Plays hangman with you
+* `OrAdapter`: Selects a random operand of the provided statement
+* `OkayAdapter`: Handles statements with a plain old okay
+* `ByeAdapter`: Destroys Sugaroid on bye
+* `TimeAdapter`: Provides time and time related functions except time conversion
+* `CurrencyAdapter`: Gives a random response, because Sugaroid tries not to say I don't know
+* `LearnAdapter`: a specific adapter for learning responses
+* `TriviaAdapter`: Plays a short game of trivia
+* `WhoAdapter`: Handles statements with 'who' as one of the tokens
+* `NewsAdapter`: Ports the `SugaroidNews` Wrapper for easier access by the `SugaroidChatbot` Class
+* `JokeAdapter`: Gets a random joke from the Chuck Norris Database
+* `PlayAdapter`: `[DEPRECATED]` Plays a game on desktops only
+* `CanAdapter`: Processes statements which features a Modal question \(can, may\)
+* `BecauseAdapter`: Processes statements which starts with Because or gives a reason
+* `ReReverseAdapter`: Processes statements featuring conversational flow. It scans the previous statements
 
-     and takes a cosine similarity of the statements, and `TFiD` Vector cross product to get 
+     and takes a cosine similarity of the statements, and `TFiD` Vector cross product to get
 
-     the most probable answer 
+     the most probable answer
 
-* `ReverseAdapter:` A random adapter. Top Secret 
-* `MyNameAdapter`: Handles sentences featuring 'my' and 'name' 
-* `MeAdapter`: Processes the statements showing possessive 
-* `AboutAdapter`: Defines the personality of sugaroid 
-* `WikiAdapter`: Handles Wikipedia based questions 
-* `DoLikeAdapter`: Handles likes of Sugaroid 
-* `FeelAdapter`: Handles sentences containing the word feel 
+* `ReverseAdapter:` A random adapter. Top Secret
+* `MyNameAdapter`: Handles sentences featuring 'my' and 'name'
+* `MeAdapter`: Processes the statements showing possessive behavior
+* `AboutAdapter`: Defines the personality of sugaroid
+* `WikiAdapter`: Handles Wikipedia based questions
+* `DoLikeAdapter`: Handles likes of Sugaroid
+* `FeelAdapter`: Handles sentences containing the word 'feel'
 * `DoAdapter`: Processes statements beginning with 'Do' and 'know'
 * `EmotionAdapter`: Handles positive and negative emotional statements
-* `DisAdapter`: A complex algorithm sorting the words beginning with negative based on the probability. 
+* `DisAdapter`: A complex algorithm sorting the words beginning with negative based on the probability.
 
-     and achieving a similar confidence ratio of the word percentage. 
+     and achieving a similar confidence ratio of the word percentage.
 
-     The `DisAdapter` keeps the confidence below 0.5 so that the `BestAdapte`r may find some 
+     The `DisAdapter` keeps the confidence below 0.5 so that the `BestAdapter` may find some
 
-     other answer similar to 
+     other answer similar to
 
-* `TwoWordAdapte`: Handles sentences having two words 
-* `OneWordAdapter`: Logical adapter for processing data with one words 
-* `DebugAdapter`: Internal administrator feature to debug Sugaroid statements 
-* `WhyWhenAdapter`: Processes `wh`-adverbs 
-* `ReaderAdapter`: Logical adapter for processing data with one words 
-* `ImitateAdapter`: Handles statements involving imitations of some sentences 
-* `FunAdapter`: Gives a random response, because Sugaroid tries not to say I don't know 
+* `TwoWordAdapter`: Handles sentences having two words 
+* `OneWordAdapter`: Logical adapter for processing data with one words
+* `DebugAdapter`: Internal administrator feature to debug Sugaroid statements
+* `WhyWhenAdapter`: Processes `wh`-adverbs
+* `ReaderAdapter`: Logical adapter for processing data with one words
+* `ImitateAdapter`: Handles statements involving imitations of some sentences
+* `FunAdapter`: Gives a random response, because Sugaroid tries not to say I don't know
 * `UnitConversion`: The `UnitConversion` logic adapter parse inputs to convert values
 
 #### Boolean Adapter \(`sugaroid.brain.bool.BooleanAdapter`\)
@@ -64,4 +64,4 @@ The Akinator Adapter is a wrapper class, that takes the acts like a server with 
 
 #### Hangman Adapter \(`sugaroid.brain.aki.Hangman`\)
 
-The Hangman Adapter has the code ehich is used for playing Hangman with the user. 
+The Hangman Adapter has the code ehich is used for playing Hangman with the user.
