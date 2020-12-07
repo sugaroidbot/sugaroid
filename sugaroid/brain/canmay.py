@@ -273,6 +273,9 @@ class CanAdapter(LogicAdapter):
                 confidence = (sentiments['neg'] + sentiments['pos']) + \
                     ((sentiments['neg'] + sentiments['pos'])/2)
                 if sentiments['neu'] == 1:
+                    if not verb:
+                        verb = "do"
+                        noun = "that"
                     response = "Well. I am unsure if you really need to {} {}".format(
                         self.chatbot.lp.lemma(verb)[0], noun)
                     confidence = confidence - 0.2
