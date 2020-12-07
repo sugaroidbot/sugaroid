@@ -1,0 +1,61 @@
+
+name: Continuous
+on: 
+  - push
+
+jobs:
+  Wheel:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        version: ['3.8']
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.version }}
+
+    - name: Build wheel
+      run: |
+        python -m pip install wheel
+        python setup.py bdist_wheel
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: sugaroid-continuous-none-any-py3.whl
+        path: dist/
+
+    - name: Publish distribution 📦 to Test PyPI
+      if: startsWith(github.ref, 'refs/tags/v')
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: twine upload dist/*
+
+  Release:
+    needs: [Windows, AppImage, Wheel, Windows]
+    runs-on: ubuntu-latest
+    - uses: actions/download-artifact@v1
+      with:
+        name: sugaroid-continuous-none-any-py3.whl
+
+    - name: PreRelease
+      uses: marvinpinto/action-automatic-releases@latest
+      if: github.ref == 'refs/heads/master' && startsWith(github.ref, 'refs/tags/') != true
+      with:
+        prerelease: true
+        draft: false
+        automatic_release_tag: continuous
+        title: continuous
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Release
+      uses: marvinpinto/action-automatic-releases@latest
+      if: startsWith(github.ref, 'refs/tags/v')
+      with:
+        prerelease: false
+        draft: true
+        automatic_release_tag: true
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
