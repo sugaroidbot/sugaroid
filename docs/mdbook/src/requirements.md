@@ -4,7 +4,7 @@
 * Memory: RAM/Swap: 1024 MB or greater
 * Internet: For installation, optionally, fetching results from Wikipedia
 * Microphone: (Optional), for speech recognition
-*
+
 
 ## Software Requirements
 * Linux / BSD / Darwin / Windows
