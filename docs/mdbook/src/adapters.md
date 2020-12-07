@@ -45,11 +45,11 @@ As of Sugaroid `v0.7`, it has:
 
      other answer similar to
 
-* `TwoWordAdapter`: Handles sentences having two words 
+* `TwoWordAdapter`: Handles sentences having two words
 * `OneWordAdapter`: Logical adapter for processing data with one words
 * `DebugAdapter`: Internal administrator feature to debug Sugaroid statements
 * `WhyWhenAdapter`: Processes `wh`-adverbs
-* `ReaderAdapter`: Logical adapter for processing data with one words
+* `ReaderAdapter`: Reads documentation and extracts information
 * `ImitateAdapter`: Handles statements involving imitations of some sentences
 * `FunAdapter`: Gives a random response, because Sugaroid tries not to say I don't know
 * `UnitConversion`: The `UnitConversion` logic adapter parse inputs to convert values
