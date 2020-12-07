@@ -147,8 +147,10 @@ class MeAdapter(LogicAdapter):
                 logging.info(
                     "MeAdapter: Scanning :: {} : {}".format(i.text, i.pos_))
                 if i.pos_ == 'ADJ':
-
-                    cos = cosine_similarity([str(i.lower_)], ['sugaroid'])
+                    try:
+                        cos = cosine_similarity([str(i.lower_)], ['sugaroid'])
+                    except ZeroDivisionError:
+                        cos = 0.0
                     if i.lower_ == 'sugaroid':
                         nn = i.text
                         response = "Yup, that's my name. I am sugaroid"

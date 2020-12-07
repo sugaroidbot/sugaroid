@@ -216,7 +216,20 @@ class CanAdapter(LogicAdapter):
                         if adj:
                             polarity_adj = self.sia.polarity_scores(adj)
                             if polarity_adj['neu'] == 1:
-                                response = "I will try to be a {}".format(adj)
+                                # as in I will try to be 'a good bot'
+                                article_or_pronoun = "a"
+
+                                # some wicked users try to ask it weird
+                                # questions
+                                if "your" in self.normalized:
+                                    # hey, its asking about me!!
+                                    # eg: can you be yourself?
+                                    article_or_pronoun = "your"
+
+                                response = "I will try to be {} {}".format(
+                                    article_or_pronoun,
+                                    adj
+                                )
                                 emotion = Emotion.adorable
                             elif polarity_adj['pos'] > polarity_adj['neg']:
                                 response = random_response(CANYOU).format(adj)
