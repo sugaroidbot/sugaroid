@@ -65,6 +65,7 @@ class WikiAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         # FIXME: This may printout unrelated data for phrase searches
+        self.text = word_tokenize(str(statement))
         response = "I don't know"
         confidence = 0
 
