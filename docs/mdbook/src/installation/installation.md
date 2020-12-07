@@ -1,7 +1,7 @@
 # Installation
 
 
-Sugaroid is built to be a multiplatform artificial intelligence. There are many ways of installing Sugaroid. the mode of installation depends on the tech stack and developer system. The common installation system has been described below. Sugaroid requires Python 3.6+ to work satisfactorily on a user system. Work on AppImages and pre-built Windows binaries are still under process, as the size of the binaries so built increases tremendously, upto (0.5 GB), which becomes quite difficult to maintain and test. All developers who are interested can submit Pull Requested to the code base. 
+Sugaroid is built to be a multiplatform artificial intelligence. There are many ways of installing Sugaroid. the mode of installation depends on the tech stack and developer system. The common installation system has been described below. Sugaroid requires Python 3.6+ to work satisfactorily on a user system. Work on AppImages and pre-built Windows binaries are still under process, as the size of the binaries so built increases tremendously, upto (0.5 GB), which becomes quite difficult to maintain and test. All developers who are interested can submit Pull Requests to the code base. 
 
 ### Installing Python
 

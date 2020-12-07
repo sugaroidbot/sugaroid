@@ -5,7 +5,7 @@
 
 Web Interface, built on Django, a popular production level web interface for Python. (https://djangorproject.org). Dynamic Web page interfaces were used to create an user friendly web page accessible to all users on a sponsored Azure server. Thanks to Microsoft for sponsoring a Azure server, you can now use Sugaroid on https://sugaroid.azurewebsites.net . You might face latency between messages, but it is only because, the Azure server is hosted on limited RAM (1024 MB). And Django uses more RAM than Flask. 
 
-However, it makes Sugaroid Accessible on the world wide web. :smile:
+However, it makes Sugaroid Accessible on the world wide web. 😊
 
 > **Django** (was) being used in creating Sugaroid web interface, which is however now being replaced by a Flask API backend, temporarily powered by a **Heroku** Server again. This was due to the excessive memory consumed by the Django Server. Django server was too ambitious for a relatively heavy memory using bot like Sugaroid, so Django was peacefully removed.
 
