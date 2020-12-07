@@ -31,7 +31,7 @@ from colorama import Fore, Style
 from colorama import init as colorama_init
 from emoji import emojize
 
-from sugaroid.backend.sql import SqlDatabaseManagement
+from sugaroid.backend.sql import SqlDatabaseManagement, PossibleSQLInjectionPanicError
 from sugaroid.brain.constants import SUGAROID_INTRO, REPEAT
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.config.config import ConfigManager
@@ -680,12 +680,16 @@ class Sugaroid:
                 _text_response = response
 
             assert isinstance(_text_response, str)
-            self.database.append(
-                statement=_text_response,
-                in_reponse_to=args,
-                time=preflight_time,
-                processing_time=delta_time
-            )
+            try:
+                self.database.append(
+                    statement=_text_response,
+                    in_reponse_to=args,
+                    time=preflight_time,
+                    processing_time=delta_time
+                )
+            except PossibleSQLInjectionPanicError:
+                # to protect our system, we sh
+                pass
             return response
         else:
             raise ValueError("Invalid data type passed to Sugaroid.parse")
