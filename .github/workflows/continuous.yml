@@ -42,21 +42,11 @@ jobs:
       with:
         name: sugaroid-continuous-none-any-py3.whl
 
-    - name: PreRelease
-      uses: marvinpinto/action-automatic-releases@latest
-      if: github.ref == 'refs/heads/master' && startsWith(github.ref, 'refs/tags/') != true
-      with:
-        prerelease: true
-        draft: false
-        automatic_release_tag: continuous
-        title: continuous
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
       if: startsWith(github.ref, 'refs/tags/v')
       with:
         prerelease: false
-        draft: true
+        draft: false
         automatic_release_tag: true
         repo_token: ${{ secrets.GITHUB_TOKEN }}
