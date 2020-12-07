@@ -29,7 +29,6 @@ import time
 from chatterbot.logic import LogicAdapter
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import spac_token
-from sugaroid.game.game import games
 from sugaroid.sugaroid import SugaroidStatement
 
 
@@ -42,18 +41,7 @@ class PlayAdapter(LogicAdapter):
         super().__init__(chatbot, **kwargs)
 
     def can_process(self, statement):
-        game, askGame = False, False
-        for i in spac_token(statement, chatbot=self.chatbot):
-            if i.lower_ in games:
-                game = True
-                self.game = i.lower_
-            elif i.lower_ == 'play':
-                askGame = True
-
-        if game and askGame:
-            return True
-        else:
-            return False
+        return False
 
     def process(self, statement, additional_response_selection_parameters=None):
         response = 'I can\t run the same game again. Soz!'
