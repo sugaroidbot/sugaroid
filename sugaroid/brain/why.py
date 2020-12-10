@@ -66,8 +66,27 @@ class WhyWhenAdapter(LogicAdapter):
         """
         emotion = Emotion.neutral
         if 'when' in self.normalized:
-            # search in wikipedia
-            return WikiAdapter(self.chatbot).process(statement)
+            if 'you' in self.normalized or 'your' in self.normalized:
+                print("+===> ", self.normalized)
+                response = "When did you what?"
+                confidence = 0.6
+                for i in ['creator', 'author', 'developer']:
+                    if i in self.normalized:
+                        response = "Let's say, its TOP SECRET!!"
+                        confidence = 0.8
+                        emotion = Emotion.lol
+                        break
+                for i in ['birthday', 'b\'day', 'bday', 'born', 'birth',
+                          'bear', 'create', 'manufactured']:
+                    if i in self.normalized:
+                        # the person is asking my birthday
+                        response = "I was born on Tue Feb 11 14:58:38 2020 +0300"
+                        confidence = 0.8
+                        emotion = Emotion.blush
+                        break
+            else:
+                # search in wikipedia
+                return WikiAdapter(self.chatbot).process(statement)
         elif 'why' in self.normalized:
             # say idk
             response = random_response(WHY_IDK)
