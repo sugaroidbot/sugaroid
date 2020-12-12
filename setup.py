@@ -28,7 +28,6 @@ SOFTWARE.
 
 from setuptools import setup
 import os
-import platform
 
 try:
     this_directory = os.path.abspath(os.path.dirname(__file__))
