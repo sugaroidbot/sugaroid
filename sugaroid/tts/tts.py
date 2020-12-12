@@ -44,10 +44,14 @@ class Text2Speech:
         if not os.path.exists(os.path.join(self.tts_dir, 'why_do_you_think.mp3')):
             gTTS('Why do you think').save(os.path.join(
                 self.tts_dir, 'why_do_you_think.mp3'))
+        if not os.path.exists(os.path.join(self.tts_dir, 'did_you_mean_any_of_these.mp3')):
+            gTTS('Did you mean any of these?').save(os.path.join(
+                self.tts_dir, 'did_you_mean_any_of_these.mp3'))
 
     def speak(self, args):
         let_me = False
         why_do = False
+        did_you_mean = False
         if args.lower().startswith('let me try that'):
             text = args.lower().lstrip('let me try that')
             print("TTS: ", text)
@@ -55,11 +59,15 @@ class Text2Speech:
         elif args.lower().startswith('why do you think'):
             text = args.lower().lstrip('why do you think')
             why_do = True
-        elif 'ok' in args.lower():
+        elif 'ok ok' in args.lower():
             text = 'ok ok'
+        elif 'did you mean any of' in args.lower():
+            did_you_mean = True
+            text = 'Did you mean any of these?'
         else:
             text = args
-
+        if len(text) > 50:
+            text = text.split('.')[0]
         processed = text.lower().replace(' ', '_') + '.mp3'
         path = os.path.join(self.tts_dir, processed)
         if os.path.exists(path):
