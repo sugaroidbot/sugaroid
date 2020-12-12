@@ -55,14 +55,14 @@ short_forms = {
     "'m": "am",
     "i": "I",
     "noice": "nice",
-    "u":"you",
-    "pls":"please",
-    "'ll":"will",
-    "'d":"would",
-    "btw":"by the way",
-    "becoz":"because",
-    "yaya":"yea",
-    "thnx":"thanks"
+    "u": "you",
+    "pls": "please",
+    "'ll": "will",
+    "'d": "would",
+    "btw": "by the way",
+    "becoz": "because",
+    "yaya": "yea",
+    "thnx": "thanks"
 }
 
 

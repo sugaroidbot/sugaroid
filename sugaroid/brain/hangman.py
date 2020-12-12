@@ -316,8 +316,8 @@ class Hangman:
             if self.life == 0 or ("﹏" not in self.dashes):
                 return self.game_over()
             else:
-                response = "{prefix}[ {dashes} ] Life: {heart}"\
-                    .format(prefix=prefix, dashes=' '.join(self.dashes), heart=HANGMAN_EMOJI[self.life - 1] * self.life)
+                response = "{prefix}[ {dashes} ] Life: {heart}" .format(
+                    prefix=prefix, dashes=' '.join(self.dashes), heart=HANGMAN_EMOJI[self.life - 1] * self.life)
             return response
 
     def get_results(self):
@@ -374,7 +374,7 @@ class HangmanAdapter(LogicAdapter):
                     self.chatbot)
                 response = "[ {dashes} ] Life: {heart}" \
                     .format(dashes=' '.join(self.chatbot.globals['hangman']['class'].gen_dash()),
-                            heart=HANGMAN_EMOJI[self.chatbot.globals['hangman']['class'].get_remaining_life()-1] *
+                            heart=HANGMAN_EMOJI[self.chatbot.globals['hangman']['class'].get_remaining_life() - 1] *
                             self.chatbot.globals['hangman']['class'].get_remaining_life())
             else:
                 response = self.chatbot.globals['hangman']['class'].process(

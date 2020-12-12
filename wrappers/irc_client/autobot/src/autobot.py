@@ -22,8 +22,11 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 irc.client.ServerConnection.buffer_class = buffer.LenientDecodingLineBuffer
 
 # Create our bot class
+
+
 class AutoBot(irc.bot.SingleServerIRCBot):
     """Create the single server irc bot"""
+
     def __init__(self):
         """Set variables, handle logs, and listen for input on a port"""
         self.config = configparser.ConfigParser()
@@ -49,20 +52,23 @@ class AutoBot(irc.bot.SingleServerIRCBot):
             irc.bot.SingleServerIRCBot.__init__(self, [(self.network, self.port)],
                                                 self.nick, self.name,
                                                 reconnection_interval=120,
-                                                connect_factory = factory)
+                                                connect_factory=factory)
         except irc.client.ServerConnectionError:
             sys.stderr.write(sys.exc_info()[1])
 
-        #Listen for data to announce to channels
+        # Listen for data to announce to channels
         #listenhost = self.config.get("tcp", "host")
         #listenport = int(self.config.get("tcp", "port"))
         #self.new_thread = TCPserver(self, listenhost, listenport)
-        #self.new_thread.start()
+        # self.new_thread.start()
 
         # Get Log configuration, create dictionary of log files, start refresh timer.
         self.log_scheme = self.config.get("bot", "log_scheme")
         self.logs = {}
-        self.logs['autobot'] = LogFile.LogFile(datetime.datetime.utcnow().strftime(self.log_scheme).format(channel='autobot'))
+        self.logs['autobot'] = LogFile.LogFile(
+            datetime.datetime.utcnow().strftime(
+                self.log_scheme).format(
+                channel='autobot'))
         for ch in self.channel_list:
             log_name = datetime.datetime.utcnow().strftime(self.log_scheme).format(channel=ch)
             self.logs[ch] = LogFile.LogFile(log_name)
@@ -74,7 +80,7 @@ class AutoBot(irc.bot.SingleServerIRCBot):
     def start(self):
         try:
             super().start()
-        except:
+        except BaseException:
             self.close_logs()
             self.second_thread.join()
             self.new_thread.join()
@@ -82,7 +88,7 @@ class AutoBot(irc.bot.SingleServerIRCBot):
 
     def run(self, connection):
         """Set global handlers and connect to IRC"""
-        #Allows the logging of users on quit
+        # Allows the logging of users on quit
         self.connection.add_global_handler("quit", self.alt_on_quit, -30)
 
     def announce(self, text):
@@ -139,7 +145,7 @@ class AutoBot(irc.bot.SingleServerIRCBot):
                                .format(self.nick, self.nickpass))
             self.log_message("autobot", "-!-", "Identified to nickserv")
 
-    #def on_disconnect(self, connection, event):
+    # def on_disconnect(self, connection, event):
         #self.server_connect(self.nick, self.name, self.network, self.port, self._ssl)
 
     def on_pubnotice(self, connection, event):
@@ -154,7 +160,7 @@ class AutoBot(irc.bot.SingleServerIRCBot):
         self.log_message(event.target, "<--", "{0} was kicked from the channel by {1}"
                          .format(kicked_nick, kicker))
         if kicked_nick == self.nick:
-            time.sleep(10) #waits 10 seconds
+            time.sleep(10)  # waits 10 seconds
             for channel in self.channel_list:
                 connection.join(channel)
 
@@ -239,7 +245,10 @@ class AutoBot(irc.bot.SingleServerIRCBot):
         message = event.arguments[0]
 
         if nick not in self.logs:
-            self.logs[nick] = LogFile.LogFile(datetime.datetime.utcnow().strftime(self.log_scheme).format(channel=nick))
+            self.logs[nick] = LogFile.LogFile(
+                datetime.datetime.utcnow().strftime(
+                    self.log_scheme).format(
+                    channel=nick))
         self.log_message(nick, "<{0}>".format(nick), message)
 
         command = message.partition(' ')[0]
@@ -255,7 +264,6 @@ class AutoBot(irc.bot.SingleServerIRCBot):
         connection = self.connection
         response = self.sg.parse(command)
         self.say(source, str(response))
-            
 
     def log_message(self, channel, nick, message):
         """Create IRC logs"""
@@ -280,12 +288,14 @@ class AutoBot(irc.bot.SingleServerIRCBot):
         for log in self.logs:
             self.logs[log].close()
 
+
 class TCPserver(threading.Thread):
     def __init__(self, AutoBot, host, port):
         threading.Thread.__init__(self)
         self.AutoBot = AutoBot
         self.host = host
         self.port = port
+
     def run(self):
         server = ThreadedTCPServer((self.host, self.port), ThreadedTCPRequestHandler)
         try:
@@ -294,8 +304,10 @@ class TCPserver(threading.Thread):
             server.shutdown()
             server.server_close()
 
+
 class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     """ Echo data back in uppercase """
+
     def handle(self):
         self.AutoBot = AutoBot
         data = self.request.recv(1024)
@@ -304,6 +316,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
             self.AutoBot.announce(data.decode("utf-8", "replace").strip())
         self.request.close()
 
+
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     daemon_threads = True
     allow_reuse_address = True
@@ -311,20 +324,23 @@ class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     def __init__(self, server_address, RequestHandlerClass):
         socketserver.TCPServer.__init__(self, server_address, RequestHandlerClass)
 
+
 class Periodic(threading.Thread):
     def __init__(self, AutoBot):
         threading.Thread.__init__(self)
         self.AutoBot = AutoBot
-        self.starttime=time.time()
+        self.starttime = time.time()
 
     def run(self):
         while True:
             self.AutoBot.refresh_logs()
             time.sleep(960.0 - ((time.time() - self.starttime) % 960.0))
 
+
 def main():
     bot = AutoBot()
     bot.start()
+
 
 if __name__ == "__main__":
     main()

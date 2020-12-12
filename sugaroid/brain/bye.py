@@ -52,8 +52,8 @@ class ByeAdapter(LogicAdapter):
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
         if len(self.normalized) >= 2:
-            for i in range(0, len(self.normalized)-2):
-                if (self.normalized[i] == 'see') and (self.normalized[i+1] == 'you'):
+            for i in range(0, len(self.normalized) - 2):
+                if (self.normalized[i] == 'see') and (self.normalized[i + 1] == 'you'):
                     return True
         self.intersect = set(self.normalized).intersection(set(BYE))
         if self.intersect and not ('can' in self.normalized):

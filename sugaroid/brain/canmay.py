@@ -284,7 +284,7 @@ class CanAdapter(LogicAdapter):
         else:
             if 'you' not in self.normalized:
                 confidence = (sentiments['neg'] + sentiments['pos']) + \
-                    ((sentiments['neg'] + sentiments['pos'])/2)
+                    ((sentiments['neg'] + sentiments['pos']) / 2)
                 if sentiments['neu'] == 1:
                     if not verb:
                         verb = "do"
@@ -333,11 +333,11 @@ class CanAdapter(LogicAdapter):
                     confidence = sentiments['neu']
                 else:
                     confidence = (sentiments['neg'] + sentiments['pos']) + \
-                        ((sentiments['neg'] + sentiments['pos'])/2)
+                        ((sentiments['neg'] + sentiments['pos']) / 2)
 
         if verb == 'be':
             ind = self.normalized.index('be')
-            for j in range(ind, len(self.normalized)-1):
+            for j in range(ind, len(self.normalized) - 1):
                 if self.tagged[j][1].startswith('NN'):
                     polarity_adj = self.sia.polarity_scores(self.tagged[j][0])
                     if polarity_adj['pos'] + polarity_adj['neg'] < polarity_adj['neu']:

@@ -189,7 +189,7 @@ class NewsAdapter(LogicAdapter):
             except ValueError:
                 response = 'Sorry, I couldn\'t make out what number it actually is. I might understand it better if ' \
                            'it is in a numerical form? '
-            if type(self.integer) is int:
+            if isinstance(self.integer, int):
                 try:
                     data = self.chatbot.last_news['articles'][self.integer - 1]
                     provider = data['source']['name']
@@ -212,12 +212,12 @@ class NewsAdapter(LogicAdapter):
                     keyword = ent
             logging.info("NewsAdapter found as Natural Entity Recognizer words, country : {}, keyword: {}"
                          .format(country, keyword))
-            for i in range(len(normalize)-1):
+            for i in range(len(normalize) - 1):
                 if normalize[i].lower_ == "about" or normalize[i].lower_ == 'on':
                     logging.info("NewsAdapter: found determiner about or on")
                     if not keyword:
                         keyword_words = []
-                        for j in range(i+1, len(normalize)):
+                        for j in range(i + 1, len(normalize)):
                             if normalize[j].pos_ == 'DET':
                                 continue
                             else:

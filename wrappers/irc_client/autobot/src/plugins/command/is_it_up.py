@@ -5,6 +5,7 @@
 
 from requests import get
 
+
 def isup(website):
     """Make a request to the site and pull the statue code"""
     messages = {
@@ -23,5 +24,5 @@ def isup(website):
         getstatus = str(getsite.status_code)
         message = messages.get(getstatus[0])
         return message.format(getstatus)
-    except:
+    except BaseException:
         return "The website is currently down"

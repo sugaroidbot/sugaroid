@@ -8,10 +8,12 @@ from threading import Thread
 class announce():
     """ Return message uppercase """
     def uppercase(message):
-        print (message.upper())
+        print(message.upper())
+
 
 class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     """ Echo data back in uppercase """
+
     def handle(self):
         self.announce = announce
         data = str(self.request.recv(1024), 'utf-8')
@@ -20,12 +22,14 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
             self.request.send(bytes("message recieved", 'utf-8'))
         self.request.close()
 
+
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     daemon_threads = True
     allow_reuse_address = True
 
     def __init__(self, server_address, RequestHandlerClass):
         socketserver.TCPServer.__init__(self, server_address, RequestHandlerClass)
+
 
 if __name__ == "__main__":
     HOST = "localhost"

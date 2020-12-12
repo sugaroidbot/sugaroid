@@ -1,5 +1,6 @@
 import asyncio
 
+
 class EchoServerClientProtocol(asyncio.Protocol):
     def connection_made(self, transport):
         peername = transport.get_extra_info('peername')
@@ -15,6 +16,7 @@ class EchoServerClientProtocol(asyncio.Protocol):
 
         print('Close the client socket')
         self.transport.close()
+
 
 loop = asyncio.get_event_loop()
 # Each client connection will create a new protocol instance

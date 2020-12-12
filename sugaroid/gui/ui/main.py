@@ -19,26 +19,27 @@ class Ui_MainWindow(object):
         icon.addPixmap(QtGui.QPixmap(":/home/sugaroid.png"),
                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet("QPushButton {\n"
-                                 "    border-radius: 25px;\n"
-                                 "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 255, 255, 255), stop:1 rgba(0, 255, 152, 255));\n"
-                                 "    color: rgb(0, 0, 0);\n"
-                                 "}\n"
-                                 "QPushButton:pressed {\n"
-                                 "    border-radius: 25px;\n"
-                                 "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 255, 255, 255), stop:1 rgba(0, 255, 152, 255));\n"
-                                 "    color: rgb(0, 0, 0);\n"
-                                 "}\n"
-                                 ".QPushButton:hover {\n"
-                                 "    border-radius: 25px;\n"
-                                 "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 199, 199, 255), stop:1 rgba(0, 190, 113, 255));\n"
-                                 "    color: rgb(0, 0, 0);\n"
-                                 " }\n"
-                                 "QLineEdit {\n"
-                                 "padding-left: 15px;\n"
-                                 "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(31, 31, 31, 255), stop:1 rgba(0, 0, 0, 255));\n"
-                                 "        border-radius: 25px;\n"
-                                 "}")
+        MainWindow.setStyleSheet(
+            "QPushButton {\n"
+            "    border-radius: 25px;\n"
+            "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 255, 255, 255), stop:1 rgba(0, 255, 152, 255));\n"
+            "    color: rgb(0, 0, 0);\n"
+            "}\n"
+            "QPushButton:pressed {\n"
+            "    border-radius: 25px;\n"
+            "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 255, 255, 255), stop:1 rgba(0, 255, 152, 255));\n"
+            "    color: rgb(0, 0, 0);\n"
+            "}\n"
+            ".QPushButton:hover {\n"
+            "    border-radius: 25px;\n"
+            "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 199, 199, 255), stop:1 rgba(0, 190, 113, 255));\n"
+            "    color: rgb(0, 0, 0);\n"
+            " }\n"
+            "QLineEdit {\n"
+            "padding-left: 15px;\n"
+            "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(31, 31, 31, 255), stop:1 rgba(0, 0, 0, 255));\n"
+            "        border-radius: 25px;\n"
+            "}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)

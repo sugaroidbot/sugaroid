@@ -54,7 +54,7 @@ def reinit_cookie(request):
 
 
 def index(request):
-    print("H"*5, request.COOKIES.get('conversation'))
+    print("H" * 5, request.COOKIES.get('conversation'))
     if request.COOKIES.get('conversation') is None:
         return reinit_cookie(request)
     elif request.COOKIES.get('globals_uid') is None:
@@ -87,7 +87,7 @@ def index(request):
 
 
 def post_user_input(request):
-    print("K"*6, request.COOKIES.get('conversation'))
+    print("K" * 6, request.COOKIES.get('conversation'))
     c = request.POST['userInput']
 
     if c and c.isspace():
@@ -103,7 +103,7 @@ def post_user_input(request):
 
 
 def get_chatbot_response(request):
-    print("D"*5, "K"*6, request.COOKIES.get('conversation'))
+    print("D" * 5, "K" * 6, request.COOKIES.get('conversation'))
     conversation_local = eval(request.COOKIES.get('conversation'))
     globals_uid = request.COOKIES.get('globals_uid')
     print(globals_local_storage)

@@ -43,7 +43,7 @@ def sigmaSimilarity(src, dest):
         for j in dest:
             if i == j:
                 sum += 1
-    return sum/total
+    return sum / total
 
 
 def difference(lst1, lst2):
@@ -94,26 +94,26 @@ def reverse(token):
         else:
             processed.append(i)
 
-    for j in range(0, len(processed)-2):
-        if processed[j] == 'I' and processed[j+1] == 'are':
-            processed[j+1] = 'am'
-        elif processed[j] == 'you' and processed[j+1] == 'am':
+    for j in range(0, len(processed) - 2):
+        if processed[j] == 'I' and processed[j + 1] == 'are':
+            processed[j + 1] = 'am'
+        elif processed[j] == 'you' and processed[j + 1] == 'am':
             processed[j + 1] = 'are'
         else:
             continue
 
-    for j in range(0, len(processed)-2):
-        if processed[j] == 'I' and processed[j+1] == 'are':
+    for j in range(0, len(processed) - 2):
+        if processed[j] == 'I' and processed[j + 1] == 'are':
             processed[j] = 'you'
-        elif processed[j] == 'you' and processed[j+1] == 'am':
+        elif processed[j] == 'you' and processed[j + 1] == 'am':
             processed[j] = 'I'
         else:
             continue
 
-    for j in range(0, len(processed)-2):
-        if processed[j] == 'are' and processed[j+1] == 'I':
+    for j in range(0, len(processed) - 2):
+        if processed[j] == 'are' and processed[j + 1] == 'I':
             processed[j] = 'am'
-        elif processed[j] == 'am' and processed[j+1] == 'you':
+        elif processed[j] == 'am' and processed[j + 1] == 'you':
             processed[j] = 'are'
         else:
             continue
@@ -128,7 +128,7 @@ def random_response(iterable=()):
     :param iterable:
     :return: a selected value of the iterable
     """
-    return iterable[randint(0, len(iterable)-1)]
+    return iterable[randint(0, len(iterable) - 1)]
 
 
 def cosine_similarity(X_list, Y_list):
@@ -142,8 +142,8 @@ def cosine_similarity(X_list, Y_list):
     l2 = []
 
     # remove stop words from string
-    X_set = {w for w in X_list if not w in sw}
-    Y_set = {w for w in Y_list if not w in sw}
+    X_set = {w for w in X_list if w not in sw}
+    Y_set = {w for w in Y_list if w not in sw}
 
     # form a set containing keywords of both strings
     rvector = X_set.union(Y_set)

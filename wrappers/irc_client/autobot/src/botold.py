@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 
-import codecs, configparser, re, select, socket, ssl, sys, time
+import codecs
+import configparser
+import re
+import select
+import socket
+import ssl
+import sys
+import time
 import irc.bot
 from threading import Thread
 from jaraco.stream import buffer
@@ -10,7 +17,9 @@ from plugins.command import search, FactInfo, dice
 irc.client.ServerConnection.buffer_class = buffer.LenientDecodingLineBuffer
 
 # Create our bot class
-class AutoBot ( irc.bot.SingleServerIRCBot ):
+
+
+class AutoBot (irc.bot.SingleServerIRCBot):
     def __init__(self):
         """Set variables listen for input on a port"""
         # Read from configuration file
@@ -35,17 +44,17 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
             irc.bot.SingleServerIRCBot.__init__(self, [(self.network, self.port)],
                                                 self.nick, self.name,
                                                 reconnection_interval=120,
-                                                connect_factory = factory)
+                                                connect_factory=factory)
         except irc.client.ServerConnectionError:
             sys.stderr.write(sys.exc_info()[1])
 
-        #Listen for data to announce to channels
+        # Listen for data to announce to channels
         listenhost = self.config.get("tcp", "host")
         listenport = int(self.config.get("tcp", "port"))
         self.inputthread = TCPinput(self, listenhost, listenport)
         self.inputthread.start()
 
-    def announce (self, text):
+    def announce(self, text):
         for channel in self.channel_list:
             self.connection.notice(channel, text)
 
@@ -60,12 +69,13 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
     def on_nicknameinuse(self, connection, event):
         connection.nick(connection.get_nickname() + "_")
 
-    def on_welcome ( self, connection, event ):
+    def on_welcome(self, connection, event):
         for channel in self.channel_list:
             connection.join(channel)
         if self.nickpass and connection.get_nickname() != self.nick:
             connection.privmsg("nickserv", "ghost {0} {1}"
                                .format(self.nick, self.nickpass))
+
     def get_version(self):
         """CTCP version reply"""
         return "Autobot IRC bot"
@@ -87,7 +97,7 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
         kicked_nick = event.arguments[0]
         kicker = event.source.nick
         if kicked_nick == self.nick:
-            time.sleep(10) #waits 10 seconds
+            time.sleep(10)  # waits 10 seconds
             for channel in self.channel_list:
                 connection.join(channel)
 
@@ -142,9 +152,9 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
     def do_command(self, event, isOper, source, command, arguments):
         """Commands the bot will respond to"""
         user = event.source.nick
-        factoid = FactInfo.FactInfo().fcget(command,user)
+        factoid = FactInfo.FactInfo().fcget(command, user)
         if factoid:
-            self.say(source,factoid.format(user))
+            self.say(source, factoid.format(user))
         elif command == "devour":
             if arguments is None or arguments.isspace():
                 self.do(source, "noms {0}".format(user))
@@ -203,13 +213,14 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
                 self.say(source, "You don't have permission to do that")
         elif command == "die":
             if isOper:
-                #new_thread.join()
+                # new_thread.join()
                 self.die(msg="Bye, cruel world!")
             else:
                 self.say(source, "You don't have permission to do that")
         else:
             self.connection.notice(user, "I'm sorry, {0}. I'm afraid I can't do that."
-                              .format(user))
+                                   .format(user))
+
 
 class TCPinput (Thread):
     def __init__(self, AutoBot, listenhost, listenport):
@@ -224,24 +235,24 @@ class TCPinput (Thread):
         self.accept_socket.bind((listenhost, listenport))
         self.accept_socket.listen(10)
         self.accept_socket.setblocking(False)
-        #self.accept_socket.settimeout(None)
+        # self.accept_socket.settimeout(None)
 
-        #for bsd
+        # for bsd
         self.kq = select.kqueue()
         self.kevent = [
-                   select.kevent(self.accept_socket.fileno(),
-                   filter=select.KQ_FILTER_READ,
-                   flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
+            select.kevent(self.accept_socket.fileno(),
+                          filter=select.KQ_FILTER_READ,
+                          flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
         ]
 
-        #for linux
+        # for linux
         #self.epoll = select.epoll()
         #self.epoll.register(self.accept_socket.fileno(), select.EPOLLIN)
 
         self.stuff = {}
 
     def run(self):
-        #for bsd
+        # for bsd
         while True:
             events = self.kq.control(self.kevent, 5, None)
             for event in events:
@@ -250,9 +261,9 @@ class TCPinput (Thread):
                     conn, addr = self.accept_socket.accept()
                     # Create new event
                     new_event = [
-                             select.kevent(conn.fileno(),
-                             filter=select.KQ_FILTER_READ,
-                             flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
+                        select.kevent(conn.fileno(),
+                                      filter=select.KQ_FILTER_READ,
+                                      flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
                     ]
                     # Register event
                     self.kq.control(new_event, 0, 0)
@@ -284,9 +295,11 @@ class TCPinput (Thread):
 #                        continue
 #                    self.AutoBot.announce(self.connection, buf.decode("utf-8", "replace").strip())
 
+
 def main():
-    bot = AutoBot ()
+    bot = AutoBot()
     bot.start()
+
 
 if __name__ == "__main__":
     main()

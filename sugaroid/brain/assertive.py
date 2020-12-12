@@ -46,13 +46,15 @@ class AssertiveAdapter(LogicAdapter):
     def can_process(self, statement):
         if len(str(statement).split()) >= 3:
             s = statement.doc
-            if (s[0].pos_ in ["its", 'this'] or s[0].lower_ == "it") and (s[1].pos_ == "NOUN" or s[1].pos_ == "VERB" or (s[1].pos_ == "ADV" and s[2].pos_ == "VERB")):
+            if (s[0].pos_ in ["its", 'this'] or s[0].lower_ == "it") and (s[1].pos_ ==
+                                                                          "NOUN" or s[1].pos_ == "VERB" or (s[1].pos_ == "ADV" and s[2].pos_ == "VERB")):
                 return True
             else:
                 return False
         elif len(str(statement).split()) >= 2:
             s = statement.doc
-            if (s[0].pos_ == "DET" or s[0].lower_ == "it's") and (s[1].pos_ == "NOUN" or s[1].pos_ == "VERB"):
+            if (s[0].pos_ == "DET" or s[0].lower_ == "it's") and (
+                    s[1].pos_ == "NOUN" or s[1].pos_ == "VERB"):
                 return True
             else:
                 return False

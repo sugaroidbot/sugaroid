@@ -6,6 +6,7 @@ import asyncio
 
 class announce():
     """ Return message uppercase """
+
     def __init__(self):
         """ Start the tcp server """
         host = "localhost"
@@ -18,7 +19,7 @@ class announce():
             loop.run_forever()
         except KeyboardInterrupt:
             pass
-        #except:
+        # except:
         #    print("Exception, asking sever to terminate")
         #    server.close()
         print("waiting on wait_closed()")
@@ -31,16 +32,18 @@ class announce():
         data = yield from reader.read(100)
         message = data.decode("utf-8")
         addr = writer.get_extra_info('peername')
-        self.msg("Received {0} from {1}".format(message,addr))
+        self.msg("Received {0} from {1}".format(message, addr))
         writer.write(data.upper())
         yield from writer.drain()
         writer.close()
 
     def msg(self, message):
-        print (message)
+        print(message)
+
 
 def main():
     announce()
+
 
 if __name__ == "__main__":
     main()

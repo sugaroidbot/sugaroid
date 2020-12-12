@@ -5,10 +5,11 @@ An echo server that uses threads to handle multiple clients at a time.
 Entering any line of input at the terminal will exit the server.
 """
 
-import select 
-import socket 
-import sys 
+import select
+import socket
+import sys
 import threading
+
 
 class Server:
     def __init__(self, host, port):
@@ -27,19 +28,20 @@ class Server:
             self.server.setblocking(False)
             self.server.settimeout(None)
 
-            #for bsd
+            # for bsd
             self.kq = select.kqueue()
             self.kevent = [
-                       select.kevent(self.server.fileno(),
-                       filter=select.KQ_FILTER_READ,
-                       flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
+                select.kevent(self.server.fileno(),
+                              filter=select.KQ_FILTER_READ,
+                              flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
             ]
 
-            #for linux
+            # for linux
             #self.epoll = select.epoll()
             #self.epoll.register(self.server.fileno(), select.EPOLLIN)
 
-        except socket.error, (value,message):
+        except socket.error as xxx_todo_changeme1:
+            (value, message) = xxx_todo_changeme1.args
             if self.server:
                 self.server.close()
             print "Could not open socket: " + message
@@ -47,10 +49,10 @@ class Server:
 
     def run(self):
         self.open_socket()
-        input = [self.server,sys.stdin]
+        input = [self.server, sys.stdin]
         running = 1
         while running:
-            inputready,outputready,exceptready = select.select(input,[],[])
+            inputready, outputready, exceptready = select.select(input, [], [])
             for s in inputready:
                 if s == self.server:
                     # handle the server socket
@@ -66,9 +68,11 @@ class Server:
         for c in self.threads:
             c.join()
 
-class Client(threading.Thread): 
-    def __init__(self,(client,address)): 
-        threading.Thread.__init__(self) 
+
+class Client(threading.Thread):
+    def __init__(self, xxx_todo_changeme):
+        (client, address) = xxx_todo_changeme
+        threading.Thread.__init__(self)
         self.client = client
 
     def run(self):
@@ -77,10 +81,11 @@ class Client(threading.Thread):
             data = self.client.recv(1024)
             if data:
                 self.client.send(data)
-            else: 
+            else:
                 self.client.close()
                 running = 0
 
-if __name__ == "__main__": 
-    s = Server("localhost", 50000) 
+
+if __name__ == "__main__":
+    s = Server("localhost", 50000)
     s.run()

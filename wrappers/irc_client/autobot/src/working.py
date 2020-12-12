@@ -11,6 +11,7 @@ import datetime
 
 class announce():
     """ Return message uppercase """
+
     def __init__(self):
         """Start the tcp server in a new thread"""
         host = "localhost"
@@ -30,10 +31,13 @@ class announce():
             self.new_thread.join()
             self.second_thread.join()
         print("testing 123")
+
     def uppercase(self, message):
-        print (message.upper())
+        print(message.upper())
+
     def repeat(self, message):
         print(message)
+
 
 class TCPserver(threading.Thread):
     def __init__(self, announce, host, port):
@@ -54,9 +58,9 @@ class TCPserver(threading.Thread):
         self.kq = select.kqueue()
 
         self.kevent = [
-                   select.kevent(self._socket.fileno(),
-                   filter=select.KQ_FILTER_READ,
-                   flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
+            select.kevent(self._socket.fileno(),
+                          filter=select.KQ_FILTER_READ,
+                          flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
         ]
 
         self.connections = {}
@@ -69,9 +73,9 @@ class TCPserver(threading.Thread):
                     if event.ident == self._socket.fileno():
                         conn, addr = self._socket.accept()
                         new_event = [
-                                 select.kevent(conn.fileno(),
-                                 filter=select.KQ_FILTER_READ,
-                                 flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
+                            select.kevent(conn.fileno(),
+                                          filter=select.KQ_FILTER_READ,
+                                          flags=select.KQ_EV_ADD | select.KQ_EV_ENABLE)
                         ]
                         self.kq.control(new_event, 0, 0)
                         self.connections[conn.fileno()] = conn
@@ -83,24 +87,28 @@ class TCPserver(threading.Thread):
                             continue
                         self.announce.uppercase(buf.decode("utf-8", "replace").strip())
         finally:
-            self.kq.control([select.kevent(self._socket.fileno(), filter=select.KQ_FILTER_READ, flags=select.KQ_EV_DELETE)], 0, None)
+            self.kq.control([select.kevent(self._socket.fileno(),
+                                           filter=select.KQ_FILTER_READ, flags=select.KQ_EV_DELETE)], 0, None)
             self.kq.close()
             self._socket.close()
+
 
 class Periodic(threading.Thread):
     def __init__(self, announce):
         threading.Thread.__init__(self)
         self.announce = announce
         self.signal = True
-        self.starttime=time.time()
+        self.starttime = time.time()
 
     def run(self):
         while self.signal:
             time.sleep(30.0 - ((time.time() - self.starttime) % 30.0))
-            self.announce.repeat( str(datetime.datetime.utcnow()) + " 30 seconds")
+            self.announce.repeat(str(datetime.datetime.utcnow()) + " 30 seconds")
+
 
 def main():
     announce()
+
 
 if __name__ == "__main__":
     main()

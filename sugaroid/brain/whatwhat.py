@@ -68,7 +68,7 @@ class WhatWhatAdapter(LogicAdapter):
         emotion = Emotion.angry_non_expressive
         words = self.last_word[self.last_word_idx + 1:]
         for i in words:
-            if type(i) is None:
+            if isinstance(i, None):
                 break
         else:
             response = ' '.join(words)

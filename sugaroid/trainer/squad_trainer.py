@@ -25,4 +25,3 @@ for i in data:
                 sugaroid.list_train(
                     [question,
                      answer.get('text')])
-

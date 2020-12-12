@@ -35,9 +35,9 @@ DISCLAIMER = """
 Sugaroid AI (c) 2020 Srevin Saju < srevin03(at)gmail(dot)com >
 Sugaroid Bot is developed under Open Source license MIT.
 The author does not take any right in the validity of the information
-provided by thr bot in any platforms. The author will not be claimed to 
-be resonsible for any damage / vulnerability caused to your system 
-during the installation of the bot. 
+provided by thr bot in any platforms. The author will not be claimed to
+be resonsible for any damage / vulnerability caused to your system
+during the installation of the bot.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -51,11 +51,11 @@ SOFTWARE.
 WHAT_I_AM_GOING_TO_DO = {
     "tomorrow": "I will try to learn cryptography. I will try working on Casesar's Cipher and decrypting random codes",
     "today": "I am creating a report of the world-wide usage history. "
-             "I am checking if my answer responses are becoming more valid, or more foolish. :)",
+    "I am checking if my answer responses are becoming more valid, or more foolish. :)",
     "weekend": "Hmm. I have not thought about it so far.",
     "weekday": "Hmm. I have not thought about it so far.",
     'month': "Its quite far away. I have quite wonderful things to keep doing, "
-             "rather than thinking what I am going to do next month. Who knows if anyone would live that long",
+    "rather than thinking what I am going to do next month. Who knows if anyone would live that long",
     "year": "I am quite worried that, I will still remain a 'newborn' bot, unless my code is changed the next year to",
     "yesterday": "Past is past. Isn't it?",
     "sunday": "I will try taking some rest. But I am too restless you know.",
@@ -64,8 +64,7 @@ WHAT_I_AM_GOING_TO_DO = {
     "wednesday": "Got to break the turing test. XD",
     "thursday": "I got to update myself and read the old books I read. Someone might have added new stuff to the docs.",
     "friday": 'I have to think what I should do on Saturday',
-    "saturday": "Probably, I will repenting the waste of time, that I did on Friday. Lol"
-}
+    "saturday": "Probably, I will repenting the waste of time, that I did on Friday. Lol"}
 
 
 GRATIFY = [

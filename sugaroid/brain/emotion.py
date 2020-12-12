@@ -70,7 +70,7 @@ class EmotionAdapter(LogicAdapter):
         else:
             if a['pos'] > a['neg']:
                 if 'you' in parsed:
-                    response = GRATIFY[randint(0, len(GRATIFY)-1)]
+                    response = GRATIFY[randint(0, len(GRATIFY) - 1)]
                     emotion = Emotion.blush
                 else:
                     if 'stop' in parsed:
@@ -106,7 +106,7 @@ class EmotionAdapter(LogicAdapter):
             else:
                 if 'i' in parsed:
                     response = "Its ok,  {}.".format(
-                        CONSOLATION[randint(0, len(CONSOLATION)-1)])
+                        CONSOLATION[randint(0, len(CONSOLATION) - 1)])
                     emotion = Emotion.positive
                 else:
                     # well, I don't want to say ( I don't know )

@@ -10,6 +10,7 @@ import time
 
 class LogFile(object):
     """Handle open/write/close of file with error checking"""
+
     def __init__(self, path):
         """Create dirs if they don't exist and open file"""
         self.path = path
@@ -28,7 +29,7 @@ class LogFile(object):
             sys.stderr.write("Log file open: " + self.path + "\n")
         except PermissionError as err:
             sys.stderr.write("Permission error: " + err + "\n")
-        except:
+        except BaseException:
             sys.stderr.write("Error opening log " + self.path + "\n")
 
     def write(self, message):
@@ -39,7 +40,7 @@ class LogFile(object):
         try:
             self.log.write("{0} {1}\n".format(timestamp, message))
             self.last_write = int(time.time())
-        except:
+        except BaseException:
             sys.stderr.write("Error writting to log " + self.path + "\n")
 
     def is_stale(self, timestamp):

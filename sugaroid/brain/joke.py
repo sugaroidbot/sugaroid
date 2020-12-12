@@ -44,7 +44,8 @@ class JokeAdapter(LogicAdapter):
 
     def can_process(self, statement):
         normalized = normalize(str(statement).lower())
-        if (('tell' in normalized) or ('say' in normalized) or ('crack' in normalized)) and ('joke' in normalized):
+        if (('tell' in normalized) or ('say' in normalized) or (
+                'crack' in normalized)) and ('joke' in normalized):
             return True
         elif (len(normalized) == 1) and (self.chatbot.lp.similarity("joke", str(statement).lower()) >= 0.9):
             return True

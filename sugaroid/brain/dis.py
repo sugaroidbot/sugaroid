@@ -76,7 +76,8 @@ class DisAdapter(LogicAdapter):
                 confidence -= 0.3
             if 'spirit' in dis_word:
                 confidence += 0.2
-            if any_in(['play', 'pensary', 'pense', 'patch', 'port', 'persal', 'perse', 'persion', 'praise'], dis_word):
+            if any_in(['play', 'pensary', 'pense', 'patch', 'port',
+                       'persal', 'perse', 'persion', 'praise'], dis_word):
                 confidence -= 0.2
 
             confidence += sia['neg']

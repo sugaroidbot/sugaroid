@@ -4,6 +4,7 @@ import socket
 import threading
 import socketserver
 
+
 class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
@@ -12,8 +13,10 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
         response = bytes("{}: {}".format(cur_thread.name, data), 'ascii')
         self.request.sendall(response)
 
+
 class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
     pass
+
 
 def client(ip, port, message):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -21,6 +24,7 @@ def client(ip, port, message):
         sock.sendall(bytes(message, 'ascii'))
         response = str(sock.recv(1024), 'ascii')
         print("Received: {}".format(response))
+
 
 if __name__ == "__main__":
     # Port 0 means to select an arbitrary unused port

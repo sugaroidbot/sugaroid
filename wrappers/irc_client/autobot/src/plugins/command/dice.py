@@ -10,12 +10,12 @@ def rollDie(sides):
     try:
         if int(sides) >= 2:
             count = int(sides) + 1
-            roll = random.randrange(1,count)
+            roll = random.randrange(1, count)
             return roll
         else:
             return "Please use a number greater than one"
     except ValueError:
         message = "I'm sorry, I can't use that, please tell me the number of sides you want using whole positive integers. dice <num>"
         return message
-    except:
+    except BaseException:
         return

@@ -152,7 +152,7 @@ class SugaroidAkinator:
     def win(self):
         self.aki.win()
         self.check = True
-        return f"It's {self.aki.first_guess['name']} ({self.aki.first_guess['description']})! Was I correct?\n{self.aki.first_guess['absolute_picture_path']}\n\t" 
+        return f"It's {self.aki.first_guess['name']} ({self.aki.first_guess['description']})! Was I correct?\n{self.aki.first_guess['absolute_picture_path']}\n\t"
 
     def start_check(self):
         return self.check

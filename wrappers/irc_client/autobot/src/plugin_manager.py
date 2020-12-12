@@ -1,4 +1,4 @@
-#class PluginManager(object):
+# class PluginManager(object):
 #    def __init__(self, botnick, prefix):
 #        """ Manage Plugins """
 #        self.plugin_list = []
@@ -27,7 +27,7 @@
 #        else:
 #                do_command(command)
 
-#class Say(source, msg, action=False):
+# class Say(source, msg, action=False):
 #    """ Send msg to channel """
 #    if action:
 #        AutoBot.do(source, msg)
@@ -35,7 +35,7 @@
 #        AutoBot.say(source, msg)
 #    """ log msg """
 #
-#class Command(object):
+# class Command(object):
 #    """ Plugins of this class are triggered by a user """
 #    def respond(self, source, nick, arguments):
 #        trigger = ""
@@ -44,17 +44,17 @@
 #        admin_list = [meskarune]
 #        Say(source, msg.format(nick))
 #
-#class Event(object):
+# class Event(object):
 #    """ Plugins of this class are triggered by an irc event """
 #    def respond(self, source, msg):
 #        Say(source, msg)
 #
 #
-#---------------
+# ---------------
 #
 #from plugin_manager import Command
 #
-#class Slap(Command):
+# class Slap(Command):
 #    trigger= "slap"
 #    admin_required = False
 #    action = True
@@ -64,11 +64,11 @@
 #        else:
 #            Say(source, "slaps {0} around a bit with a large trout.".format(nick), action)
 #
-#----------------
+# ----------------
 #
-#from plugin_manager immport Command
+# from plugin_manager immport Command
 #
-#class Die(Command):
+# class Die(Command):
 #    trigger = "die"
 #    admin_required = True
 #    action = False

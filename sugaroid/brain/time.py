@@ -84,7 +84,7 @@ class TimeAdapter(LogicAdapter):
                 emotion = Emotion.seriously
         if "what" in str(statement).lower():
             # the user might be asking the time
-            # so we have to inform it instead of wishing 
+            # so we have to inform it instead of wishing
             # the person good morning
             response = "The current time is {:02d}:{:02d}".format(hour, minutes)
             emotion = Emotion.adorable

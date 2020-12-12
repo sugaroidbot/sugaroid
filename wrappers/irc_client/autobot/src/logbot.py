@@ -2,7 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import signal
-import codecs, configparser, datetime, logging, re, select, socket, ssl, sys, time
+import codecs
+import configparser
+import datetime
+import logging
+import re
+import select
+import socket
+import ssl
+import sys
+import time
 import irc.bot
 from threading import Thread
 from jaraco.stream import buffer
@@ -16,7 +25,9 @@ logging.basicConfig(level=logging.DEBUG,
 irc.client.ServerConnection.buffer_class = buffer.LenientDecodingLineBuffer
 
 # Create our bot class
-class AutoBot ( irc.bot.SingleServerIRCBot ):
+
+
+class AutoBot (irc.bot.SingleServerIRCBot):
     def __init__(self):
         """Set variables listen for input on a port"""
         # Read from configuration file
@@ -32,7 +43,6 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
         self.channel_list = [channel.strip() for channel in self.config.get("irc", "channels").split(",")]
         self.prefix = self.config.get("bot", "prefix")
 
-
         # Connect to IRC server
         if self._ssl:
             factory = irc.connection.Factory(wrapper=ssl.wrap_socket)
@@ -42,7 +52,7 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
             irc.bot.SingleServerIRCBot.__init__(self, [(self.network, self.port)],
                                                 self.nick, self.name,
                                                 reconnection_interval=120,
-                                                connect_factory = factory)
+                                                connect_factory=factory)
             logging.debug('Connecting to IRC... {0}:{1} ssl={2}'.format(self.network,
                                                                         self.port,
                                                                         self._ssl))
@@ -51,7 +61,10 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
 
         self.log_scheme = self.config.get("bot", "log_scheme")
         self.logs = {}
-        self.logs['autobot'] =  LogFile.LogFile(datetime.datetime.utcnow().strftime(self.log_scheme).format(channel='autobot'))
+        self.logs['autobot'] = LogFile.LogFile(
+            datetime.datetime.utcnow().strftime(
+                self.log_scheme).format(
+                channel='autobot'))
         for ch in self.channel_list:
             log_name = datetime.datetime.utcnow().strftime(self.log_scheme).format(channel=ch)
             self.logs[ch] = LogFile.LogFile(log_name)
@@ -61,10 +74,10 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
     def start(self):
         try:
             super().start()
-        except:
+        except BaseException:
             self.close_logs()
             self.periodic.cancel()
-            #self.second_thread.join()
+            # self.second_thread.join()
             raise
 
     def run(self, connection):
@@ -78,7 +91,7 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
             if self.logs[log].is_stale(timestamp):
                 self.logs[log].close()
 
-    def announce (self, text):
+    def announce(self, text):
         for channel in self.channel_list:
             self.connection.notice(channel, text)
             self.log_message(channel, "-!-", "(notice) {0}: {1}"
@@ -99,9 +112,9 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
     def on_nicknameinuse(self, connection, event):
         connection.nick(connection.get_nickname() + "_")
 
-    def on_welcome ( self, connection, event ):
+    def on_welcome(self, connection, event):
         for channel in self.channel_list:
-            connection.join(channel) 
+            connection.join(channel)
             self.log_message("autobot", "-->", "Joined channel {0}"
                              .format(channel))
         if self.nickpass and connection.get_nickname() != self.nick:
@@ -135,7 +148,7 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
         self.log_message(event.target, "<--", "{0} was kicked from the channel by {1}"
                          .format(kicked_nick, kicker))
         if kicked_nick == self.nick:
-            time.sleep(10) #waits 10 seconds
+            time.sleep(10)  # waits 10 seconds
             for channel in self.channel_list:
                 connection.join(channel)
 
@@ -193,7 +206,10 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
         message = event.arguments[0]
 
         if nick not in self.logs:
-            self.logs[nick] = LogFile.LogFile(datetime.datetime.utcnow().strftime(self.log_scheme).format(channel=nick))
+            self.logs[nick] = LogFile.LogFile(
+                datetime.datetime.utcnow().strftime(
+                    self.log_scheme).format(
+                    channel=nick))
         self.log_message(nick, "<{0}>".format(nick), message)
 
         command = message.partition(' ')[0]
@@ -248,9 +264,9 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
     def do_command(self, event, isOper, source, command, arguments):
         """Commands the bot will respond to"""
         user = event.source.nick
-        factoid = FactInfo.FactInfo().fcget(command,user)
+        factoid = FactInfo.FactInfo().fcget(command, user)
         if factoid:
-            self.say(source,factoid.format(user))
+            self.say(source, factoid.format(user))
         elif command == "devour":
             if arguments is None or arguments.isspace():
                 self.do(source, "noms {0}".format(user))
@@ -333,7 +349,7 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
                 self.say(source, "You don't have permission to do that")
         else:
             self.connection.notice(user, "I'm sorry, {0}. I'm afraid I can't do that."
-                              .format(user))
+                                   .format(user))
 
     def log_message(self, channel, nick, message):
         """Create IRC logs"""
@@ -351,20 +367,23 @@ class AutoBot ( irc.bot.SingleServerIRCBot ):
         for log in self.logs:
             self.logs[log].close()
 
+
 class Periodic(Thread):
     def __init__(self, AutoBot):
         Thread.__init__(self)
         self.AutoBot = AutoBot
-        self.starttime=time.time()
+        self.starttime = time.time()
 
     def run(self):
         while True:
             time.sleep(960.0 - ((time.time() - self.starttime) % 960.0))
             self.AutoBot.refresh_logs()
 
+
 def main():
     bot = AutoBot()
     bot.start()
+
 
 if __name__ == "__main__":
     main()

@@ -52,7 +52,7 @@ class LearnAdapter(LogicAdapter):
         logging.info(
             'LearnAdapter: can_process() last_adapter was {}'.format(last_type))
 
-        if 'learn' in normalized and 'not' not in normalized and not 'to' in normalized:
+        if 'learn' in normalized and 'not' not in normalized and 'to' not in normalized:
             return True
         elif self.chatbot.globals['learn'] and (last_type == 'LearnAdapter'):
             return True

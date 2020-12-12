@@ -175,7 +175,7 @@ def wikipedia_search(self, question):
         self.chatbot.globals['reversei']['uid'] = 30000000002
         self.chatbot.globals['reversei']['type'] = int
         self.chatbot.globals['temp_data'] = a
-        def bracketize(x): return '\n[{}] {}'.format(x[0]+1, str(x[1]))
+        def bracketize(x): return '\n[{}] {}'.format(x[0] + 1, str(x[1]))
         response = "Did you mean any of these {}".format(
             ' '.join([bracketize(x) for x in enumerate(a)]))
         confidence = 1.0

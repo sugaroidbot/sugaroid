@@ -194,7 +194,7 @@ class ReReverseAdapter(LogicAdapter):
                     _scores = sia.polarity_scores(str(statement))
                     true_responses = ['yes', 'yea', 'y', 'yup', 'true']
                     if any_in(
-                        true_responses + 
+                        true_responses +
                         [x.capitalize() for x in true_responses],
                         self.normalized
                     ) or (_scores['pos'] > _scores['neg']):

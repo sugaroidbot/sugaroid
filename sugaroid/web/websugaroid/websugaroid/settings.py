@@ -27,7 +27,7 @@ SOFTWARE.
 try:
     import os
     import django_heroku
-except:
+except BaseException:
     pass
 
 """

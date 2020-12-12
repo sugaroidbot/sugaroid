@@ -81,13 +81,13 @@ class CurrencyAdapter(LogicAdapter):
                         pass
                 elif self.tokenized[i].lower_ == 'is':
 
-                    for j in range(i+1, len(self.tokenized)):
+                    for j in range(i + 1, len(self.tokenized)):
                         if self.tokenized[j].tag_ == 'IN':
                             dst = str(self.tokenized[j + 1].text).upper()
                             if len(dst) < 4:
                                 self.currencies_dest.append(dst)
                             try:
-                                src = str(self.tokenized[j-1].text).upper()
+                                src = str(self.tokenized[j - 1].text).upper()
                                 if len(src) < 4:
                                     self.currencies_src = src
                             except IndexError:
@@ -102,8 +102,9 @@ class CurrencyAdapter(LogicAdapter):
                         self.currencies_dest.append(dst)
 
         if self.currencies_dest and self.currencies_src:
-            logging.info("CurrencyAdapter: Recognized source and destination currency types. src: {} and dest: {}"
-                         .format(self.currencies_src, self.currencies_dest))
+            logging.info(
+                "CurrencyAdapter: Recognized source and destination currency types. src: {} and dest: {}" .format(
+                    self.currencies_src, self.currencies_dest))
             return True
         else:
             return False

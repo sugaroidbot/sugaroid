@@ -317,7 +317,7 @@ class SugaroidBot(ChatBot):
             result_options = {}
             for result_option in results:
                 result_string = result_option.text + ':' + \
-                                (result_option.in_response_to or '')
+                    (result_option.in_response_to or '')
 
                 if result_string in result_options:
                     result_options[result_string].count += 1
@@ -572,12 +572,12 @@ class Sugaroid:
             'Sugaroid',
             storage_adapter='chatterbot.storage.SQLStorageAdapter',
             logic_adapters=self.commands +
-                           [
-                               {
-                                   'import_path': 'chatterbot.logic.BestMatch',
+            [
+                {
+                    'import_path': 'chatterbot.logic.BestMatch',
                                    'maximum_similarity_threshold': 0.80
-                               }
-                           ] + self.adapters,
+                }
+            ] + self.adapters,
             database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(self.cfgpath),
             read_only=readonly
         )
@@ -667,7 +667,7 @@ class Sugaroid:
         :param args:
         :return:
         """
-        if type(args) is str:
+        if isinstance(args, str):
             preflight_time = time.time()
             response = self.neuron.parse(args)
             self.chatbot.globals['history']['total'].append(response)

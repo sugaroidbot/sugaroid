@@ -64,9 +64,10 @@ class InterruptAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None, username=None):
         if self.chatbot.interrupt == 2:
             if self.nn:
-                response = "{} {} what is {}" \
-                    .format(random_response(ASK_AND_YOU_SHALL_RECEIVE), random_response(SEEK_AND_YOU_SHALL_FIND),
-                            self.nn)
+                response = "{} {} what is {}" .format(
+                    random_response(ASK_AND_YOU_SHALL_RECEIVE),
+                    random_response(SEEK_AND_YOU_SHALL_FIND),
+                    self.nn)
                 self.chatbot.interrupt = self.nn
             else:
                 if username:

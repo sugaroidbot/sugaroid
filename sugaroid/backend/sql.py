@@ -13,13 +13,14 @@ processing_time FLOAT
 );
 """
 
+
 class PossibleSQLInjectionPanicError(ValueError):
     """
     Raises PossibleSQLInjectionPanicError in case
     of possible SQL Injection.
-    SQL Injection is an attempt to change the data 
+    SQL Injection is an attempt to change the data
     by altering data within the string by attempting
-    to manipulate the database entry by multiple 
+    to manipulate the database entry by multiple
     semicolons for example
     """
     pass
@@ -54,7 +55,7 @@ def convert_data_escaped_string(data: tuple):
             # append the data as raw string
             _processed_data.append("{}".format(i))
         elif i is None:
-            # append to the line 
+            # append to the line
             _processed_data.append("NULL")
         else:
             logger.warn("Unknown data type encountered {} for {}. "

@@ -67,8 +67,8 @@ class OrAdapter(LogicAdapter):
             emotion = Emotion.angry_non_expressive
             confidence = 0.8
         else:
-            for i in range(len(self.tagged)-1):
-                n1 = self.tagged[i-1]
+            for i in range(len(self.tagged) - 1):
+                n1 = self.tagged[i - 1]
                 if n1[1].startswith('N'):
                     nouns = nouns.union({n1[0]})
                 n2 = self.tagged[i + 1]
@@ -86,7 +86,6 @@ class OrAdapter(LogicAdapter):
                 confidence = 0.8
             else:
                 response = "{} 🎃".format(random_response(list(nouns)))
-
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
