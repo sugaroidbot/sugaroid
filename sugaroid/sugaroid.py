@@ -680,16 +680,17 @@ class Sugaroid:
                 _text_response = response
 
             assert isinstance(_text_response, str)
-            try:
-                self.database.append(
-                    statement=_text_response,
-                    in_reponse_to=args,
-                    time=preflight_time,
-                    processing_time=delta_time
-                )
-            except PossibleSQLInjectionPanicError:
-                # to protect our system, we sh
-                pass
+            if 'gui' not in sys.argv:
+                try:
+                    self.database.append(
+                        statement=_text_response,
+                        in_reponse_to=args,
+                        time=preflight_time,
+                        processing_time=delta_time
+                    )
+                except PossibleSQLInjectionPanicError:
+                    # to protect our system, we sh
+                    pass
             return response
         else:
             raise ValueError("Invalid data type passed to Sugaroid.parse")
