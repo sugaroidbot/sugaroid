@@ -15,7 +15,7 @@ The official Sugaroid documentation is available [here](https://srevinsaju.me/su
 You can also view the documentation as Markdown [here](./docs/mdbook/src/SUMMARY.md).
 
 ## License
-This repository is licensed under the MIT License (2020)
+This repository is licensed under the MIT License (2020-2021)
 ```
 (c) Srevin Saju et. al
 ```
