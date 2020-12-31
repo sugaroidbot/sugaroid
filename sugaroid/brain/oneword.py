@@ -4,6 +4,7 @@ MIT License
 Sugaroid Artificial Intelligence
 Chatbot Core
 Copyright (c) 2020-2021 Srevin Saju
+Copyright (c) 2021 The Sugaroid Project
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -99,6 +100,7 @@ class OneWordAdapter(LogicAdapter):
                                   Sugaroid Artificial Intelligence
                                             Chatbot Core
                                    Copyright (c) 2020-2021 Srevin Saju
+Copyright (c) 2021 The Sugaroid Project
 
             Permission is hereby granted, free of charge, to any person obtaining a copy
             of this software and associated documentation files (the "Software"), to deal
