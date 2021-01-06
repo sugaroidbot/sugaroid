@@ -350,7 +350,8 @@ class SugaroidBot(ChatBot):
             adapter_type = None
 
         if adapter_type and \
-                adapter_type not in ['NewsAdapter', 'LearnAdapter']:
+                adapter_type not in ['NewsAdapter', 'LearnAdapter',
+                                     'UrbanDictAdapter']:
             if adapter_type in self.globals['history']['types']:
                 if adapter_type == self.globals['history']['types'][-1]:
                     result.text = random_response(REPEAT)
@@ -520,6 +521,7 @@ class Sugaroid:
             'sugaroid.brain.debug.DebugAdapter',
             'sugaroid.brain.interrupt.InterruptAdapter',
             'sugaroid.brain.learn.LearnAdapter',
+            'sugaroid.brain.urbandict.UrbanDictAdapter'
         ]
         self.adapters = [
             'sugaroid.brain.yesno.BoolAdapter',
