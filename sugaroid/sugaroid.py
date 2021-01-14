@@ -689,7 +689,7 @@ class Sugaroid:
                         time=preflight_time,
                         processing_time=delta_time
                     )
-                except PossibleSQLInjectionPanicError:
+                except Exception:
                     # to protect our system, we sh
                     pass
             return response
