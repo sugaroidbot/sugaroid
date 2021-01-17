@@ -565,5 +565,8 @@ HI_RESPONSES = [
 
 BYE_RESPONSE = [
     "Bye Bye! See you soon!",
-    "Bye Bye!"
+    "Bye Bye!",
+    "TTYL!",
+    "Catch you later!",
+    "Bye!"
 ]
