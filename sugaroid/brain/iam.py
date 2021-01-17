@@ -244,10 +244,9 @@ class MeAdapter(LogicAdapter):
             if presence_statement.confidence == 0:
                 # FIXME : Add more logic here
                 response = 'Ok'
-                confidence = 0.3
+                confidence = 0.05
                 emotion = Emotion.non_expressive_left
             else:
-                presence_statement.confidence = 0.3
                 return presence_statement
 
         selected_statement = SugaroidStatement(response, chatbot=True)
