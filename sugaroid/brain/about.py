@@ -92,6 +92,9 @@ class AboutAdapter(LogicAdapter):
                 if 'father' in self.normalized:
                     response = 'Mr Charles Babbage?'
                     emotion = Emotion.seriously
+                elif 'hobby' in self.normalized:
+                    response = "Calculating random binary sequences and chatting with you!"
+                    emotion = Emotion.lol
                 elif 'mother' in self.normalized:
                     response = 'Ada Lady Lovelace?'
                     emotion = Emotion.lol
