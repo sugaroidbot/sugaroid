@@ -51,7 +51,9 @@ class BoolAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement).lower())
-        if ('yes' in self.normalized) or ('yea' in self.normalized) or (
+        if self.chatbot.globals["akinator"]["enabled"]:
+            return False
+        elif ('yes' in self.normalized) or ('yea' in self.normalized) or (
                 'no' in self.normalized) or ('true' in self.normalized) or ('false' in self.normalized):
             if ('yes' in self.normalized) or ('yea' in self.normalized) or ('true' in self.normalized):
                 self.bool = True
