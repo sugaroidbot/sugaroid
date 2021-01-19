@@ -48,7 +48,11 @@ class EmotionAdapter(LogicAdapter):
 
     def can_process(self, statement):
         a = self.sia.polarity_scores(str(statement))
-        if a['neu'] < 0.5:
+        # do not enable emotion adapter when 
+        # we are playing akinator
+        if self.chatbot.globals["akinator"]["enabled"]:
+            return False
+        elif a['neu'] < 0.5:
             return True
         else:
             return False
