@@ -254,6 +254,11 @@ HOW_DO_YOU_FEEL = [
     "Like a rejuvenated bot",
     "Like heaven in front of me",
     "Born again",
+    "I feel Solid",
+    "Smooth",
+    "Tasty",
+    "Salty!",
+    "Sweet!",
     "Reborn!"
 ]
 
