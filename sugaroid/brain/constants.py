@@ -58,7 +58,7 @@ WHAT_I_AM_GOING_TO_DO = {
     'month': "Its quite far away. I have quite wonderful things to keep doing, "
     "rather than thinking what I am going to do next month. Who knows if anyone would live that long",
     "year": "I am quite worried that, I will still remain a 'newborn' bot, unless my code is changed the next year to",
-    "yesterday": "Past is past. Isn't it?",
+    "yesterday": "Past is past. Isn't it? Unless you make a time machine for me so that I can do something else, no use thinking about it right? :)",
     "sunday": "I will try taking some rest. But I am too restless you know.",
     "monday": "I will be fixing bug reports and diagnosing myself",
     "tuesday": "Will try to create some pull request for Sugar Labs",
