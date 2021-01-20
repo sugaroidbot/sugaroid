@@ -1,0 +1,13 @@
+bots:
+  stage: deploy
+  script:
+    - apt-get update -yq
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=sugaroid-discord --api-key=$SUGAROID_DISCORD_HEROKU_API_KEY
+    - dpl --provider=heroku --app=sugaroid-telegram --api-key=$SUGAROID_TELEGRAM_HEROKU_API_KEY
+    - dpl --provider=heroku --app=sugaroid-matrix --api-key=$SUGAROID_MATRIX_HEROKU_API_KEY
+    - dpl --provider=heroku --app=api-sugaroid --api-key=$SUGAROID_API_HEROKU_API_KEY
+  only:
+    - master
+    - main
