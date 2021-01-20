@@ -49,7 +49,7 @@ requirements = ['googletrans', 'google', 'Django', 'pyjokes', 'scikit-learn',
 
 setup(
     name='sugaroid',
-    version='v0.11.3',
+    version='v0.11.4',
     description='Open Source Natural Language Processing Bot.',
     long_description=long_description,
     long_description_content_type='text/markdown',
