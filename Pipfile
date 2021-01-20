@@ -29,6 +29,7 @@ Wikipedia-API = "*"
 PyYAML = "*"
 sugaroid-chatterBot = "*"
 CurrencyConverter = "*"
+python-telegram-bot = "*"
 
 [requires]
 python_version = "3.9"
