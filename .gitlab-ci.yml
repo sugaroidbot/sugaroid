@@ -10,7 +10,7 @@ bots:
     - dpl --provider=heroku --app=sugaroid-discord --api-key=$SUGAROID_DISCORD_HEROKU_API_KEY
     - cd /tmp
     - git clone https://gitlab.com/sugaroid/sugaroid-telegram-python 
-    - cd sugatoid-telegram-python 
+    - cd sugaroid-telegram-python 
     - dpl --provider=heroku --app=sugaroid-telegram --api-key=$SUGAROID_TELEGRAM_HEROKU_API_KEY
   
   only:
