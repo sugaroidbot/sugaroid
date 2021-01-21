@@ -43,10 +43,42 @@ except FileNotFoundError:
     long_description = \
         "Sugaroid Bot by @srevinsaju"
 
+
+def gen_version():
+    """
+    Generates a version from the available git repositories
+    If git repository is not valid, fallback to __version__
+    :return:
+    """
+    import git
+    repo = git.Repo(search_parent_directories=True)
+    ver = repo.git.describe("--tags")
+    raw_version = ver.split('-')
+    if len(raw_version) == 1:
+        # Stable Release
+        git_version = "{}".format(raw_version[0])
+    elif len(raw_version) == 2:
+        # Release Candidate
+        git_version = "{major}.post{minor}".format(
+            major=raw_version[0], minor=raw_version[1])
+    else:
+        # Revision Dev
+        git_version = "{major}.post{minor}.dev".format(
+            major=raw_version[0], minor=raw_version[1])
+    return git_version
+
+
+try:
+    VERSION = gen_version()
+except Exception as e:
+    print("E: Could not git describe --tags")
+    print(f"Fallback to {VERSION}")
+
+
 requirements = ['googletrans', 'google', 'Django', 'pyjokes', 'scikit-learn',
                 'nltk', 'lxml', 'pyinflect', 'newsapi-python', 'wikipedia-API',
                 'pyspellchecker', 'python-dotenv', 'psutil', 'emoji',
-                'akinator.py', 'CurrencyConverter', 'colorama']
+                'akinator.py', 'CurrencyConverter', 'colorama', 'gitpython']
 
 
 setup(
