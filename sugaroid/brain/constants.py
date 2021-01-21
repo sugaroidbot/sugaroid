@@ -249,17 +249,13 @@ WHY_IDK = [
 ]
 
 HOW_DO_YOU_FEEL = [
-    "I feel great!",
-    "Solid",
+    "I feel great! Thanks for your concern 😃",
     "Like a rejuvenated bot",
-    "Like heaven in front of me",
-    "Born again",
-    "I feel Solid",
-    "Smooth",
-    "Tasty",
-    "Salty!",
-    "Sweet!",
-    "Reborn!"
+    "Like heaven is in front of me",
+    "Feels like I have been born anew",
+    "Everything is going smoothly",
+    "Just the way I have always felt, great! 😆",
+    "I am fine, hope you feel the same"
 ]
 
 SIT_AND_SMILE = [
