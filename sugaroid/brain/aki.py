@@ -167,9 +167,9 @@ class SugaroidAkinator:
                 ('obviously' in statement.lower()) or ('correct' in statement.lower()) or \
                 ('right' in statement.lower()) or ('you' in statement.lower() and 'won' in statement.lower()) or \
                 statement.lower() == "yes" or statement.lower() == "y" or statement.lower() == "yea":
-            response = "Yay! I won the game! :punch: :jack_o_lantern: :gift: :tada:"
+            response = "Yay! I won the game! 👊🎃🎁🎉 "
         else:
-            response = "Oh. I failed the same. Seems like you are smarter than me. :weary:"
+            response = "Oh. I failed the same. Seems like you are smarter than me. 😩🙀"
         response = response + \
             "\n{}\n I am back to my business".format(
                 random_response(HOPE_GAME_WAS_GOOD))
