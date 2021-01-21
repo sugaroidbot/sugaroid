@@ -30,6 +30,8 @@ SOFTWARE.
 from setuptools import setup
 import os
 
+from sugaroid.version import VERSION
+
 try:
     this_directory = os.path.abspath(os.path.dirname(__file__))
     with open(
@@ -49,7 +51,7 @@ requirements = ['googletrans', 'google', 'Django', 'pyjokes', 'scikit-learn',
 
 setup(
     name='sugaroid',
-    version='v0.11.4',
+    version=VERSION,
     description='Open Source Natural Language Processing Bot.',
     long_description=long_description,
     long_description_content_type='text/markdown',
