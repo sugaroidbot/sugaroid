@@ -34,6 +34,6 @@ jobs:
       - name: Deploy to HKU
         run: |
           cd /tmp/${{ matrix.app }}
-          gem install dpl --pre 
+          sudo gem install dpl --pre 
           dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
           
