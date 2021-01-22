@@ -16,9 +16,10 @@ jobs:
       matrix:
         include: 
           - app: 'sugaroid-telegram'
-            HEROKU_API_KEY: ${{ secrets.SUGAROID_TELEGRAM_API_KEY }}
+            HEROKU_API_KEY: 'SUGAROID_TELEGRAM_API_KEY'
           - app: 'sugaroid-discord'
-            HEROKU_API_KEY: ${{ secrets.SUGAROID_DISCORD_API_KEY }} 
+            HEROKU_API_KEY: 'SUGAROID_DISCORD_API_KEY'
+    
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -34,5 +35,5 @@ jobs:
         run: |
           cd /tmp/${{ matrix.app }}
           gem install dpl --pre 
-          dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ matrix.HEROKU_API_KEY }}
+          dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
           
