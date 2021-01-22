@@ -14,7 +14,11 @@ jobs:
   build:
     strategy:
       matrix:
-        app: ['sugaroid-telegram', 'sugaroid-discord']
+        include: 
+          - app: 'sugaroid-telegram'
+            HEROKU_API_KEY: ${{ secrets.SUGAROID_TELEGRAM_API_KEY }}
+          - app: 'sugaroid-discord'
+            HEROKU_API_KEY: ${{ secrets.SUGAROID_DISCORD_API_KEY }} 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,6 +30,9 @@ jobs:
           cd ${{ matrix.app }}
           sed -i "s,git+https://gitlab.com/sugaroid/sugaroid.git,https://github.com/sugaroidbot/sugaroid/archive/$GITHUB_SHA.tar.gz,g" requirements.txt
  
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.8.9
-        with: ${{ fromJSON(toJSON(secrets.HKU_DATASTORE)[matrix.app]) }}
+      - name: Deploy to HKU
+        run: |
+          cd /tmp/${{ matrix.app }}
+          gem install dpl --pre 
+          dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ matrix.HEROKU_API_KEY }}
+          
