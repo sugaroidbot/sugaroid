@@ -1,0 +1,31 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+    branches:
+     - master
+     - main
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        app: ['sugaroid-telegram', 'sugaroid-discord']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Clone ${{ matrix.apps }}
+        run: |
+          cd /tmp
+          git clone https://github.com/sugaroidbot/${{ matrix.app }}.git
+          cd ${{ matrix.app }}
+          sed -i "s,git+https://gitlab.com/sugaroid/sugaroid.git,https://github.com/sugaroidbot/sugaroid/archive/$GITHUB_SHA.tar.gz,g" requirements.txt
+ 
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.8.9
+        with: ${{ fromJSON(secrets.HKU_DATASTORE)[matrix.app] }}
