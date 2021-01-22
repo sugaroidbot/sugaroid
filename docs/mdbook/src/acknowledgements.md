@@ -13,7 +13,7 @@ Also, the millions of word collection on `en_core_web_sm`,
 `en_core_web_md` was contributed by developers across the globe
 for translation and linguistic differentiation.
 Special thanks to contributors, **Sreya Saju** 
-(aka [@sreyasaju](https://github.com/sreyasaju)) and **Joel Anil Chacko** (aka [@TheDarkDrake](https://gitlab.com/TheDarkDrake))
+(aka [@sreyasaju](https://github.com/sreyasaju)) and **Joel Anil Chacko** (aka [@TheDarkDrake](https://github.com/TheDarkDrake))
 for helping me document the missed parts, bug triaging and adding more responses,
 I would also like to thank, Sugar Labs 2019 GCI Team, 
 **Sashreek Magan** (aka [@smag](https://github.com/smag)), 
