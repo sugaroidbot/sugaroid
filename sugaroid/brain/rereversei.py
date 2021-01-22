@@ -53,7 +53,7 @@ class ReReverseAdapter(LogicAdapter):
         self.normalized = None
 
     def can_process(self, statement):
-        soln = self.chatbot.get_global('reversei')['enabled']
+        soln = self.chatbot.get_global("reversei")["enabled"]
         logging.info(f"ReReverseiAdapter: {soln}")
         return soln
 
@@ -61,29 +61,35 @@ class ReReverseAdapter(LogicAdapter):
         _ = normalize
         emotion = Emotion.neutral
         self.normalized = normalize(str(statement))
-        if self.chatbot.globals['reversei']['type'] is str:
-            ordinal_statement = str(statement).replace('9th', 'ninth')
+        if self.chatbot.globals["reversei"]["type"] is str:
+            ordinal_statement = str(statement).replace("9th", "ninth")
             # FIXME PORT RO
-            if cosine_similarity(_(ordinal_statement), _(self.chatbot.globals['reversei']['uid'])) > 0.8:
-                response = 'Exactly, you got it right!'
+            if (
+                cosine_similarity(
+                    _(ordinal_statement), _(self.chatbot.globals["reversei"]["uid"])
+                )
+                > 0.8
+            ):
+                response = "Exactly, you got it right!"
                 emotion = Emotion.positive
                 reset_reverse(self)
             else:
-                response = 'Close! it was {}'.format(
-                    self.chatbot.globals['reversei']['uid'])
+                response = "Close! it was {}".format(
+                    self.chatbot.globals["reversei"]["uid"]
+                )
                 emotion = Emotion.lol
                 reset_reverse(self)
             confidence = 0.99
-        elif self.chatbot.globals['reversei']['type'] is bool:
+        elif self.chatbot.globals["reversei"]["type"] is bool:
 
-            if self.chatbot.globals['reversei']['uid'] == 30000000001:
+            if self.chatbot.globals["reversei"]["uid"] == 30000000001:
                 """
                 NameAdapter: token 30000000001
                 """
-                if ('yes' in self.normalized) or ('yea' in self.normalized):
+                if ("yes" in self.normalized) or ("yea" in self.normalized):
                     response = "Ok, will keep that in mind!"
-                    self.chatbot.globals['USERNAME'] = self.chatbot.globals['nn']
-                    self.chatbot.globals['nn'] = None
+                    self.chatbot.globals["USERNAME"] = self.chatbot.globals["nn"]
+                    self.chatbot.globals["nn"] = None
                     reset_reverse(self)
                 else:
                     response = "Ok, I guess I am smart"
@@ -91,31 +97,32 @@ class ReReverseAdapter(LogicAdapter):
                     reset_reverse(self)
                 confidence = 1.0
             else:
-                if ('yes' in self.normalized) or ('yea' in self.normalized):
-                    if len(self.chatbot.globals['history']['total']) > 1:
-                        if 'joke' in _(str(self.chatbot.globals['history']['total'][-1])):
-                            joke = pyjokes.get_joke('en', 'all')
-                            selected_statement = SugaroidStatement(
-                                joke, chatbot=True)
+                if ("yes" in self.normalized) or ("yea" in self.normalized):
+                    if len(self.chatbot.globals["history"]["total"]) > 1:
+                        if "joke" in _(
+                            str(self.chatbot.globals["history"]["total"][-1])
+                        ):
+                            joke = pyjokes.get_joke("en", "all")
+                            selected_statement = SugaroidStatement(joke, chatbot=True)
                             selected_statement.emotion = Emotion.lol
                             selected_statement.confidence = 0.95
                             return selected_statement
 
                         else:
                             # TODO: Not Implemented yet
-                            response = 'Ok. (# Not Implemented yet. LOL)'
+                            response = "Ok. (# Not Implemented yet. LOL)"
                 else:
-                    response = 'Ok then, probably next time'
+                    response = "Ok then, probably next time"
                     reset_reverse(self)
                 confidence = 1.0
-        elif self.chatbot.globals['reversei']['type'] is None and \
-                (not self.chatbot.globals['reversei']['uid'] == 'CORONAVIRUS'):
+        elif self.chatbot.globals["reversei"]["type"] is None and (
+            not self.chatbot.globals["reversei"]["uid"] == "CORONAVIRUS"
+        ):
             fname = False
-            name = difference(self.normalized, [
-                              'my', 'name', 'is', 'good', 'be'])
+            name = difference(self.normalized, ["my", "name", "is", "good", "be"])
             tokenized = nltk.pos_tag(name)
             for i in tokenized:
-                if i[1] == 'NN':
+                if i[1] == "NN":
                     fname = i[0]
                     break
             if fname:
@@ -127,26 +134,31 @@ class ReReverseAdapter(LogicAdapter):
                 emotion = Emotion.non_expressive_left
                 reset_reverse(self)
             confidence = 1
-        elif self.chatbot.globals['reversei']['type'] is int:
-            confidence = 2.0  # FIXME: Override Mathematical Evaluation when not necessary
+        elif self.chatbot.globals["reversei"]["type"] is int:
+            confidence = (
+                2.0  # FIXME: Override Mathematical Evaluation when not necessary
+            )
 
-            if self.chatbot.globals['reversei']['uid'] == 30000000002:
+            if self.chatbot.globals["reversei"]["uid"] == 30000000002:
                 """
                 WikiAdapter: token 30000000002
                 """
-                if ('yes' in self.normalized) or ('yea' in self.normalized):
+                if ("yes" in self.normalized) or ("yea" in self.normalized):
                     response = "I thought you would tell me a number to choose from :/"
                     emotion = Emotion.seriously
 
-                elif ('no' in self.normalized) or ('no' in self.normalized):
-                    response = 'Oops! Sorry about that, seems like what you\'re searching for is not on Wikipedia yet'
+                elif ("no" in self.normalized) or ("no" in self.normalized):
+                    response = (
+                        "Oops! Sorry about that, seems like what "
+                        "your'e searching for is not on Wikipedia yet"
+                    )
                     emotion = Emotion.dead
                     reset_reverse(self)
                 else:
-                    chatbot_temporary_data = self.chatbot.globals['temp_data']
+                    chatbot_temporary_data = self.chatbot.globals["temp_data"]
                     tokenized = nltk.pos_tag(tokenize(str(statement)))
                     for i in tokenized:
-                        if i[1] == 'CD':
+                        if i[1] == "CD":
                             try:
                                 num = int(i[0])
                             except ValueError:
@@ -154,11 +166,17 @@ class ReReverseAdapter(LogicAdapter):
                             index = num - 1
                             if index < len(chatbot_temporary_data):
                                 response, confidence, stat = wikipedia_search(
-                                    self, chatbot_temporary_data[index])
-                                logging.info('REVERSEI: {}'.format(response))
-                                confidence = 1 + confidence  # FIXME override math evaluation adapter
+                                    self, chatbot_temporary_data[index]
+                                )
+                                logging.info("REVERSEI: {}".format(response))
+                                confidence = (
+                                    1 + confidence
+                                )  # FIXME override math evaluation adapter
                                 if not stat:
-                                    response = "I have some trouble connecting to Wikipedia. Something's not right"
+                                    response = (
+                                        "I have some trouble connecting"
+                                        "to Wikipedia. Something's not right"
+                                    )
                                     confidence = 1.1
 
                                 emotion = Emotion.rich
@@ -171,41 +189,47 @@ class ReReverseAdapter(LogicAdapter):
                                 reset_reverse(self)
                                 break
                     else:
-                        response = 'I thought you wanted to know something from wikipedia. ' \
-                                   'Ok, I will try something else'
+                        response = (
+                            "I thought you wanted to know something from wikipedia. "
+                            "Ok, I will try something else"
+                        )
                         emotion = Emotion.seriously
                         reset_reverse(self)
                         confidence = 1.2
         else:
-            if self.chatbot.globals['reversei']['uid'] == 'CORONAVIRUS':
+            if self.chatbot.globals["reversei"]["uid"] == "CORONAVIRUS":
                 confidence = 1
-                NUM = self.chatbot.globals['reversei']['data'][0]
+                NUM = self.chatbot.globals["reversei"]["data"][0]
 
-                score = self.chatbot.globals['reversei']['data'][1]
+                score = self.chatbot.globals["reversei"]["data"][1]
                 if NUM == 6:
-                    self.chatbot.globals['reversei']['enabled'] = False
+                    self.chatbot.globals["reversei"]["enabled"] = False
                     if score > 3:
-                        response = 'You have a high risk of COVID-19'
+                        response = "You have a high risk of COVID-19"
                     else:
-                        response = 'As per my approximation, you do not have a high risk of COVID-19'
-                    response += "\n My approximations might not be correct. " \
-                                "You might confirm my results by a legal test"
+                        response = "As per my approximation, you do not have a high risk of COVID-19"
+                    response += (
+                        "\n My approximations might not be correct. "
+                        "You might confirm my results by a legal test"
+                    )
                 else:
                     sia = SentimentIntensityAnalyzer()
                     _scores = sia.polarity_scores(str(statement))
-                    true_responses = ['yes', 'yea', 'y', 'yup', 'true']
-                    if any_in(
-                        true_responses +
-                        [x.capitalize() for x in true_responses],
-                        self.normalized
-                    ) or (_scores['pos'] > _scores['neg']):
+                    true_responses = ["yes", "yea", "y", "yup", "true"]
+                    if (
+                        any_in(
+                            true_responses + [x.capitalize() for x in true_responses],
+                            self.normalized,
+                        )
+                        or (_scores["pos"] > _scores["neg"])
+                    ):
                         score += COVID_QUESTIONS[NUM - 1][2]
                     response = COVID_QUESTIONS[NUM][1]
 
-                    self.chatbot.globals['reversei']['data'] = [NUM + 1, score]
+                    self.chatbot.globals["reversei"]["data"] = [NUM + 1, score]
 
             else:
-                response = 'ok'
+                response = "ok"
 
                 confidence = 0
 
@@ -218,6 +242,6 @@ class ReReverseAdapter(LogicAdapter):
 
 
 def reset_reverse(self):
-    self.chatbot.globals['reversei']['uid'] = None
-    self.chatbot.globals['reversei']['type'] = None
-    self.chatbot.globals['reversei']['enabled'] = False
+    self.chatbot.globals["reversei"]["uid"] = None
+    self.chatbot.globals["reversei"]["type"] = None
+    self.chatbot.globals["reversei"]["enabled"] = False
