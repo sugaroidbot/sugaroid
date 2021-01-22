@@ -10,6 +10,7 @@ colorama
 freegames
 spacy
 gitpython
+cssselect
 requests
 lxml
 beautifulsoup4
