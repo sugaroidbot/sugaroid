@@ -48,7 +48,7 @@ class ReaderAdapter(LogicAdapter):
     def can_process(self, statement):
         self.normalized = normalize(str(statement).lower())
 
-        if 'reader' in self.normalized:
+        if "reader" in self.normalized:
             return True
         else:
             return False
@@ -62,7 +62,7 @@ class ReaderAdapter(LogicAdapter):
         for i in spac_token(statement, chatbot=self.chatbot):
             if i.is_stop:
                 pass
-            elif i.lower_ == 'reader':
+            elif i.lower_ == "reader":
                 pass
             else:
                 cleaned_text.append(str(i.lower_))
@@ -72,39 +72,47 @@ class ReaderAdapter(LogicAdapter):
             headings, content = SCRAWLED[file]
             for k in cleaned_text:
 
-                if '.md' in k:
-                    response = 'The markdown file {} is not scrawled'.format(k)
+                if ".md" in k:
+                    response = "The markdown file {} is not scrawled".format(k)
                     if k in SCRAWLED.keys():
                         md = k
                 if md:
-                    response = '\n'.join(SCRAWLED[k][1])
+                    response = "\n".join(SCRAWLED[k][1])
                     break
             if md:
                 break
 
             for heading in headings:
-                input_statement = ' '.join(purify(
-                    self.chatbot.lp.tokenize(str(statement).lower()),
-                    ['how', 'to', 'sugar'],
-                    lemma=True
-                ))
-                heading_processed = ' '.join(purify(
-                    self.chatbot.lp.tokenize(str(heading).lower()),
-                    ['how', 'to', 'sugar'],
-                    lemma=True
-                ))
+                input_statement = " ".join(
+                    purify(
+                        self.chatbot.lp.tokenize(str(statement).lower()),
+                        ["how", "to", "sugar"],
+                        lemma=True,
+                    )
+                )
+                heading_processed = " ".join(
+                    purify(
+                        self.chatbot.lp.tokenize(str(heading).lower()),
+                        ["how", "to", "sugar"],
+                        lemma=True,
+                    )
+                )
 
                 sim = similarity(input_statement, heading_processed)
                 if sim > 0.9:
                     suffix = "⬆"
                 else:
                     suffix = ""
-                logging.info('ReaderAdapter: scanned {} against {}. cosine index of {}{}'
-                             .format(input_statement, heading_processed, sim, suffix))
+                logging.info(
+                    "ReaderAdapter: scanned {} against {}. cosine index of {}{}".format(
+                        input_statement, heading_processed, sim, suffix
+                    )
+                )
 
                 if sim > confidence:
-                    response = 'The closest match I could find is this:\n' + \
-                        '\n'.join(content)
+                    response = "The closest match I could find is this:\n" + "\n".join(
+                        content
+                    )
                     confidence = sim
                     break
 

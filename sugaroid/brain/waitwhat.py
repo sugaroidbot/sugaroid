@@ -48,8 +48,8 @@ class WaitWhatAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         response = "What?"
         selected_statement = SugaroidStatement(response, chatbot=True)
-        if self.chatbot.globals['history']['total'][-1] != 0:
-            selected_statement = self.chatbot.globals['history']['total'][-1]
+        if self.chatbot.globals["history"]["total"][-1] != 0:
+            selected_statement = self.chatbot.globals["history"]["total"][-1]
 
         selected_statement.confidence = 1
         selected_statement.emotion = Emotion.angel

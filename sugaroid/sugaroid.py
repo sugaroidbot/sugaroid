@@ -54,12 +54,13 @@ warnings.filterwarnings("ignore")
 
 try:
     from sugaroid.tts.tts import Text2Speech
+
     AUD_DEPS = True
 except ModuleNotFoundError:
     AUD_DEPS = False
 
 
-if os.getenv('SUGAROID_DEBUG') in ('true', 'True'):
+if os.getenv("SUGAROID_DEBUG") in ("true", "True"):
     # set the verbosity
     verbosity = logging.INFO
     logging.basicConfig(level=verbosity)
@@ -90,9 +91,9 @@ class SugaroidStatement(Statement):
 
     def __init__(self, text, in_response_to=None, **kwargs):
         Statement.__init__(self, text, in_response_to, **kwargs)
-        self.emotion = kwargs.get('emotion', Emotion.neutral)
-        self.adapter = kwargs.get('type_', '')
-        self.chatbot = kwargs.get('chatbot', False)
+        self.emotion = kwargs.get("emotion", Emotion.neutral)
+        self.adapter = kwargs.get("type_", "")
+        self.chatbot = kwargs.get("chatbot", False)
         if not self.chatbot:
             self.doc = SPACY_LANG_PROCESSOR.nlp(text)
         else:
@@ -114,34 +115,24 @@ class SugaroidBot(ChatBot):
 
         self.report = False
         self.globals = {
-            'emotion': Emotion.neutral,
-            'history': {
-                'total': [0],
-                'user': [0],
-                'types': [0]
+            "emotion": Emotion.neutral,
+            "history": {"total": [0], "user": [0], "types": [0]},
+            "reversei": {
+                "enabled": False,
+                "uid": None,
+                "type": None,
             },
-            'reversei': {
-                'enabled': False,
-                'uid': None,
-                'type': None,
-            },
-            'akinator': {
-                'enabled': False,
-                'class': None
-            },
-            'hangman': {
-                'enabled': False,
-                'class': None
-            },
-            'adapters': [],
-            'fun': True,
-            'update': False,
-            'last_news': None,
-            'USERNAME': None,
-            'learn': False,
-            'trivia_answer': None,
-            'learn_last_conversation': [],
-            'DEBUG': {}
+            "akinator": {"enabled": False, "class": None},
+            "hangman": {"enabled": False, "class": None},
+            "adapters": [],
+            "fun": True,
+            "update": False,
+            "last_news": None,
+            "USERNAME": None,
+            "learn": False,
+            "trivia_answer": None,
+            "learn_last_conversation": [],
+            "DEBUG": {},
         }
         # self.emotion = Emotion.neutral
 
@@ -170,37 +161,24 @@ class SugaroidBot(ChatBot):
         self.emotion = emotion
 
     def reset_variables(self):
-        self.globals.update({
-            'emotion': Emotion.neutral,
-            'history': {
-                'total': [0],
-                'user': [0],
-                'types': [0]
-            },
-            'reversei': {
-                'enabled': False,
-                'uid': None,
-                'type': None,
-                'data': None
-            },
-            'akinator': {
-                'enabled': None,
-                'class': None
-            },
-            'hangman': {
-                'enabled': False,
-                'class': None
-            },
-            'learned': [],
-            'fun': True,
-            'update': False,
-            'last_news': None,
-            'USERNAME': None,
-            'learn': False,
-            'trivia_answer': None,
-            'learn_last_conversation': [],
-            'DEBUG': {}
-        })
+        self.globals.update(
+            {
+                "emotion": Emotion.neutral,
+                "history": {"total": [0], "user": [0], "types": [0]},
+                "reversei": {"enabled": False, "uid": None, "type": None, "data": None},
+                "akinator": {"enabled": None, "class": None},
+                "hangman": {"enabled": False, "class": None},
+                "learned": [],
+                "fun": True,
+                "update": False,
+                "last_news": None,
+                "USERNAME": None,
+                "learn": False,
+                "trivia_answer": None,
+                "learn_last_conversation": [],
+                "DEBUG": {},
+            }
+        )
         self.authors = []
         self.spell_checker = False  # FIXME
 
@@ -223,12 +201,11 @@ class SugaroidBot(ChatBot):
         Returns sugaroid username if store, otherwise None
         :return: SugaroidBot.username <user name>
         """
-        return self.get_global('USERNAME')
+        return self.get_global("USERNAME")
 
     def generate_response(
-            self,
-            input_statement,
-            additional_response_selection_parameters=None):
+        self, input_statement, additional_response_selection_parameters=None
+    ):
         """
         Return a response based on a given input statement.
 
@@ -242,17 +219,18 @@ class SugaroidBot(ChatBot):
         interrupt = False
         adapter_index = 0
         for adapter in self.logic_adapters:
-            if adapter.class_name == 'InterruptAdapter':
+            if adapter.class_name == "InterruptAdapter":
                 interrupt = adapter
             if adapter.can_process(input_statement):
 
                 output = adapter.process(
-                    input_statement, additional_response_selection_parameters)
+                    input_statement, additional_response_selection_parameters
+                )
                 results.append(output)
 
                 self.logger.info(
                     '{} selected "{}" as a response with a '
-                    'confidence of {}'.format(
+                    "confidence of {}".format(
                         adapter.class_name, output.text, output.confidence
                     )
                 )
@@ -271,8 +249,7 @@ class SugaroidBot(ChatBot):
                     break
             else:
                 self.logger.info(
-                    'Not processing the statement using {}'.format(
-                        adapter.class_name)
+                    "Not processing the statement using {}".format(adapter.class_name)
                 )
             adapter_index += 1
         if max_confidence < 0.5:
@@ -283,16 +260,11 @@ class SugaroidBot(ChatBot):
                     except IndexError:
                         username = None
 
-                    output = interrupt.process(
-                        input_statement,
-                        username=username
-                    )
+                    output = interrupt.process(input_statement, username=username)
                     self.logger.info(
                         '{} selected "{}" as a response '
-                        'with a confidence of {}'.format(
-                            interrupt.class_name,
-                            output.text,
-                            output.confidence
+                        "with a confidence of {}".format(
+                            interrupt.class_name, output.text, output.confidence
                         )
                     )
 
@@ -304,7 +276,7 @@ class SugaroidBot(ChatBot):
             statement=input_statement,
             adapter=final_adapter,
             confidence=max_confidence,
-            results=result
+            results=result,
         )
 
         class ResultOption:
@@ -317,18 +289,19 @@ class SugaroidBot(ChatBot):
         if len(results) >= 3:
             result_options = {}
             for result_option in results:
-                result_string = result_option.text + ':' + \
-                    (result_option.in_response_to or '')
+                result_string = (
+                    result_option.text + ":" + (result_option.in_response_to or "")
+                )
 
                 if result_string in result_options:
                     result_options[result_string].count += 1
-                    if result_options[result_string].statement.confidence < \
-                            result_option.confidence:
+                    if (
+                        result_options[result_string].statement.confidence
+                        < result_option.confidence
+                    ):
                         result_options[result_string].statement = result_option
                 else:
-                    result_options[result_string] = ResultOption(
-                        result_option
-                    )
+                    result_options[result_string] = ResultOption(result_option)
 
             most_common = list(result_options.values())[0]
 
@@ -349,23 +322,22 @@ class SugaroidBot(ChatBot):
             result.adapter = None
             adapter_type = None
 
-        if adapter_type and \
-                adapter_type not in ['NewsAdapter', 'LearnAdapter']:
-            if adapter_type in self.globals['history']['types']:
-                if adapter_type == self.globals['history']['types'][-1]:
+        if adapter_type and adapter_type not in ["NewsAdapter", "LearnAdapter"]:
+            if adapter_type in self.globals["history"]["types"]:
+                if adapter_type == self.globals["history"]["types"][-1]:
                     result.text = random_response(REPEAT)
-                elif len(self.globals['history']['types']) > 2:
-                    if adapter_type == self.globals['history']['types'][-2]:
+                elif len(self.globals["history"]["types"]) > 2:
+                    if adapter_type == self.globals["history"]["types"][-2]:
                         result.text = random_response(REPEAT)
 
-        self.globals['history']['types'].append(adapter_type)
+        self.globals["history"]["types"].append(adapter_type)
 
         response = SugaroidStatement(
             text=result.text,
             in_response_to=input_statement.text,
             conversation=input_statement.conversation,
-            persona='sugaroid:' + self.name,
-            chatbot=True
+            persona="sugaroid:" + self.name,
+            chatbot=True,
         )
         response.emotion = emotion
         response.confidence = result.confidence
@@ -383,15 +355,16 @@ class SugaroidBot(ChatBot):
         :return:
         """
 
-        self.globals['DEBUG']['number_of_conversations'] = \
-            self.globals['DEBUG'].get('number_of_conversations', 0) + 1
-        _id = self.globals['DEBUG']['number_of_conversations']
+        self.globals["DEBUG"]["number_of_conversations"] = (
+            self.globals["DEBUG"].get("number_of_conversations", 0) + 1
+        )
+        _id = self.globals["DEBUG"]["number_of_conversations"]
         val = dict()
-        val['adapter'] = adapter
-        val['confidence'] = confidence
-        val['response'] = results
-        val['request'] = str(statement)
-        self.globals['DEBUG'][_id] = val
+        val["adapter"] = adapter
+        val["confidence"] = confidence
+        val["response"] = results
+        val["request"] = str(statement)
+        self.globals["DEBUG"][_id] = val
 
     def get_response(self, statement=None, **kwargs):
         """
@@ -411,30 +384,30 @@ class SugaroidBot(ChatBot):
         """
         Statement = SugaroidStatement
 
-        additional_response_selection_parameters = \
-            kwargs.pop('additional_response_selection_parameters', {})
+        additional_response_selection_parameters = kwargs.pop(
+            "additional_response_selection_parameters", {}
+        )
 
-        persist_values_to_response = \
-            kwargs.pop('persist_values_to_response', {})
+        persist_values_to_response = kwargs.pop("persist_values_to_response", {})
 
         if isinstance(statement, str):
-            kwargs['text'] = statement
+            kwargs["text"] = statement
 
         if isinstance(statement, dict):
             kwargs.update(statement)
 
-        if statement is None and 'text' not in kwargs:
+        if statement is None and "text" not in kwargs:
             raise self.ChatBotException(
                 'Either a statement object or a "text" keyword '
-                'argument is required. Neither was provided.'
+                "argument is required. Neither was provided."
             )
 
-        if hasattr(statement, 'serialize'):
+        if hasattr(statement, "serialize"):
             kwargs.update(**statement.serialize())
 
-        tags = kwargs.pop('tags', [])
+        tags = kwargs.pop("tags", [])
 
-        text = kwargs.pop('text')
+        text = kwargs.pop("text")
 
         input_statement = SugaroidStatement(text=text, **kwargs)
 
@@ -448,39 +421,37 @@ class SugaroidBot(ChatBot):
 
         if not input_statement.search_text:
             try:
-                input_statement.search_text = \
-                    self.storage.tagger.get_text_index_string(
-                        input_statement.text
-                    )
+                input_statement.search_text = self.storage.tagger.get_text_index_string(
+                    input_statement.text
+                )
             except AttributeError:
-                input_statement.search_text = \
-                    self.storage.tagger.get_bigram_pair_string(
-                        input_statement.text
-                    )
+                input_statement.search_text = (
+                    self.storage.tagger.get_bigram_pair_string(input_statement.text)
+                )
 
-        if not input_statement.search_in_response_to and \
-                input_statement.in_response_to:
+        if not input_statement.search_in_response_to and input_statement.in_response_to:
             try:
-                input_statement.search_in_response_to = \
+                input_statement.search_in_response_to = (
                     self.storage.tagger.get_text_index_string(
                         input_statement.in_response_to
                     )
+                )
             except AttributeError:
-                input_statement.search_in_response_to = \
+                input_statement.search_in_response_to = (
                     self.storage.tagger.get_bigram_pair_string(
                         input_statement.in_response_to
                     )
+                )
 
         response = self.generate_response(
-            input_statement,
-            additional_response_selection_parameters
+            input_statement, additional_response_selection_parameters
         )
 
         # Update any response data that needs to be changed
         if persist_values_to_response:
             for response_key in persist_values_to_response:
                 response_value = persist_values_to_response[response_key]
-                if response_key == 'tags':
+                if response_key == "tags":
                     input_statement.add_tags(*response_value)
                     response.add_tags(*response_value)
                 else:
@@ -509,59 +480,58 @@ class Sugaroid:
         self.trainer = None
         self.corpusTrainer = None
         self.neuron = None
-        self.audio = 'audio' in sys.argv
+        self.audio = "audio" in sys.argv
         self.cfgmgr = ConfigManager()
         self.cfgpath = self.cfgmgr.get_cfgpath()
         self.database = SqlDatabaseManagement(
-            os.path.join(self.cfgpath, 'sugaroid_internal.db'))
-        self.database_exists = os.path.exists(
-            os.path.join(self.cfgpath, 'sugaroid.db'))
+            os.path.join(self.cfgpath, "sugaroid_internal.db")
+        )
+        self.database_exists = os.path.exists(os.path.join(self.cfgpath, "sugaroid.db"))
         self.commands = [
-            'sugaroid.brain.debug.DebugAdapter',
-            'sugaroid.brain.interrupt.InterruptAdapter',
-            'sugaroid.brain.learn.LearnAdapter',
+            "sugaroid.brain.debug.DebugAdapter",
+            "sugaroid.brain.interrupt.InterruptAdapter",
+            "sugaroid.brain.learn.LearnAdapter",
         ]
         self.adapters = [
-            'sugaroid.brain.yesno.BoolAdapter',
-            'sugaroid.brain.aki.AkinatorAdapter',
-            'sugaroid.brain.hangman.HangmanAdapter',
-            'sugaroid.brain.either.OrAdapter',
-            'sugaroid.brain.ok.OkayAdapter',
-            'sugaroid.brain.bye.ByeAdapter',
-            'sugaroid.brain.time.TimeAdapter',
-            'sugaroid.brain.convert.CurrencyAdapter',
-            'sugaroid.brain.trivia.TriviaAdapter',
-            'sugaroid.brain.whoami.WhoAdapter',
-            'sugaroid.brain.news.NewsAdapter',
-            'sugaroid.brain.joke.JokeAdapter',
-            'sugaroid.brain.play.PlayAdapter',
-            'sugaroid.brain.let.LetAdapter',
-            'sugaroid.brain.whatwhat.WhatWhatAdapter',
-            'sugaroid.brain.waitwhat.WaitWhatAdapter',
-            'sugaroid.brain.assertive.AssertiveAdapter',
-            'sugaroid.brain.canmay.CanAdapter',
-            'sugaroid.brain.because.BecauseAdapter',
-            'sugaroid.brain.rereversei.ReReverseAdapter',
-            'sugaroid.brain.reversethink.ReverseAdapter',
-            'sugaroid.brain.covid.CovidAdapter',
-            'sugaroid.brain.myname.MyNameAdapter',
-            'sugaroid.brain.iam.MeAdapter',
-            'sugaroid.brain.about.AboutAdapter',
-            'sugaroid.brain.wiki.WikiAdapter',
-            'sugaroid.brain.dolike.DoLikeAdapter',
-            'sugaroid.brain.feel.FeelAdapter',
-            'sugaroid.brain.dolike.DoLikeAdapter',
-            'sugaroid.brain.do.DoAdapter',
-            'sugaroid.brain.emotion.EmotionAdapter',
-            'sugaroid.brain.dis.DisAdapter',
-            'sugaroid.brain.twoword.TwoWordAdapter',
-            'sugaroid.brain.oneword.OneWordAdapter',
-            'sugaroid.brain.why.WhyWhenAdapter',
-            'sugaroid.brain.reader.ReaderAdapter',
-            'sugaroid.brain.imitate.ImitateAdapter',
-            'sugaroid.brain.fun.FunAdapter',
-            'chatterbot.logic.UnitConversion',
-
+            "sugaroid.brain.yesno.BoolAdapter",
+            "sugaroid.brain.aki.AkinatorAdapter",
+            "sugaroid.brain.hangman.HangmanAdapter",
+            "sugaroid.brain.either.OrAdapter",
+            "sugaroid.brain.ok.OkayAdapter",
+            "sugaroid.brain.bye.ByeAdapter",
+            "sugaroid.brain.time.TimeAdapter",
+            "sugaroid.brain.convert.CurrencyAdapter",
+            "sugaroid.brain.trivia.TriviaAdapter",
+            "sugaroid.brain.whoami.WhoAdapter",
+            "sugaroid.brain.news.NewsAdapter",
+            "sugaroid.brain.joke.JokeAdapter",
+            "sugaroid.brain.play.PlayAdapter",
+            "sugaroid.brain.let.LetAdapter",
+            "sugaroid.brain.whatwhat.WhatWhatAdapter",
+            "sugaroid.brain.waitwhat.WaitWhatAdapter",
+            "sugaroid.brain.assertive.AssertiveAdapter",
+            "sugaroid.brain.canmay.CanAdapter",
+            "sugaroid.brain.because.BecauseAdapter",
+            "sugaroid.brain.rereversei.ReReverseAdapter",
+            "sugaroid.brain.reversethink.ReverseAdapter",
+            "sugaroid.brain.covid.CovidAdapter",
+            "sugaroid.brain.myname.MyNameAdapter",
+            "sugaroid.brain.iam.MeAdapter",
+            "sugaroid.brain.about.AboutAdapter",
+            "sugaroid.brain.wiki.WikiAdapter",
+            "sugaroid.brain.dolike.DoLikeAdapter",
+            "sugaroid.brain.feel.FeelAdapter",
+            "sugaroid.brain.dolike.DoLikeAdapter",
+            "sugaroid.brain.do.DoAdapter",
+            "sugaroid.brain.emotion.EmotionAdapter",
+            "sugaroid.brain.dis.DisAdapter",
+            "sugaroid.brain.twoword.TwoWordAdapter",
+            "sugaroid.brain.oneword.OneWordAdapter",
+            "sugaroid.brain.why.WhyWhenAdapter",
+            "sugaroid.brain.reader.ReaderAdapter",
+            "sugaroid.brain.imitate.ImitateAdapter",
+            "sugaroid.brain.fun.FunAdapter",
+            "chatterbot.logic.UnitConversion",
         ]
 
         if self.audio:
@@ -570,19 +540,20 @@ class Sugaroid:
             self.tts = None
 
         self.chatbot = SugaroidBot(
-            'Sugaroid',
-            storage_adapter='chatterbot.storage.SQLStorageAdapter',
-            logic_adapters=self.commands +
-            [
+            "Sugaroid",
+            storage_adapter="chatterbot.storage.SQLStorageAdapter",
+            logic_adapters=self.commands
+            + [
                 {
-                    'import_path': 'chatterbot.logic.BestMatch',
-                                   'maximum_similarity_threshold': 0.80
+                    "import_path": "chatterbot.logic.BestMatch",
+                    "maximum_similarity_threshold": 0.80,
                 }
-            ] + self.adapters,
-            database_uri='sqlite+pysqlite:///{}/sugaroid.db'.format(self.cfgpath),
-            read_only=readonly
+            ]
+            + self.adapters,
+            database_uri="sqlite+pysqlite:///{}/sugaroid.db".format(self.cfgpath),
+            read_only=readonly,
         )
-        self.chatbot.globals['adapters'] = self.adapters
+        self.chatbot.globals["adapters"] = self.adapters
 
         self.read()
         self.invoke_brain()
@@ -618,8 +589,9 @@ class Sugaroid:
 
         :return:
         """
-        if 'train' in sys.argv:
+        if "train" in sys.argv:
             from sugaroid.trainer.trainer import main as trainer
+
             # FIXME replace with dynamic trainer i.e GUI + CLI
             trainer()
         else:
@@ -633,7 +605,7 @@ class Sugaroid:
                 st = SugaroidTrainer()
                 st.train(self.trainer)
                 self.corpus()
-        if 'update' in sys.argv:
+        if "update" in sys.argv:
             if self.trainer is None:
                 self.init_local_trainers()
 
@@ -649,8 +621,8 @@ class Sugaroid:
         Periodically update the data too
         :return: True when the process is complete
         """
-        db_dir = os.path.join(os.path.dirname(__file__), 'data', 'sugaroid.db')
-        shutil.copy(db_dir, os.path.join(self.cfgpath, 'sugaroid.db'))
+        db_dir = os.path.join(os.path.dirname(__file__), "data", "sugaroid.db")
+        shutil.copy(db_dir, os.path.join(self.cfgpath, "sugaroid.db"))
         return True
 
     def invoke_brain(self):
@@ -671,8 +643,8 @@ class Sugaroid:
         if isinstance(args, str):
             preflight_time = time.time()
             response = self.neuron.parse(args)
-            self.chatbot.globals['history']['total'].append(response)
-            self.chatbot.globals['history']['user'].append(args)
+            self.chatbot.globals["history"]["total"].append(response)
+            self.chatbot.globals["history"]["user"].append(args)
             success_time = time.time()
             delta_time = success_time - preflight_time
             try:
@@ -681,13 +653,13 @@ class Sugaroid:
                 _text_response = response
 
             assert isinstance(_text_response, str)
-            if 'gui' not in sys.argv:
+            if "gui" not in sys.argv:
                 try:
                     self.database.append(
                         statement=_text_response,
                         in_reponse_to=args,
                         time=preflight_time,
-                        processing_time=delta_time
+                        processing_time=delta_time,
                     )
                 except Exception:
                     # to protect our system, we sh
@@ -702,9 +674,7 @@ class Sugaroid:
         :return:
         """
 
-        response = self.parse(input(
-            Fore.CYAN +
-            '( ဖ‿ဖ) @> ' + Fore.RESET))
+        response = self.parse(input(Fore.CYAN + "( ဖ‿ဖ) @> " + Fore.RESET))
         return response
 
     def display_cli(self, response):
@@ -715,15 +685,27 @@ class Sugaroid:
         """
         try:
             print(
-                Style.BRIGHT + Fore.GREEN +
-                "sugaroid: " + Fore.RESET + Style.RESET_ALL + Fore.BLUE +
-                emojize(response.text) + Fore.RESET + "\n"
+                Style.BRIGHT
+                + Fore.GREEN
+                + "sugaroid: "
+                + Fore.RESET
+                + Style.RESET_ALL
+                + Fore.BLUE
+                + emojize(response.text)
+                + Fore.RESET
+                + "\n"
             )
         except AttributeError:
             print(
-                Style.BRIGHT + Fore.GREEN +
-                "sugaroid: " + Fore.RESET + Style.RESET_ALL + Fore.BLUE +
-                emojize(response) + Fore.RESET + "\n"
+                Style.BRIGHT
+                + Fore.GREEN
+                + "sugaroid: "
+                + Fore.RESET
+                + Style.RESET_ALL
+                + Fore.BLUE
+                + emojize(response)
+                + Fore.RESET
+                + "\n"
             )
         if self.audio:
             self.tts.speak(str(response))
@@ -747,15 +729,18 @@ class Sugaroid:
         """
         if not GUI_DEPS:
             raise ModuleNotFoundError(
-                "PyQt5 is not Installed. Install it by pip3 install PyQt5")
+                "PyQt5 is not Installed. Install it by pip3 install PyQt5"
+            )
 
         print("Launching GUI")
         QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
         QApplication.setAttribute(
-            QtCore.Qt.AA_UseHighDpiPixmaps, True)  # use highdpi icons
+            QtCore.Qt.AA_UseHighDpiPixmaps, True
+        )  # use highdpi icons
         app = QtWidgets.QApplication(sys.argv)
-        app.setStyle('Breeze')
+        app.setStyle("Breeze")
         from sugaroid.gui.ux import InterfaceSugaroidQt
+
         window = InterfaceSugaroidQt(parent=self)
         window.init()
         try:
@@ -778,19 +763,21 @@ def main():
     """
     print(SUGAROID_INTRO)
     colorama_init()
-    read_only = False if 'update' in sys.argv else True
+    read_only = False if "update" in sys.argv else True
     print("Sugaroid v{} RO:{}\n".format(VERSION, read_only))
     sg = Sugaroid(readonly=read_only)
-    if 'gui' in sys.argv:
-        os.environ['SUGAROID'] = 'GUI'
+    if "gui" in sys.argv:
+        os.environ["SUGAROID"] = "GUI"
         sg.loop_gui()
-    elif 'web' in sys.argv:
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE',
-                              'sugaroid.web.websugaroid.websugaroid.settings')
+    elif "web" in sys.argv:
+        os.environ.setdefault(
+            "DJANGO_SETTINGS_MODULE", "sugaroid.web.websugaroid.websugaroid.settings"
+        )
         from django.core.management import execute_from_command_line
-        execute_from_command_line(['manage', 'runserver', '0.0.0.0:8000'])
+
+        execute_from_command_line(["manage", "runserver", "0.0.0.0:8000"])
     else:
-        os.environ['SUGAROID'] = 'CLI'
+        os.environ["SUGAROID"] = "CLI"
         sg.loop_cli()
 
 

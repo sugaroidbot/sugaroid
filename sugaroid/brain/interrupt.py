@@ -29,13 +29,17 @@ import logging
 from chatterbot.logic import LogicAdapter
 from chatterbot.trainers import ListTrainer
 from sugaroid.brain.postprocessor import random_response, any_in
-from sugaroid.brain.constants import ASK_AND_YOU_SHALL_RECEIVE, SEEK_AND_YOU_SHALL_FIND, THANK
+from sugaroid.brain.constants import (
+    ASK_AND_YOU_SHALL_RECEIVE,
+    SEEK_AND_YOU_SHALL_FIND,
+    THANK,
+)
 from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
 
 
 class InterruptAdapter(LogicAdapter):
-    __adapter__ = 'interr'
+    __adapter__ = "interr"
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
@@ -49,9 +53,9 @@ class InterruptAdapter(LogicAdapter):
             self.tokenized = self.chatbot.lp.nlp(str(statement))
             if 6 > len(self.tokenized) > 2:
                 for i in self.tokenized:
-                    if str(i.tag_).startswith('NNP'):
+                    if str(i.tag_).startswith("NNP"):
                         self.nn = i.lemma_
-                        if self.nn in self.chatbot.globals['learned']:
+                        if self.nn in self.chatbot.globals["learned"]:
                             return False
                 return True
             else:
@@ -62,43 +66,47 @@ class InterruptAdapter(LogicAdapter):
         else:
             return False
 
-    def process(self, statement, additional_response_selection_parameters=None, username=None):
+    def process(
+        self, statement, additional_response_selection_parameters=None, username=None
+    ):
         if self.chatbot.interrupt == 2:
             if self.nn:
-                response = "{} {} what is {}" .format(
+                response = "{} {} what is {}".format(
                     random_response(ASK_AND_YOU_SHALL_RECEIVE),
                     random_response(SEEK_AND_YOU_SHALL_FIND),
-                    self.nn)
+                    self.nn,
+                )
                 self.chatbot.interrupt = self.nn
             else:
                 if username:
-                    response = "{} {} what is actually meant in {}'s message?" \
-                        .format(
-                            random_response(ASK_AND_YOU_SHALL_RECEIVE),
-                            random_response(SEEK_AND_YOU_SHALL_FIND),
-                            username
-                        )
+                    response = "{} {} what is actually meant in {}'s message?".format(
+                        random_response(ASK_AND_YOU_SHALL_RECEIVE),
+                        random_response(SEEK_AND_YOU_SHALL_FIND),
+                        username,
+                    )
 
                 else:
-                    response = "{} {} what is actually meant in the previous message?" \
-                        .format(
+                    response = (
+                        "{} {} what is actually meant in the previous message?".format(
                             random_response(ASK_AND_YOU_SHALL_RECEIVE),
                             random_response(SEEK_AND_YOU_SHALL_FIND),
                         )
+                    )
                 self.chatbot.interrupt = str(statement)
         else:
-            if any_in(['no', 'not', 'later', 'busy', 'nah'], self.tokenized) or \
-                    (('next' in self.tokenized or 'another' in self.tokenized) and 'time' in self.tokenized):
-                response = 'Ok.'
+            if any_in(["no", "not", "later", "busy", "nah"], self.tokenized) or (
+                ("next" in self.tokenized or "another" in self.tokenized)
+                and "time" in self.tokenized
+            ):
+                response = "Ok."
                 self.chatbot.interrupt = False
             else:
                 response = random_response(THANK)
                 learner = ListTrainer(self.chatbot)
-                learner.train([
-                    'What is {} ?'.format(self.chatbot.interrupt),
-                    str(statement)
-                ])
-                self.chatbot.globals['learned'].append(self.chatbot.interrupt)
+                learner.train(
+                    ["What is {} ?".format(self.chatbot.interrupt), str(statement)]
+                )
+                self.chatbot.globals["learned"].append(self.chatbot.interrupt)
                 self.chatbot.interrupt = False
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = 9

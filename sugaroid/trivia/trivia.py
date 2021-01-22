@@ -35,11 +35,13 @@ class SugaroidTrivia:
         self.random_question_instance = db[randint(0, 50)]
 
     def ask(self):
-        category = self.random_question_instance['category']
-        difficulty = self.random_question_instance['difficulty']
-        question = self.random_question_instance['question']
-        self.answer_i = self.random_question_instance['correct_answer']
-        return "Category: {c}\nDifficulty: {d}\n\n{q}".format(c=category, d=difficulty, q=question)
+        category = self.random_question_instance["category"]
+        difficulty = self.random_question_instance["difficulty"]
+        question = self.random_question_instance["question"]
+        self.answer_i = self.random_question_instance["correct_answer"]
+        return "Category: {c}\nDifficulty: {d}\n\n{q}".format(
+            c=category, d=difficulty, q=question
+        )
 
     def answer(self):
         return self.answer_i

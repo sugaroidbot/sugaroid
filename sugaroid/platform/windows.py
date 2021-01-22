@@ -28,22 +28,20 @@ class Windows:
 
     @staticmethod
     def make_config():
-        path = os.path.expanduser(os.path.join(
-            "~", "AppData", "Local", "sugaroid"))
+        path = os.path.expanduser(os.path.join("~", "AppData", "Local", "sugaroid"))
         if not os.path.exists(path):
             try:
                 os.makedirs(path)
             except Exception as e:
                 logging.error(
-                    "Error creating configuration file in dir {path}. Error code:{e}"
-                    .format(
-                        path=path,
-                        e=e
-                    ))
+                    "Error creating configuration file in dir {path}. Error code:{e}".format(
+                        path=path, e=e
+                    )
+                )
         return path
 
     def system(self):
-        return 'Windows'
+        return "Windows"
 
     def cfgpath(self):
         return self.make_config()
@@ -52,4 +50,4 @@ class Windows:
         pass
 
     def paths(self):
-        return ['bin']
+        return ["bin"]

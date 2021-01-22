@@ -51,12 +51,12 @@ from sugaroid.platform import platform
 
 
 class ConfigManager:
-    def __init__(self, mode='w'):
+    def __init__(self, mode="w"):
         self.os = platform.System()
         self.cfgpath = self.os.cfgpath()
         self.paths = self.os.paths()
         self.config = {}
-        self.jsonfile = 'sugaroid.trainer.json'
+        self.jsonfile = "sugaroid.trainer.json"
         self.check_file()
 
     def get_config(self):
@@ -66,12 +66,12 @@ class ConfigManager:
         return self.cfgpath
 
     def read_file(self):
-        with open(os.path.join(self.cfgpath, self.jsonfile), 'r') as f:
+        with open(os.path.join(self.cfgpath, self.jsonfile), "r") as f:
             config = json.load(f)
         self.update_config(config)
 
     def write_file(self):
-        with open(os.path.join(self.cfgpath, self.jsonfile), 'w') as f:
+        with open(os.path.join(self.cfgpath, self.jsonfile), "w") as f:
             json.dump(self.config, f, indent=4, sort_keys=True)
 
     def check_file(self):
@@ -79,7 +79,14 @@ class ConfigManager:
             os.mkdir(self.cfgpath)
         if not os.path.exists(os.path.join(self.cfgpath, self.jsonfile)):
             import nltk
-            for lexicon in ['averaged_perceptron_tagger', 'stopwords', 'wordnet', 'vader_lexicon', 'punkt']:
+
+            for lexicon in [
+                "averaged_perceptron_tagger",
+                "stopwords",
+                "wordnet",
+                "vader_lexicon",
+                "punkt",
+            ]:
                 nltk.download(lexicon)
             self.write_file()
         self.read_file()

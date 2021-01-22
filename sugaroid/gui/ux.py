@@ -79,7 +79,8 @@ class EmotionRequests(QThread):
 
     def run(self):
         self.parent.label.setPixmap(
-            QPixmap(":/home/{}.png".format(emotion[self.emotion])))
+            QPixmap(":/home/{}.png".format(emotion[self.emotion]))
+        )
         time.sleep(5)
         self.parent.label.setPixmap(QPixmap(":/home/sugaroid.png"))
 
@@ -101,7 +102,8 @@ class BotRequests(QThread):
 
         if response.emotion != 0:
             self.parent.label.setPixmap(
-                QPixmap(":/home/{}.png".format(emotion[response.emotion])))
+                QPixmap(":/home/{}.png".format(emotion[response.emotion]))
+            )
             self.parent.conv.scrollToBottom()
             time.sleep(5)
 
@@ -124,6 +126,7 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
         self.sleep_enabled = True
         if parent is None:
             from sugaroid.sugaroid import Sugaroid
+
             sg = Sugaroid()
             self.parent = sg
         else:

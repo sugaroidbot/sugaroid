@@ -45,26 +45,27 @@ class PlayAdapter(LogicAdapter):
         return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        response = 'I can\t run the same game again. Soz!'
-        confidence = .5
+        response = "I can\t run the same game again. Soz!"
+        confidence = 0.5
         sent = []
         for i in games:
-            sent.append('play the game {}'.format(i))
-            sent.append('can you play the game {}'.format(i))
+            sent.append("play the game {}".format(i))
+            sent.append("can you play the game {}".format(i))
         cos = []
         for j in sent:
             cos.append(self.chatbot.lp.similarity(j, str(statement)))
         maxcos = max(cos)
-        response = 'Ok, I guess your game was great!'
+        response = "Ok, I guess your game was great!"
         try:
-            exec('from freegames import {}'.format(self.game))
+            exec("from freegames import {}".format(self.game))
         except Exception as e:
-            response = 'Oops, it cant run on your system'
+            response = "Oops, it cant run on your system"
         import os
+
         try:
-            if os.environ['SUGAROID'] == 'CLI':
-                input('Enter any key to continue to Sugaroid')
-            elif os.environ['SUGAROID'] == 'GUI':
+            if os.environ["SUGAROID"] == "CLI":
+                input("Enter any key to continue to Sugaroid")
+            elif os.environ["SUGAROID"] == "GUI":
                 time.sleep(5)
         except KeyError:
             pass

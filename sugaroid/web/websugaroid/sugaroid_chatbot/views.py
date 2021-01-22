@@ -45,84 +45,82 @@ class Conversation:
 
 
 def reinit_cookie(request):
-    response = HttpResponseRedirect('/')
-    response.set_cookie('conversation', '[]')
+    response = HttpResponseRedirect("/")
+    response.set_cookie("conversation", "[]")
     uuid = uuid4().hex
-    response.set_cookie('globals_uid', str(uuid))
+    response.set_cookie("globals_uid", str(uuid))
     sg.chatbot.reset_variables()
     globals_local_storage[str(uuid)] = sg.chatbot.globals
     return response
 
 
 def index(request):
-    print("H" * 5, request.COOKIES.get('conversation'))
-    if request.COOKIES.get('conversation') is None:
+    print("H" * 5, request.COOKIES.get("conversation"))
+    if request.COOKIES.get("conversation") is None:
         return reinit_cookie(request)
-    elif request.COOKIES.get('globals_uid') is None:
+    elif request.COOKIES.get("globals_uid") is None:
         return reinit_cookie(request)
     else:
-        if eval(request.COOKIES.get('conversation')) is None:
+        if eval(request.COOKIES.get("conversation")) is None:
             return reinit_cookie(request)
 
         conversation_local = [
-            [x[0], x[1], x[2]] for x in eval(
-                request.COOKIES.get('conversation')
-            )
+            [x[0], x[1], x[2]] for x in eval(request.COOKIES.get("conversation"))
         ]
         try:
             emo = emotion_mapping[conversation_local[-1][2]]
         except IndexError:
-            emo = 'sugaroid'
+            emo = "sugaroid"
         response = render(
             request,
-            'app.html',
+            "app.html",
             {
-                'all_items': [
+                "all_items": [
                     Conversation(x[0], x[1], x[2]) for x in conversation_local
                 ],
-                'emo': emo
-            }
+                "emo": emo,
+            },
         )
-        response.set_cookie('conversation', '{}'.format(conversation_local))
+        response.set_cookie("conversation", "{}".format(conversation_local))
         return response
 
 
 def post_user_input(request):
-    print("K" * 6, request.COOKIES.get('conversation'))
-    c = request.POST['userInput']
+    print("K" * 6, request.COOKIES.get("conversation"))
+    c = request.POST["userInput"]
 
     if c and c.isspace():
-        return HttpResponseRedirect('/')
+        return HttpResponseRedirect("/")
 
-    conversation_local = eval(request.COOKIES.get('conversation'))
-    conversation_local.append(['replies', c, 0])
-    response = HttpResponseRedirect('/chatbot')
+    conversation_local = eval(request.COOKIES.get("conversation"))
+    conversation_local.append(["replies", c, 0])
+    response = HttpResponseRedirect("/chatbot")
     print("SETTING COOKIE", conversation_local)
 
-    response.set_cookie('conversation', str(conversation_local))
+    response.set_cookie("conversation", str(conversation_local))
     return response
 
 
 def get_chatbot_response(request):
-    print("D" * 5, "K" * 6, request.COOKIES.get('conversation'))
-    conversation_local = eval(request.COOKIES.get('conversation'))
-    globals_uid = request.COOKIES.get('globals_uid')
+    print("D" * 5, "K" * 6, request.COOKIES.get("conversation"))
+    conversation_local = eval(request.COOKIES.get("conversation"))
+    globals_uid = request.COOKIES.get("globals_uid")
     print(globals_local_storage)
     sg.chatbot.globals = globals_local_storage[globals_uid]
     conv = sg.parse(conversation_local[-1][1])
     r = emojize(str(conv))
-    r = r.encode('ascii', 'ignore').decode()
+    r = r.encode("ascii", "ignore").decode()
     try:
         emotion = conv.emotion
     except AttributeError:
         emotion = 0
-    conversation_local.append(['sent', r, emotion])
-    response = HttpResponseRedirect('/')
-    response.set_cookie('conversation', '{}'.format(conversation_local))
+    conversation_local.append(["sent", r, emotion])
+    response = HttpResponseRedirect("/")
+    response.set_cookie("conversation", "{}".format(conversation_local))
     sg.chatbot.reset_variables()
     return response
 
 
 def error_404(request, error=""):
-    response = render(request, '404.html', {'error': error})
+    response = render(request, "404.html", {"error": error})
     return response

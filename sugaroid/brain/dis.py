@@ -30,7 +30,13 @@ from chatterbot.logic import LogicAdapter
 from nltk.sentiment import SentimentIntensityAnalyzer
 from pyinflect import getInflection
 from sugaroid.brain.postprocessor import any_in, random_response
-from sugaroid.brain.constants import BYE, DIS_RESPONSES_YOU, CONSOLATION, DIS_RESPONSES_I, DIS_RESPONSES_HIM
+from sugaroid.brain.constants import (
+    BYE,
+    DIS_RESPONSES_YOU,
+    CONSOLATION,
+    DIS_RESPONSES_I,
+    DIS_RESPONSES_HIM,
+)
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize, spac_token
 from sugaroid.sugaroid import SugaroidStatement
@@ -53,7 +59,7 @@ class DisAdapter(LogicAdapter):
         self.normalized = normalize(str(statement))
         self.dis = None
         for i in self.normalized:
-            if i.startswith('dis'):
+            if i.startswith("dis"):
                 self.dis = i
                 return True
         else:
@@ -62,51 +68,76 @@ class DisAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         confidence = 0
         dis_word = False
-        if any_in(['distinguish', 'disfigure', 'distinct', 'distinction', 'distant',
-                   'distance', 'distribution', 'distilled'], self.normalized):
+        if any_in(
+            [
+                "distinguish",
+                "disfigure",
+                "distinct",
+                "distinction",
+                "distant",
+                "distance",
+                "distribution",
+                "distilled",
+            ],
+            self.normalized,
+        ):
             confidence = 0
         else:
             logging.info(
-                "DisAdapter: Starting Advanced scan. dis_word == {}".format(self.dis)[0])
+                "DisAdapter: Starting Advanced scan. dis_word == {}".format(self.dis)[0]
+            )
             dis_word = self.dis[3:]
             logging.info("DisAdapter: Distilled word == {}".format(dis_word))
             sia = SentimentIntensityAnalyzer().polarity_scores(dis_word)
-            if dis_word[0] in ['a', 'e', 'i', 'o', 'u', 'g', 'm', 'p']:
+            if dis_word[0] in ["a", "e", "i", "o", "u", "g", "m", "p"]:
                 confidence += 0.4
-            if 'infect' in dis_word:
+            if "infect" in dis_word:
                 confidence -= 0.3
-            if 'spirit' in dis_word:
+            if "spirit" in dis_word:
                 confidence += 0.2
-            if any_in(['play', 'pensary', 'pense', 'patch', 'port',
-                       'persal', 'perse', 'persion', 'praise'], dis_word):
+            if any_in(
+                [
+                    "play",
+                    "pensary",
+                    "pense",
+                    "patch",
+                    "port",
+                    "persal",
+                    "perse",
+                    "persion",
+                    "praise",
+                ],
+                dis_word,
+            ):
                 confidence -= 0.2
 
-            confidence += sia['neg']
-        inflection = getInflection(
-            self.chatbot.lp.tokenize(self.dis)[0].lemma_, 'VBD')
+            confidence += sia["neg"]
+        inflection = getInflection(self.chatbot.lp.tokenize(self.dis)[0].lemma_, "VBD")
         if inflection is None:
             past_participle_form_of_verb = self.dis
         else:
             past_participle_form_of_verb = inflection[0]
-        if 'you' in self.normalized:
+        if "you" in self.normalized:
             response = random_response(DIS_RESPONSES_YOU).format(
-                past_participle_form_of_verb)
+                past_participle_form_of_verb
+            )
             emotion = Emotion.angry_non_expressive
-        elif 'I' in self.normalized:
-            response = "{} {}".format(random_response(
-                DIS_RESPONSES_I), random_response(CONSOLATION))
+        elif "I" in self.normalized:
+            response = "{} {}".format(
+                random_response(DIS_RESPONSES_I), random_response(CONSOLATION)
+            )
             emotion = Emotion.angel
         else:
             nn = None
             pn = None
             tokenized = spac_token(statement, chatbot=self.chatbot)
             for i in tokenized:
-                if (i.pos_ == "NOUN") or (i.pos_ == 'PROPN'):
+                if (i.pos_ == "NOUN") or (i.pos_ == "PROPN"):
                     nn = i.text
-                elif i.pos_ == 'PRON':
+                elif i.pos_ == "PRON":
                     pn = i.text
             if not (nn or pn):
-                response = 'Lol. What?'
+                response = "Lol. What?"
                 emotion = Emotion.seriously
             else:
                 response = random_response(DIS_RESPONSES_HIM).format(nn or pn)

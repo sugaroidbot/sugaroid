@@ -28,7 +28,14 @@ SOFTWARE.
 import logging
 from chatterbot.logic import LogicAdapter
 from nltk import pos_tag
-from sugaroid.brain.constants import WHO_AM_I, WHO_ARE_YOU, SUGAROID, GREET, BURN_IDK, I_AM
+from sugaroid.brain.constants import (
+    WHO_AM_I,
+    WHO_ARE_YOU,
+    SUGAROID,
+    GREET,
+    BURN_IDK,
+    I_AM,
+)
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize, spac_token
@@ -47,7 +54,7 @@ class MyNameAdapter(LogicAdapter):
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
         self.token = pos_tag(self.normalized)
-        if str(statement).strip().lower().startswith('my name is'):
+        if str(statement).strip().lower().startswith("my name is"):
             return True
         else:
             return False
@@ -59,20 +66,19 @@ class MyNameAdapter(LogicAdapter):
         nl = spac_token(statement, chatbot=self.chatbot)
 
         for i in nl:
-            if (i.lower_ == 'my') or (i.lemma_ == 'be') or (i.lower_ == 'name'):
+            if (i.lower_ == "my") or (i.lemma_ == "be") or (i.lower_ == "name"):
                 continue
             logging.info("{} {}".format(i, i.pos_))
-            if (i.pos_ == 'NOUN') or (i.pos_ == 'PROPN'):
-                response = random_response(GREET).format(
-                    str(i.text).capitalize())
+            if (i.pos_ == "NOUN") or (i.pos_ == "PROPN"):
+                response = random_response(GREET).format(str(i.text).capitalize())
                 selected_statement = SugaroidStatement(response, chatbot=True)
                 selected_statement.confidence = confidence
                 emotion = Emotion.positive
                 selected_statement.emotion = emotion
-                self.chatbot.globals['USERNAME'] = i.text
+                self.chatbot.globals["USERNAME"] = i.text
                 return selected_statement
         else:
-            response = ':)'
+            response = ":)"
             confidence = 0
             selected_statement = SugaroidStatement(response, chatbot=True)
             selected_statement.confidence = confidence

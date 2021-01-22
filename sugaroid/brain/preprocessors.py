@@ -34,8 +34,8 @@ from nltk.corpus import wordnet as wn
 import nltk
 
 short_forms = {
-    'coz': "because",
-    'bcoz': "because",
+    "coz": "because",
+    "bcoz": "because",
     "ye": "yea",
     "bro": "brother",
     "sis": "sister",
@@ -43,7 +43,7 @@ short_forms = {
     "tq": "thank you",
     "hwy": "how are you",
     "hi": "Hello",
-    "Hoi": 'Hello',
+    "Hoi": "Hello",
     "nvm": "never mind",
     "rotfl": "rolling on the floor with laughter",
     "wtf": "You are bad",  # PS: thats enough for this course of code ;)
@@ -63,7 +63,7 @@ short_forms = {
     "btw": "by the way",
     "becoz": "because",
     "yaya": "yea",
-    "thnx": "thanks"
+    "thnx": "thanks",
 }
 
 
@@ -80,23 +80,24 @@ def preprocess(string_arg: str):
     """
     logging.info("PREPROCESSOR: Received {}".format(string_arg))
     proc = string_arg
-    proc = proc.replace("n't", ' not').replace(
-        "'re", ' are')  # replace short word to expanded words
-    proc = proc.replace(' i ', ' I ')
+    proc = proc.replace("n't", " not").replace(
+        "'re", " are"
+    )  # replace short word to expanded words
+    proc = proc.replace(" i ", " I ")
     k = nltk.word_tokenize(proc)
     if len(k) >= 1:
         k[0] = k[0].capitalize()
-        if (k[0].lower().startswith('say')) or (k[0].lower().startswith('tell')):
+        if (k[0].lower().startswith("say")) or (k[0].lower().startswith("tell")):
             del k[0]
     if len(k) >= 1:
-        if k[0] == 'me':
+        if k[0] == "me":
             del k[0]  # Needs testing
 
     for i in range(len(k)):
         for j in short_forms:
             if k[i].lower() == j:
                 k[i] = short_forms[j]
-    proc = ' '.join(k)
+    proc = " ".join(k)
     logging.info("PREPROCESSOR: Returned {}".format(proc))
     return proc
 
@@ -106,16 +107,18 @@ def non_punkt_normalize(txt):
 
 
 def normalize(text):
-    remove_punct_dict = dict((ord(punct), None)
-                             for punct in string.punctuation)
+    remove_punct_dict = dict((ord(punct), None) for punct in string.punctuation)
     # word tokenization
     word_token = nltk.word_tokenize(text.lower().translate(remove_punct_dict))
 
     # remove ascii
     new_words = []
     for word in word_token:
-        new_word = unicodedata.normalize('NFKD', word).encode(
-            'ascii', 'ignore').decode('utf-8', 'ignore')
+        new_word = (
+            unicodedata.normalize("NFKD", word)
+            .encode("ascii", "ignore")
+            .decode("utf-8", "ignore")
+        )
         new_words.append(new_word)
 
     # Remove tags
@@ -126,9 +129,9 @@ def normalize(text):
 
     # pos tagging and lemmatization
     tag_map = nltk.defaultdict(lambda: wn.NOUN)
-    tag_map['J'] = wn.ADJ
-    tag_map['V'] = wn.VERB
-    tag_map['R'] = wn.ADV
+    tag_map["J"] = wn.ADJ
+    tag_map["V"] = wn.VERB
+    tag_map["R"] = wn.ADV
     lemmatizer = nltk.WordNetLemmatizer()
     lemma_list = []
     rmv = [i for i in rmv if i]
@@ -180,5 +183,6 @@ def tokenize(txt):
 def current_time():
     """Returns a tuple containing (hour, minute) for current local time."""
     import time
+
     local_time = time.localtime(time.time())
     return local_time.tm_hour, local_time.tm_min

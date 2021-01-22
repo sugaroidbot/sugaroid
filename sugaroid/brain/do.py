@@ -46,53 +46,53 @@ class DoAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = nltk.word_tokenize(str(statement).lower())
-        if 'do' in self.normalized and 'know' in self.normalized:
+        if "do" in self.normalized and "know" in self.normalized:
             return True
         else:
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
         emotion = Emotion.neutral
-        response = 'ok'
+        response = "ok"
         confidence = 0
 
         rectified = []
         tokenized = nltk.pos_tag(self.normalized)
         for i in range(len(tokenized)):
-            if tokenized[i][1] == 'WP':
+            if tokenized[i][1] == "WP":
                 rectified.extend(self.normalized[i:])
                 break
             else:
                 continue
         else:
-            if ('my' in self.normalized) and ('name' in self.normalized):
+            if ("my" in self.normalized) and ("name" in self.normalized):
                 if self.chatbot.get_username():
-                    response = 'Your name is {}'.format(
-                        self.chatbot.globals['username'])
+                    response = "Your name is {}".format(
+                        self.chatbot.globals["username"]
+                    )
                     emotion = Emotion.neutral
                     confidence = 1
                 else:
-                    response = 'No, I don\'t know your name'
+                    response = "No, I don't know your name"
                     emotion = Emotion.cry_overflow
                     confidence = 0.8
-            elif 'my' in self.normalized:
-                response = 'Lol, maybe not'
+            elif "my" in self.normalized:
+                response = "Lol, maybe not"
                 emotion = Emotion.lol
                 confidence = 0.8
             else:
-                response = 'Yes, Yes I do!'
+                response = "Yes, Yes I do!"
                 emotion = Emotion.wink
                 confidence = 0.8
 
         if rectified:
-            if 'Srevin' in rectified:
+            if "Srevin" in rectified:
                 response = "Srevin Saju is the creator of Sugaroid bot"
                 confidence = 1
             else:
                 wk = WikiAdapter(self.chatbot)
                 wk.text = self.normalized
-                response = WikiAdapter.process(
-                    wk, Statement(' '.join(rectified)))
+                response = WikiAdapter.process(wk, Statement(" ".join(rectified)))
                 return response
 
         selected_statement = SugaroidStatement(response, chatbot=True)

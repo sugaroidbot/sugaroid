@@ -45,13 +45,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from sugaroid_chatbot.views import index, post_user_input, get_chatbot_response
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', index),
-    path('user', post_user_input),
-    path('chatbot', get_chatbot_response)
+    path("admin/", admin.site.urls),
+    path("", index),
+    path("user", post_user_input),
+    path("chatbot", get_chatbot_response),
 ]
-#handler404 = 'sugaroid_chatbot.views.error_404'
-#handler500 = 'sugaroid_chatbot.views.error_404'
-#handler403 = 'sugaroid_chatbot.views.error_404'
-#handler400 = 'sugaroid_chatbot.views.error_404'
+# handler404 = 'sugaroid_chatbot.views.error_404'
+# handler500 = 'sugaroid_chatbot.views.error_404'
+# handler403 = 'sugaroid_chatbot.views.error_404'
+# handler400 = 'sugaroid_chatbot.views.error_404'

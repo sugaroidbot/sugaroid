@@ -46,7 +46,7 @@ class LetAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = tuple(x.lower() for x in normalize(str(statement)))
-        if len(self.normalized) > 1 and self.normalized[0] in ('let', 'assume'):
+        if len(self.normalized) > 1 and self.normalized[0] in ("let", "assume"):
             return True
         else:
             return False

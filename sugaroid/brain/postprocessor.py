@@ -59,63 +59,63 @@ def reverse(token):
     :return: a list similar to nltk.word_tokenize
     """
     processed = []
-    has_am = 'am' in token
-    has_is = 'are' in token
+    has_am = "am" in token
+    has_is = "are" in token
     logging.info("Reverse: Received {}".format(token))
     interrogation = False
     for i in token:
         lps = LanguageProcessor().tokenize(i)[0]
-        if lps.tag_ == '.' and lps.lower_ == '?':
+        if lps.tag_ == "." and lps.lower_ == "?":
             interrogation = True
-        elif str(lps.tag_).startswith('W'):
+        elif str(lps.tag_).startswith("W"):
             interrogation = True
     for i in token:
         tagged = nltk.pos_tag([i])
-        if tagged[0][1] == 'PRP':
-            if i == 'you':
+        if tagged[0][1] == "PRP":
+            if i == "you":
                 if interrogation:
-                    processed.append('I')
+                    processed.append("I")
                 else:
-                    processed = processed[:-1] + ['I'] + processed[-1:]
-            elif i.lower() == 'i':
-                processed.append('you')
-        elif tagged[0][1] == 'VBP':
-            if i == 'are':
-                if 'I' in processed:
-                    processed.append('am')
+                    processed = processed[:-1] + ["I"] + processed[-1:]
+            elif i.lower() == "i":
+                processed.append("you")
+        elif tagged[0][1] == "VBP":
+            if i == "are":
+                if "I" in processed:
+                    processed.append("am")
                 else:
-                    processed.append('are')
-            elif i == 'am':
-                if 'I' in processed:
-                    processed.append('am')
+                    processed.append("are")
+            elif i == "am":
+                if "I" in processed:
+                    processed.append("am")
                 else:
-                    processed.append('are')
+                    processed.append("are")
             else:
-                processed.append('are')
+                processed.append("are")
         else:
             processed.append(i)
 
     for j in range(0, len(processed) - 2):
-        if processed[j] == 'I' and processed[j + 1] == 'are':
-            processed[j + 1] = 'am'
-        elif processed[j] == 'you' and processed[j + 1] == 'am':
-            processed[j + 1] = 'are'
+        if processed[j] == "I" and processed[j + 1] == "are":
+            processed[j + 1] = "am"
+        elif processed[j] == "you" and processed[j + 1] == "am":
+            processed[j + 1] = "are"
         else:
             continue
 
     for j in range(0, len(processed) - 2):
-        if processed[j] == 'I' and processed[j + 1] == 'are':
-            processed[j] = 'you'
-        elif processed[j] == 'you' and processed[j + 1] == 'am':
-            processed[j] = 'I'
+        if processed[j] == "I" and processed[j + 1] == "are":
+            processed[j] = "you"
+        elif processed[j] == "you" and processed[j + 1] == "am":
+            processed[j] = "I"
         else:
             continue
 
     for j in range(0, len(processed) - 2):
-        if processed[j] == 'are' and processed[j + 1] == 'I':
-            processed[j] = 'am'
-        elif processed[j] == 'am' and processed[j + 1] == 'you':
-            processed[j] = 'are'
+        if processed[j] == "are" and processed[j + 1] == "I":
+            processed[j] = "am"
+        elif processed[j] == "am" and processed[j + 1] == "you":
+            processed[j] = "are"
         else:
             continue
 
@@ -138,7 +138,7 @@ def cosine_similarity(X_list, Y_list):
     # two sentences using cosine similarity.
 
     # sw contains the list of stopwords
-    sw = stopwords.words('english')
+    sw = stopwords.words("english")
     l1 = []
     l2 = []
 
@@ -223,13 +223,40 @@ def text2int(textnum, numwords={}):
     """
     if not numwords:
         units = [
-            "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
-            "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-            "sixteen", "seventeen", "eighteen", "nineteen",
+            "zero",
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "ten",
+            "eleven",
+            "twelve",
+            "thirteen",
+            "fourteen",
+            "fifteen",
+            "sixteen",
+            "seventeen",
+            "eighteen",
+            "nineteen",
         ]
 
-        tens = ["", "", "twenty", "thirty", "forty",
-                "fifty", "sixty", "seventy", "eighty", "ninety"]
+        tens = [
+            "",
+            "",
+            "twenty",
+            "thirty",
+            "forty",
+            "fifty",
+            "sixty",
+            "seventy",
+            "eighty",
+            "ninety",
+        ]
 
         scales = ["hundred", "thousand", "million", "billion", "trillion"]
 

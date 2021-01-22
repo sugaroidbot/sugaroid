@@ -33,8 +33,10 @@ from nltk import word_tokenize
 from sugaroid.brain.brain import Neuron
 from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement
+
 try:
     from mediawikiapi import MediaWikiAPI
+
     media_wiki_found = True
 except ModuleNotFoundError:
     media_wiki_found = False
@@ -55,9 +57,9 @@ class WikiAdapter(LogicAdapter):
         q = False
         pr = False
         for i in tagged:
-            if i[1] == 'WP' or i[1] == 'WRB':
+            if i[1] == "WP" or i[1] == "WRB":
                 q = True
-            elif (i[1].startswith('PRP')) and (not i[0] == 'we'):
+            elif (i[1].startswith("PRP")) and (not i[0] == "we"):
                 pr = True
         if q and (not pr):
             return True
@@ -73,17 +75,16 @@ class WikiAdapter(LogicAdapter):
         emotion = Emotion.neutral
         count = 0
         for i in self.text:
-            if i.lower() == 'what':
+            if i.lower() == "what":
                 count += 1
         if count > 1:
-            selected_statement = SugaroidStatement(
-                'Nothing ' * count, chatbot=True)
+            selected_statement = SugaroidStatement("Nothing " * count, chatbot=True)
             selected_statement.confidence = 0.99
             emotion = Emotion.seriously
             selected_statement.emotion = emotion
             return selected_statement
-        elif ('Srevin' in self.text) or ('srevin' in self.text):
-            response = 'Srevin Saju is the creator of Sugaroid bot'
+        elif ("Srevin" in self.text) or ("srevin" in self.text):
+            response = "Srevin Saju is the creator of Sugaroid bot"
             selected_statement = SugaroidStatement(response, chatbot=True)
             selected_statement.confidence = 1.0
             selected_statement.emotion = emotion
@@ -94,10 +95,14 @@ class WikiAdapter(LogicAdapter):
             what = False
             norm = nlp.tokenize(str(statement))
             for i in range(len(norm) - 2):
-                if norm[i].tag_ == 'WP':
-                    if norm[i].lower_ == "what" or norm[i].lower_ == "who" or norm[i].lower_ == "where":
+                if norm[i].tag_ == "WP":
+                    if (
+                        norm[i].lower_ == "what"
+                        or norm[i].lower_ == "who"
+                        or norm[i].lower_ == "where"
+                    ):
                         what = True
-                    elif norm[i].lower_ == 'how':
+                    elif norm[i].lower_ == "how":
                         what = False
                         how = True
                         break
@@ -105,11 +110,11 @@ class WikiAdapter(LogicAdapter):
                         what = True
                     if what:
                         for j in range(i + 1, len(norm)):
-                            if (norm[j].tag_ == 'VBZ') or (norm[j].tag_ == 'DT'):
+                            if (norm[j].tag_ == "VBZ") or (norm[j].tag_ == "DT"):
                                 continue
                             else:
                                 question = norm[j:]
-                                if question.lower_ == 'time':
+                                if question.lower_ == "time":
                                     response = Neuron.gen_time()
                                     confidence = 1.0
                                     stat = True
@@ -117,28 +122,31 @@ class WikiAdapter(LogicAdapter):
                                 else:
                                     if media_wiki_found:
                                         response, confidence, stat = wikipedia_search(
-                                            self, question)
+                                            self, question
+                                        )
                                         break
                                     else:
                                         response = "Seems like MediaWikiAPI is not installed on your PC"
                                         confidence = 0.9
                                         break
                         else:
-                            response = 'I am not sure what you are asking for.'
+                            response = "I am not sure what you are asking for."
                             confidence = 0.4
                             emotion = Emotion.cry
                             break
                         if response:
                             break
                     else:
-                        response = 'I can\'t give a reason for that at the moment. Maybe you might want to search the ' \
-                                   'internet.'
+                        response = (
+                            "I can't give a reason for that at the moment. Maybe you might want to search the "
+                            "internet."
+                        )
                         confidence = 0.4
                         emotion = Emotion.cry_overflow
                         break
 
                 else:
-                    response = 'Well. maybe I do not know'
+                    response = "Well. maybe I do not know"
                     confidence = 0
 
             selected_statement = SugaroidStatement(str(response), chatbot=True)
@@ -158,7 +166,7 @@ def wikipedia_search(self, question):
     stat = Found or not found
     """
     mw = MediaWikiAPI()
-    wiki = wikipediaapi.Wikipedia('en')
+    wiki = wikipediaapi.Wikipedia("en")
     a = mw.search(str(question))
     question = str(question)
     if len(a) >= 1:
@@ -166,19 +174,23 @@ def wikipedia_search(self, question):
     else:
         return "Oops, the item you wanted to know is not on wikipedia.", 0.9, False
     if cos > 0.9:
-        self.chatbot.globals['reversei']['enabled'] = False
-        self.chatbot.globals['reversei']['uid'] = False
+        self.chatbot.globals["reversei"]["enabled"] = False
+        self.chatbot.globals["reversei"]["uid"] = False
         response = wiki.page(a[0]).summary
         confidence = cos
         stat = True
     else:
-        self.chatbot.globals['reversei']['enabled'] = True
-        self.chatbot.globals['reversei']['uid'] = 30000000002
-        self.chatbot.globals['reversei']['type'] = int
-        self.chatbot.globals['temp_data'] = a
-        def bracketize(x): return '\n[{}] {}'.format(x[0] + 1, str(x[1]))
+        self.chatbot.globals["reversei"]["enabled"] = True
+        self.chatbot.globals["reversei"]["uid"] = 30000000002
+        self.chatbot.globals["reversei"]["type"] = int
+        self.chatbot.globals["temp_data"] = a
+
+        def bracketize(x):
+            return "\n[{}] {}".format(x[0] + 1, str(x[1]))
+
         response = "Did you mean any of these {}".format(
-            ' '.join([bracketize(x) for x in enumerate(a)]))
+            " ".join([bracketize(x) for x in enumerate(a)])
+        )
         confidence = 1.0
         stat = False
 
