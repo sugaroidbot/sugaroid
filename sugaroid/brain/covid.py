@@ -47,13 +47,17 @@ I can do an approximation if you do have coronavirus.
 """
 
 COVID_QUESTIONS = [
-    [1, 'Do you have fever?', 1],
-    [2, 'Do you have cough?', 1],
-    [3, 'Do you have shortness of breath', 2],
-    [4, 'Have you travelled outside your house in the last 14 days?', 1],
-    [5, 'Have you been tested for covid before, with negative results?', 0.1],
-    [6, 'Do you have any chronic diseases, eg: asthma or faced pneumonia in the past', 1],
-    [7, '{}', 0]
+    [1, "Do you have fever?", 1],
+    [2, "Do you have cough?", 1],
+    [3, "Do you have shortness of breath", 2],
+    [4, "Have you travelled outside your house in the last 14 days?", 1],
+    [5, "Have you been tested for covid before, with negative results?", 0.1],
+    [
+        6,
+        "Do you have any chronic diseases, eg: asthma or faced pneumonia in the past",
+        1,
+    ],
+    [7, "{}", 0],
 ]
 
 
@@ -62,6 +66,7 @@ class CovidAdapter(LogicAdapter):
     A COVID-19 dedicated Adapter
     In the **memory** of cancelled Google Code In, Grand Prize Winner's trip, 2019-2020 :
     """
+
     """
     "Nor Mars his sword nor war’s quick fire shall burn
     The living record of (GCI GPW-19's) memory.
@@ -81,7 +86,9 @@ class CovidAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
-        if any_in(['covid', 'covid19', 'covid-19', 'corona', 'coronavirus'], self.normalized):
+        if any_in(
+            ["covid", "covid19", "covid-19", "corona", "coronavirus"], self.normalized
+        ):
             return True
         else:
             return False
@@ -91,18 +98,22 @@ class CovidAdapter(LogicAdapter):
         # FIXME Creates unusual response
         response = ABOUT_CORONAVIRUS
 
-        if any_in(['I', 'i'], self.normalized):
-            response = "I will do a short approximation if you do have coronavirus\n{covidq}"\
-                .format(covidq=COVID_QUESTIONS[0][1])
-            self.chatbot.globals['reversei']['uid'] = 'CORONAVIRUS'
-            self.chatbot.globals['reversei']['enabled'] = True
+        if any_in(["I", "i"], self.normalized):
+            response = "I will do a short approximation if you do have coronavirus\n{covidq}".format(
+                covidq=COVID_QUESTIONS[0][1]
+            )
+            self.chatbot.globals["reversei"]["uid"] = "CORONAVIRUS"
+            self.chatbot.globals["reversei"]["enabled"] = True
             logging.info(
-                f"CovidAdapter sets ['reversei']['enabled'] as {self.chatbot.globals['reversei']['enabled']}")
-            self.chatbot.globals['reversei']['data'] = [1, 0]
+                f"CovidAdapter sets ['reversei']['enabled'] as {self.chatbot.globals['reversei']['enabled']}"
+            )
+            self.chatbot.globals["reversei"]["data"] = [1, 0]
 
-        elif 'you' in self.normalized:
-            response = 'Someone told that I had been contracted with corona from somewhere, but thats extremely wrong.'\
-                       ' I will not get infected by any physical virus, (except Trojan or NO_HEROKU_CREDIT virus)'
+        elif "you" in self.normalized:
+            response = (
+                "Someone told that I had been contracted with corona from somewhere, but thats extremely wrong."
+                " I will not get infected by any physical virus, (except Trojan or NO_HEROKU_CREDIT virus)"
+            )
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence

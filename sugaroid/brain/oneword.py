@@ -68,32 +68,37 @@ class OneWordAdapter(LogicAdapter):
         confidence = 0.60
         response = random_response(ONE_WORD)
         short = str(statement).lower()
-        if 'ver' in short:
+        if "ver" in short:
             response = VERSION
             confidence = 0.99
-        elif 'name' in short:
+        elif "name" in short:
             response = "What name? You should probably use better english"
 
-        elif ('help404' in short) or ('help' in short and '404' in short):
+        elif ("help404" in short) or ("help" in short and "404" in short):
             import sugaroid
             import chatterbot
 
             help_files = []
-            for i in self.chatbot.globals['adapters']:
-                help_files.append("{}: {}".format(
-                    i.split('.')[-1].strip(), eval(i).__doc__.strip()).strip())
-            response = 'hmm. Sure. \n {}'.format('\n '.join(help_files))
+            for i in self.chatbot.globals["adapters"]:
+                help_files.append(
+                    "{}: {}".format(
+                        i.split(".")[-1].strip(), eval(i).__doc__.strip()
+                    ).strip()
+                )
+            response = "hmm. Sure. \n {}".format("\n ".join(help_files))
             confidence = 0.99
 
-        elif 'help' in short:
-            response = 'The help is not very easily provided. ' \
-                       'If you are serious of what you are asking, ' \
-                       'type help404'
+        elif "help" in short:
+            response = (
+                "The help is not very easily provided. "
+                "If you are serious of what you are asking, "
+                "type help404"
+            )
             confidence = 0.99
-        elif 'disclaimer' in short:
+        elif "disclaimer" in short:
             response = DISCLAIMER
             confidence = 0.99
-        elif 'license' in short:
+        elif "license" in short:
             lic = """```
                                             MIT License
 

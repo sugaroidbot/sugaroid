@@ -45,19 +45,23 @@ class TriviaAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement).lower())
-        if ('yes' in self.normalized) or ('no' in self.normalized) or ('true' in self.normalized) or \
-                ('false' in self.normalized):
+        if (
+            ("yes" in self.normalized)
+            or ("no" in self.normalized)
+            or ("true" in self.normalized)
+            or ("false" in self.normalized)
+        ):
             boolean = True
         else:
             boolean = False
-        if self.chatbot.globals['trivia_answer'] and boolean:
+        if self.chatbot.globals["trivia_answer"] and boolean:
             return True
         else:
-            self.chatbot.globals['trivia_answer'] = None
+            self.chatbot.globals["trivia_answer"] = None
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        selected_statement = SugaroidStatement('Ok!', chatbot=True)
+        selected_statement = SugaroidStatement("Ok!", chatbot=True)
         selected_statement.confidence = 0
         selected_statement.emotion = Emotion.neutral
         return selected_statement

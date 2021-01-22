@@ -58,27 +58,28 @@ class TimeAdapter(LogicAdapter):
         alert = False
         if hour <= 0:
             alert = True
-            time = ''
+            time = ""
         elif hour <= 11:
-            time = 'morning'
+            time = "morning"
         elif hour <= 15:
-            time = 'afternoon'
+            time = "afternoon"
         elif hour <= 19:
-            time = 'evening'
+            time = "evening"
         elif hour <= 20:
-            time = 'night'
+            time = "night"
         else:
             alert = True
-            time = ''
+            time = ""
         if not alert:
-            if (time in self.intersect) or ('time' in self.intersect):
-                response = 'Good {}'.format(time)
+            if (time in self.intersect) or ("time" in self.intersect):
+                response = "Good {}".format(time)
             else:
-                response = 'Good {}. {}'.format(time, random_response(
-                    TIME_RESPONSE).format(list(self.intersect)[0]))
+                response = "Good {}. {}".format(
+                    time, random_response(TIME_RESPONSE).format(list(self.intersect)[0])
+                )
         else:
-            if self.chatbot.lp.similarity('good night', str(statement)) > 0.9:
-                response = 'Sweet Dreams'
+            if self.chatbot.lp.similarity("good night", str(statement)) > 0.9:
+                response = "Sweet Dreams"
                 emotion = Emotion.sleep
             else:
                 response = "You are staying up late, you should sleep right now."
@@ -89,8 +90,7 @@ class TimeAdapter(LogicAdapter):
             # the person good morning
             response = "The current time is {:02d}:{:02d}".format(hour, minutes)
             emotion = Emotion.adorable
-        selected_statement = SugaroidStatement(
-            "{}".format(response), chatbot=True)
+        selected_statement = SugaroidStatement("{}".format(response), chatbot=True)
         selected_statement.confidence = 1
 
         selected_statement.emotion = emotion

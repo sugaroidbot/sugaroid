@@ -49,7 +49,7 @@ class OrAdapter(LogicAdapter):
         self.text = word_tokenize(str(statement))
         self.tagged = nltk.pos_tag(self.text)
         for i in self.tagged:
-            if i[1] == 'CC':
+            if i[1] == "CC":
                 return True
         else:
             return False
@@ -59,23 +59,23 @@ class OrAdapter(LogicAdapter):
         response = None
         emotion = Emotion.neutral
         confidence = 0.8
-        if (len(self.tagged) == 1) or (self.tagged[0][1] == 'CC'):
+        if (len(self.tagged) == 1) or (self.tagged[0][1] == "CC"):
             response = "Are you serious, just an {}".format(self.tagged[0][0])
             emotion = Emotion.angry
             confidence = 0.8
         elif len(self.tagged) == 2:
-            response = 'I expected you to provide an option, But what? 🐓'
+            response = "I expected you to provide an option, But what? 🐓"
             emotion = Emotion.angry_non_expressive
             confidence = 0.8
         else:
             for i in range(len(self.tagged) - 1):
                 n1 = self.tagged[i - 1]
-                if n1[1].startswith('N'):
+                if n1[1].startswith("N"):
                     nouns = nouns.union({n1[0]})
                 n2 = self.tagged[i + 1]
-                if n2[1].startswith('N'):
+                if n2[1].startswith("N"):
                     nouns = nouns.union({n2[0]})
-            if ('boy' in nouns) or ('girl' in nouns):
+            if ("boy" in nouns) or ("girl" in nouns):
                 response = "I am neither"
                 emotion = Emotion.angry_non_expressive
             elif len(tuple(nouns)) == 0:

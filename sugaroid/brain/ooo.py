@@ -31,6 +31,7 @@ class Emotion:
     """
     Defines a variety of Sugaroid compatible Emotion
     """
+
     genie = 70
     sleep = 57
     adorable = 6

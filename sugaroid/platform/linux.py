@@ -30,27 +30,26 @@ class Linux:
 
     @staticmethod
     def make_config():
-        if os.getenv('XDG_CONFIG_HOME') is None:
+        if os.getenv("XDG_CONFIG_HOME") is None:
             path = os.path.expanduser("~/.config/sugaroid/")
         else:
-            path = os.getenv('XDG_CONFIG_HOME').split(":")[0] + "/sugaroid"
+            path = os.getenv("XDG_CONFIG_HOME").split(":")[0] + "/sugaroid"
         if not os.path.exists(path):
             try:
                 os.makedirs(path)
             except Exception as e:
                 logging.error(
-                    "Error creating configuration file in dir {path}. Error code:{e}"
-                    .format(
-                        path=path,
-                        e=e
-                    ))
+                    "Error creating configuration file in dir {path}. Error code:{e}".format(
+                        path=path, e=e
+                    )
+                )
         return path
 
     def system(self):
-        return 'Linux'
+        return "Linux"
 
     def increment(self):
         pass
 
     def paths(self):
-        return ['bin', '/usr/bin', '~/.local/bin', '~/bin', '/usr/local/bin']
+        return ["bin", "/usr/bin", "~/.local/bin", "~/bin", "/usr/local/bin"]

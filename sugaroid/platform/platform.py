@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import logging
 import platform
 
-if platform.system() == 'Windows':
+if platform.system() == "Windows":
     # Windows OS > 7
     from sugaroid.platform.windows import Windows as System
 elif platform.system() == "Linux":
@@ -32,6 +32,7 @@ elif platform.system() == "Darwin":
 else:
     logging.warning("Attempting to run guiscrcpy on utested OS")
     from sugaroid.platform.linux import Linux as System
+
     # Other OSes should benefit from Linux config
 
 System()

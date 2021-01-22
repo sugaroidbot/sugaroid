@@ -16,8 +16,9 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(605, 741)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/home/sugaroid.png"),
-                       QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap(":/home/sugaroid.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(
             "QPushButton {\n"
@@ -39,7 +40,8 @@ class Ui_MainWindow(object):
             "padding-left: 15px;\n"
             "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(31, 31, 31, 255), stop:1 rgba(0, 0, 0, 255));\n"
             "        border-radius: 25px;\n"
-            "}")
+            "}"
+        )
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -61,8 +63,9 @@ class Ui_MainWindow(object):
         self.push.setMaximumSize(QtCore.QSize(50, 16777215))
         self.push.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/ux/send.png"),
-                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(
+            QtGui.QPixmap(":/ux/send.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+        )
         self.push.setIcon(icon1)
         self.push.setObjectName("push")
         self.gridLayout.addWidget(self.push, 3, 4, 1, 1)
@@ -87,7 +90,8 @@ class Ui_MainWindow(object):
         font.setPointSize(15)
         self.conv.setFont(font)
         self.conv.setStyleSheet(
-            "alternate-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 68, 255, 255), stop:1 rgba(85, 0, 255, 255));")
+            "alternate-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 68, 255, 255), stop:1 rgba(85, 0, 255, 255));"
+        )
         self.conv.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.conv.setAlternatingRowColors(True)
         self.conv.setProperty("isWrapping", False)
@@ -119,10 +123,9 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Sugaroid GUI"))
-        self.centralwidget.setStatusTip(_translate(
-            "MainWindow", "Created by Srevin Saju. Licensed under MIT 2020"))
+        self.centralwidget.setStatusTip(
+            _translate("MainWindow", "Created by Srevin Saju. Licensed under MIT 2020")
+        )
         self.push.setStatusTip(_translate("MainWindow", "Send your message"))
-        self.conv.setStatusTip(_translate(
-            "MainWindow", "Sent messages come here"))
-        self.chatbox.setStatusTip(_translate(
-            "MainWindow", "Enter your message here"))
+        self.conv.setStatusTip(_translate("MainWindow", "Sent messages come here"))
+        self.chatbox.setStatusTip(_translate("MainWindow", "Enter your message here"))

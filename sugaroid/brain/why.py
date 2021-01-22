@@ -33,7 +33,12 @@ from sugaroid.brain.preprocessors import normalize, spac_token
 
 from sugaroid.brain.postprocessor import random_response
 
-from sugaroid.brain.constants import WHY_IDK, HOW_DO_YOU_FEEL, WHERE_LIVE, DONT_KNOW_WHERE
+from sugaroid.brain.constants import (
+    WHY_IDK,
+    HOW_DO_YOU_FEEL,
+    WHERE_LIVE,
+    DONT_KNOW_WHERE,
+)
 from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement
 
@@ -53,7 +58,7 @@ class WhyWhenAdapter(LogicAdapter):
         self.tokenized = spac_token(statement, chatbot=self.chatbot)
         self.normalized = normalize(str(statement))
         for i in self.tokenized:
-            if i.tag_ == 'WRB':
+            if i.tag_ == "WRB":
                 return True
         else:
             return False
@@ -66,19 +71,27 @@ class WhyWhenAdapter(LogicAdapter):
         :return:
         """
         emotion = Emotion.neutral
-        if 'when' in self.normalized:
-            if 'you' in self.normalized or 'your' in self.normalized:
+        if "when" in self.normalized:
+            if "you" in self.normalized or "your" in self.normalized:
                 print("+===> ", self.normalized)
                 response = "When did you what?"
                 confidence = 0.6
-                for i in ['creator', 'author', 'developer']:
+                for i in ["creator", "author", "developer"]:
                     if i in self.normalized:
                         response = "Let's say, its TOP SECRET!!"
                         confidence = 0.8
                         emotion = Emotion.lol
                         break
-                for i in ['birthday', 'b\'day', 'bday', 'born', 'birth',
-                          'bear', 'create', 'manufactured']:
+                for i in [
+                    "birthday",
+                    "b'day",
+                    "bday",
+                    "born",
+                    "birth",
+                    "bear",
+                    "create",
+                    "manufactured",
+                ]:
                     if i in self.normalized:
                         # the person is asking my birthday
                         response = "I was born on Tue Feb 11 14:58:38 2020 +0300"
@@ -88,21 +101,23 @@ class WhyWhenAdapter(LogicAdapter):
             else:
                 # search in wikipedia
                 return WikiAdapter(self.chatbot).process(statement)
-        elif 'why' in self.normalized:
+        elif "why" in self.normalized:
             # say idk
             response = random_response(WHY_IDK)
             confidence = 0.2
             emotion = Emotion.cry_overflow
-        elif 'how' in self.normalized and \
-                'you' in self.normalized and \
-                'be' in self.normalized:
+        elif (
+            "how" in self.normalized
+            and "you" in self.normalized
+            and "be" in self.normalized
+        ):
             # possibly the person asked
             # 'how are you'
             response = random_response(HOW_DO_YOU_FEEL)
             confidence = 0.75
-        elif 'where' in self.normalized:
-            if 'you' in self.normalized:
-                if 'live' in self.normalized or 'stay' in self.normalized:
+        elif "where" in self.normalized:
+            if "you" in self.normalized:
+                if "live" in self.normalized or "stay" in self.normalized:
                     # the person is asking something like
                     # "where do you live"
                     response = random_response(WHERE_LIVE)
@@ -116,7 +131,7 @@ class WhyWhenAdapter(LogicAdapter):
                 return WikiAdapter(self.chatbot).process(statement)
         else:
             # say idk
-            response = ':)'
+            response = ":)"
             confidence = 0.15
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence

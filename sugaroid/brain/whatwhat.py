@@ -46,16 +46,16 @@ class WhatWhatAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = normalize(str(statement))
-        if self.chatbot.globals['history']['total'][-1] == 0:
+        if self.chatbot.globals["history"]["total"][-1] == 0:
             return False
-        if 'what' in self.normalized:
+        if "what" in self.normalized:
             try:
-                word_before_what = self.normalized[self.normalized.index(
-                    'what') - 1]
+                word_before_what = self.normalized[self.normalized.index("what") - 1]
             except IndexError:
                 return False
             self.last_word = normalize(
-                str(self.chatbot.globals['history']['total'][-1]))
+                str(self.chatbot.globals["history"]["total"][-1])
+            )
             if word_before_what in self.last_word:
                 self.last_word_idx = self.last_word.index(word_before_what)
                 return True
@@ -67,12 +67,12 @@ class WhatWhatAdapter(LogicAdapter):
     def process(self, statement, additional_response_selection_parameters=None):
         response = "What?"
         emotion = Emotion.angry_non_expressive
-        words = self.last_word[self.last_word_idx + 1:]
+        words = self.last_word[self.last_word_idx + 1 :]
         for i in words:
             if i is None:
                 break
         else:
-            response = ' '.join(words)
+            response = " ".join(words)
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = 1

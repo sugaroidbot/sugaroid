@@ -46,7 +46,7 @@ class FunAdapter(LogicAdapter):
         super().__init__(chatbot, **kwargs)
 
     def can_process(self, statement):
-        if self.chatbot.globals['fun']:
+        if self.chatbot.globals["fun"]:
             return True
         else:
             return False
@@ -55,7 +55,7 @@ class FunAdapter(LogicAdapter):
         emotion = Emotion.neutral
         confidence = 0.05
         parsed = str(statement)
-        if 'not' in parsed:
+        if "not" in parsed:
             # if you are not, who then is?
             suffix = " either. "
             prefix = ""
@@ -66,16 +66,17 @@ class FunAdapter(LogicAdapter):
             token = spac_token(statement, chatbot=self.chatbot)
             for i in token:
                 # checks if the statement contains any sequence of interrogative type of words
-                if i.tag_ == '.' and i.text == '?':
+                if i.tag_ == "." and i.text == "?":
                     interrogation = True
-                if str(i.tag_).startswith('W'):
+                if str(i.tag_).startswith("W"):
                     interrogation = True
 
             if interrogation:
-                prefix, suffix = '', ''
+                prefix, suffix = "", ""
                 confidence *= 2
                 parsed = random_response(FUN_ASK_QUESTION).format(
-                    ' '.join(reverse(word_tokenize(str(statement)))))  # This seems complex.
+                    " ".join(reverse(word_tokenize(str(statement))))
+                )  # This seems complex.
                 # The tokenized input statement is reversed using the reverse unction
                 # Reverse in this sense means switching first person and second person nouns
                 # The returned list of tokens are then converted into a string by joining each element
@@ -83,13 +84,13 @@ class FunAdapter(LogicAdapter):
                 # for the visibility sake
             else:
                 prefix, suffix = random_response(FUN_LET_ME_TRY)
-                suffix = "' {}".format(suffix.format(
-                    random_response(EMOJI_SMILE)))
+                suffix = "' {}".format(suffix.format(random_response(EMOJI_SMILE)))
                 prefix = "{} '".format(prefix)
                 emotion = Emotion.wink
 
-        selected_statement = SugaroidStatement("{pre}{main}{fix}".format(
-            pre=prefix, main=parsed, fix=suffix), chatbot=True)
+        selected_statement = SugaroidStatement(
+            "{pre}{main}{fix}".format(pre=prefix, main=parsed, fix=suffix), chatbot=True
+        )
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion
         return selected_statement

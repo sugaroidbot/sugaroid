@@ -39,14 +39,16 @@ class SugaroidCurrency:
         self.currency_api = CurrencyConverter()
 
     def convert(self, src: str, dest: str, amount: float):
-        if (src in self.currency_api.currencies) and (dest in self.currency_api.currencies):
+        if (src in self.currency_api.currencies) and (
+            dest in self.currency_api.currencies
+        ):
             return self.currency_api.convert(amount, src, dest)
         else:
             if src not in self.currency_api.currencies:
                 bad_cur = src
             else:
                 bad_cur = dest
-            return 'Hmm. Seems like {} is not a recognized currency.'.format(bad_cur)
+            return "Hmm. Seems like {} is not a recognized currency.".format(bad_cur)
 
 
 class CurrencyAdapter(LogicAdapter):
@@ -63,27 +65,31 @@ class CurrencyAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.tokenized = self.chatbot.lp.tokenize(
-            str(statement).replace('$', ' USD ').replace(
-                '₹', ' INR ').replace('€', ' EUR ').replace('£', ' GBP ')
+            str(statement)
+            .replace("$", " USD ")
+            .replace("₹", " INR ")
+            .replace("€", " EUR ")
+            .replace("£", " GBP ")
         )
         self.currencies_dest = []
         self.currencies_src = None
         if len(self.tokenized) >= 3:
             for i in range(len(self.tokenized) - 1):
-                if self.tokenized[i].tag_ == 'TO':
+                if self.tokenized[i].tag_ == "TO":
                     dst = str(self.tokenized[i + 1].text).upper()
                     if len(dst) < 4:
                         self.currencies_dest.append(dst)
                     try:
                         if len(self.tokenized[i - 1].lower_) < 4:
                             self.currencies_src = str(
-                                self.tokenized[i - 1].text).upper()
+                                self.tokenized[i - 1].text
+                            ).upper()
                     except IndexError:
                         pass
-                elif self.tokenized[i].lower_ == 'is':
+                elif self.tokenized[i].lower_ == "is":
 
                     for j in range(i + 1, len(self.tokenized)):
-                        if self.tokenized[j].tag_ == 'IN':
+                        if self.tokenized[j].tag_ == "IN":
                             dst = str(self.tokenized[j + 1].text).upper()
                             if len(dst) < 4:
                                 self.currencies_dest.append(dst)
@@ -97,15 +103,17 @@ class CurrencyAdapter(LogicAdapter):
                         return True
                     else:
                         return False
-                elif self.tokenized[i].tag_ == 'IN':
+                elif self.tokenized[i].tag_ == "IN":
                     dst = str(self.tokenized[i + 1].text).upper()
                     if len(dst) < 4:
                         self.currencies_dest.append(dst)
 
         if self.currencies_dest and self.currencies_src:
             logging.info(
-                "CurrencyAdapter: Recognized source and destination currency types. src: {} and dest: {}" .format(
-                    self.currencies_src, self.currencies_dest))
+                "CurrencyAdapter: Recognized source and destination currency types. src: {} and dest: {}".format(
+                    self.currencies_src, self.currencies_dest
+                )
+            )
             return True
         else:
             return False
@@ -117,7 +125,7 @@ class CurrencyAdapter(LogicAdapter):
         converted = []
 
         for i in self.tokenized:
-            if i.tag_ in ['LS', 'CD']:
+            if i.tag_ in ["LS", "CD"]:
                 self.currencies_src_ord = i.text
 
         if self.currencies_src_ord:
@@ -125,18 +133,24 @@ class CurrencyAdapter(LogicAdapter):
                 self.currencies_src_ord = float(self.currencies_src_ord)
                 sg_currency = SugaroidCurrency()
                 for destination in self.currencies_dest:
-                    converted.append('{} {}'.format(
-                        sg_currency.convert(self.currencies_src.upper(
-                        ), destination.upper(), self.currencies_src_ord),
-                        destination.upper())
+                    converted.append(
+                        "{} {}".format(
+                            sg_currency.convert(
+                                self.currencies_src.upper(),
+                                destination.upper(),
+                                self.currencies_src_ord,
+                            ),
+                            destination.upper(),
+                        )
                     )
-                response = ' '.join(converted)
+                response = " ".join(converted)
             except ValueError:
-                response = 'Seems like I cannot process {}. Maybe try a numerical value for me to understand better' \
-                    .format(self.currencies_src_ord)
+                response = "Seems like I cannot process {}. Maybe try a numerical value for me to understand better".format(
+                    self.currencies_src_ord
+                )
 
         else:
-            response = 'Seems like you forgot the important part of your currency conversion statement. The number!'
+            response = "Seems like you forgot the important part of your currency conversion statement. The number!"
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.confidence = confidence
         selected_statement.emotion = emotion

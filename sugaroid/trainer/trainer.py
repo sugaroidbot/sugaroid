@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 """
-__version__ = '0.1'
+__version__ = "0.1"
 
 
 import json
@@ -41,7 +41,7 @@ class SugaroidTrainer:
         print("Sugaroid Trainer v{}".format(__version__))
 
     def train(self, trainer):
-        print('Initializing trainer')
+        print("Initializing trainer")
         self.cfgmgr = ConfigManager()
 
         data = self.cfgmgr.get_config()
@@ -49,7 +49,7 @@ class SugaroidTrainer:
         for i in data:
             il.append(i)
             trainer.train(data[i])
-        with open(os.path.join(self.cfgmgr.get_cfgpath(), 'data.json'), 'w') as w:
+        with open(os.path.join(self.cfgmgr.get_cfgpath(), "data.json"), "w") as w:
             json.dump({"il": il}, w)
 
     def modify(self):
@@ -59,7 +59,7 @@ class SugaroidTrainer:
     def prompt_cli():
         try:
             a = input("trainer @>")
-            if a == "Q" or a == 'q':
+            if a == "Q" or a == "q":
                 return False
             return a
         except KeyboardInterrupt:

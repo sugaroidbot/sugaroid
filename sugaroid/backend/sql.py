@@ -1,11 +1,10 @@
 import sqlite3
 import logging
 
-logger = logging.getLogger('sugaroid')
+logger = logging.getLogger("sugaroid")
 
 
-CREATE_TABLE = \
-    """CREATE TABLE IF NOT EXISTS sugaroid_hist (
+CREATE_TABLE = """CREATE TABLE IF NOT EXISTS sugaroid_hist (
 statement varchar(500),
 in_response_to varchar(500),
 time FLOAT,
@@ -23,6 +22,7 @@ class PossibleSQLInjectionPanicError(ValueError):
     to manipulate the database entry by multiple
     semicolons for example
     """
+
     pass
 
 
@@ -38,15 +38,16 @@ def convert_data_escaped_string(data: tuple):
     _processed_data = list()
     for i in data:
         if isinstance(i, str):
-            b = i.replace(';', ',')
+            b = i.replace(";", ",")
             # append the data with enclosing double quotes
-            if ';' in b:
+            if ";" in b:
                 # the data should be preprocessed to remove
                 # semicolons in case if its necessary
                 # if the caller did not escape the semicolon
                 # we should raise a PossibleSQLInjection panic
                 raise PossibleSQLInjectionPanicError(
-                    "An attempt to inject SQL issues was found")
+                    "An attempt to inject SQL issues was found"
+                )
             if len(i) > 50:
                 _processed_data.append('"{}"'.format(b))
             else:
@@ -58,10 +59,11 @@ def convert_data_escaped_string(data: tuple):
             # append to the line
             _processed_data.append("NULL")
         else:
-            logger.warn("Unknown data type encountered {} for {}. "
-                        "Make sure that data type matches "
-                        "`int`, `str`, `float`, `None`".format(
-                            type(i), i))
+            logger.warn(
+                "Unknown data type encountered {} for {}. "
+                "Make sure that data type matches "
+                "`int`, `str`, `float`, `None`".format(type(i), i)
+            )
             _processed_data.append('"{}"'.format(i))
 
     # debug: Assert that all the elements are of string type
@@ -108,8 +110,7 @@ class SqlDatabaseManagement:
         """
         self._cnx.execute(
             "INSERT INTO {tablename} VALUES({values})".format(
-                tablename=self.table,
-                values=convert_data_escaped_string(data)
+                tablename=self.table, values=convert_data_escaped_string(data)
             )
         )
 

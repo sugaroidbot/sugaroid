@@ -69,17 +69,17 @@ class TwoWordAdapter(LogicAdapter):
         response = random_response(ONE_WORD)
         short = str(statement).lower()
 
-        if ('name' in short) and ('my' in short):
-            if self.chatbot.globals['USERNAME']:
-                response = 'You are {}'.format(
-                    self.chatbot.globals['USERNAME'])
+        if ("name" in short) and ("my" in short):
+            if self.chatbot.globals["USERNAME"]:
+                response = "You are {}".format(self.chatbot.globals["USERNAME"])
             else:
                 response = random_response(WHO_AM_I)
 
-        elif ('name' in short) and ('your' in short):
+        elif ("name" in short) and ("your" in short):
             v = VERSION
             response = "\n{} \n{}. \nBuild: {}".format(
-                SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit())
+                SUGAROID[0], random_response(WHO_ARE_YOU), v.get_commit()
+            )
 
         else:
             confidence = 0.2

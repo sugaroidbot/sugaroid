@@ -50,17 +50,20 @@ class UpdateAdapter(LogicAdapter):
 
     def can_process(self, statement):
         normalized = word_tokenize(str(statement).lower())
-        if 'update' in normalized and 'admin' not in normalized:
+        if "update" in normalized and "admin" not in normalized:
             return True
         else:
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
         pop = subprocess.Popen(
-            shlex.split('{pip} install -U https://github.com/srevinsaju/sugaroid/archive/master.zip'
-                        .format(pip=shutil.which('pip'))),
+            shlex.split(
+                "{pip} install -U https://github.com/srevinsaju/sugaroid/archive/master.zip".format(
+                    pip=shutil.which("pip")
+                )
+            ),
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            stderr=subprocess.PIPE,
         )
         pop.communicate()
         response = f"Reload : Traceback {pop.stdout.read().decode()} {pop.stdin.read().decode()} . Restarting bot"

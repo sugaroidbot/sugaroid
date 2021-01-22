@@ -26,4 +26,5 @@ SOFTWARE.
 
 """
 from sugaroid.sugaroid import main
+
 main()
