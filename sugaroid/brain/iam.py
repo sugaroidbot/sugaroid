@@ -31,6 +31,7 @@ import spacy
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment import SentimentIntensityAnalyzer
 from sugaroid.brain.constants import GREET, BURN_IDK, I_AM
+from sugaroid.brain.constants import WHAT_I_AM_GOING_TO_DO
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import (
     cosine_similarity,
@@ -210,8 +211,11 @@ class MeAdapter(LogicAdapter):
                         emotion = Emotion.positive
                         confidence = 0.9
                         break
+                    elif i.lower_ in WHAT_I_AM_GOING_TO_DO:
+                        confidence = 0.4
+                        response = "Perhaps, I will sit simply, and smile."
+                        emotion = Emotion.lol
                     else:
-
                         nn = i.text
                         response = "Nope, I am not {n}, I am sugaroid".format(n=nn)
                         emotion = Emotion.angry
