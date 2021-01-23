@@ -6,6 +6,7 @@ description: 'Your personal, friendly new-born assistant'
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Chat on Discord](https://img.shields.io/discord/801396971138580540?color=7281da&label=Chat%20on%20Discord&logo=discord&logoColor=white)](https://discord.gg/EWaYYYjgJw)
+[![Sugaroid Bot](https://img.shields.io/badge/sugaroid-core-%23f70049)](https://github.com/sugaroidbot/sugaroid)
 
 
 
