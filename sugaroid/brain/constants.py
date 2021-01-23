@@ -51,8 +51,10 @@ SOFTWARE.
 
 WHAT_I_AM_GOING_TO_DO = {
     "tomorrow": "I will try to learn cryptography. I will first try working on Casesar's Cipher and decrypting random codes",
-    "today": ["I am creating a report of the world-wide usage history",
-    "I am checking if my responses are becoming more valid, or more foolish😝"],
+    "today": [
+        "I am creating a report of the world-wide usage history",
+        "I am checking if my responses are becoming more valid, or more foolish😝",
+    ],
     "weekend": "I might do some intense training to increase the validity of my responses",
     "weekday": "I guess goofing around once in a while is not such a bad thing, so, I might just do that",
     "month": "Well, I haven't thought about it that far ahead. I have got quite a huge list of things to keep me occupied currently",
