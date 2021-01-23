@@ -5,6 +5,9 @@ description: 'Your personal, friendly new-born assistant'
 # Sugaroid
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Chat on Discord](https://img.shields.io/discord/801396971138580540?color=7281da&label=Chat%20on%20Discord&logo=discord&logoColor=white)](https://discord.gg/EWaYYYjgJw)
+
+
 
 [![Become a Patron](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/srevinsaju?fan_landing=true)
 ## Important
