@@ -30,4 +30,4 @@ jobs:
 
       - name: Lint with Black
         run: |
-          black --check
+          black --check .
