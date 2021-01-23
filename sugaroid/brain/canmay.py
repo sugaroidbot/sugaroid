@@ -33,7 +33,7 @@ from chatterbot.conversation import Statement
 from nltk import word_tokenize
 from nltk.sentiment import SentimentIntensityAnalyzer
 
-from sugaroid.brain.constants import CANYOU
+from sugaroid.brain.constants import CANYOU, WHAT_I_AM_GOING_TO_DO
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import sigmaSimilarity, difference, random_response
 from sugaroid.brain.preprocessors import normalize
@@ -374,7 +374,18 @@ class CanAdapter(LogicAdapter):
                     emotion = Emotion.positive
 
             else:
-                if sentiments["neu"] == 1:
+                if sentiments["neu"] > 0.8:
+                    confidence = sentiments["neu"]
+                else:
+                    confidence = (sentiments["neg"] + sentiments["pos"]) + (
+                        (sentiments["neg"] + sentiments["pos"]) / 2
+                    )
+
+                if noun.lower() in WHAT_I_AM_GOING_TO_DO:
+                    response = "Lets hope for a good day."
+                    emotion = Emotion.lol
+                    confidence = 0.3
+                elif sentiments["neu"] == 1:
                     response = "I apologize. I would never be able to be {}".format(
                         noun
                     )
@@ -404,13 +415,6 @@ class CanAdapter(LogicAdapter):
                             )
                         )
                         emotion = Emotion.neutral
-                if sentiments["neu"] > 0.8:
-                    confidence = sentiments["neu"]
-                else:
-                    confidence = (sentiments["neg"] + sentiments["pos"]) + (
-                        (sentiments["neg"] + sentiments["pos"]) / 2
-                    )
-
         if verb == "be":
             ind = self.normalized.index("be")
             for j in range(ind, len(self.normalized) - 1):
