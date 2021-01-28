@@ -59,14 +59,14 @@ class Neuron:
     def parse(self, var):
         if var.isspace():
             return "Type something to begin"
-        if "time " in var:
+        if var.lower().strip() == "time":
             response = self.time()
         else:
 
             for i in ARITHMETIC:
                 if i in var:
                     response = self.alu(self.normalize(var))
-                    if str(response).strip() == "-":
+                    if str(response).strip() == "-" or str(response).strip() == "/":
                         pass
                     elif response:
                         break
