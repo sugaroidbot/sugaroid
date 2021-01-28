@@ -164,7 +164,7 @@ I_AM = [
 
 SUGAROID = ["🇸​🇺​🇬​🇦​🇷​🇴​🇮​🇩​", "sυgαяσι∂", "🅂🅄🄶🄰🅁🄾🄸🄳", "🆂🆄🅶🅰🆁🅾🅸🅳"]
 
-BYE = ["bye", "cya", "quit", "exit", "sleep"]
+BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara"]
 
 CANYOU = [
     "I am always {}",
@@ -304,12 +304,14 @@ HOPE_GAME_WAS_GOOD = [
     "Hope you had a fun filled game.",
     "I guess you had a great time playing with me. Anyway I had a lot of fun",
     "Wow, I appreciate your skills playing against me. You too would have had a lot of fun",
+    "Hope you enjoyed the game, coz, I know I did!😝",
 ]
 
 DIS_RESPONSES_I = [
     "Its ok.",
     "I will try to console you, the best I can",
     "I am sorry.",
+    "I am deeply sorry",
 ]
 
 APPRECIATION = [
@@ -322,6 +324,12 @@ APPRECIATION = [
     "commentary",
     "appreciate",
     "appreciation",
+    "well done",
+    "good work",
+    "good going",
+    "keep it up",
+    "truly commendable",
+    "great work",
 ]
 
 DIS_RESPONSES_YOU = [
@@ -396,7 +404,8 @@ ONE_WORD = [
     "Could you use better grammar? Thenks",
     "I'm not Google Assistant to understand your sentence this quick!",
     "I wish you provided more words, so that I can understand",
-    "Sometimes, one or two words does not help me understand",
+    "Sometimes, one or two words does not help me understand much",
+    "As I am a new born, it's hard for me to understand unless you say it in a more detailed way",
 ]
 
 WHERE_LIVE = ["In your heart"]
@@ -407,13 +416,14 @@ DONT_KNOW_WHERE = [
     "Perhaps, you can decide..",
     "I am sure its in a place you know.",
     "Why do you want to know where?",
-    "Do you know where? I do not.",
+    "Do you know where? I do not unfortunately",
+    "You are being sus. Why do you want to know where?🧐",
 ]
 
 IMITATE = [
     "Stop imitating me. I do not like it much!",
     "Imitation is both good and bad. What if you develop a career in comedy?",
-    "I am a pro at imitation. Don't mess with me.",
+    "I am a pro at imitation. Don't try to mess with me.",
     "If you are seriously having fun repeating what I said, lol, just proceed dude",
     "If imitating me makes you happy, I will be happier to see you laugh",
 ]
@@ -527,17 +537,21 @@ HI_WORDS = [
     "heyyyy",
     "ahoy",
     "ello",
-    "halo",
     "hello",
+    "whats up",
+    "hey sugaroid",
+    "hey dude",
+    "hey bro",
+    "konnichiwa",
+    "ciao",
 ]
 
 HI_RESPONSES = [
     "Hi there",
     "Hola amigo!",
-    "Hello, welcome to sugaroid",
-    "Hey, how can I help you?",
-    "Hey dude, how can I help you?",
-    "Hey there",
+    "Hey, how can I be of help?",
+    "Hey! How can I help you?",
+    "Hey there!😁",
     "Hey",
     "Hi, nice to meet you",
 ]
@@ -548,4 +562,7 @@ BYE_RESPONSE = [
     "TTYL!",
     "Catch you later!",
     "Bye!",
+    "see you later!",
+    "addio",
+    "adieu",
 ]
