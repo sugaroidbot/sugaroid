@@ -550,7 +550,7 @@ HI_RESPONSES = [
     "Hi there",
     "Hola amigo!",
     "Hey, how can I be of help?",
-    "Hey bro, how can I help you?",
+    "Hey! How can I help you?",
     "Hey there!😁",
     "Hey",
     "Hi, nice to meet you",
