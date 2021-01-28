@@ -564,4 +564,5 @@ BYE_RESPONSE = [
     "Bye!",
     "see you later!",
     "addio",
+    "adieu",
 ]
