@@ -518,6 +518,7 @@ class Sugaroid:
             "sugaroid.brain.myname.MyNameAdapter",
             "sugaroid.brain.iam.MeAdapter",
             "sugaroid.brain.about.AboutAdapter",
+            "sugaroid.brain.wolfalpha.WolframAlphaAdapter",
             "sugaroid.brain.wiki.WikiAdapter",
             "sugaroid.brain.dolike.DoLikeAdapter",
             "sugaroid.brain.feel.FeelAdapter",
