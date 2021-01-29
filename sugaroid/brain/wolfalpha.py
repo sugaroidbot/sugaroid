@@ -49,23 +49,29 @@ class WolframAlphaAdapter(LogicAdapter):
             if any((j.isdigit() for j in i)):
                 contains_numbers = True
         return (
-            'why' in self.normalized or 'int' in self.normalized 
-            or contains_numbers
-        ) and os.getenv("WOLFRAM_ALPHA_API") and not (
-            'you' in self.normalized and 'me' in self.normalized 
-            and 'him' in self.normalized and 'her' in self.normalized 
-            and 'she' in self.normalized and 'he' in self.normalized
-            and 'them' in self.normalized and 'i' in self.normalized)
-
+            ("why" in self.normalized or "int" in self.normalized or contains_numbers)
+            and os.getenv("WOLFRAM_ALPHA_API")
+            and not (
+                "you" in self.normalized
+                and "me" in self.normalized
+                and "him" in self.normalized
+                and "her" in self.normalized
+                and "she" in self.normalized
+                and "he" in self.normalized
+                and "them" in self.normalized
+                and "i" in self.normalized
+            )
+        )
 
     def process(self, statement, additional_response_selection_parameters=None):
-        url = \
-            "https://api.wolframalpha.com/v2/query?" \
-            "input={query}" \
+        url = (
+            "https://api.wolframalpha.com/v2/query?"
+            "input={query}"
             "&format=plaintext&output=JSON&appid={appid}"
+        )
         url = url.format(
-            query='+'.join(self.normalized),
-            appid=os.getenv("WOLFRAM_ALPHA_API", "DEMO")
+            query="+".join(self.normalized),
+            appid=os.getenv("WOLFRAM_ALPHA_API", "DEMO"),
         )
         response = requests.get(url, headers={"Accept": "application/json"}).json()
         if not response["queryresult"]["success"]:
@@ -86,7 +92,7 @@ class WolframAlphaAdapter(LogicAdapter):
                 if j["plaintext"]:
                     information.append(j["plaintext"])
 
-        interpretation = '\n'.join(information)
+        interpretation = "\n".join(information)
         selected_statement = SugaroidStatement(interpretation, chatbot=True)
         selected_statement.confidence = 1
         emotion = Emotion.lol
