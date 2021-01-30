@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - main
-      - develop
 
 jobs:
   Wheel:
@@ -24,6 +23,7 @@ jobs:
       run: |
         python -m pip install wheel twine
         python setup.py bdist_wheel
+        echo SUGAROID_VERSION=`python -c "$(cat sugaroid/version.py| grep VERSION); print(VERSION)"` >> $GITHUB_ENV
         
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
@@ -36,7 +36,7 @@ jobs:
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: twine upload dist/*
+      run: twine upload dist/* | true
 
   Release:
     needs: [Wheel]
@@ -48,8 +48,8 @@ jobs:
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
-      if: startsWith(github.ref, 'refs/tags/v')
       with:
+        automatic_release_tag: ${{ env.SUGAROID_VERSION }}
         prerelease: false
         draft: false
         repo_token: ${{ secrets.GITHUB_TOKEN }}
