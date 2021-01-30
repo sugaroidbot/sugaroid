@@ -101,7 +101,6 @@ class SwagLyricsAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = str(statement).lower().strip().split()
-        print(self.normalized)
         return "$ by" in str(statement) and "who" not in self.normalized
 
     def process(self, statement, additional_response_selection_parameters=None):
