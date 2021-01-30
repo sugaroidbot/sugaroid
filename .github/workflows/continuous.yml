@@ -38,10 +38,6 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: twine upload dist/* | true
 
-  Release:
-    needs: [Wheel]
-    runs-on: ubuntu-latest
-    steps:
     - uses: actions/download-artifact@v1
       with:
         name: sugaroid-continuous-none-any-py3.whl
@@ -52,4 +48,7 @@ jobs:
         automatic_release_tag: ${{ env.SUGAROID_VERSION }}
         prerelease: false
         draft: false
+        title: ${{ env.SUGAROID_VERSION }}
         repo_token: ${{ secrets.GITHUB_TOKEN }}
+        files: |
+          sugaroid-continuous-none-any-py3.whl
