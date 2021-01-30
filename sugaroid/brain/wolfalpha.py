@@ -49,11 +49,23 @@ class WolframAlphaAdapter(LogicAdapter):
             if any((j.isdigit() for j in i)):
                 contains_numbers = True
         return (
-            ("why" in self.normalized or "int" in self.normalized or contains_numbers)
+            (
+                "why" in self.normalized
+                or "who" in self.normalized
+                or "int" in self.normalized
+                or "when" in self.normalized
+                or "which" in self.normalized
+                or contains_numbers
+            )
             and os.getenv("WOLFRAM_ALPHA_API")
             and not (
                 "you" in self.normalized
+                and "favorite" in self.normalized
+                and "favourite" in self.normalized
                 and "me" in self.normalized
+                and "like" in self.normalized
+                and "your" in self.normalized
+                and "what" in self.normalized
                 and "him" in self.normalized
                 and "her" in self.normalized
                 and "she" in self.normalized
@@ -89,6 +101,11 @@ class WolframAlphaAdapter(LogicAdapter):
         information = []
         for i in response["queryresult"]["pods"]:
             for j in i["subpods"]:
+                try:
+                    if j["img"]["alt"] == "Plot":
+                        information.append(j["img"]["src"])
+                except KeyError:
+                    pass
                 if j["plaintext"]:
                     information.append(j["plaintext"])
 
