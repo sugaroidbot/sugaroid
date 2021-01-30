@@ -73,7 +73,6 @@ class WhyWhenAdapter(LogicAdapter):
         emotion = Emotion.neutral
         if "when" in self.normalized:
             if "you" in self.normalized or "your" in self.normalized:
-                print("+===> ", self.normalized)
                 response = "When did you what?"
                 confidence = 0.6
                 for i in ["creator", "author", "developer"]:
