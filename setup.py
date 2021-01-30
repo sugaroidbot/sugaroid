@@ -86,6 +86,7 @@ requirements = [
     "newsapi-python",
     "wikipedia-API",
     "pyspellchecker",
+    "swaglyrics",
     "python-dotenv",
     "psutil",
     "emoji",
