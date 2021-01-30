@@ -491,6 +491,7 @@ class Sugaroid:
             "sugaroid.brain.debug.DebugAdapter",
             "sugaroid.brain.interrupt.InterruptAdapter",
             "sugaroid.brain.learn.LearnAdapter",
+            "sugaroid.brain.swaglyrics.SwagLyricsAdapter"
         ]
         self.adapters = [
             "sugaroid.brain.yesno.BoolAdapter",
