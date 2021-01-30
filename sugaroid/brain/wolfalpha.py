@@ -62,18 +62,18 @@ class WolframAlphaAdapter(LogicAdapter):
             and os.getenv("WOLFRAM_ALPHA_API")
             and not (
                 "you" in self.normalized
-                and "favorite" in self.normalized
-                and "favourite" in self.normalized
-                and "me" in self.normalized
-                and "like" in self.normalized
-                and "your" in self.normalized
-                and "what" in self.normalized
-                and "him" in self.normalized
-                and "her" in self.normalized
-                and "she" in self.normalized
-                and "he" in self.normalized
-                and "them" in self.normalized
-                and "i" in self.normalized
+                or "favorite" in self.normalized
+                or "favourite" in self.normalized
+                or "me" in self.normalized
+                or "like" in self.normalized
+                or "your" in self.normalized
+                or "what" in self.normalized
+                or "him" in self.normalized
+                or "her" in self.normalized
+                or "she" in self.normalized
+                or "he" in self.normalized
+                or "them" in self.normalized
+                or "i" in self.normalized
             )
         )
 
