@@ -36,6 +36,7 @@ from sugaroid.brain.preprocessors import normalize
 
 backend_url = "https://api.swaglyrics.dev"
 
+
 class LyricsNotFound(Exception):
     pass
 
@@ -71,13 +72,17 @@ def get_lyrics(song, artist):
     try:
         page = fetch(url)
     except requests.exceptions.HTTPError:
-        url_data = fetch(f"{backend_url}/stripper", data={"song": song, "artist": artist})
+        url_data = fetch(
+            f"{backend_url}/stripper", data={"song": song, "artist": artist}
+        )
         if not url_data:
             raise LyricsNotFound(f"Lyrics for {song} by {artist} not found on Genius.")
         url = f"https://genius.com/{url_data}-lyrics"
         page = fetch(url)
     html = BeautifulSoup(page, "html.parser")
-    lyrics_path = html.find("div", class_="lyrics")  # finding div on Genius containing the lyrics
+    lyrics_path = html.find(
+        "div", class_="lyrics"
+    )  # finding div on Genius containing the lyrics
     if lyrics_path:
         lyrics = UnicodeDammit(lyrics_path.get_text().strip()).unicode_markup
     else:
@@ -85,7 +90,11 @@ def get_lyrics(song, artist):
         lyrics_path = html.find_all("div", class_=re.compile("^Lyrics__Container"))
         lyrics_data = []
         for x in lyrics_path:
-            lyrics_data.append(UnicodeDammit(re.sub("<.*?>", "", str(x).replace("<br/>", "\n"))).unicode_markup)
+            lyrics_data.append(
+                UnicodeDammit(
+                    re.sub("<.*?>", "", str(x).replace("<br/>", "\n"))
+                ).unicode_markup
+            )
 
         lyrics = "\n".join(lyrics_data)
     return lyrics
@@ -105,29 +114,25 @@ class SwagLyricsAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         if (
-            self.normalized[0] == "get" 
-            and self.normalized[1] == "lyrics" 
+            self.normalized[0] == "get"
+            and self.normalized[1] == "lyrics"
             and self.normalized[2] == "for"
         ):
             self.normalized[0:3] = []
-        
-        elif (
-            self.normalized[0] == "lyrics"
-            and self.normalized[1] == "for"
-        ):
+
+        elif self.normalized[0] == "lyrics" and self.normalized[1] == "for":
             self.normalized[0:2] = []
-        elif (
-            self.normalized[0] == "lyrics"
-        ):
+        elif self.normalized[0] == "lyrics":
             self.normalized[0:1] = []
 
-        stripped_message = ' '.join(self.normalized).strip()
+        stripped_message = " ".join(self.normalized).strip()
         try:
             song, artist = stripped_message.split("$ by")
         except Exception as e:
             selected_statement = SugaroidStatement(
-                "Usage: _Hello $by Adele_ or "
-                "_get lyrics for The Nights $by Avicii_", chatbot=True)
+                "Usage: _Hello $by Adele_ or " "_get lyrics for The Nights $by Avicii_",
+                chatbot=True,
+            )
             selected_statement.confidence = 1
 
             emotion = Emotion.lol
@@ -135,13 +140,12 @@ class SwagLyricsAdapter(LogicAdapter):
             return selected_statement
 
         try:
-            lyrics = get_lyrics(song, artist) 
+            lyrics = get_lyrics(song, artist)
             if not lyrics.strip():
                 raise LyricsNotFound
 
         except LyricsNotFound:
-            lyrics = "I couldn't find the lyrics for '{}' by '{}'.".format(
-                song, artist)
+            lyrics = "I couldn't find the lyrics for '{}' by '{}'.".format(song, artist)
 
         selected_statement = SugaroidStatement(lyrics, chatbot=True)
         selected_statement.confidence = 1

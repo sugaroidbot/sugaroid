@@ -120,7 +120,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 "<b>The NewsAPI Project</b>, for the news headlines",
                 "<b>Wikipedia</b>, The Free Encyclopedia, by The Wikimedia Foundation",
             ]
-            response = '❇️ ' + '\n ❇️ '.join(credits)
+            response = "❇️ " + "\n ❇️ ".join(credits)
             confidence = 1
 
         elif short in HI_WORDS:
