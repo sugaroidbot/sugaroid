@@ -55,6 +55,7 @@ class WolframAlphaAdapter(LogicAdapter):
                 or "int" in self.normalized
                 or "when" in self.normalized
                 or "which" in self.normalized
+                or "where" in self.normalized
                 or contains_numbers
             )
             and os.getenv("WOLFRAM_ALPHA_API")
