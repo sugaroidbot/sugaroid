@@ -51,5 +51,4 @@ jobs:
       with:
         prerelease: false
         draft: false
-        automatic_release_tag: true
         repo_token: ${{ secrets.GITHUB_TOKEN }}
