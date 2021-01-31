@@ -10,12 +10,12 @@ from sugaroid.sugaroid import SugaroidStatement
 
 class AboutAdapter(LogicAdapter):
     """
-    Defines the personality of sugaroid. **About Adapter** sets 
+    Defines the personality of sugaroid. **About Adapter** sets
     the basic parameters of personality. These include questions
     like 'Who is your brother?', or "What is your Hobby?"
 
     .. warning::
-        This adapter is incomplete and requires additional 
+        This adapter is incomplete and requires additional
         clauses.
     """
 
@@ -34,7 +34,7 @@ class AboutAdapter(LogicAdapter):
     def can_process(self, statement):
         """
         Checks if the provided statement is a statement which
-        matches a similarity to "What is your ``<insert token>``" 
+        matches a similarity to "What is your ``<insert token>``"
         """
         self.text = nltk.word_tokenize(str(statement))
         self.tagged = nltk.pos_tag(self.text)
