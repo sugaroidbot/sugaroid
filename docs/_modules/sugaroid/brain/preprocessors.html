@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.preprocessors &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/preprocessors.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.preprocessors</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.preprocessors</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">unicodedata</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">wordnet</span> <span class="k">as</span> <span class="n">wn</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+
+<span class="n">short_forms</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;coz&quot;</span><span class="p">:</span> <span class="s2">&quot;because&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bcoz&quot;</span><span class="p">:</span> <span class="s2">&quot;because&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ye&quot;</span><span class="p">:</span> <span class="s2">&quot;yea&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bro&quot;</span><span class="p">:</span> <span class="s2">&quot;brother&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sis&quot;</span><span class="p">:</span> <span class="s2">&quot;sister&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tk&quot;</span><span class="p">:</span> <span class="s2">&quot;thank you&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tq&quot;</span><span class="p">:</span> <span class="s2">&quot;thank you&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hwy&quot;</span><span class="p">:</span> <span class="s2">&quot;how are you&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hi&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hoi&quot;</span><span class="p">:</span> <span class="s2">&quot;Hello&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nvm&quot;</span><span class="p">:</span> <span class="s2">&quot;never mind&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rotfl&quot;</span><span class="p">:</span> <span class="s2">&quot;rolling on the floor with laughter&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wtf&quot;</span><span class="p">:</span> <span class="s2">&quot;You are bad&quot;</span><span class="p">,</span>  <span class="c1"># PS: thats enough for this course of code ;)</span>
+    <span class="s2">&quot;ikr&quot;</span><span class="p">:</span> <span class="s2">&quot;I know right&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ofc&quot;</span><span class="p">:</span> <span class="s2">&quot;of course&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;10q&quot;</span><span class="p">:</span> <span class="s2">&quot;thank you&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2moro&quot;</span><span class="p">:</span> <span class="s2">&quot;tomorrow&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tbh&quot;</span><span class="p">:</span> <span class="s2">&quot;to be honest&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cya&quot;</span><span class="p">:</span> <span class="s2">&quot;see you&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&#39;m&quot;</span><span class="p">:</span> <span class="s2">&quot;am&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;noice&quot;</span><span class="p">:</span> <span class="s2">&quot;nice&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="s2">&quot;you&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pls&quot;</span><span class="p">:</span> <span class="s2">&quot;please&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&#39;ll&quot;</span><span class="p">:</span> <span class="s2">&quot;will&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&#39;d&quot;</span><span class="p">:</span> <span class="s2">&quot;would&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;btw&quot;</span><span class="p">:</span> <span class="s2">&quot;by the way&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;becoz&quot;</span><span class="p">:</span> <span class="s2">&quot;because&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yaya&quot;</span><span class="p">:</span> <span class="s2">&quot;yea&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;thnx&quot;</span><span class="p">:</span> <span class="s2">&quot;thanks&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="preprocess"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.preprocessors.preprocess">[docs]</a><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">string_arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EXPERIMENTAL</span>
+<span class="sd">    Testing Required</span>
+
+<span class="sd">    Remove unwanted characters, expand words, replace short forms</span>
+<span class="sd">    and fix capitalization for certain pronouns</span>
+<span class="sd">    :param string_arg: String argument which you would like to process</span>
+<span class="sd">    :return: String stype containing expanded texts</span>
+<span class="sd">    :return_type: &lt;class &#39;str&#39;&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;PREPROCESSOR: Received </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string_arg</span><span class="p">))</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">string_arg</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;n&#39;t&quot;</span><span class="p">,</span> <span class="s2">&quot; not&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+        <span class="s2">&quot;&#39;re&quot;</span><span class="p">,</span> <span class="s2">&quot; are&quot;</span>
+    <span class="p">)</span>  <span class="c1"># replace short word to expanded words</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; i &quot;</span><span class="p">,</span> <span class="s2">&quot; I &quot;</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">proc</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;say&quot;</span><span class="p">))</span> <span class="ow">or</span> <span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;tell&quot;</span><span class="p">)):</span>
+            <span class="k">del</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;me&quot;</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Needs testing</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">short_forms</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+                <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">short_forms</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;PREPROCESSOR: Returned </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">proc</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">proc</span></div>
+
+
+<div class="viewcode-block" id="non_punkt_normalize"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.preprocessors.non_punkt_normalize">[docs]</a><span class="k">def</span> <span class="nf">non_punkt_normalize</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordNetLemmatizer</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.preprocessors.normalize">[docs]</a><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">remove_punct_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="nb">ord</span><span class="p">(</span><span class="n">punct</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">punct</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span>
+    <span class="c1"># word tokenization</span>
+    <span class="n">word_token</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">remove_punct_dict</span><span class="p">))</span>
+
+    <span class="c1"># remove ascii</span>
+    <span class="n">new_words</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">word_token</span><span class="p">:</span>
+        <span class="n">new_word</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;NFKD&quot;</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">new_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_word</span><span class="p">)</span>
+
+    <span class="c1"># Remove tags</span>
+    <span class="n">rmv</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">new_words</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;&amp;lt;/?.*?&amp;gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;lt;&amp;gt;&quot;</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="n">rmv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># pos tagging and lemmatization</span>
+    <span class="n">tag_map</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">wn</span><span class="o">.</span><span class="n">NOUN</span><span class="p">)</span>
+    <span class="n">tag_map</span><span class="p">[</span><span class="s2">&quot;J&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wn</span><span class="o">.</span><span class="n">ADJ</span>
+    <span class="n">tag_map</span><span class="p">[</span><span class="s2">&quot;V&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wn</span><span class="o">.</span><span class="n">VERB</span>
+    <span class="n">tag_map</span><span class="p">[</span><span class="s2">&quot;R&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wn</span><span class="o">.</span><span class="n">ADV</span>
+    <span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">WordNetLemmatizer</span><span class="p">()</span>
+    <span class="n">lemma_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">rmv</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rmv</span> <span class="k">if</span> <span class="n">i</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">rmv</span><span class="p">):</span>
+        <span class="n">lemma</span> <span class="o">=</span> <span class="n">lemmatizer</span><span class="o">.</span><span class="n">lemmatize</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">tag_map</span><span class="p">[</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">lemma_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lemma</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lemma_list</span></div>
+
+
+<div class="viewcode-block" id="purify"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.preprocessors.purify">[docs]</a><span class="k">def</span> <span class="nf">purify</span><span class="p">(</span><span class="n">tokenized</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">lemma</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scans tokenized text</span>
+<span class="sd">    removes any common words in args</span>
+<span class="sd">    :param tokenized:</span>
+<span class="sd">    :param args:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">purified</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokenized</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="n">element</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">elif</span> <span class="n">lemma</span> <span class="ow">and</span> <span class="n">token</span><span class="o">.</span><span class="n">is_stop</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">purified</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">purified</span></div>
+
+
+<div class="viewcode-block" id="spac_token"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.preprocessors.spac_token">[docs]</a><span class="k">def</span> <span class="nf">spac_token</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">statement</span><span class="o">.</span><span class="n">doc</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">statement</span><span class="o">.</span><span class="n">doc</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">chatbot</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">nlp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">chatbot</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">nlp</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="tokenize"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.preprocessors.tokenize">[docs]</a><span class="k">def</span> <span class="nf">tokenize</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+    <span class="n">word_token</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">txt</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">word_token</span></div>
+
+
+<div class="viewcode-block" id="current_time"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.preprocessors.current_time">[docs]</a><span class="k">def</span> <span class="nf">current_time</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Returns a tuple containing (hour, minute) for current local time.&quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">time</span>
+
+    <span class="n">local_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">local_time</span><span class="o">.</span><span class="n">tm_hour</span><span class="p">,</span> <span class="n">local_time</span><span class="o">.</span><span class="n">tm_min</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

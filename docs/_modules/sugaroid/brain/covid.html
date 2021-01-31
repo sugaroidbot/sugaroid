@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.covid &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/covid.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.covid</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.covid</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span><span class="p">,</span> <span class="n">any_in</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span>
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+
+<span class="n">ABOUT_CORONAVIRUS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Coronavirus disease (COVID-19) is an infectious disease caused by a new virus.</span>
+<span class="s2">The disease causes respiratory illness (like the flu) with symptoms such as a</span>
+<span class="s2">cough, fever, and in more severe cases, difficulty breathing. You can protect</span>
+<span class="s2">yourself by washing your hands frequently, avoiding touching your face, and</span>
+<span class="s2">avoiding close contact (1 meter or 3 feet) with people who are unwell.</span>
+
+<span class="s2">Lets stay safe during covid 19 by staying at home.</span>
+<span class="s2">I can do an approximation if you do have coronavirus.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">COVID_QUESTIONS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Do you have fever?&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Do you have cough?&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;Do you have shortness of breath&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;Have you travelled outside your house in the last 14 days?&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;Have you been tested for covid before, with negative results?&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+    <span class="p">[</span>
+        <span class="mi">6</span><span class="p">,</span>
+        <span class="s2">&quot;Do you have any chronic diseases, eg: asthma or faced pneumonia in the past&quot;</span><span class="p">,</span>
+        <span class="mi">1</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="CovidAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.covid.CovidAdapter">[docs]</a><span class="k">class</span> <span class="nc">CovidAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A COVID-19 dedicated Adapter</span>
+<span class="sd">    In the **memory** of cancelled Google Code In, Grand Prize Winner&#39;s trip, 2019-2020 :</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;Nor Mars his sword nor war’s quick fire shall burn</span>
+<span class="sd">    The living record of (GCI GPW-19&#39;s) memory.</span>
+<span class="sd">    ’Gainst death and all-oblivious enmity</span>
+<span class="sd">    Shall you pace forth; your praise shall still find room</span>
+<span class="sd">    Even in the eyes of all posterity (future GPWs)</span>
+<span class="sd">    That wear this world out to the ending doom.</span>
+<span class="sd">    So, till the Judgement that yourself arise,</span>
+<span class="sd">    You (GCI GPW 2019) live in this, and dwell in lovers’ (coder&#39;s) eyes.&quot;</span>
+<span class="sd">            ~ William Shakespeare (Sonnet 55)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span> <span class="o">=</span> <span class="n">chatbot</span>
+
+<div class="viewcode-block" id="CovidAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.covid.CovidAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">any_in</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;covid&quot;</span><span class="p">,</span> <span class="s2">&quot;covid19&quot;</span><span class="p">,</span> <span class="s2">&quot;covid-19&quot;</span><span class="p">,</span> <span class="s2">&quot;corona&quot;</span><span class="p">,</span> <span class="s2">&quot;coronavirus&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="CovidAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.covid.CovidAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># FIXME Creates unusual response</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">ABOUT_CORONAVIRUS</span>
+
+        <span class="k">if</span> <span class="n">any_in</span><span class="p">([</span><span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I will do a short approximation if you do have coronavirus</span><span class="se">\n</span><span class="si">{covidq}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">covidq</span><span class="o">=</span><span class="n">COVID_QUESTIONS</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;CORONAVIRUS&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;CovidAdapter sets [&#39;reversei&#39;][&#39;enabled&#39;] as </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s1">&#39;reversei&#39;</span><span class="p">][</span><span class="s1">&#39;enabled&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">elif</span> <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">&quot;Someone told that I had been contracted with corona from somewhere, but thats extremely wrong.&quot;</span>
+                <span class="s2">&quot; I will not get infected by any physical virus, (except Trojan or NO_HEROKU_CREDIT virus)&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+
+        <span class="k">return</span> <span class="n">selected_statement</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

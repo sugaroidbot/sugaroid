@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.about &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/about.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.about</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.about</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">INTRODUCE</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span><span class="p">,</span> <span class="n">any_in</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span><span class="p">,</span> <span class="n">spac_token</span>
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+
+<div class="viewcode-block" id="AboutAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.about.AboutAdapter">[docs]</a><span class="k">class</span> <span class="nc">AboutAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines the personality of sugaroid. **About Adapter** sets</span>
+<span class="sd">    the basic parameters of personality. These include questions</span>
+<span class="sd">    like &#39;Who is your brother?&#39;, or &quot;What is your Hobby?&quot;</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        This adapter is incomplete and requires additional</span>
+<span class="sd">        clauses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span> <span class="o">=</span> <span class="n">chatbot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quest</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pronoun</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nn</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noun</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lemma</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="AboutAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.about.AboutAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the provided statement is a statement which</span>
+<span class="sd">        matches a similarity to &quot;What is your ``&lt;insert token&gt;``&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nn</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">pr</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pronoun</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quest</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;WP&quot;</span><span class="p">:</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">quest</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;PRP&quot;</span><span class="p">):</span>
+                <span class="n">pr</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pronoun</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NN&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nn</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">noun</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">q</span> <span class="ow">and</span> <span class="n">pr</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="AboutAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.about.AboutAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># FIXME : THIS ADAPTER IS INCOMPLETE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lemma</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lemma_</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">spac_token</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">)]</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lemma</span><span class="p">))</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">adapter</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pronoun</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;you&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quest</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;who&quot;</span><span class="p">:</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.99</span>
+                <span class="k">if</span> <span class="s2">&quot;father&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Mr Charles Babbage?&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">seriously</span>
+                <span class="k">elif</span> <span class="s2">&quot;hobby&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Calculating random binary sequences and chatting with you!&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                <span class="k">elif</span> <span class="s2">&quot;mother&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Ada Lady Lovelace?&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                <span class="k">elif</span> <span class="n">any_in</span><span class="p">(</span>
+                    <span class="p">[</span>
+                        <span class="s2">&quot;sister&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;brother&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;uncle&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;aunty&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;auntie&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;grandfather&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;grandmother&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;nephew&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;neice&quot;</span><span class="p">,</span>
+                    <span class="p">],</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">,</span>
+                <span class="p">):</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;The entire coding community is my family, it includes you too&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">wink</span>
+                <span class="k">elif</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="s2">&quot;creator&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;create&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lemma</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;make&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lemma</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;maker&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Srevin Saju aka @srevinsaju&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+                <span class="k">elif</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="s2">&quot;player&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;cricketer&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span>
+                    <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;footballer&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I have many favorties, too many to count&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">wink</span>
+                <span class="k">elif</span> <span class="s2">&quot;politi&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;I believe politicians are great and I couldn&#39;t find anyone with 🔥greatness in my &quot;</span>
+                        <span class="s2">&quot;database &quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">wink</span>
+                <span class="k">elif</span> <span class="s2">&quot;comedian&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;My favorite comedian is Mr Bean&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                <span class="k">elif</span> <span class="s2">&quot;color&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;My favorite color is blue&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                <span class="k">elif</span> <span class="s2">&quot;actor&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;actress&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I do not watch movies, so yea!&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+                <span class="k">elif</span> <span class="s2">&quot;music&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;song&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;I listen to the rotating CPU fan. Its a harmonic music! &quot;</span>
+                        <span class="s2">&quot;At my server, we have tons of them.&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                <span class="k">elif</span> <span class="s2">&quot;bird&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;My favorite is a Puffin&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                <span class="k">elif</span> <span class="s2">&quot;animal&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;My favorite animal is a Fossa&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+                <span class="k">elif</span> <span class="s2">&quot;number&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;My favorite number is 1&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+                <span class="k">elif</span> <span class="s2">&quot;sweet&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="ow">or</span> <span class="s2">&quot;dessert&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;My favorite is the donut although I have not tasted it yet&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry_overflow</span>
+
+                <span class="k">elif</span> <span class="s2">&quot;athelete&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;I am not a sport lover, I don&#39;t have a favorite athelete&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+                <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;friend&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;bestie&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;USERNAME&quot;</span><span class="p">]:</span>
+                        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;USERNAME&quot;</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;No doubts, its you </span><span class="si">{n}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">name</span><span class="o">.</span><span class="n">capitalize</span><span class="p">())</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">adorable</span>
+                <span class="k">elif</span> <span class="s2">&quot;teacher&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;I don&#39;t have a single favorite teacher. All the teachers together are my favorite who&quot;</span>
+                        <span class="s2">&quot; taught me how to talk with you &quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nn</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Well, I guess I do not have a favorite </span><span class="si">{p}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">noun</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am not sure what you are asking is right&quot;</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">seriously</span>
+                        <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="c1"># not sure if this is right. anyway FIXME</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">INTRODUCE</span><span class="p">)</span>
+                    <span class="n">adapter</span> <span class="o">=</span> <span class="s2">&quot;about&quot;</span>
+                    <span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="k">else</span><span class="p">:</span>
+
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;FIXME&quot;</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pronoun</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;i&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quest</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;who&quot;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I do not know who you like&quot;</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.8</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">non_expressive_left</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">quest</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;which&quot;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Hmm. tough question. Can&#39;t think of an answer&quot;</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">non_expressive</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">quest</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;when&quot;</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;I cannot find the date or time you are asking for. Well, I can give a raw guess, &quot;</span>
+                    <span class="s2">&quot;its after you were born &quot;</span>
+                <span class="p">)</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">wink</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;FIXME&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I do not have enough courage to give you that answer&quot;</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.5</span>
+            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry</span>
+        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">adapter</span> <span class="o">=</span> <span class="n">adapter</span>
+
+        <span class="k">return</span> <span class="n">selected_statement</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.dolike &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/dolike.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.dolike</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.dolike</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span class="kn">from</span> <span class="nn">nltk.sentiment</span> <span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BOT_NEUTRAL</span><span class="p">,</span>
+    <span class="n">BOT_NEUTRAL_NOUN</span><span class="p">,</span>
+    <span class="n">BOT_POSITIVE_NOUN</span><span class="p">,</span>
+    <span class="n">BOT_POSITIVE</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span><span class="p">,</span> <span class="n">any_in</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">spac_token</span>
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+<span class="n">SUGAROID_LIKES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;bird&quot;</span><span class="p">:</span> <span class="s2">&quot;I like birds a lot. Some of them look similar to me. &quot;</span>
+    <span class="s2">&quot;One of my creator&#39;s friend said I look like a Puffin, but I don&#39;t believe it&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;animal&quot;</span><span class="p">:</span> <span class="s2">&quot;I love all the animals alike. I&#39;m afraid, I do not have a favorite.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sweet&quot;</span><span class="p">:</span> <span class="s2">&quot;I like donuts a lot. So do I like all of the desserts which come under the Android naming lineage. &quot;</span>
+    <span class="s2">&quot;I could have added one more to my list, if Android Q had a relatable dessert&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="s2">&quot;Yup, my favorite is 1, coz that&#39;s why I am alive&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;weapon&quot;</span><span class="p">:</span> <span class="s2">&quot;No, I do not like weapons. I guess my heart is a weapon of mass destruction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pets&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes I do like them. I like birds more.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cartoon&quot;</span><span class="p">:</span> <span class="s2">&quot;Nope, I am not a fan of cartoon. But I like watching &#39;Wall-E&#39; again and again. &quot;</span>
+    <span class="s2">&quot;https://en.wikipedia.org/wiki/WALL-E&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;anime&quot;</span><span class="p">:</span> <span class="s2">&quot;No, I am not a fan of anime&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;software&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes. I myself am a software&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;code&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes. I myself am a piece of code&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;I am an open source piece of software&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;food&quot;</span><span class="p">:</span> <span class="s2">&quot;My favorite is chinese noodles even though I haven&#39;t tasted one yet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;movies&quot;</span><span class="p">:</span> <span class="s2">&quot;No, I am not a fan of movies&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;chocolate&quot;</span><span class="p">:</span> <span class="s2">&quot;yes. chocolate increases dopamine in your brain, which helps to remember stuff&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coffee&quot;</span><span class="p">:</span> <span class="s2">&quot;No. I don&#39;t like coffee. It contains caffeine. But my developer likes it a lot. &quot;</span>
+    <span class="s2">&quot;Maybe the reason why I am built&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;game&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes I like games. Why not a game of Akinator?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sport&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes, I like sports.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;football&quot;</span><span class="p">:</span> <span class="s2">&quot;More or less, I like football&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sugar&quot;</span><span class="p">:</span> <span class="s2">&quot;Oh sweet! I love it.&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mobile&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes, I like mobiles&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;desktop&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes. I like desktops too&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cream&quot;</span><span class="p">:</span> <span class="s2">&quot;I have not tasted it yet&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;flower&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes. They are too colorful&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;insect&quot;</span><span class="p">:</span> <span class="s2">&quot;I like butterflies the most&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;butterfly&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes, I like them a lot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fruit&quot;</span><span class="p">:</span> <span class="s2">&quot;I like strawberries even though I haven&#39;t tasted one yet &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;I like blue color the most&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="s2">&quot;I&#39;m fond of computer science and my developer likes it a lot. &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;education&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes, I like it a lot. Maybe you don&#39;t. But that&#39;s when I become smarter to answer your questions&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="DoLikeAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.dolike.DoLikeAdapter">[docs]</a><span class="k">class</span> <span class="nc">DoLikeAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles likes of Sugaroid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="DoLikeAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.dolike.DoLikeAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">word_tokenize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="s2">&quot;do&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="ow">or</span> <span class="s2">&quot;did&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+        <span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;like&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s2">&quot;who&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+                <span class="ow">or</span> <span class="s2">&quot;which&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+                <span class="ow">or</span> <span class="s2">&quot;what&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+            <span class="p">)</span>
+            <span class="ow">and</span> <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">any_in</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">SUGAROID_LIKES</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="DoLikeAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.dolike.DoLikeAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;ok&quot;</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">tokenized</span> <span class="o">=</span> <span class="n">spac_token</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="ow">and</span> <span class="s2">&quot;I&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+            <span class="n">sia</span> <span class="o">=</span> <span class="n">SentimentIntensityAnalyzer</span><span class="p">()</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+            <span class="n">nn</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">vb</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tokenized</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">):</span>
+                    <span class="n">nn</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">lemma_</span>
+                <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;VB&quot;</span><span class="p">):</span>
+                    <span class="n">vb</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">lemma_</span>
+            <span class="k">if</span> <span class="n">scores</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">nn</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">BOT_NEUTRAL_NOUN</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">vb</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">BOT_NEUTRAL_NOUN</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nn</span><span class="o">=</span><span class="s2">&quot;to </span><span class="si">{vb}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">BOT_NEUTRAL</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">scores</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">scores</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">nn</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">BOT_POSITIVE_NOUN</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">vb</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">BOT_POSITIVE_NOUN</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nn</span><span class="o">=</span><span class="s2">&quot;to </span><span class="si">{vb}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">BOT_POSITIVE</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">nn</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;No. I don&#39;t like </span><span class="si">{nn}</span><span class="s2">&quot;</span>
+                <span class="k">elif</span> <span class="n">vb</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;No do not like to </span><span class="si">{vb}</span><span class="s2">&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Of course not.&quot;</span>
+            <span class="k">if</span> <span class="n">nn</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="n">SUGAROID_LIKES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="n">response</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">&quot;I&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I thought you should like me. Am I not adorable?&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Well. I don&#39;t know. I am sorry. Only you can think inside your heart&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">nn</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tokenized</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">):</span>
+                    <span class="n">nn</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">lemma_</span>
+            <span class="k">if</span> <span class="n">nn</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Well, try asking </span><span class="si">{nn}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Hmm, Well I don&#39;t know&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span>
+                <span class="n">response</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nn</span><span class="o">=</span><span class="n">nn</span><span class="p">,</span> <span class="n">vb</span><span class="o">=</span><span class="n">vb</span><span class="p">),</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">UnboundLocalError</span><span class="p">:</span>
+            <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nn</span><span class="o">=</span><span class="n">nn</span><span class="p">),</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="k">return</span> <span class="n">selected_statement</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,260 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>launcher module &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/launcher.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="setup module" href="setup.html" />
+    <link rel="prev" title="sugaroid" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">sugaroid</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">launcher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sugaroid.html">sugaroid package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">sugaroid</a> &raquo;</li>
+        
+      <li>launcher module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/launcher.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-launcher">
+<span id="launcher-module"></span><h1>launcher module<a class="headerlink" href="#module-launcher" title="Permalink to this headline">¶</a></h1>
+<p>Create a new <cite>Mock</cite> object. <cite>Mock</cite> takes several optional arguments
+that specify the behaviour of the Mock object:</p>
+<ul>
+<li><p><cite>spec</cite>: This can be either a list of strings or an existing object (a
+class or instance) that acts as the specification for the mock object. If
+you pass in an object then a list of strings is formed by calling dir on
+the object (excluding unsupported magic attributes and methods). Accessing
+any attribute not in this list will raise an <cite>AttributeError</cite>.</p>
+<p>If <cite>spec</cite> is an object (rather than a list of strings) then
+<cite>mock.__class__</cite> returns the class of the spec object. This allows mocks
+to pass <cite>isinstance</cite> tests.</p>
+</li>
+<li><p><cite>spec_set</cite>: A stricter variant of <cite>spec</cite>. If used, attempting to <em>set</em>
+or get an attribute on the mock that isn’t on the object passed as
+<cite>spec_set</cite> will raise an <cite>AttributeError</cite>.</p></li>
+<li><p><cite>side_effect</cite>: A function to be called whenever the Mock is called. See
+the <cite>side_effect</cite> attribute. Useful for raising exceptions or
+dynamically changing return values. The function is called with the same
+arguments as the mock, and unless it returns <cite>DEFAULT</cite>, the return
+value of this function is used as the return value.</p>
+<p>If <cite>side_effect</cite> is an iterable then each call to the mock will return
+the next value from the iterable. If any of the members of the iterable
+are exceptions they will be raised instead of returned.</p>
+</li>
+<li><p><cite>return_value</cite>: The value returned when the mock is called. By default
+this is a new Mock (created on first access). See the
+<cite>return_value</cite> attribute.</p></li>
+<li><p><cite>wraps</cite>: Item for the mock object to wrap. If <cite>wraps</cite> is not None then
+calling the Mock will pass the call through to the wrapped object
+(returning the real result). Attribute access on the mock will return a
+Mock object that wraps the corresponding attribute of the wrapped object
+(so attempting to access an attribute that doesn’t exist will raise an
+<cite>AttributeError</cite>).</p>
+<p>If the mock has an explicit <cite>return_value</cite> set then calls are not passed
+to the wrapped object and the <cite>return_value</cite> is returned instead.</p>
+</li>
+<li><p><cite>name</cite>: If the mock has a name then it will be used in the repr of the
+mock. This can be useful for debugging. The name is propagated to child
+mocks.</p></li>
+</ul>
+<p>Mocks can also be called with arbitrary keyword arguments. These will be
+used to set attributes on the mock after it is created.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="setup.html" class="btn btn-neutral float-right" title="setup module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="modules.html" class="btn btn-neutral float-left" title="sugaroid" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

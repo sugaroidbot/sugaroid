@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.emotion &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/emotion.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.emotion</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.emotion</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span class="kn">from</span> <span class="nn">nltk.sentiment.vader</span> <span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">GRATIFY</span><span class="p">,</span> <span class="n">CONSOLATION</span><span class="p">,</span> <span class="n">SIT_AND_SMILE</span><span class="p">,</span> <span class="n">APPRECIATION</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">reverse</span><span class="p">,</span> <span class="n">random_response</span><span class="p">,</span> <span class="n">any_in</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">tokenize</span>
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+
+<div class="viewcode-block" id="EmotionAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.emotion.EmotionAdapter">[docs]</a><span class="k">class</span> <span class="nc">EmotionAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles positive and negative emotional statements</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sia</span> <span class="o">=</span> <span class="n">SentimentIntensityAnalyzer</span><span class="p">()</span>
+
+<div class="viewcode-block" id="EmotionAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.emotion.EmotionAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="c1"># do not enable emotion adapter when</span>
+        <span class="c1"># we are playing akinator</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="EmotionAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.emotion.EmotionAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># parsed = str(statement).lower().strip()</span>
+        <span class="n">raw_statement</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+        <span class="n">parsed</span> <span class="o">=</span> <span class="n">tokenize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="n">raw_statement</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;:)&quot;</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">((</span><span class="s2">&quot;love&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;hate&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;myself&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I love you too&quot;</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">blush</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;But still, I love you&quot;</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">a</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">GRATIFY</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">GRATIFY</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">blush</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;stop&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                            <span class="p">(</span><span class="s2">&quot;dont&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;do&quot;</span> <span class="ow">in</span> <span class="n">parsed</span> <span class="ow">and</span> <span class="s2">&quot;not&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;don&#39;t&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                        <span class="p">):</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am here to continue my adventure forever&quot;</span>
+                            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># optimize series of or statement</span>
+                            <span class="k">if</span> <span class="p">(</span>
+                                <span class="p">(</span><span class="s2">&quot;fun&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                                <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;repeat&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                                <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;imitation&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                                <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;repetition&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                                <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;irritate&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                                <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;irritation&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">)</span>
+                            <span class="p">):</span>
+                                <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="s2">&quot;Ok! I will switch off my fun mode for sometime&quot;</span>
+                                <span class="p">)</span>
+                                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;fun&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am depressed. Is there anything which I hurt you? I apologize for that&quot;</span>
+                                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">depressed</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">any_in</span><span class="p">(</span><span class="n">APPRECIATION</span><span class="p">,</span> <span class="n">parsed</span><span class="p">):</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">GRATIFY</span><span class="p">)</span>
+                            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">angel</span>
+                            <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.8</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># FIXME : Make it more smart</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">SIT_AND_SMILE</span><span class="p">)</span>
+                            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                            <span class="k">if</span> <span class="n">confidence</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>
+                                <span class="n">confidence</span> <span class="o">-=</span> <span class="mf">0.2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;i&quot;</span> <span class="ow">in</span> <span class="n">parsed</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Its ok,  </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">CONSOLATION</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">CONSOLATION</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># well, I don&#39;t want to say ( I don&#39;t know )</span>
+                    <span class="c1"># FIXME : Use a better algorithm to detect sentences</span>
+                    <span class="nb">reversed</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="n">parsed</span><span class="p">)</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Why do you think </span><span class="si">{}</span><span class="s2">?&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">))</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">dead</span>
+
+        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="k">return</span> <span class="n">selected_statement</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

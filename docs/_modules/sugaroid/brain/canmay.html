@@ -1,0 +1,622 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.canmay &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/canmay.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.canmay</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.canmay</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+
+<span class="kn">from</span> <span class="nn">chatterbot.conversation</span> <span class="kn">import</span> <span class="n">Statement</span>
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">word_tokenize</span>
+<span class="kn">from</span> <span class="nn">nltk.sentiment</span> <span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">CANYOU</span><span class="p">,</span> <span class="n">WHAT_I_AM_GOING_TO_DO</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">sigmaSimilarity</span><span class="p">,</span> <span class="n">difference</span><span class="p">,</span> <span class="n">random_response</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span>
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+
+<div class="viewcode-block" id="CanAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.canmay.CanAdapter">[docs]</a><span class="k">class</span> <span class="nc">CanAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes statements which features a Modal question (can, may)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CanAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.canmay.CanAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;MD&quot;</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="CanAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.canmay.CanAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># FIXME: This may printout unrelated data for phrase searches</span>
+        <span class="n">adapter</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+        <span class="n">noun</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">propernoun</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">verb</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">adj</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">third_person</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="s2">&quot;i&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="ow">or</span> <span class="s2">&quot;me&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+        <span class="p">):</span>
+            <span class="c1"># Complex statement</span>
+            <span class="c1"># Needs extra process</span>
+            <span class="n">aimed</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="k">elif</span> <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+            <span class="n">aimed</span> <span class="o">=</span> <span class="mi">75</span>
+        <span class="k">elif</span> <span class="s2">&quot;i&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="ow">or</span> <span class="s2">&quot;me&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+            <span class="n">aimed</span> <span class="o">=</span> <span class="mi">50</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">aimed</span> <span class="o">=</span> <span class="mi">25</span>
+
+        <span class="k">if</span> <span class="s2">&quot;help&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+            <span class="n">aimed</span> <span class="o">+=</span> <span class="mi">2</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;NN&quot;</span><span class="p">:</span>
+                <span class="n">noun</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;NP&quot;</span><span class="p">):</span>
+                <span class="c1"># FIXME classify it properly</span>
+                <span class="n">noun</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">propernoun</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">aimed</span> <span class="o">=</span> <span class="mi">25</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">verb</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">verb</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;VB&quot;</span><span class="p">:</span>
+                <span class="n">verb</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;VBG&quot;</span><span class="p">:</span>
+                <span class="n">verb</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;VBP&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
+                <span class="n">verb</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;JJ&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;VBN&quot;</span><span class="p">):</span>
+                <span class="n">adj</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sia</span> <span class="o">=</span> <span class="n">SentimentIntensityAnalyzer</span><span class="p">()</span>
+        <span class="n">sentiments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="n">positive_statement</span> <span class="o">=</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span>
+        <span class="n">neutral_statement</span> <span class="o">=</span> <span class="p">(</span><span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">aimed</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">neutral_statement</span><span class="p">:</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="n">aimed</span> <span class="o">/</span> <span class="mi">100</span> <span class="o">+</span> <span class="mf">0.7</span>
+                <span class="k">if</span> <span class="s2">&quot;help&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                    <span class="c1"># Randomize answer</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Yes, I can say a joke to you, answer some questions,&quot;</span>
+                        <span class="s2">&quot; do some mathematical sums, and talk like&quot;</span>
+                        <span class="s2">&quot; this. I can also play a game of Akinator&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">adapter</span> <span class="o">=</span> <span class="s2">&quot;what_can&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verb</span> <span class="ow">and</span> <span class="p">(</span><span class="n">verb</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;play&quot;</span><span class="p">,</span> <span class="s2">&quot;joke&quot;</span><span class="p">,</span> <span class="s2">&quot;sing&quot;</span><span class="p">,</span> <span class="s2">&quot;dance&quot;</span><span class="p">,</span> <span class="s2">&quot;read&quot;</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;play&quot;</span><span class="p">:</span>
+                            <span class="kn">from</span> <span class="nn">sugaroid.game.game</span> <span class="kn">import</span> <span class="n">games</span>
+
+                            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I can play some games like </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">games</span><span class="p">)</span>
+                            <span class="p">)</span>
+
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="s2">&quot;I should be able to </span><span class="si">{}</span><span class="s2">, &quot;</span>
+                                <span class="s2">&quot;but it all depends on updates which I have received&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">rich</span>
+                    <span class="k">elif</span> <span class="n">noun</span> <span class="ow">and</span> <span class="p">(</span><span class="n">noun</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;play&quot;</span><span class="p">,</span> <span class="s2">&quot;joke&quot;</span><span class="p">,</span> <span class="s2">&quot;sing&quot;</span><span class="p">,</span> <span class="s2">&quot;dance&quot;</span><span class="p">,</span> <span class="s2">&quot;read&quot;</span><span class="p">]):</span>
+                        <span class="k">if</span> <span class="n">noun</span> <span class="o">==</span> <span class="s2">&quot;play&quot;</span><span class="p">:</span>
+                            <span class="kn">from</span> <span class="nn">sugaroid.game.game</span> <span class="kn">import</span> <span class="n">games</span>
+
+                            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I can play some games like </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">games</span><span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="s2">&quot;I should be able to </span><span class="si">{}</span><span class="s2">, &quot;</span>
+                                <span class="s2">&quot;but it all depends on updates which I have received&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">noun</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">rich</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;die&quot;</span><span class="p">:</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I wouild die only when you say &#39;Bye&#39;&quot;</span>
+                        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span>
+                            <span class="s2">&quot;teach&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;tell&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;say&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;speak&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;go&quot;</span><span class="p">,</span>
+                        <span class="p">]:</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="s2">&quot;Sure! Just don&#39;t ask if I can </span><span class="si">{}</span><span class="s2">. Just ask&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">angel</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;do&quot;</span><span class="p">:</span>
+                                <span class="n">confidence</span> <span class="o">=</span> <span class="mi">0</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="s2">&quot;I think I would not be able to </span><span class="si">{}</span><span class="s2">. I apologize&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry_overflow</span>
+
+            <span class="k">elif</span> <span class="n">positive_statement</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">noun</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verb</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="s2">&quot;Sure, I would love to help </span><span class="si">{n}</span><span class="s2"> to </span><span class="si">{v}</span><span class="s2">. &quot;</span>
+                            <span class="s2">&quot;Share sugaroid with {n].&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="n">n</span><span class="o">=</span><span class="n">noun</span><span class="p">,</span> <span class="n">v</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="s2">&quot;I would be glad to help </span><span class="si">{n}</span><span class="s2">, the reason I was created is to fullfil that &quot;</span>
+                            <span class="s2">&quot;The best way to help </span><span class="si">{n}</span><span class="s2"> is to share sugaroid to </span><span class="si">{n}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="n">n</span><span class="o">=</span><span class="n">noun</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># TODO test case</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Are you sure this is right?&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">non_expressive_left</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="n">aimed</span> <span class="o">/</span> <span class="mi">100</span> <span class="o">+</span> <span class="mf">0.9</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">noun</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Well, I would not dare to &quot;</span>
+                        <span class="s2">&quot;help you </span><span class="si">{verb}</span><span class="s2"> </span><span class="si">{noun}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">verb</span><span class="o">=</span><span class="n">verb</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;ing&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">noun</span><span class="o">=</span><span class="n">noun</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">angry</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am not sure if I could </span><span class="si">{verb}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">verb</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="p">)</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="n">aimed</span> <span class="o">/</span> <span class="mi">100</span> <span class="o">+</span> <span class="mf">0.7</span>
+        <span class="k">elif</span> <span class="n">aimed</span> <span class="o">&gt;=</span> <span class="mi">75</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="n">aimed</span> <span class="o">/</span> <span class="mi">100</span> <span class="o">+</span> <span class="mf">0.7</span>
+            <span class="k">if</span> <span class="s2">&quot;help&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Yes, I can say a joke to you, answer &quot;</span>
+                    <span class="s2">&quot;some questions, do some mathematical sums, and talk like&quot;</span>
+                    <span class="s2">&quot; this&quot;</span>
+                <span class="p">)</span>
+                <span class="n">adapter</span> <span class="o">=</span> <span class="s2">&quot;what_can&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verb</span> <span class="ow">and</span> <span class="p">(</span><span class="n">verb</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;play&quot;</span><span class="p">,</span> <span class="s2">&quot;joke&quot;</span><span class="p">,</span> <span class="s2">&quot;sing&quot;</span><span class="p">,</span> <span class="s2">&quot;dance&quot;</span><span class="p">,</span> <span class="s2">&quot;read&quot;</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;play&quot;</span><span class="p">:</span>
+                        <span class="kn">from</span> <span class="nn">sugaroid.game.game</span> <span class="kn">import</span> <span class="n">games</span>
+
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I can play some games like </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">games</span><span class="p">)</span>
+                        <span class="p">)</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I should be able to </span><span class="si">{}</span><span class="s2">, but it all depends on updates which I have received&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">rich</span>
+
+                <span class="k">elif</span> <span class="n">noun</span> <span class="ow">and</span> <span class="p">(</span><span class="n">noun</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;play&quot;</span><span class="p">,</span> <span class="s2">&quot;joke&quot;</span><span class="p">,</span> <span class="s2">&quot;sing&quot;</span><span class="p">,</span> <span class="s2">&quot;dance&quot;</span><span class="p">,</span> <span class="s2">&quot;read&quot;</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;play&quot;</span><span class="p">:</span>
+                        <span class="kn">from</span> <span class="nn">sugaroid.game.game</span> <span class="kn">import</span> <span class="n">games</span>
+
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I can play some games like </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">games</span><span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I should be able to </span><span class="si">{}</span><span class="s2">, but it all depends on updates which I have received&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">noun</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">rich</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;die&quot;</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I would die only when you say &#39;Bye&#39;&quot;</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">adj</span><span class="p">:</span>
+                            <span class="n">polarity_adj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">polarity_adj</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="c1"># as in I will try to be &#39;a good bot&#39;</span>
+                                <span class="n">article_or_pronoun</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span>
+
+                                <span class="c1"># some wicked users try to ask it weird</span>
+                                <span class="c1"># questions</span>
+                                <span class="k">if</span> <span class="s2">&quot;your&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                                    <span class="c1"># hey, its asking about me!!</span>
+                                    <span class="c1"># eg: can you be yourself?</span>
+                                    <span class="n">article_or_pronoun</span> <span class="o">=</span> <span class="s2">&quot;your&quot;</span>
+
+                                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I will try to be </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">article_or_pronoun</span><span class="p">,</span> <span class="n">adj</span>
+                                <span class="p">)</span>
+                                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">adorable</span>
+                            <span class="k">elif</span> <span class="n">polarity_adj</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">polarity_adj</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]:</span>
+                                <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">CANYOU</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+                                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">angel</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Am I really </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adj</span><span class="p">)</span>
+                                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">non_expressive</span>
+                        <span class="k">elif</span> <span class="n">verb</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;do&quot;</span><span class="p">:</span>
+                                <span class="n">confidence</span> <span class="o">=</span> <span class="mi">0</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="s2">&quot;I think I would not be able to </span><span class="si">{}</span><span class="s2">. I apologize&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                                <span class="p">)</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Oops. I didn&#39;t get what you just told? Try rephrasing it out&quot;</span>
+                            <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+        <span class="k">elif</span> <span class="n">aimed</span> <span class="o">&gt;=</span> <span class="mi">50</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">neutral_statement</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Of Course, If you would like to help me, &quot;</span>
+                        <span class="s2">&quot;try writing some more code to https://github.com/srevinsaju/sugaroid&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">github</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">verb</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="s2">&quot;Do you really want to </span><span class="si">{}</span><span class="s2">. &quot;</span>
+                            <span class="s2">&quot;Try rethinking your decision&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">non_expressive_left</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Well, you should ask that yourself&quot;</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">angry_non_expressive</span>
+            <span class="k">elif</span> <span class="n">positive_statement</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;help&quot;</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Of Course, If you would like to help me, &quot;</span>
+                        <span class="s2">&quot;try writing some more code to https://github.com/srevinsaju/sugaroid&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">github</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I guess, you would achieve your goal of </span><span class="si">{}</span><span class="s2">ing&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span>
+                    <span class="s2">&quot;cry&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;sob&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;sleep&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;depress&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;die&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;suicide&quot;</span><span class="p">,</span>
+                <span class="p">]:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Why do you want to </span><span class="si">{}</span><span class="s2">, &quot;</span>
+                        <span class="s2">&quot;there are many better things to do in life&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">adorable</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;No, probably not, you shouldn&#39;t </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="n">aimed</span> <span class="o">/</span> <span class="mi">100</span> <span class="o">+</span> <span class="mf">0.9</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;you&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="p">(</span><span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="p">(</span><span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">verb</span><span class="p">:</span>
+                        <span class="n">verb</span> <span class="o">=</span> <span class="s2">&quot;do&quot;</span>
+                        <span class="n">noun</span> <span class="o">=</span> <span class="s2">&quot;that&quot;</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Well. I am unsure if you really need to </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">noun</span>
+                    <span class="p">)</span>
+                    <span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span> <span class="o">-</span> <span class="mf">0.2</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry_overflow</span>
+                <span class="k">elif</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Well I think, its a bad thing to do. &quot;</span>
+                        <span class="s2">&quot;You shouldn&#39;t </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">noun</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">negative</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I guess its good thing which you have thought about. You should </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">noun</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.8</span><span class="p">:</span>
+                    <span class="n">confidence</span> <span class="o">=</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">confidence</span> <span class="o">=</span> <span class="p">(</span><span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span>
+                        <span class="p">(</span><span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">noun</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">WHAT_I_AM_GOING_TO_DO</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Lets hope for a good day.&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                    <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.3</span>
+                <span class="k">elif</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I apologize. I would never be able to be </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">noun</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry_overflow</span>
+                <span class="k">elif</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">sentiments</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Well I think, its a bad thing to do. I wouldn&#39;t </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">noun</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">dead</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s2">&quot;like&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+                        <span class="c1"># FIXME</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="s2">&quot;I guess its good thing which you have thought about. Me being a bot, &quot;</span>
+                            <span class="s2">&quot;wouldn&#39;t be able to do that. You should </span><span class="si">{}</span><span class="s2"> like </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">noun</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">dead</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="s2">&quot;I guess its good thing which you have thought about. Me being a bot, &quot;</span>
+                            <span class="s2">&quot;wouldn&#39;t be able to do that. You should probably </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">lemma</span><span class="p">(</span><span class="n">verb</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">noun</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+        <span class="k">if</span> <span class="n">verb</span> <span class="o">==</span> <span class="s2">&quot;be&quot;</span><span class="p">:</span>
+            <span class="n">ind</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;be&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;NN&quot;</span><span class="p">):</span>
+                    <span class="n">polarity_adj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tagged</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">polarity_adj</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">polarity_adj</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">polarity_adj</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am not sure if I can ever be a &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry_overflow</span>
+                    <span class="k">elif</span> <span class="n">polarity_adj</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">polarity_adj</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am always trying to be </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">wink</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I would never try to be a </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">tagged</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry</span>
+                    <span class="n">confidence</span> <span class="o">=</span> <span class="n">aimed</span> <span class="o">/</span> <span class="mi">100</span> <span class="o">+</span> <span class="mf">0.7</span>
+
+        <span class="k">if</span> <span class="n">confidence</span> <span class="o">&gt;=</span> <span class="mf">1.4</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">/=</span> <span class="mi">2</span>
+        <span class="k">elif</span> <span class="n">confidence</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">/=</span> <span class="mf">1.2</span>
+
+        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span> <span class="o">+</span> <span class="mf">0.2</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">adapter</span> <span class="o">=</span> <span class="n">adapter</span>
+        <span class="k">return</span> <span class="n">selected_statement</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

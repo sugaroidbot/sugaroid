@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.postprocessor &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/postprocessor.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.postprocessor</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.postprocessor</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span class="kn">from</span> <span class="nn">nltk.corpus</span> <span class="kn">import</span> <span class="n">stopwords</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.utils</span> <span class="kn">import</span> <span class="n">LanguageProcessor</span>
+
+
+<div class="viewcode-block" id="sigmaSimilarity"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.sigmaSimilarity">[docs]</a><span class="k">def</span> <span class="nf">sigmaSimilarity</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    :param src: a list of literals</span>
+<span class="sd">    :param dest: a list of final literals</span>
+<span class="sd">    :return: Probability</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">src</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">dest</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
+                <span class="nb">sum</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">sum</span> <span class="o">/</span> <span class="n">total</span></div>
+
+
+<div class="viewcode-block" id="difference"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.difference">[docs]</a><span class="k">def</span> <span class="nf">difference</span><span class="p">(</span><span class="n">lst1</span><span class="p">,</span> <span class="n">lst2</span><span class="p">):</span>
+    <span class="n">lst3</span> <span class="o">=</span> <span class="p">[</span><span class="n">value</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">lst1</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lst2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">lst3</span></div>
+
+
+<div class="viewcode-block" id="reverse"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.reverse">[docs]</a><span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reverses the first person pronouns to second person pronouns and vice versa</span>
+<span class="sd">    :param token: a nltk.word_tokenize type list</span>
+<span class="sd">    :return: a list similar to nltk.word_tokenize</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">processed</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">has_am</span> <span class="o">=</span> <span class="s2">&quot;am&quot;</span> <span class="ow">in</span> <span class="n">token</span>
+    <span class="n">has_is</span> <span class="o">=</span> <span class="s2">&quot;are&quot;</span> <span class="ow">in</span> <span class="n">token</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reverse: Received </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>
+    <span class="n">interrogation</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">token</span><span class="p">:</span>
+        <span class="n">lps</span> <span class="o">=</span> <span class="n">LanguageProcessor</span><span class="p">()</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">lps</span><span class="o">.</span><span class="n">tag_</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span> <span class="ow">and</span> <span class="n">lps</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="s2">&quot;?&quot;</span><span class="p">:</span>
+            <span class="n">interrogation</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">lps</span><span class="o">.</span><span class="n">tag_</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;W&quot;</span><span class="p">):</span>
+            <span class="n">interrogation</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">token</span><span class="p">:</span>
+        <span class="n">tagged</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">([</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">tagged</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;PRP&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;you&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">interrogation</span><span class="p">:</span>
+                    <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;I&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">processed</span> <span class="o">=</span> <span class="n">processed</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;I&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">processed</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">elif</span> <span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;i&quot;</span><span class="p">:</span>
+                <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;you&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">tagged</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;VBP&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;are&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;I&quot;</span> <span class="ow">in</span> <span class="n">processed</span><span class="p">:</span>
+                    <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;am&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;are&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;am&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s2">&quot;I&quot;</span> <span class="ow">in</span> <span class="n">processed</span><span class="p">:</span>
+                    <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;am&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;are&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;are&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">processed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">processed</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I&quot;</span> <span class="ow">and</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;are&quot;</span><span class="p">:</span>
+            <span class="n">processed</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;am&quot;</span>
+        <span class="k">elif</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;you&quot;</span> <span class="ow">and</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;am&quot;</span><span class="p">:</span>
+            <span class="n">processed</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;are&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">processed</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I&quot;</span> <span class="ow">and</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;are&quot;</span><span class="p">:</span>
+            <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;you&quot;</span>
+        <span class="k">elif</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;you&quot;</span> <span class="ow">and</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;am&quot;</span><span class="p">:</span>
+            <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;I&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">processed</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;are&quot;</span> <span class="ow">and</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;I&quot;</span><span class="p">:</span>
+            <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;am&quot;</span>
+        <span class="k">elif</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;am&quot;</span> <span class="ow">and</span> <span class="n">processed</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;you&quot;</span><span class="p">:</span>
+            <span class="n">processed</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;are&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reverse: Pushing </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">processed</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">processed</span></div>
+
+
+<div class="viewcode-block" id="random_response"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.random_response">[docs]</a><span class="k">def</span> <span class="nf">random_response</span><span class="p">(</span><span class="n">iterable</span><span class="o">=</span><span class="p">()):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Selects a random response from the given set of iterable types</span>
+<span class="sd">    :param iterable:</span>
+<span class="sd">    :return: a selected value of the iterable</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">iterable</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="cosine_similarity"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.cosine_similarity">[docs]</a><span class="k">def</span> <span class="nf">cosine_similarity</span><span class="p">(</span><span class="n">X_list</span><span class="p">,</span> <span class="n">Y_list</span><span class="p">):</span>
+
+    <span class="c1"># Program to measure similarity between</span>
+    <span class="c1"># two sentences using cosine similarity.</span>
+
+    <span class="c1"># sw contains the list of stopwords</span>
+    <span class="n">sw</span> <span class="o">=</span> <span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s2">&quot;english&quot;</span><span class="p">)</span>
+    <span class="n">l1</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">l2</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># remove stop words from string</span>
+    <span class="n">X_set</span> <span class="o">=</span> <span class="p">{</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">X_list</span> <span class="k">if</span> <span class="n">w</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sw</span><span class="p">}</span>
+    <span class="n">Y_set</span> <span class="o">=</span> <span class="p">{</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">Y_list</span> <span class="k">if</span> <span class="n">w</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sw</span><span class="p">}</span>
+
+    <span class="c1"># form a set containing keywords of both strings</span>
+    <span class="n">rvector</span> <span class="o">=</span> <span class="n">X_set</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">Y_set</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">rvector</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">X_set</span><span class="p">:</span>
+            <span class="n">l1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># create a vector</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">l1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">Y_set</span><span class="p">:</span>
+            <span class="n">l2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">l2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># cosine formula</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rvector</span><span class="p">)):</span>
+        <span class="n">c</span> <span class="o">+=</span> <span class="n">l1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">l2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">c</span> <span class="o">/</span> <span class="nb">float</span><span class="p">((</span><span class="nb">sum</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">l2</span><span class="p">))</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cosine</span></div>
+
+
+<div class="viewcode-block" id="any_in"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.any_in">[docs]</a><span class="k">def</span> <span class="nf">any_in</span><span class="p">(</span><span class="n">arg1</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">string1</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Advanced in operator</span>
+<span class="sd">    Checks any of the list item exists in in the string</span>
+<span class="sd">    :param arg1:</span>
+<span class="sd">    :param string1:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">arg1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">string1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="raw_in"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.raw_in">[docs]</a><span class="k">def</span> <span class="nf">raw_in</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">spacy_tokenized</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">spacy_tokenized</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="raw_lower_in"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.raw_lower_in">[docs]</a><span class="k">def</span> <span class="nf">raw_lower_in</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">spacy_tokenized</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">spacy_tokenized</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="lemma_in"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.lemma_in">[docs]</a><span class="k">def</span> <span class="nf">lemma_in</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">spacy_tokenized</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">spacy_tokenized</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">lemma_</span> <span class="o">==</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="pos_in"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.pos_in">[docs]</a><span class="k">def</span> <span class="nf">pos_in</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">spacy_tokenized</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">spacy_tokenized</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="n">arg</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="text2int"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.postprocessor.text2int">[docs]</a><span class="k">def</span> <span class="nf">text2int</span><span class="p">(</span><span class="n">textnum</span><span class="p">,</span> <span class="n">numwords</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts words to numbers</span>
+<span class="sd">    from https://stackoverflow.com/questions/493174/is-there-a-way-to-convert-number-words-to-integers</span>
+<span class="sd">    :param textnum:</span>
+<span class="sd">    :param numwords:</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">numwords</span><span class="p">:</span>
+        <span class="n">units</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;zero&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;one&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;two&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;three&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;four&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;five&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;six&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;seven&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;eight&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nine&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ten&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;eleven&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;twelve&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;thirteen&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fourteen&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fifteen&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sixteen&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;seventeen&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;eighteen&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;nineteen&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="n">tens</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;twenty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;thirty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;forty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;fifty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sixty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;seventy&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;eighty&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;ninety&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="n">scales</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;hundred&quot;</span><span class="p">,</span> <span class="s2">&quot;thousand&quot;</span><span class="p">,</span> <span class="s2">&quot;million&quot;</span><span class="p">,</span> <span class="s2">&quot;billion&quot;</span><span class="p">,</span> <span class="s2">&quot;trillion&quot;</span><span class="p">]</span>
+
+        <span class="n">numwords</span><span class="p">[</span><span class="s2">&quot;and&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">units</span><span class="p">):</span>
+            <span class="n">numwords</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tens</span><span class="p">):</span>
+            <span class="n">numwords</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">idx</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scales</span><span class="p">):</span>
+            <span class="n">numwords</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">idx</span> <span class="o">*</span> <span class="mi">3</span> <span class="ow">or</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">current</span> <span class="o">=</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">textnum</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">numwords</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Illegal word: &quot;</span> <span class="o">+</span> <span class="n">word</span><span class="p">)</span>
+
+        <span class="n">scale</span><span class="p">,</span> <span class="n">increment</span> <span class="o">=</span> <span class="n">numwords</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">current</span> <span class="o">*</span> <span class="n">scale</span> <span class="o">+</span> <span class="n">increment</span>
+        <span class="k">if</span> <span class="n">scale</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">current</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">return</span> <span class="n">result</span> <span class="o">+</span> <span class="n">current</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

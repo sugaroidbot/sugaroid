@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.news &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/news.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.news</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.news</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">News headlines provided by NewsAPI</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span class="kn">from</span> <span class="nn">newsapi</span> <span class="kn">import</span> <span class="n">NewsApiClient</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">spac_token</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+<span class="n">NEWSAPI_COUNTRIES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;argentina&quot;</span><span class="p">:</span> <span class="s2">&quot;ar&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;australia&quot;</span><span class="p">:</span> <span class="s2">&quot;au&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;austria&quot;</span><span class="p">:</span> <span class="s2">&quot;at&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;belgium&quot;</span><span class="p">:</span> <span class="s2">&quot;be&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;brazil&quot;</span><span class="p">:</span> <span class="s2">&quot;br&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bulgaria&quot;</span><span class="p">:</span> <span class="s2">&quot;bg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;canada&quot;</span><span class="p">:</span> <span class="s2">&quot;ca&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;china&quot;</span><span class="p">:</span> <span class="s2">&quot;cn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;colombia&quot;</span><span class="p">:</span> <span class="s2">&quot;co&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cuba&quot;</span><span class="p">:</span> <span class="s2">&quot;cu&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;czech republic&quot;</span><span class="p">:</span> <span class="s2">&quot;cz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;egypt&quot;</span><span class="p">:</span> <span class="s2">&quot;eg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;france&quot;</span><span class="p">:</span> <span class="s2">&quot;fr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;germany&quot;</span><span class="p">:</span> <span class="s2">&quot;de&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;greece&quot;</span><span class="p">:</span> <span class="s2">&quot;gr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hong kong&quot;</span><span class="p">:</span> <span class="s2">&quot;hk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hungary&quot;</span><span class="p">:</span> <span class="s2">&quot;hu&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;india&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;indonesia&quot;</span><span class="p">:</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ireland&quot;</span><span class="p">:</span> <span class="s2">&quot;ie&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;israel&quot;</span><span class="p">:</span> <span class="s2">&quot;il&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;italy&quot;</span><span class="p">:</span> <span class="s2">&quot;it&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;japan&quot;</span><span class="p">:</span> <span class="s2">&quot;jp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;latvia&quot;</span><span class="p">:</span> <span class="s2">&quot;lv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lithuania&quot;</span><span class="p">:</span> <span class="s2">&quot;lt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;malaysia&quot;</span><span class="p">:</span> <span class="s2">&quot;my&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mexico&quot;</span><span class="p">:</span> <span class="s2">&quot;mx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;morocco&quot;</span><span class="p">:</span> <span class="s2">&quot;ma&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;netherlands&quot;</span><span class="p">:</span> <span class="s2">&quot;nl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;new zealand&quot;</span><span class="p">:</span> <span class="s2">&quot;nz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nigeria&quot;</span><span class="p">:</span> <span class="s2">&quot;ng&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;norway&quot;</span><span class="p">:</span> <span class="s2">&quot;no&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;philippines&quot;</span><span class="p">:</span> <span class="s2">&quot;ph&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;poland&quot;</span><span class="p">:</span> <span class="s2">&quot;pl&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;portugal&quot;</span><span class="p">:</span> <span class="s2">&quot;pt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;romania&quot;</span><span class="p">:</span> <span class="s2">&quot;ro&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;russia&quot;</span><span class="p">:</span> <span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;saudi arabia&quot;</span><span class="p">:</span> <span class="s2">&quot;sa&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;serbia&quot;</span><span class="p">:</span> <span class="s2">&quot;rs&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;singapore&quot;</span><span class="p">:</span> <span class="s2">&quot;sg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;slovakia&quot;</span><span class="p">:</span> <span class="s2">&quot;sk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;slovenia&quot;</span><span class="p">:</span> <span class="s2">&quot;si&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;south africa&quot;</span><span class="p">:</span> <span class="s2">&quot;za&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;south korea&quot;</span><span class="p">:</span> <span class="s2">&quot;kr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sweden&quot;</span><span class="p">:</span> <span class="s2">&quot;se&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;switzerland&quot;</span><span class="p">:</span> <span class="s2">&quot;ch&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;taiwan&quot;</span><span class="p">:</span> <span class="s2">&quot;tw&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;thailand&quot;</span><span class="p">:</span> <span class="s2">&quot;th&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;turkey&quot;</span><span class="p">:</span> <span class="s2">&quot;tr&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uae&quot;</span><span class="p">:</span> <span class="s2">&quot;ae&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ukraine&quot;</span><span class="p">:</span> <span class="s2">&quot;ua&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;united kingdom&quot;</span><span class="p">:</span> <span class="s2">&quot;gb&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;united states&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;venuzuela&quot;</span><span class="p">:</span> <span class="s2">&quot;ve&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;us&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;uk&quot;</span><span class="p">:</span> <span class="s2">&quot;uk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u.k.&quot;</span><span class="p">:</span> <span class="s2">&quot;uk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u.s.&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u.s&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u.k&quot;</span><span class="p">:</span> <span class="s2">&quot;uk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u s&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;u k&quot;</span><span class="p">:</span> <span class="s2">&quot;uk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;the united states&quot;</span><span class="p">:</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;the united kingdom&quot;</span><span class="p">:</span> <span class="s2">&quot;uk&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="SugaroidNews"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.news.SugaroidNews">[docs]</a><span class="k">class</span> <span class="nc">SugaroidNews</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A dedicated class for processing news from the API</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">load_dotenv</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span> <span class="o">=</span> <span class="n">chatbot</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;NEWSAPI_TOKEN&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api</span> <span class="o">=</span> <span class="n">NewsApiClient</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SugaroidNews.get_top_headlines"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.news.SugaroidNews.get_top_headlines">[docs]</a>    <span class="k">def</span> <span class="nf">get_top_headlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the top news items of the country if provided. Otherwise give international news</span>
+<span class="sd">        :param country:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">country</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_top_headlines</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_top_headlines</span><span class="p">(</span><span class="n">country</span><span class="o">=</span><span class="n">country</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;invalid country&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;last_news&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;SugaroidNews: Failed to get the news. country=[</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">country</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s2">]&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="p">[</span>
+                    <span class="s2">&quot;The country you provided does not exist in my database. I am sorry.&quot;</span>
+                <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;last_news&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="s2">&quot;Failed to establish connection with the server. Error: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="p">]</span></div>
+
+<div class="viewcode-block" id="SugaroidNews.get_news_keyword"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.news.SugaroidNews.get_news_keyword">[docs]</a>    <span class="k">def</span> <span class="nf">get_news_keyword</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyword</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">get_everything</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">keyword</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;last_news&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="s2">&quot;Failed to establish connection with the server. Error: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="p">]</span></div>
+
+<div class="viewcode-block" id="SugaroidNews.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.news.SugaroidNews.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert the raw JSON Response to Human Readable News bullets</span>
+<span class="sd">        :param response:</span>
+<span class="sd">        :return: array of news headlines</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">news_headlines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;articles&quot;</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">news_headlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> from </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">news_headlines</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;last_news&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="s2">&quot;There was an error collecting the latest news headlines. Please try again later.&quot;</span>
+            <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;last_news&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">response</span>
+        <span class="k">return</span> <span class="n">news_headlines</span></div></div>
+
+
+<div class="viewcode-block" id="NewsAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.news.NewsAdapter">[docs]</a><span class="k">class</span> <span class="nc">NewsAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ports the SugaroidNews Wrapper for easier access by the SugaroidChatbot Class</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cos</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">integer</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="NewsAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.news.NewsAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the statement has a cosine similarity of any of the words mentioned here</span>
+<span class="sd">        :param statement: SugaroidStatement Class Object</span>
+<span class="sd">        :return: bool,</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">similarity</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">last_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;types&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">last_type</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NewsAdapter: can_process() last_adapter was </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_type</span><span class="p">))</span>
+        <span class="n">processed</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cos</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">_</span><span class="p">(</span><span class="n">processed</span><span class="p">,</span> <span class="s2">&quot;Whats happening&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="n">processed</span><span class="p">,</span> <span class="s2">&quot;Get me the latest headlines&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="n">processed</span><span class="p">,</span> <span class="s2">&quot;Show me today&#39;s news&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="n">processed</span><span class="p">,</span> <span class="s2">&quot;Can you tell me todays news&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="n">processed</span><span class="p">,</span> <span class="s2">&quot;Can you show me today&#39;s headlines&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="n">processed</span><span class="p">,</span> <span class="s2">&quot;What is happening today&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="n">processed</span><span class="p">,</span> <span class="s2">&quot;What top stories running right now&quot;</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NewsAdapter received a cosine similarity of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cos</span><span class="p">))</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cos</span> <span class="o">&gt;</span> <span class="mf">0.8</span>
+            <span class="ow">or</span> <span class="s2">&quot;news&quot;</span> <span class="ow">in</span> <span class="n">processed</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="ow">or</span> <span class="s2">&quot;headlines&quot;</span> <span class="ow">in</span> <span class="n">processed</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="p">(</span>
+            <span class="s2">&quot;show me more&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;last_news&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">spac_token</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">tag_</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LS&quot;</span><span class="p">,</span> <span class="s2">&quot;CD&quot;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">integer</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">lower_</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;last_news&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="p">(</span><span class="n">last_type</span> <span class="o">==</span> <span class="s2">&quot;NewsAdapter&quot;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">spac_token</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">tag_</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LS&quot;</span><span class="p">,</span> <span class="s2">&quot;CD&quot;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">integer</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">lower_</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="NewsAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.news.NewsAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">confidence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cos</span>
+        <span class="n">country</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">keyword</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Override the other answer when asked for</span>
+        <span class="n">normalize</span> <span class="o">=</span> <span class="n">spac_token</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">normalize</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span> <span class="o">+</span> <span class="mf">0.5</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">integer</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">last_news</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Your selected integer </span><span class="si">{}</span><span class="s2">, response </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">last_news</span>
+            <span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">integer</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;Sorry, I couldn&#39;t make out what number it actually is. I might understand it better if &quot;</span>
+                    <span class="s2">&quot;it is in a numerical form? &quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">integer</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">last_news</span><span class="p">[</span><span class="s2">&quot;articles&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">integer</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                    <span class="n">provider</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+                    <span class="n">author</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;author&quot;</span><span class="p">]</span>
+                    <span class="n">last_updated</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;publishedAt&quot;</span><span class="p">]</span>
+                    <span class="n">title</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
+                    <span class="n">description</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+                    <span class="n">url</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span>
+                    <span class="n">img_url</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;urlToImage&quot;</span><span class="p">]</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;From </span><span class="si">{</span><span class="n">provider</span><span class="si">}</span><span class="se">\n</span><span class="s2">Written by </span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s2"> on </span><span class="si">{</span><span class="n">last_updated</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Read more at </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">img_url</span><span class="si">}</span><span class="s2"> &quot;</span>
+                    <span class="p">)</span>
+
+                <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;I am sorry. I couldn&#39;t find the item you actually asked for.&quot;</span>
+                    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">ent</span> <span class="ow">in</span> <span class="n">normalize</span><span class="o">.</span><span class="n">ents</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ent</span><span class="o">.</span><span class="n">label_</span> <span class="o">==</span> <span class="s2">&quot;GPE&quot;</span><span class="p">:</span>
+                    <span class="n">country</span> <span class="o">=</span> <span class="n">ent</span>
+                <span class="k">elif</span> <span class="n">ent</span><span class="o">.</span><span class="n">label_</span> <span class="ow">in</span> <span class="p">[</span>
+                    <span class="s2">&quot;PERSON&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;NORP&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;FAC&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;ORG&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;LOC&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;PRODUCT&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;EVENT&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;WORK_OF_ART&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;LAW&quot;</span><span class="p">,</span>
+                <span class="p">]:</span>
+                    <span class="n">keyword</span> <span class="o">=</span> <span class="n">ent</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;NewsAdapter found as Natural Entity Recognizer words, country : </span><span class="si">{}</span><span class="s2">, keyword: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">country</span><span class="p">,</span> <span class="n">keyword</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">normalize</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">normalize</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="s2">&quot;about&quot;</span> <span class="ow">or</span> <span class="n">normalize</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="s2">&quot;on&quot;</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NewsAdapter: found determiner about or on&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">keyword</span><span class="p">:</span>
+                        <span class="n">keyword_words</span> <span class="o">=</span> <span class="p">[]</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">normalize</span><span class="p">)):</span>
+                            <span class="k">if</span> <span class="n">normalize</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s2">&quot;DET&quot;</span><span class="p">:</span>
+                                <span class="k">continue</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">keyword_words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">normalize</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+                        <span class="n">keyword</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">keyword_words</span><span class="p">)</span>
+            <span class="n">sg_news</span> <span class="o">=</span> <span class="n">SugaroidNews</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">keyword</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NewsAdapter: Getting news of keyword </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">keyword</span><span class="p">))</span>
+                <span class="n">news</span> <span class="o">=</span> <span class="n">sg_news</span><span class="o">.</span><span class="n">get_news_keyword</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">keyword</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;NewsAdapter: Getting news of country </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">country</span><span class="p">))</span>
+                <span class="n">news</span> <span class="o">=</span> <span class="n">sg_news</span><span class="o">.</span><span class="n">get_top_headlines</span><span class="p">(</span>
+                    <span class="n">country</span><span class="o">=</span><span class="n">NEWSAPI_COUNTRIES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">country</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">bracketize</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ❇️ [</span><span class="si">{}</span><span class="s2">] </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">bracketize</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">news</span><span class="p">)])</span>
+
+        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">adapter</span> <span class="o">=</span> <span class="s2">&quot;NewsAdapter&quot;</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+
+        <span class="k">return</span> <span class="n">selected_statement</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

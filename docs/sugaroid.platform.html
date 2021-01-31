@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.platform package &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/sugaroid.platform.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="sugaroid.reader package" href="sugaroid.reader.html" />
+    <link rel="prev" title="sugaroid.gui package" href="sugaroid.gui.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">sugaroid</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="launcher.html">launcher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="sugaroid.html">sugaroid package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="sugaroid.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.backend.html">sugaroid.backend package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.brain.html">sugaroid.brain package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.cli.html">sugaroid.cli package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.config.html">sugaroid.config package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.game.html">sugaroid.game package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.google.html">sugaroid.google package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.gui.html">sugaroid.gui package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">sugaroid.platform package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.reader.html">sugaroid.reader package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.trainer.html">sugaroid.trainer package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.translator.html">sugaroid.translator package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.trivia.html">sugaroid.trivia package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sugaroid.tts.html">sugaroid.tts package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sugaroid.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sugaroid.html#module-sugaroid.sugaroid">sugaroid.sugaroid module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sugaroid.html#module-sugaroid.train">sugaroid.train module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sugaroid.html#module-sugaroid.version">sugaroid.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sugaroid.html#module-sugaroid">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">sugaroid</a> &raquo;</li>
+        
+          <li><a href="sugaroid.html">sugaroid package</a> &raquo;</li>
+        
+      <li>sugaroid.platform package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/sugaroid.platform.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sugaroid-platform-package">
+<h1>sugaroid.platform package<a class="headerlink" href="#sugaroid-platform-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-sugaroid.platform.darwin">
+<span id="sugaroid-platform-darwin-module"></span><h2>sugaroid.platform.darwin module<a class="headerlink" href="#module-sugaroid.platform.darwin" title="Permalink to this headline">¶</a></h2>
+<p>GUISCRCPY by srevinsaju
+Get it on : <a class="reference external" href="https://github.com/srevinsaju/guiscrcpy">https://github.com/srevinsaju/guiscrcpy</a>
+Licensed under GNU Public License</p>
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;<a class="reference external" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>&gt;.</p>
+<dl class="py class">
+<dt id="sugaroid.platform.darwin.Darwin">
+<em class="property">class </em><code class="sig-prename descclassname">sugaroid.platform.darwin.</code><code class="sig-name descname">Darwin</code><a class="reference internal" href="_modules/sugaroid/platform/darwin.html#Darwin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.darwin.Darwin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="sugaroid.platform.darwin.Darwin.cfgpath">
+<code class="sig-name descname">cfgpath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/darwin.html#Darwin.cfgpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.darwin.Darwin.cfgpath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.darwin.Darwin.increment">
+<code class="sig-name descname">increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/darwin.html#Darwin.increment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.darwin.Darwin.increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.darwin.Darwin.make_config">
+<em class="property">static </em><code class="sig-name descname">make_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/darwin.html#Darwin.make_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.darwin.Darwin.make_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.darwin.Darwin.paths">
+<code class="sig-name descname">paths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/darwin.html#Darwin.paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.darwin.Darwin.paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.darwin.Darwin.system">
+<code class="sig-name descname">system</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/darwin.html#Darwin.system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.darwin.Darwin.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-sugaroid.platform.linux">
+<span id="sugaroid-platform-linux-module"></span><h2>sugaroid.platform.linux module<a class="headerlink" href="#module-sugaroid.platform.linux" title="Permalink to this headline">¶</a></h2>
+<p>GUISCRCPY by srevinsaju
+Get it on : <a class="reference external" href="https://github.com/srevinsaju/guiscrcpy">https://github.com/srevinsaju/guiscrcpy</a>
+Licensed under GNU Public License</p>
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;<a class="reference external" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>&gt;.</p>
+<dl class="py class">
+<dt id="sugaroid.platform.linux.Linux">
+<em class="property">class </em><code class="sig-prename descclassname">sugaroid.platform.linux.</code><code class="sig-name descname">Linux</code><a class="reference internal" href="_modules/sugaroid/platform/linux.html#Linux"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.linux.Linux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="sugaroid.platform.linux.Linux.cfgpath">
+<code class="sig-name descname">cfgpath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/linux.html#Linux.cfgpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.linux.Linux.cfgpath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.linux.Linux.increment">
+<code class="sig-name descname">increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/linux.html#Linux.increment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.linux.Linux.increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.linux.Linux.make_config">
+<em class="property">static </em><code class="sig-name descname">make_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/linux.html#Linux.make_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.linux.Linux.make_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.linux.Linux.paths">
+<code class="sig-name descname">paths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/linux.html#Linux.paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.linux.Linux.paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.linux.Linux.system">
+<code class="sig-name descname">system</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/linux.html#Linux.system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.linux.Linux.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-sugaroid.platform.platform">
+<span id="sugaroid-platform-platform-module"></span><h2>sugaroid.platform.platform module<a class="headerlink" href="#module-sugaroid.platform.platform" title="Permalink to this headline">¶</a></h2>
+<p>GUISCRCPY by srevinsaju
+Get it on : <a class="reference external" href="https://github.com/srevinsaju/guiscrcpy">https://github.com/srevinsaju/guiscrcpy</a>
+Licensed under GNU Public License</p>
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;<a class="reference external" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>&gt;.</p>
+</div>
+<div class="section" id="module-sugaroid.platform.windows">
+<span id="sugaroid-platform-windows-module"></span><h2>sugaroid.platform.windows module<a class="headerlink" href="#module-sugaroid.platform.windows" title="Permalink to this headline">¶</a></h2>
+<p>GUISCRCPY by srevinsaju
+Get it on : <a class="reference external" href="https://github.com/srevinsaju/guiscrcpy">https://github.com/srevinsaju/guiscrcpy</a>
+Licensed under GNU Public License</p>
+<p>This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.</p>
+<p>This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with this program.  If not, see &lt;<a class="reference external" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>&gt;.</p>
+<dl class="py class">
+<dt id="sugaroid.platform.windows.Windows">
+<em class="property">class </em><code class="sig-prename descclassname">sugaroid.platform.windows.</code><code class="sig-name descname">Windows</code><a class="reference internal" href="_modules/sugaroid/platform/windows.html#Windows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.windows.Windows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="sugaroid.platform.windows.Windows.cfgpath">
+<code class="sig-name descname">cfgpath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/windows.html#Windows.cfgpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.windows.Windows.cfgpath" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.windows.Windows.increment">
+<code class="sig-name descname">increment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/windows.html#Windows.increment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.windows.Windows.increment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.windows.Windows.make_config">
+<em class="property">static </em><code class="sig-name descname">make_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/windows.html#Windows.make_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.windows.Windows.make_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.windows.Windows.paths">
+<code class="sig-name descname">paths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/windows.html#Windows.paths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.windows.Windows.paths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="sugaroid.platform.windows.Windows.system">
+<code class="sig-name descname">system</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/platform/windows.html#Windows.system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.platform.windows.Windows.system" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-sugaroid.platform">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-sugaroid.platform" title="Permalink to this headline">¶</a></h2>
+<p>MIT License</p>
+<p>Sugaroid Artificial Inteligence
+Chatbot Core
+Copyright (c) 2020-2021 Srevin Saju
+Copyright (c) 2021 The Sugaroid Project</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the “Software”), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="sugaroid.reader.html" class="btn btn-neutral float-right" title="sugaroid.reader package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="sugaroid.gui.html" class="btn btn-neutral float-left" title="sugaroid.gui package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

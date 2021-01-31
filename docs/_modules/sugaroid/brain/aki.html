@@ -1,0 +1,395 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.aki &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/aki.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.aki</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.aki</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module in Sugaroid uses a licensed term &#39;Akinator&#39;. Sugaroid and its developer</span>
+<span class="sd">attributes its author here</span>
+<span class="sd">Elokence.com – SARL a limited liability company with a share capital of 80,000€,</span>
+<span class="sd">whose head office is 8, rue Jules Vallès – 28 300 Mainvilliers – France,</span>
+<span class="sd">and registered with the Chartres Register of Companies under the number</span>
+<span class="sd">501 030 316. The design and contents of the Website constitute a protected</span>
+<span class="sd">work under current intellectual property laws, of which Elokence is the</span>
+<span class="sd">rightholder. The Publications Director is Mr Arnaud MÉGRET, manager of</span>
+<span class="sd">Elokence.com.</span>
+
+<span class="sd">The author takes no right over the information provided by Akinator and is</span>
+<span class="sd">solely provided by the WebAPI Akinator.com.</span>
+<span class="sd">All rights reserved to Akinator.</span>
+
+<span class="sd">The creator of Akinator.py NinjaSnails is also attributed. The Akinator wrapper</span>
+<span class="sd">for python is provided under OpenSource License (MIT)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">akinator</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">HOPE_GAME_WAS_GOOD</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">akinator</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">Akinator</span><span class="p">,</span>
+        <span class="n">AkiServerDown</span><span class="p">,</span>
+        <span class="n">AkiTechnicalError</span><span class="p">,</span>
+        <span class="n">CantGoBackAnyFurther</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">akinator_exists</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">akinator_exists</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span>
+
+
+<span class="n">AKINATOR_RULES</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">How to Play:</span>
+<span class="s2">+ think of a character, real or fictional, keep it well in mind</span>
+<span class="s2">+ answer the questions as truthfully as possible</span>
+<span class="s2">+ Sugaroid genie will try to guess your person out</span>
+<span class="s2">+ Best of luck; have fun!</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">AKINATOR_ACCEPTED_ANSWER</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Accepted answers are:</span>
+<span class="s2">yes: y, yes, 0</span>
+<span class="s2">no: n, no, 1</span>
+<span class="s2">probably not: pn, probably not, 4</span>
+<span class="s2">probably: p, probably, 3</span>
+<span class="s2">I don&#39;t know: idk, i dont know, i don&#39;t know, 2</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="SugaroidAkinator"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.SugaroidAkinator">[docs]</a><span class="k">class</span> <span class="nc">SugaroidAkinator</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span> <span class="o">=</span> <span class="n">chatbot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aki</span> <span class="o">=</span> <span class="n">Akinator</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">winning</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">game_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">start_game</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">AkiServerDown</span><span class="p">,</span> <span class="n">AkiTechnicalError</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">game_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">start_game</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">AkiServerDown</span><span class="p">,</span> <span class="n">AkiTechnicalError</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">game_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">start_game</span><span class="p">(</span><span class="s2">&quot;en3&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SugaroidAkinator.start_game"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.SugaroidAkinator.start_game">[docs]</a>    <span class="k">def</span> <span class="nf">start_game</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># We are about to start the game. Lets send a fascinating entry</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;Lets start the play of Akinator™ with me. I, Sugaroid, am your host genie :crystal_ball: for your &quot;</span>
+            <span class="s2">&quot;competition</span><span class="si">{}</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;Here is your first question</span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">AKINATOR_RULES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_instance</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="SugaroidAkinator.progression"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.SugaroidAkinator.progression">[docs]</a>    <span class="k">def</span> <span class="nf">progression</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">progression</span> <span class="o">&lt;=</span> <span class="mi">80</span><span class="p">:</span>
+            <span class="n">user_input</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;back&quot;</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;try again&quot;</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="p">(</span><span class="n">user_input</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;b&quot;</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">game_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">back</span><span class="p">()</span>
+                <span class="k">except</span> <span class="n">CantGoBackAnyFurther</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">game_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">answer</span><span class="p">(</span><span class="n">user_input</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_instance</span>
+                <span class="k">except</span> <span class="n">akinator</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidAnswerError</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="s2">&quot;Seems like I cannot understand your answer </span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">AKINATOR_ACCEPTED_ANSWER</span>
+                    <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">winning</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="SugaroidAkinator.win"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.SugaroidAkinator.win">[docs]</a>    <span class="k">def</span> <span class="nf">win</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">win</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;It&#39;s </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">first_guess</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">first_guess</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">)! Was I correct?</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">aki</span><span class="o">.</span><span class="n">first_guess</span><span class="p">[</span><span class="s1">&#39;absolute_picture_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n\t</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="SugaroidAkinator.start_check"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.SugaroidAkinator.start_check">[docs]</a>    <span class="k">def</span> <span class="nf">start_check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">check</span></div>
+
+<div class="viewcode-block" id="SugaroidAkinator.game_over"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.SugaroidAkinator.game_over">[docs]</a>    <span class="k">def</span> <span class="nf">game_over</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">winning</span></div>
+
+<div class="viewcode-block" id="SugaroidAkinator.check_ans"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.SugaroidAkinator.check_ans">[docs]</a>    <span class="k">def</span> <span class="nf">check_ans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="n">statement</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;yes&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;yea&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;exactly&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;obviously&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;correct&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;right&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">and</span> <span class="s2">&quot;won&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="ow">or</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span>
+            <span class="ow">or</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;y&quot;</span>
+            <span class="ow">or</span> <span class="n">statement</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;yea&quot;</span>
+        <span class="p">):</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Yay! I won the game! 👊🎃🎁🎉 &quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Oh. I failed the same. Seems like you are smarter than me. 😩🙀&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">response</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="si">{}</span><span class="se">\n</span><span class="s2"> I am back to my business&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">random_response</span><span class="p">(</span><span class="n">HOPE_GAME_WAS_GOOD</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+
+
+<div class="viewcode-block" id="AkinatorAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.AkinatorAdapter">[docs]</a><span class="k">class</span> <span class="nc">AkinatorAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adapter which ports the wrapper of the Akinator game to Sugaroid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aki</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">game_instance</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="AkinatorAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.AkinatorAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="p">((</span><span class="s2">&quot;akinator&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="ow">and</span> <span class="n">akinator_exists</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="s2">&quot;not&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="AkinatorAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.aki.AkinatorAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># FIXME: Override all other answers</span>
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">genie</span>
+
+        <span class="k">if</span> <span class="s2">&quot;stop&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am sorry. You quit the game abrubtly. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">random_response</span><span class="p">(</span><span class="n">HOPE_GAME_WAS_GOOD</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SugaroidAkinator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start_game</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">game_over</span><span class="p">():</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">progression</span><span class="p">(</span>
+                    <span class="n">statement</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">win</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start_check</span><span class="p">():</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;akinator&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">check_ans</span><span class="p">(</span>
+                        <span class="n">statement</span>
+                    <span class="p">)</span>
+
+        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="k">return</span> <span class="n">selected_statement</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

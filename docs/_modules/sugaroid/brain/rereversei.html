@@ -1,0 +1,420 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.brain.rereversei &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/rereversei.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.brain.rereversei</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.brain.rereversei</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span class="kn">from</span> <span class="nn">pyjokes</span> <span class="kn">import</span> <span class="n">pyjokes</span>
+
+<span class="kn">from</span> <span class="nn">nltk.sentiment</span> <span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.covid</span> <span class="kn">import</span> <span class="n">COVID_QUESTIONS</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">cosine_similarity</span><span class="p">,</span> <span class="n">difference</span><span class="p">,</span> <span class="n">text2int</span><span class="p">,</span> <span class="n">any_in</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span><span class="p">,</span> <span class="n">tokenize</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.wiki</span> <span class="kn">import</span> <span class="n">wikipedia_search</span>
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+
+<div class="viewcode-block" id="ReReverseAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.rereversei.ReReverseAdapter">[docs]</a><span class="k">class</span> <span class="nc">ReReverseAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes statements featuring conversational flow. It scans the previous statements</span>
+<span class="sd">    and takes a cosine similarity of the statemnts, and TFiD Vector cross product to get</span>
+<span class="sd">    the most probable answer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span> <span class="o">=</span> <span class="n">chatbot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="ReReverseAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.rereversei.ReReverseAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="n">soln</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">get_global</span><span class="p">(</span><span class="s2">&quot;reversei&quot;</span><span class="p">)[</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ReReverseiAdapter: </span><span class="si">{</span><span class="n">soln</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">soln</span></div>
+
+<div class="viewcode-block" id="ReReverseAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.rereversei.ReReverseAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">normalize</span>
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">ordinal_statement</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;9th&quot;</span><span class="p">,</span> <span class="s2">&quot;ninth&quot;</span><span class="p">)</span>
+            <span class="c1"># FIXME PORT RO</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">cosine_similarity</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="n">ordinal_statement</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;uid&quot;</span><span class="p">])</span>
+                <span class="p">)</span>
+                <span class="o">&gt;</span> <span class="mf">0.8</span>
+            <span class="p">):</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Exactly, you got it right!&quot;</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+                <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Close! it was </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.99</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">30000000001</span><span class="p">:</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                NameAdapter: token 30000000001</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;yes&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;yea&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Ok, will keep that in mind!&quot;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;USERNAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;nn&quot;</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;nn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Ok, I guess I am smart&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">wink</span>
+                    <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;yes&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;yea&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;total&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="s2">&quot;joke&quot;</span> <span class="ow">in</span> <span class="n">_</span><span class="p">(</span>
+                            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;total&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="p">):</span>
+                            <span class="n">joke</span> <span class="o">=</span> <span class="n">pyjokes</span><span class="o">.</span><span class="n">get_joke</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span>
+                            <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">joke</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                            <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
+                            <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.95</span>
+                            <span class="k">return</span> <span class="n">selected_statement</span>
+
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># TODO: Not Implemented yet</span>
+                            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Ok. (# Not Implemented yet. LOL)&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Ok then, probably next time&quot;</span>
+                    <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CORONAVIRUS&quot;</span>
+        <span class="p">):</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">difference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;my&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;is&quot;</span><span class="p">,</span> <span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="s2">&quot;be&quot;</span><span class="p">])</span>
+            <span class="n">tokenized</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tokenized</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;NN&quot;</span><span class="p">:</span>
+                    <span class="n">fname</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="n">fname</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Nice to meet you </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
+                <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I couldn&#39;t find your name. 🥦&quot;</span>
+                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">non_expressive_left</span>
+                <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="n">confidence</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="mf">2.0</span>  <span class="c1"># FIXME: Override Mathematical Evaluation when not necessary</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">30000000002</span><span class="p">:</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                WikiAdapter: token 30000000002</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+                <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;yes&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;yea&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I thought you would tell me a number to choose from :/&quot;</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">seriously</span>
+
+                <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;no&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;no&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="s2">&quot;Oops! Sorry about that, seems like what &quot;</span>
+                        <span class="s2">&quot;your&#39;e searching for is not on Wikipedia yet&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">dead</span>
+                    <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">chatbot_temporary_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;temp_data&quot;</span><span class="p">]</span>
+                    <span class="n">tokenized</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag</span><span class="p">(</span><span class="n">tokenize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)))</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tokenized</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CD&quot;</span><span class="p">:</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="n">num</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                                <span class="n">num</span> <span class="o">=</span> <span class="n">text2int</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                            <span class="n">index</span> <span class="o">=</span> <span class="n">num</span> <span class="o">-</span> <span class="mi">1</span>
+                            <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">chatbot_temporary_data</span><span class="p">):</span>
+                                <span class="n">response</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">stat</span> <span class="o">=</span> <span class="n">wikipedia_search</span><span class="p">(</span>
+                                    <span class="bp">self</span><span class="p">,</span> <span class="n">chatbot_temporary_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+                                <span class="p">)</span>
+                                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;REVERSEI: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">response</span><span class="p">))</span>
+                                <span class="n">confidence</span> <span class="o">=</span> <span class="p">(</span>
+                                    <span class="mi">1</span> <span class="o">+</span> <span class="n">confidence</span>
+                                <span class="p">)</span>  <span class="c1"># FIXME override math evaluation adapter</span>
+                                <span class="k">if</span> <span class="ow">not</span> <span class="n">stat</span><span class="p">:</span>
+                                    <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                                        <span class="s2">&quot;I have some trouble connecting&quot;</span>
+                                        <span class="s2">&quot;to Wikipedia. Something&#39;s not right&quot;</span>
+                                    <span class="p">)</span>
+                                    <span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.1</span>
+
+                                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">rich</span>
+                                <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                                <span class="k">break</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;Sorry, I couldn&#39;t find the item you were choosing. &quot;</span>
+                                <span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.1</span>
+                                <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">cry_overflow</span>
+                                <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                                <span class="k">break</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="s2">&quot;I thought you wanted to know something from wikipedia. &quot;</span>
+                            <span class="s2">&quot;Ok, I will try something else&quot;</span>
+                        <span class="p">)</span>
+                        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">seriously</span>
+                        <span class="n">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                        <span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CORONAVIRUS&quot;</span><span class="p">:</span>
+                <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">NUM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">NUM</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;You have a high risk of COVID-19&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;As per my approximation, you do not have a high risk of COVID-19&quot;</span>
+                    <span class="n">response</span> <span class="o">+=</span> <span class="p">(</span>
+                        <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> My approximations might not be correct. &quot;</span>
+                        <span class="s2">&quot;You might confirm my results by a legal test&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sia</span> <span class="o">=</span> <span class="n">SentimentIntensityAnalyzer</span><span class="p">()</span>
+                    <span class="n">_scores</span> <span class="o">=</span> <span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+                    <span class="n">true_responses</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;yes&quot;</span><span class="p">,</span> <span class="s2">&quot;yea&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;yup&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">any_in</span><span class="p">(</span>
+                            <span class="n">true_responses</span> <span class="o">+</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">true_responses</span><span class="p">],</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="ow">or</span> <span class="p">(</span><span class="n">_scores</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">_scores</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">])</span>
+                    <span class="p">):</span>
+                        <span class="n">score</span> <span class="o">+=</span> <span class="n">COVID_QUESTIONS</span><span class="p">[</span><span class="n">NUM</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">COVID_QUESTIONS</span><span class="p">[</span><span class="n">NUM</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">NUM</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">score</span><span class="p">]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;ok&quot;</span>
+
+                <span class="n">confidence</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
+
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+
+        <span class="k">return</span> <span class="n">selected_statement</span></div></div>
+
+
+<div class="viewcode-block" id="reset_reverse"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.rereversei.reset_reverse">[docs]</a><span class="k">def</span> <span class="nf">reset_reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;uid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;reversei&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
