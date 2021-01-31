@@ -22,6 +22,9 @@ pyinflect = "*"
 pint = "*"
 
 [dev-packages]
+sphinx = "*"
+sphinx-rtd-theme = "*"
+mock = "*"
 
 [requires]
 python_version = "3.9"
@@ -29,3 +32,4 @@ python_version = "3.9"
 [scripts]
 sugaroid = "python3 -m sugaroid"
 sugaroid-debug = "SUGAROID_DEBUG=true python3 -m sugaroid"
+docs = "make -C docs html"

@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('..'))
 import sphinx_rtd_theme
 import mock
 # 'chatterbot', 'chatterbot.logic',
@@ -46,7 +46,7 @@ templates_path = ['_templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["../../venv"]
+exclude_patterns = ["../../venv", "launcher.py", "setup.py"]
 
 
 # -- Options for HTML output -------------------------------------------------
