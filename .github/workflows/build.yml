@@ -2,11 +2,9 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - master
-      - main
+      - develop
     paths:
       - '.github/workflows/build.yml'
-      - 'docs/**'
 
 
 jobs:
