@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+spacy = "*"
+colorama = "*"
+emoji = "*"
+nltk = "*"
+en-core-web-sm = {file = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz"}
+chatterbot = {git = "https://github.com/sugaroidbot/ChatterBot"}
+swaglyrics = "*"
+wikipedia-api = "*"
+"akinator.py" = "*"
+pyjokes = "*"
+mediawikiapi = "*"
+currencyconverter = "*"
+newsapi-python = "*"
+python-dotenv = "*"
+pyinflect = "*"
+pint = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+
+[scripts]
+sugaroid = "python3 -m sugaroid"
+sugaroid-debug = "SUGAROID_DEBUG=true python3 -m sugaroid"
