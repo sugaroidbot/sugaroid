@@ -1,4 +1,3 @@
-
 from chatterbot.logic import LogicAdapter
 from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement

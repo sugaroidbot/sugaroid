@@ -14,6 +14,7 @@ class LyricsNotFound(Exception):
     Exception raised when the lyrics has not been found in Genius through
     Swaglyrics
     """
+
     pass
 
 

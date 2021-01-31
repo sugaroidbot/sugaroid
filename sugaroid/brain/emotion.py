@@ -1,4 +1,3 @@
-
 from random import randint
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
