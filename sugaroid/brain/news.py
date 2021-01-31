@@ -296,7 +296,7 @@ class NewsAdapter(LogicAdapter):
                 )
 
             def bracketize(x):
-                return "\n:large_blue_diamond: [{}] {}".format(x[0] + 1, str(x[1]))
+                return "\n ❇️ [{}] {}".format(x[0] + 1, str(x[1]))
 
             response = " ".join([bracketize(x) for x in enumerate(news)])
 
