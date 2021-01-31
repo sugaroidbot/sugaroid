@@ -21,16 +21,22 @@ jobs:
           persist-credentials: false
     
 
+      - name: Install Python 3.x
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.x
+     
+      - name: Fetch deps 
+        run: |
+          pip3 install wheel pipenv
+          pipenv sync && pipenv lock
+          pipenv install sphinx sphinx-rtd-theme
+
+          
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          export INIT_DIR=`pwd`
-          cargo install mdbook
-          cargo install mdbook-katex
-          cd docs/mdbook
-          mdbook build
-          mv book /tmp/docs
-          
-          cd "$INIT_DIR"
+          pipenv run docs 
+          mv docs/build/html /tmp/docs
           git clone https://github.com/srevinsaju/sugaroid --single-branch --branch=gh-pages deploy
           rm -rf deploy/docs
           mv /tmp/docs deploy/.
