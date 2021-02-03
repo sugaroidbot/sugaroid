@@ -21,7 +21,9 @@ The lesser complex version of the Naive Bayers Classifier is used
 explicitly in Sugaroid for deriving the responses. The equation used, is
 given below
 
-\\[ p(D|C) = :raw-latex:`\Pi`\_i p(:raw-latex:`\omega`\_i \| C ) \\]
+.. math ::
+   p(D|C) = \Pi_i p(\omega _i | C )
+
 
 where ``p`` is the Probability, ``D|C`` is the conditional probability.
 

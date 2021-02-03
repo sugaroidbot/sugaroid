@@ -1,5 +1,5 @@
-Installation
-============
+Algorithms
+==========
 
 .. toctree::
    :maxdepth: 2

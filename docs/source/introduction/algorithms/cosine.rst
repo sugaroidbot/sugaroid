@@ -1,11 +1,9 @@
 Cosine Dot Product
 ==================
 
-\\[ :raw-latex:`\vec `A.:raw-latex:`\vec `B =
-ABcos:raw-latex:`\theta `\\ \\]
-
-\\[ :raw-latex:`\cos `:raw-latex:`\theta `=
-:raw-latex:`\frac{\vec A . \vec B}{A.B}` \\]
+.. math ::
+   \vec A . \vec B = AB \cos \theta \\
+   \cos \theta = \frac{\vec A . \vec B}{A.B} 
 
 Words are classified as vectors in this case. Similar words are given
 similar but unique vector quantity, such that only equal phrases can

@@ -1,8 +1,13 @@
+Jaccard Similarity 
+==================
+
 Jaccard Similarity / sigma similarity uses a simple, but less memory
 intensive algorithm to analyze the statements. The equation is given as
 follows
 
-\\[ :raw-latex:`\theta `= :raw-latex:`\frac {n}{x+y}` \\]
+.. math ::
+   \theta = \frac {n}{x+y}
+
 
 Where n, number of common words in list x and list y, and (x+ y) shows
 the union of x and y similarity.

@@ -5,15 +5,16 @@ The `Jensen Shannon
 Distance <https://en.wikipedia.org/wiki/Jensen–Shannon_divergence>`__ is
 the last and the complex algorithm used inside ``sugaroid`` bot. The
 equation for finding Jensen Shannon Distance is not directly used within
-\\[ D(M \|\| Q) = :raw-latex:`\sum `M(i) .
-:raw-latex:`\log `:raw-latex:`\frac {M(i)}{Q(i)}` \\ \\] \\[ JSD (M \|\|
-Q) = :raw-latex:`\frac 12`:raw-latex:`\sum `(
-:raw-latex:`\log`(:raw-latex:`\frac {M(i)}{\frac12M(i) + Q(i)}`) +
-:raw-latex:`\log`(:raw-latex:`\frac{Q(i)}{\frac 12 M(i) + Q(i)}`)) \\]
+
+.. math ::
+   D(M || Q) = \sum M(i)
+   \log \frac {M(i)}{Q(i)} \\ 
+   JSD (M || Q) = \frac 12 \sum (\log \frac {M(i)}{\frac12M(i) + Q(i)}) + \log(\frac{Q(i)}{\frac 12 M(i) + Q(i)})) 
+
 This being a complex and CPU intensive process, is handled
 systematically by a Natural Language Processing library with Industrial
 Processing support, viz, SpaCy. The
-`SpaCy <https://github.com/srevinsaju/sugaroid/blob/430dd87fa8fd4831fc1b717676d5e8923146d020/spacy.io>`__
+`SpaCy <https://github.com/sugaroidbot/sugaroid/blob/430dd87fa8fd4831fc1b717676d5e8923146d020/spacy.io>`__
 library handles this effectively by loading data from ``en_core_web_sm``
 and ``en_core_web_lg``
 
