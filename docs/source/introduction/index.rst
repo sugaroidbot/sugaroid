@@ -6,8 +6,11 @@ Introduction
    :caption: Contents:
 
    introduction
+   installation/index
    configuration
    databases
+   interfaces/index
+   algorithms/index
    datasets
    faults
    execution
