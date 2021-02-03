@@ -1,20 +1,9 @@
 .. figure:: ./img/sugaroid.png
    :alt: Sugaroid smiling
 
-   Sugaroid smiling
 
 Sugaroid
 ========
-
-|Become a Patron|
-
-   **IMPORTANT** : Sugaroid is an open source software. The web server
-   is deployed on Microsoft Azure. Your support for this open source
-   software is highly necessary to make this project continued to be
-   served on the world wide web. Consider being my patron to help
-   Sugaroid host its servers or if you are willing to lend servers for
-   Sugaroid, press the sponsor button and email me. Thanks. However,
-   Sugaroid will always remain free forever :smile:
 
 Introduction
 ------------
@@ -44,6 +33,7 @@ testing.
 
 -  `The web interface <https://sed.lol/sugaroid>`__
 -  The discord bot
+-  Telegram bot
 -  IRC bot hosted on self when necessary
 
 .. |Become a Patron| image:: https://c5.patreon.com/external/logo/become_a_patron_button.png
