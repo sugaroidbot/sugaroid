@@ -14,7 +14,7 @@ thanks to contributors, **Sreya Saju** (aka
 `@sreyasaju <https://github.com/sreyasaju>`_) and **Joel Anil Chacko**
 (aka `@TheDarkDrake <https://github.com/TheDarkDrake>`_) for helping me
 document the missed parts, bug triaging and adding more responses, I 
-would also like to thank **Sruthi Raj**, **Azra M Riyaz** and **Mathew**
+would also like to thank **Sruthi Raj**, **Azra M Riyaz** and **Mathew K **
 for continuous testing and bug triaging. I
 would also like to thank, Sugar Labs 2019 GCI Team, **Sashreek Magan**
 (aka `@smag <https://github.com/smag>`_), **Andrea Gonzales** (aka

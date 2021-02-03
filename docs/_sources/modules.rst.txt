@@ -1,4 +1,4 @@
-sugaroid
+API Documentation
 ========
 
 .. toctree::
