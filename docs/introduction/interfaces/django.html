@@ -1,0 +1,270 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Django Web Interface &mdash; Sugaroid v0.15.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/introduction/interfaces/django.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="IRC Bot" href="ircbot.html" />
+    <link rel="prev" title="Flask Backend" href="flask.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases and Training</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Interfaces</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cli.html">Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gui.html">Graphical User Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="discord.html">Discord Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flask.html">Flask Backend</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Django Web Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ircbot.html">IRC Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telegram.html">Discord Bot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API Documentation</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Interfaces</a> &raquo;</li>
+        
+      <li>Django Web Interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/introduction/interfaces/django.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="django-web-interface">
+<h1>Django Web Interface<a class="headerlink" href="#django-web-interface" title="Permalink to this headline">¶</a></h1>
+<div class="figure align-default" id="id1">
+<img alt="Sugaroid Django Web Interface" src="https://raw.githubusercontent.com/srevinsaju/sugaroid/430dd87fa8fd4831fc1b717676d5e8923146d020/docs/img/sugaroid_django.gif" />
+<p class="caption"><span class="caption-text">Sugaroid Django Web Interface</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Web Interface, built on Django, a popular production level web interface
+for Python. (<a class="reference external" href="https://djangorproject.org">https://djangorproject.org</a>). Dynamic Web page interfaces
+were used to create an user friendly web page accessible to all users on
+a sponsored Azure server. Thanks to Microsoft for sponsoring a Azure
+server, you can now use Sugaroid on <a class="reference external" href="https://sugaroid.azurewebsites.net">https://sugaroid.azurewebsites.net</a> .
+You might face latency between messages, but it is only because, the
+Azure server is hosted on limited RAM (1024 MB). And Django uses more
+RAM than Flask.</p>
+<p>However, it makes Sugaroid Accessible on the world wide web. 😊</p>
+<blockquote>
+<div><p><strong>Django</strong> (was) being used in creating Sugaroid web interface, which
+is however now being replaced by a Flask API backend, temporarily
+powered by a <strong>Heroku</strong> Server again. This was due to the excessive
+memory consumed by the Django Server. Django server was too ambitious
+for a relatively heavy memory using bot like Sugaroid, so Django was
+peacefully removed.</p>
+</div></blockquote>
+<p><em>Django is a high-level Python Web framework that encourages rapid
+development and clean, pragmatic design. Built by experienced
+developers, it takes care of much of the hassle of Web development, so
+you can focus on writing your app without needing to reinvent the wheel.
+It’s free and open source.</em> ~ Django Project
+(<a class="reference external" href="https://djangoproject.com">djangoproject.com</a>)</p>
+<p>Sugaroid has a <strong>Django</strong> based web interface to provide seamless
+integration of the Sugaroid Bot with the internet. Django’s model based
+database was used to store client communication on the server. Which
+later became a havoc, because of exponential memory usage.</p>
+<p>Sugaroid new API is based on <a class="reference external" href="https://flaskproject.org">flask</a>. and
+hosted on <a class="reference external" href="https://api-sugaroid.herokuapp.com">api-sugaroid</a>.</p>
+<p>Upstream repository :
+<a class="reference external" href="https://github.com/srevinsaju/sugaroid-backend">srevinsaju/sugaoid-backend</a></p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="ircbot.html" class="btn btn-neutral float-right" title="IRC Bot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="flask.html" class="btn btn-neutral float-left" title="Flask Backend" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

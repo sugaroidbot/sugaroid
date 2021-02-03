@@ -10,7 +10,19 @@ Welcome to Sugaroid's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   introduction/index
+   introduction/introduction
+   introduction/installation/index
+   introduction/configuration
+   introduction/databases
+   introduction/interfaces/index
+   introduction/algorithms/index
+   introduction/datasets
+   introduction/faults
+   introduction/execution
+   introduction/dependencies
+   introduction/requirements
+   introduction/acknowledgements
+   introduction/bibliography
    modules
 
 Indices and tables

@@ -33,13 +33,14 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="introduction/index.html" /> 
+    <link rel="next" title="Sugaroid" href="introduction/introduction.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,7 +87,19 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a></li>
 </ul>
 
@@ -160,19 +173,60 @@
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction/index.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html">Sugaroid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/configuration.html">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/databases.html">Databases and Training</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/datasets.html">Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/faults.html">Faults</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/execution.html">Execution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/dependencies.html">Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/requirements.html">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/acknowledgements.html">Acknowledgements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/introduction.html">Sugaroid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/introduction.html#introduction">Introduction</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/installation/index.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/installation/root.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/installation/source.html">Installation from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/installation/pypi.html">Installation from PyPI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/databases.html">Databases and Training</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/databases.html#supervised-training">Supervised training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/databases.html#unsupervised-training">Unsupervised Training</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/databases.html#sqlite3"><code class="docutils literal notranslate"><span class="pre">sqlite3</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/databases.html#privacy-policy">Privacy policy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/databases.html#investigating-data-from-the-database">Investigating data from the database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/interfaces/index.html">Interfaces</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/interfaces/cli.html">Command Line Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/interfaces/gui.html">Graphical User Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/interfaces/discord.html">Discord Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/interfaces/flask.html">Flask Backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/interfaces/django.html">Django Web Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/interfaces/ircbot.html">IRC Bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/interfaces/telegram.html">Discord Bot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/algorithms/index.html">Algorithms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/algorithms/bayes.html">Bayes’ Theorum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/algorithms/naive-bayes.html">Naive Bayers Classifier Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/algorithms/jsd.html">Jaccard Similarity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/algorithms/jensenshannon.html">Jensen Shannon Distance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/algorithms/cosine.html">Cosine Dot Product</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/datasets.html">Datasets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/datasets.html#prebuilt-datasets">Prebuilt datasets</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/faults.html">Faults</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/faults.html#invalid-responses">Invalid Responses</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/requirements.html">Requirements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction/requirements.html#hardware-requirements">Hardware Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction/requirements.html#software-requirements">Software Requirements</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">API Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="launcher.html">launcher module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
@@ -197,7 +251,7 @@
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="introduction/index.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="introduction/introduction.html" class="btn btn-neutral float-right" title="Sugaroid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
