@@ -1,3 +1,12 @@
+"""
+Sugaroid Backend is a SQL Database handler which stores 
+incoming messages into an sqlite3 database, which is later used
+for analytics and usage history. With this, it will be possible
+to chart out the most used command / adapters and accordingly
+move them above / increase their preference of processing.
+"""
+
+
 import sqlite3
 import logging
 
