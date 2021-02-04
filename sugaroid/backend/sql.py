@@ -82,7 +82,16 @@ def convert_data_escaped_string(data: tuple):
 
 
 class SqlDatabaseManagement:
+    """
+    Sugaroid stores some data for analytics and research 
+    in an ``sqlite3`` database
+    """
     def __init__(self, path_to_db, table="sugaroid_hist"):
+        """
+        Initialized the Sql Database Management object
+        and then creates the table ``sugaroid_hist`` in the table
+        if it does not exist.
+        """
         self._path_to_db = path_to_db
         self.database_instance = sqlite3.connect(self._path_to_db)
         self._cnx = self.database_instance.cursor()
@@ -97,17 +106,21 @@ class SqlDatabaseManagement:
         return self._table
 
     @property
-    def database_path(self):
+    def database_path(self) -> str:
         """
         Return the path to the database
+
+        :return: path to the database
+        :rtype: str
         """
         return self._path_to_db
 
-    def _execute(self, command):
+    def _execute(self, command: str):
         """
         Protected, Private method to execute an sql command
 
-        command: a valid SQL statement
+        :param command: a valid SQL statement
+        :type command: str
         """
         self._cnx.execute(command)
 
@@ -115,7 +128,8 @@ class SqlDatabaseManagement:
         """
         Adds data to the SQLite3 database into the table
 
-        data: tuple
+        :param data: data to be inserted
+        :type data: tuple
         """
         self._cnx.execute(
             "INSERT INTO {tablename} VALUES({values})".format(
@@ -132,4 +146,3 @@ class SqlDatabaseManagement:
         """
         self.database_instance.commit()
         self.database_instance.close()
-        return True

@@ -1,46 +1,8 @@
 """
-GUISCRCPY by srevinsaju
-Get it on : https://github.com/srevinsaju/guiscrcpy
-Licensed under GNU Public License
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-MIT License
-
-Sugaroid Artificial Inteligence
-Chatbot Core
-Copyright (c) 2020-2021 Srevin Saju
-Copyright (c) 2021 The Sugaroid Project
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
+Sugaroid Configuration manager. Sugaroid stores the trainer
+configuration in the ``sugaroid.trainer.json`` in the 
+``xdg`` specified directories in linux OSes, and in 
+``%HOME%/AppData/Local`` in Windows systems
 """
 
 import json
@@ -51,7 +13,18 @@ from sugaroid.platform import platform
 
 
 class ConfigManager:
+    """
+    Global Sugaroid Trainer configuration manager
+    """
     def __init__(self, mode="w"):
+        """
+        Initialize the configuration manager instance
+        with a specified mode, by default: the mode is ``w``
+        which implies, only write
+
+        :param mode: the mode of the opening the JSON file
+        :type mode: str
+        """
         self.os = platform.System()
         self.cfgpath = self.os.cfgpath()
         self.paths = self.os.paths()
@@ -59,22 +32,53 @@ class ConfigManager:
         self.jsonfile = "sugaroid.trainer.json"
         self.check_file()
 
-    def get_config(self):
+    def get_config(self) -> dict:
+        """
+        Returns the current configuration file
+
+        :return: The current configuration
+        :rtype: dict
+        """
         return self.config
 
-    def get_cfgpath(self):
+    def get_cfgpath(self) -> str:
+        """
+        Returns the current path to the configuration file
+
+        :return: The path of the configuration file
+        :rtype: str
+        """
         return self.cfgpath
 
     def read_file(self):
+        """
+        Read the configuration file and reloads the internal 
+        configuration
+
+        :return: None
+        :rtype: None
+        """
         with open(os.path.join(self.cfgpath, self.jsonfile), "r") as f:
             config = json.load(f)
         self.update_config(config)
 
     def write_file(self):
+        """
+        Writes the current configuration to the jsonfile
+
+        :return: None
+        :rtype: None
+        """
         with open(os.path.join(self.cfgpath, self.jsonfile), "w") as f:
             json.dump(self.config, f, indent=4, sort_keys=True)
 
-    def check_file(self):
+    def check_file(self) -> bool:
+        """
+        Checks if the file exists, if it exists, return True
+
+        :return: Does the file exist?
+        :rtype: bool
+        """
         if not os.path.exists(self.cfgpath):
             os.mkdir(self.cfgpath)
         if not os.path.exists(os.path.join(self.cfgpath, self.jsonfile)):
@@ -91,9 +95,18 @@ class ConfigManager:
             self.write_file()
         self.read_file()
 
-    def update_config(self, new_conf):
+    def update_config(self, new_conf: dict):
+        """
+        Updates the configuration ``dict.update``
+
+        :param new_conf: Dictionary object with new configuration
+        :type new_conf: dict
+        """
+
         self.config.update(new_conf)
 
     def reset_config(self):
+        """
+        Resets the configuration
+        """
         os.remove(os.path.join(self.get_cfgpath(), self.jsonfile))
-        return True

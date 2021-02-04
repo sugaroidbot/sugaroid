@@ -1,30 +1,3 @@
-"""
-MIT License
-
-Sugaroid Artificial Inteligence
-Chatbot Core
-Copyright (c) 2020-2021 Srevin Saju
-Copyright (c) 2021 The Sugaroid Project
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-"""
 import sys
 import logging
 import time
@@ -40,28 +13,11 @@ from sugaroid.gui.ui.main import Ui_MainWindow
 import threading
 
 
-"""
-class SleepRequests:
-    def __init__(self, parent):
-        self.parent = parent
-        self.sleeping = True
-
-    def set_sleeping(self, boo):
-        self.sleeping = boo
-
-    def run(self):
-        while self.sleeping:
-            if self.parent.sleep <= 20:
-                time.sleep(1)
-                self.parent.sleep += 1
-
-            else:
-                self.parent.label.setPixmap(QPixmap(":/home/sugaroid_sleep.png"))
-                break
-"""
-
-
 class AudioRequests:
+    """
+    Allows sugaroid to simultanously run the 
+    Audio Requests thread as well as the Emotion Changing thread
+    """
     def __init__(self, parent, ress):
 
         self.parent = parent
@@ -72,6 +28,10 @@ class AudioRequests:
 
 
 class EmotionRequests(QThread):
+    """
+    Allows to run the emotion changing thread detached 
+    from the ``__main__`` thread
+    """
     def __init__(self, parent, emo):
         QThread.__init__(self, parent)
         self.parent = parent
@@ -86,6 +46,11 @@ class EmotionRequests(QThread):
 
 
 class BotRequests(QThread):
+    """
+    Allows to ask sugaroid for responses on a detached thread
+    from the main thread and also spawns ``AudioRequests`` and 
+    ``EmotionRequests`` if audio is enabled
+    """
     def __init__(self, parent):
         QThread.__init__(self, parent)
         self.parent = parent
@@ -117,6 +82,11 @@ class BotRequests(QThread):
 
 
 class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
+    """
+    Prepares the user interface of Sugaroid on the main
+    thread and spawns ``BotRequests`` thread on an adjacent
+    thread
+    """
     def __init__(self, parent=None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -141,18 +111,6 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
         self.chatbox.setFocus()
 
     def refresh(self):
-        # if self.sleep_enabled:
-        #    if self.sl_thread.is_alive():
-        #        self.sl.set_sleeping(False)
-        #        self.sl_thread.join()
-        #        print("THREAD IS SLEEPING", not self.sl_thread.is_alive())
-
-        # self.sleep = 0
-        # if self.sleep_enabled:
-        #    if not self.sl_thread.is_alive():
-        #        self.sl_thread = threading.Thread(target=self.sl.run)
-        #        self.sl_thread.start()
-
         if str(self.chatbox.text()).isspace():
             return
         movie = QtGui.QMovie(":/home/sugaroid_thinking3.gif")

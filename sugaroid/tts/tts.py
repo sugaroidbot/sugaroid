@@ -1,30 +1,12 @@
 """
-MIT License
+Sugaroid Text2Speech Adapter.
 
-Sugaroid Artificial Intelligence
-Chatbot Core
-Copyright (c) 2020-2021 Srevin Saju
-Copyright (c) 2021 The Sugaroid Project
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
+Sugaroid has the feature of enabling text-to-voice for 
+messages coming from sugaroid. Sugaroid uses ``gTTS`` to 
+convert ``SugaroidStatement`` to audio file, which is then
+played through an audio device using ``playsound.playsound``
 """
+
 import os
 
 from gtts import gTTS
@@ -35,6 +17,24 @@ from sugaroid.config.config import ConfigManager
 
 class Text2Speech:
     def __init__(self):
+        """
+        Initializes the Text2Speech adapter for sugaroid
+
+        The ``Text2Speech`` adapter includes a smart algorithm
+        to automatically reduce downloads and cache messages
+        so that they can be reused on every outgoing message 
+        from sugaroid. Sugaroid uses Google Speech API to 
+        convert text messages into audio files. The Speech 
+        materials ``(*.mp3)`` are stored in the default 
+        configuration as provided by the ``ConfigManager``
+
+        Text2Speech Adapter can be used as 
+            
+            >>> t2s = Text2Speech()
+            >>> t2s.speak("Hello, I am Sugaroid")
+
+        """
+
         self.cfgmgr = ConfigManager()
         if not os.path.exists(os.path.join(self.cfgmgr.get_cfgpath(), "tts")):
             os.makedirs(os.path.join(self.cfgmgr.get_cfgpath(), "tts"))
@@ -54,7 +54,14 @@ class Text2Speech:
                 os.path.join(self.tts_dir, "did_you_mean_any_of_these.mp3")
             )
 
-    def speak(self, args):
+    def speak(self, args: str):
+        """
+        Speaks a statement using gTTS or plays a downloaded file
+        if the ``args`` matches the downloaded files name
+
+        :param args: The text to speak
+        :type args: str
+        """
         let_me = False
         why_do = False
         did_you_mean = False
