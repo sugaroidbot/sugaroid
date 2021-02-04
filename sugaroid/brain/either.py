@@ -48,7 +48,9 @@ class OrAdapter(LogicAdapter):
                 if n2[1].startswith("N"):
                     nouns = nouns.union({n2[0]})
             if ("boy" in nouns) or ("girl" in nouns):
-                response = "I am neither"
+                # thanks to Mathew!!
+                response = "I am your close imaginary friend. So I" \
+                        " will leave it to your imagination 😁"
                 emotion = Emotion.angry_non_expressive
             elif len(tuple(nouns)) == 0:
                 # implies that the list is empty
