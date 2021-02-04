@@ -15,9 +15,10 @@ import threading
 
 class AudioRequests:
     """
-    Allows sugaroid to simultanously run the 
+    Allows sugaroid to simultanously run the
     Audio Requests thread as well as the Emotion Changing thread
     """
+
     def __init__(self, parent, ress):
 
         self.parent = parent
@@ -29,9 +30,10 @@ class AudioRequests:
 
 class EmotionRequests(QThread):
     """
-    Allows to run the emotion changing thread detached 
+    Allows to run the emotion changing thread detached
     from the ``__main__`` thread
     """
+
     def __init__(self, parent, emo):
         QThread.__init__(self, parent)
         self.parent = parent
@@ -48,9 +50,10 @@ class EmotionRequests(QThread):
 class BotRequests(QThread):
     """
     Allows to ask sugaroid for responses on a detached thread
-    from the main thread and also spawns ``AudioRequests`` and 
+    from the main thread and also spawns ``AudioRequests`` and
     ``EmotionRequests`` if audio is enabled
     """
+
     def __init__(self, parent):
         QThread.__init__(self, parent)
         self.parent = parent
@@ -87,6 +90,7 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
     thread and spawns ``BotRequests`` thread on an adjacent
     thread
     """
+
     def __init__(self, parent=None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)

@@ -7,7 +7,7 @@ class SugaroidTrivia:
     Prepares a sugaroid trivia database to ask the users
     some random questions from the trivia db.
 
-    This can be used as 
+    This can be used as
 
         >>> strivia = SugaroidTrivia()
         >>> print(strivia.ask())
@@ -15,6 +15,7 @@ class SugaroidTrivia:
         >>> strivia.answer()
 
     """
+
     def __init__(self):
         self.answer_i = None
         self.random_question_instance = db[randint(0, 50)]

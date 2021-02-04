@@ -83,9 +83,10 @@ def convert_data_escaped_string(data: tuple):
 
 class SqlDatabaseManagement:
     """
-    Sugaroid stores some data for analytics and research 
+    Sugaroid stores some data for analytics and research
     in an ``sqlite3`` database
     """
+
     def __init__(self, path_to_db, table="sugaroid_hist"):
         """
         Initialized the Sql Database Management object

@@ -37,8 +37,8 @@ class Neuron:
 
     def parse(self, var):
         """
-        Ask sugaroid to parse a statement. ``Neuron.parse`` 
-        processes the statement with different adapters and 
+        Ask sugaroid to parse a statement. ``Neuron.parse``
+        processes the statement with different adapters and
         returns a SugaroidStatement, Statement, or a string object
         on every instance processed.
 
@@ -89,7 +89,7 @@ class Neuron:
 
     def gen_best_match(self, parsed):
         """
-        Returns the best match of ``parsed`` object in the 
+        Returns the best match of ``parsed`` object in the
         the list of stored data
 
         :type parsed: str

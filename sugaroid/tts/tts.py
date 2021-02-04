@@ -22,14 +22,14 @@ class Text2Speech:
 
         The ``Text2Speech`` adapter includes a smart algorithm
         to automatically reduce downloads and cache messages
-        so that they can be reused on every outgoing message 
-        from sugaroid. Sugaroid uses Google Speech API to 
-        convert text messages into audio files. The Speech 
-        materials ``(*.mp3)`` are stored in the default 
+        so that they can be reused on every outgoing message
+        from sugaroid. Sugaroid uses Google Speech API to
+        convert text messages into audio files. The Speech
+        materials ``(*.mp3)`` are stored in the default
         configuration as provided by the ``ConfigManager``
 
-        Text2Speech Adapter can be used as 
-            
+        Text2Speech Adapter can be used as
+
             >>> t2s = Text2Speech()
             >>> t2s.speak("Hello, I am Sugaroid")
 

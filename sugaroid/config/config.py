@@ -16,6 +16,7 @@ class ConfigManager:
     """
     Global Sugaroid Trainer configuration manager
     """
+
     def __init__(self, mode="w"):
         """
         Initialize the configuration manager instance
@@ -52,7 +53,7 @@ class ConfigManager:
 
     def read_file(self):
         """
-        Read the configuration file and reloads the internal 
+        Read the configuration file and reloads the internal
         configuration
 
         :return: None
