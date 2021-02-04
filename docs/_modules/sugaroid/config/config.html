@@ -167,48 +167,10 @@
             
   <h1>Source code for sugaroid.config.config</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">GUISCRCPY by srevinsaju</span>
-<span class="sd">Get it on : https://github.com/srevinsaju/guiscrcpy</span>
-<span class="sd">Licensed under GNU Public License</span>
-
-<span class="sd">This program is free software: you can redistribute it and/or modify</span>
-<span class="sd">it under the terms of the GNU General Public License as published by</span>
-<span class="sd">the Free Software Foundation, either version 3 of the License, or</span>
-<span class="sd">(at your option) any later version.</span>
-
-<span class="sd">This program is distributed in the hope that it will be useful,</span>
-<span class="sd">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="sd">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span class="sd">GNU General Public License for more details.</span>
-
-<span class="sd">You should have received a copy of the GNU General Public License</span>
-<span class="sd">along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span>
-
-<span class="sd">MIT License</span>
-
-<span class="sd">Sugaroid Artificial Inteligence</span>
-<span class="sd">Chatbot Core</span>
-<span class="sd">Copyright (c) 2020-2021 Srevin Saju</span>
-<span class="sd">Copyright (c) 2021 The Sugaroid Project</span>
-
-<span class="sd">Permission is hereby granted, free of charge, to any person obtaining a copy</span>
-<span class="sd">of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
-<span class="sd">in the Software without restriction, including without limitation the rights</span>
-<span class="sd">to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
-<span class="sd">copies of the Software, and to permit persons to whom the Software is</span>
-<span class="sd">furnished to do so, subject to the following conditions:</span>
-
-<span class="sd">The above copyright notice and this permission notice shall be included in all</span>
-<span class="sd">copies or substantial portions of the Software.</span>
-
-<span class="sd">THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
-<span class="sd">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
-<span class="sd">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
-<span class="sd">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
-<span class="sd">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
-<span class="sd">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
-<span class="sd">SOFTWARE.</span>
-
+<span class="sd">Sugaroid Configuration manager. Sugaroid stores the trainer</span>
+<span class="sd">configuration in the ``sugaroid.trainer.json`` in the </span>
+<span class="sd">``xdg`` specified directories in linux OSes, and in </span>
+<span class="sd">``%HOME%/AppData/Local`` in Windows systems</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
@@ -219,7 +181,18 @@
 
 
 <div class="viewcode-block" id="ConfigManager"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager">[docs]</a><span class="k">class</span> <span class="nc">ConfigManager</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Global Sugaroid Trainer configuration manager</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize the configuration manager instance</span>
+<span class="sd">        with a specified mode, by default: the mode is ``w``</span>
+<span class="sd">        which implies, only write</span>
+
+<span class="sd">        :param mode: the mode of the opening the JSON file</span>
+<span class="sd">        :type mode: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">os</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">System</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cfgpath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">cfgpath</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">os</span><span class="o">.</span><span class="n">paths</span><span class="p">()</span>
@@ -227,22 +200,53 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">jsonfile</span> <span class="o">=</span> <span class="s2">&quot;sugaroid.trainer.json&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_file</span><span class="p">()</span>
 
-<div class="viewcode-block" id="ConfigManager.get_config"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.get_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigManager.get_config"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.get_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the current configuration file</span>
+
+<span class="sd">        :return: The current configuration</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span></div>
 
-<div class="viewcode-block" id="ConfigManager.get_cfgpath"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.get_cfgpath">[docs]</a>    <span class="k">def</span> <span class="nf">get_cfgpath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigManager.get_cfgpath"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.get_cfgpath">[docs]</a>    <span class="k">def</span> <span class="nf">get_cfgpath</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the current path to the configuration file</span>
+
+<span class="sd">        :return: The path of the configuration file</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfgpath</span></div>
 
 <div class="viewcode-block" id="ConfigManager.read_file"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.read_file">[docs]</a>    <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read the configuration file and reloads the internal </span>
+<span class="sd">        configuration</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonfile</span><span class="p">),</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ConfigManager.write_file"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.write_file">[docs]</a>    <span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes the current configuration to the jsonfile</span>
+
+<span class="sd">        :return: None</span>
+<span class="sd">        :rtype: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonfile</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="ConfigManager.check_file"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.check_file">[docs]</a>    <span class="k">def</span> <span class="nf">check_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigManager.check_file"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.check_file">[docs]</a>    <span class="k">def</span> <span class="nf">check_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the file exists, if it exists, return True</span>
+
+<span class="sd">        :return: Does the file exist?</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgpath</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgpath</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfgpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonfile</span><span class="p">)):</span>
@@ -259,12 +263,21 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">write_file</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">read_file</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="ConfigManager.update_config"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.update_config">[docs]</a>    <span class="k">def</span> <span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_conf</span><span class="p">):</span>
+<div class="viewcode-block" id="ConfigManager.update_config"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.update_config">[docs]</a>    <span class="k">def</span> <span class="nf">update_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_conf</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the configuration ``dict.update``</span>
+
+<span class="sd">        :param new_conf: Dictionary object with new configuration</span>
+<span class="sd">        :type new_conf: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_conf</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="ConfigManager.reset_config"><a class="viewcode-back" href="../../../sugaroid.config.html#sugaroid.config.config.ConfigManager.reset_config">[docs]</a>    <span class="k">def</span> <span class="nf">reset_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_cfgpath</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonfile</span><span class="p">))</span>
-        <span class="k">return</span> <span class="kc">True</span></div></div>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resets the configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_cfgpath</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">jsonfile</span><span class="p">))</span></div></div>
 </pre></div>
 
            </div>

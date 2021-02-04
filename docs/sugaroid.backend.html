@@ -208,6 +208,11 @@
 </div>
 <div class="section" id="module-sugaroid.backend.sql">
 <span id="sugaroid-backend-sql-module"></span><h2>sugaroid.backend.sql module<a class="headerlink" href="#module-sugaroid.backend.sql" title="Permalink to this headline">¶</a></h2>
+<p>Sugaroid Backend is a SQL Database handler which stores 
+incoming messages into an sqlite3 database, which is later used
+for analytics and usage history. With this, it will be possible
+to chart out the most used command / adapters and accordingly
+move them above / increase their preference of processing.</p>
 <dl class="py exception">
 <dt id="sugaroid.backend.sql.PossibleSQLInjectionPanicError">
 <em class="property">exception </em><code class="sig-prename descclassname">sugaroid.backend.sql.</code><code class="sig-name descname">PossibleSQLInjectionPanicError</code><a class="reference internal" href="_modules/sugaroid/backend/sql.html#PossibleSQLInjectionPanicError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.backend.sql.PossibleSQLInjectionPanicError" title="Permalink to this definition">¶</a></dt>
@@ -224,6 +229,8 @@ semicolons for example</p>
 <dt id="sugaroid.backend.sql.SqlDatabaseManagement">
 <em class="property">class </em><code class="sig-prename descclassname">sugaroid.backend.sql.</code><code class="sig-name descname">SqlDatabaseManagement</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_db</span></em>, <em class="sig-param"><span class="n">table</span><span class="o">=</span><span class="default_value">'sugaroid_hist'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#SqlDatabaseManagement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Sugaroid stores some data for analytics and research 
+in an <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> database</p>
 <dl class="py method">
 <dt id="sugaroid.backend.sql.SqlDatabaseManagement.append">
 <code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">statement</span></em>, <em class="sig-param"><span class="n">in_reponse_to</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">processing_time</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#SqlDatabaseManagement.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.append" title="Permalink to this definition">¶</a></dt>
@@ -239,6 +246,14 @@ semicolons for example</p>
 <dt id="sugaroid.backend.sql.SqlDatabaseManagement.database_path">
 <em class="property">property </em><code class="sig-name descname">database_path</code><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.database_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the path to the database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>path to the database</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">

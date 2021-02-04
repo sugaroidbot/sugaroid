@@ -223,26 +223,11 @@
 </div>
 <div class="section" id="module-sugaroid.brain.brain">
 <span id="sugaroid-brain-brain-module"></span><h2>sugaroid.brain.brain module<a class="headerlink" href="#module-sugaroid.brain.brain" title="Permalink to this headline">¶</a></h2>
-<p>MIT License</p>
-<p>Sugaroid Artificial Intelligence
-Chatbot Core
-Copyright (c) 2020-2021 Srevin Saju
-Copyright (c) 2021 The Sugaroid Project</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</p>
+<p>Sugaroid Neuron preprocesses the text and fixes user input
+problems so that it is easier for the other adapters to process.
+Sugaroid Neuron replaces spellings (when spell checker is enabled)
+and prefers the Arithemetic operator to process the statements 
+when necessary</p>
 <dl class="py class">
 <dt id="sugaroid.brain.brain.Neuron">
 <em class="property">class </em><code class="sig-prename descclassname">sugaroid.brain.brain.</code><code class="sig-name descname">Neuron</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bot</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron" title="Permalink to this definition">¶</a></dt>
@@ -252,37 +237,76 @@ sugaroid.brain.Neuron classifies texts initially</p>
 <dl class="py method">
 <dt id="sugaroid.brain.brain.Neuron.alu">
 <code class="sig-name descname">alu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.alu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.alu" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Puts spaces between arithemetic operators</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.brain.brain.Neuron.gen_arithmetic">
-<code class="sig-name descname">gen_arithmetic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parsed</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.gen_arithmetic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.gen_arithmetic" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">gen_arithmetic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parsed</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.gen_arithmetic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.gen_arithmetic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a arithemetic statement using the
+<code class="docutils literal notranslate"><span class="pre">MathematicalEvaluation</span></code> Adapter</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.brain.brain.Neuron.gen_best_match">
 <code class="sig-name descname">gen_best_match</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parsed</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.gen_best_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.gen_best_match" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the best match of <code class="docutils literal notranslate"><span class="pre">parsed</span></code> object in the 
+the list of stored data</p>
+<dl class="field-list simple">
+</dl>
+<p>:return The closed match to <code class="docutils literal notranslate"><span class="pre">parsed</span></code></p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.brain.brain.Neuron.gen_time">
-<em class="property">static </em><code class="sig-name descname">gen_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.gen_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.gen_time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">static </em><code class="sig-name descname">gen_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.gen_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.gen_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current local time, formatted by strftime</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current local time</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.brain.brain.Neuron.normalize">
-<em class="property">static </em><code class="sig-name descname">normalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.normalize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">static </em><code class="sig-name descname">normalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.normalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize a text using <code class="docutils literal notranslate"><span class="pre">WordPunctTokenizer</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> (<em>str</em>) – The text to be normalized</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The normalized text</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.brain.brain.Neuron.parse">
 <code class="sig-name descname">parse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">var</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.parse" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Ask sugaroid to parse a statement. <code class="docutils literal notranslate"><span class="pre">Neuron.parse</span></code> 
+processes the statement with different adapters and 
+returns a SugaroidStatement, Statement, or a string object
+on every instance processed.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">neuron</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">(</span><span class="n">bot</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">neuron</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">)</span>
+<span class="go">Hi There!</span>
+</pre></div>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.brain.brain.Neuron.time">
 <code class="sig-name descname">time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/brain.html#Neuron.time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.brain.brain.Neuron.time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the current time</p>
+</dd></dl>
 
 </dd></dl>
 

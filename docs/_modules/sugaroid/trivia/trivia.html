@@ -166,38 +166,23 @@
            <div itemprop="articleBody">
             
   <h1>Source code for sugaroid.trivia.trivia</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">MIT License</span>
-
-<span class="sd">Sugaroid Artificial Inteligence</span>
-<span class="sd">Chatbot Core</span>
-<span class="sd">Copyright (c) 2020-2021 Srevin Saju</span>
-<span class="sd">Copyright (c) 2021 The Sugaroid Project</span>
-
-<span class="sd">Permission is hereby granted, free of charge, to any person obtaining a copy</span>
-<span class="sd">of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
-<span class="sd">in the Software without restriction, including without limitation the rights</span>
-<span class="sd">to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
-<span class="sd">copies of the Software, and to permit persons to whom the Software is</span>
-<span class="sd">furnished to do so, subject to the following conditions:</span>
-
-<span class="sd">The above copyright notice and this permission notice shall be included in all</span>
-<span class="sd">copies or substantial portions of the Software.</span>
-
-<span class="sd">THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
-<span class="sd">IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
-<span class="sd">FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
-<span class="sd">AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
-<span class="sd">LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
-<span class="sd">OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
-<span class="sd">SOFTWARE.</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+<span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
 <span class="kn">from</span> <span class="nn">sugaroid.trivia.triviadb</span> <span class="kn">import</span> <span class="n">db</span>
 
 
 <div class="viewcode-block" id="SugaroidTrivia"><a class="viewcode-back" href="../../../sugaroid.trivia.html#sugaroid.trivia.trivia.SugaroidTrivia">[docs]</a><span class="k">class</span> <span class="nc">SugaroidTrivia</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prepares a sugaroid trivia database to ask the users</span>
+<span class="sd">    some random questions from the trivia db.</span>
+
+<span class="sd">    This can be used as </span>
+
+<span class="sd">        &gt;&gt;&gt; strivia = SugaroidTrivia()</span>
+<span class="sd">        &gt;&gt;&gt; print(strivia.ask())</span>
+<span class="sd">        &gt;&gt;&gt; # get the answer</span>
+<span class="sd">        &gt;&gt;&gt; strivia.answer()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">answer_i</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_question_instance</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)]</span>

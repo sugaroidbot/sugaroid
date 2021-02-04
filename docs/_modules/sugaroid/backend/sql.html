@@ -166,7 +166,16 @@
            <div itemprop="articleBody">
             
   <h1>Source code for sugaroid.backend.sql</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Sugaroid Backend is a SQL Database handler which stores </span>
+<span class="sd">incoming messages into an sqlite3 database, which is later used</span>
+<span class="sd">for analytics and usage history. With this, it will be possible</span>
+<span class="sd">to chart out the most used command / adapters and accordingly</span>
+<span class="sd">move them above / increase their preference of processing.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">sqlite3</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;sugaroid&quot;</span><span class="p">)</span>
@@ -241,7 +250,16 @@
 
 
 <div class="viewcode-block" id="SqlDatabaseManagement"><a class="viewcode-back" href="../../../sugaroid.backend.html#sugaroid.backend.sql.SqlDatabaseManagement">[docs]</a><span class="k">class</span> <span class="nc">SqlDatabaseManagement</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sugaroid stores some data for analytics and research </span>
+<span class="sd">    in an ``sqlite3`` database</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_db</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="s2">&quot;sugaroid_hist&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialized the Sql Database Management object</span>
+<span class="sd">        and then creates the table ``sugaroid_hist`` in the table</span>
+<span class="sd">        if it does not exist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_to_db</span> <span class="o">=</span> <span class="n">path_to_db</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">database_instance</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_to_db</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cnx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">database_instance</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
@@ -256,17 +274,21 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_table</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">database_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">database_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the path to the database</span>
+
+<span class="sd">        :return: path to the database</span>
+<span class="sd">        :rtype: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_to_db</span>
 
-    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Protected, Private method to execute an sql command</span>
 
-<span class="sd">        command: a valid SQL statement</span>
+<span class="sd">        :param command: a valid SQL statement</span>
+<span class="sd">        :type command: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cnx</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
 
@@ -274,7 +296,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Adds data to the SQLite3 database into the table</span>
 
-<span class="sd">        data: tuple</span>
+<span class="sd">        :param data: data to be inserted</span>
+<span class="sd">        :type data: tuple</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cnx</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
             <span class="s2">&quot;INSERT INTO </span><span class="si">{tablename}</span><span class="s2"> VALUES(</span><span class="si">{values}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -290,8 +313,7 @@
 <span class="sd">        Closes the connection to the mysql database</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">database_instance</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">database_instance</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">return</span> <span class="kc">True</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">database_instance</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 </pre></div>
 
            </div>

@@ -208,103 +208,108 @@
 </div>
 <div class="section" id="module-sugaroid.config.config">
 <span id="sugaroid-config-config-module"></span><h2>sugaroid.config.config module<a class="headerlink" href="#module-sugaroid.config.config" title="Permalink to this headline">¶</a></h2>
-<p>GUISCRCPY by srevinsaju
-Get it on : <a class="reference external" href="https://github.com/srevinsaju/guiscrcpy">https://github.com/srevinsaju/guiscrcpy</a>
-Licensed under GNU Public License</p>
-<p>This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.</p>
-<p>This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.</p>
-<p>You should have received a copy of the GNU General Public License
-along with this program.  If not, see &lt;<a class="reference external" href="https://www.gnu.org/licenses/">https://www.gnu.org/licenses/</a>&gt;.</p>
-<p>MIT License</p>
-<p>Sugaroid Artificial Inteligence
-Chatbot Core
-Copyright (c) 2020-2021 Srevin Saju
-Copyright (c) 2021 The Sugaroid Project</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</p>
+<p>Sugaroid Configuration manager. Sugaroid stores the trainer
+configuration in the <code class="docutils literal notranslate"><span class="pre">sugaroid.trainer.json</span></code> in the 
+<code class="docutils literal notranslate"><span class="pre">xdg</span></code> specified directories in linux OSes, and in 
+<code class="docutils literal notranslate"><span class="pre">%HOME%/AppData/Local</span></code> in Windows systems</p>
 <dl class="py class">
 <dt id="sugaroid.config.config.ConfigManager">
 <em class="property">class </em><code class="sig-prename descclassname">sugaroid.config.config.</code><code class="sig-name descname">ConfigManager</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'w'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Global Sugaroid Trainer configuration manager</p>
 <dl class="py method">
 <dt id="sugaroid.config.config.ConfigManager.check_file">
-<code class="sig-name descname">check_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.check_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.check_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">check_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.check_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.check_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the file exists, if it exists, return True</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Does the file exist?</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.config.config.ConfigManager.get_cfgpath">
-<code class="sig-name descname">get_cfgpath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.get_cfgpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.get_cfgpath" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">get_cfgpath</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.get_cfgpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.get_cfgpath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current path to the configuration file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The path of the configuration file</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.config.config.ConfigManager.get_config">
-<code class="sig-name descname">get_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.get_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.get_config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">get_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.get_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.get_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current configuration file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The current configuration</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.config.config.ConfigManager.read_file">
 <code class="sig-name descname">read_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.read_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.read_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Read the configuration file and reloads the internal 
+configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.config.config.ConfigManager.reset_config">
 <code class="sig-name descname">reset_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.reset_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.reset_config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Resets the configuration</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.config.config.ConfigManager.update_config">
-<code class="sig-name descname">update_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_conf</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.update_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.update_config" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">update_config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_conf</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.update_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.update_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the configuration <code class="docutils literal notranslate"><span class="pre">dict.update</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_conf</strong> (<em>dict</em>) – Dictionary object with new configuration</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.config.config.ConfigManager.write_file">
 <code class="sig-name descname">write_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.write_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.write_file" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Writes the current configuration to the jsonfile</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-sugaroid.config">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-sugaroid.config" title="Permalink to this headline">¶</a></h2>
-<p>MIT License</p>
-<p>Sugaroid Artificial Inteligence
-Chatbot Core
-Copyright (c) 2020-2021 Srevin Saju
-Copyright (c) 2021 The Sugaroid Project</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the “Software”), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</p>
 </div>
 </div>
 
