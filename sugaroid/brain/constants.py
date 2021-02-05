@@ -282,7 +282,7 @@ HOPE_GAME_WAS_GOOD = [
 DIS_RESPONSES_I = [
     "Its ok.",
     "I will try to console you, the best I can",
-    "I am sorry.",
+    "I am really sorry.",
     "I am deeply sorry",
 ]
 
