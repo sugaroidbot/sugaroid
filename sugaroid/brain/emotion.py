@@ -39,7 +39,7 @@ class EmotionAdapter(LogicAdapter):
         if (("love" in parsed) or ("hate" in parsed)) and (
             ("you" in parsed) or ("myself" in parsed)
         ):
-            if a["pos"] > a["neg"]:
+            if a["pos"] >= a["neg"]:
                 response = "I love you too"
                 emotion = Emotion.blush
             else:
@@ -96,10 +96,24 @@ class EmotionAdapter(LogicAdapter):
                     emotion = Emotion.positive
                 elif "dead" in parsed:
                     if "everyone" in parsed or "every" in parsed:
-                        response = "So, am I speaking to you in heaven?"
+                        if ("except" in parsed or "apart" in parsed) and "me" in parsed:
+                            response = (
+                                "So sad. Its a great feeling that only"
+                                " me and you are the only person alive "
+                                "on the face of this world."
+                            )
+                        else:
+                            response = "So, am I speaking to you in heaven?"
                         emotion = Emotion.dead
                     else:
-                        response = "I hope you are not dead too. I am sorry."
+                        responses = (
+                            "I hope you are not dead too. I am sorry.",
+                            "My 💐 for them",
+                            "My condolences...",
+                            "So sad. I want to cry 😭",
+                            "At least you are there for me!",
+                        )
+                        response = random_response(responses)
                         emotion = Emotion.lol
                 else:
 
