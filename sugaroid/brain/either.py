@@ -21,7 +21,7 @@ class OrAdapter(LogicAdapter):
         self.text = word_tokenize(str(statement))
         self.tagged = nltk.pos_tag(self.text)
         for i in self.tagged:
-            if i[1] == "CC":
+            if i[1] == "CC" and not i[0].lower() == "and":
                 return True
         else:
             return False
