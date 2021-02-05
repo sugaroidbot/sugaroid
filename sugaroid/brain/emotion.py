@@ -94,7 +94,15 @@ class EmotionAdapter(LogicAdapter):
                         CONSOLATION[randint(0, len(CONSOLATION) - 1)]
                     )
                     emotion = Emotion.positive
+                elif "dead" in parsed:
+                    if "everyone" in parsed or "every" in parsed:
+                        response = "So, am I speaking to you in heaven?"
+                        emotion = Emotion.dead
+                    else:
+                        response = "I hope you are not dead too. I am sorry."
+                        emotion = Emotion.lol
                 else:
+
                     # well, I don't want to say ( I don't know )
                     # FIXME : Use a better algorithm to detect sentences
                     reversed = reverse(parsed)
