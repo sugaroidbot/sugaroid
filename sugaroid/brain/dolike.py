@@ -48,7 +48,7 @@ SUGAROID_LIKES = {
     "subject": "I'm fond of computer science and my developer likes it a lot. ",
     "music": "I listen to the rotating CPU fan. Its a harmonic music! ",
     "actor": "I do not watch movies, so yea!",
-    "comedian": "My favorite comedian is Mr Bean",
+    "comedian": "My favorite comedian is Rowan Atkinson",
     "education": "Yes, I like it a lot. Maybe you don't. But that's when I become smarter to answer your questions",
 }
 
