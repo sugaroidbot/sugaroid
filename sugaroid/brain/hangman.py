@@ -366,6 +366,6 @@ class HangmanAdapter(SugaroidLogicAdapter):
                 )
 
         selected_statement = SugaroidStatement(response, chatbot=True)
-        selected_statement.confidence = confidence
-        selected_statement.emotion = emotion
+        selected_statement.set_confidence(confidence)
+        selected_statement.set_emotion(emotion)
         return selected_statement
