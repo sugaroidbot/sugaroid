@@ -337,7 +337,8 @@ BOT_POSITIVE = [
 
 BOT_POSITIVE_NOUN = [
     "Yes. I guess I like {nn}",
-    "Yea. I like {nn}. They are probably very sweet and nice" "Yes. Yes I do like {nn}",
+    "Yea. I like {nn}. They are probably very sweet and nice",
+    "Yes. I do like {nn}",
     "{nn} is nice. I might like {nn} more. Its looks cool",
 ]
 
