@@ -3,9 +3,10 @@ from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
 
 from sugaroid.brain.postprocessor import random_response
 
-from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
+from sugaroid.core.base_adapters import SugaroidLogicAdapter
+from sugaroid.core.statement import SugaroidStatement
 
 HANGMAN_WORDS = """
 abruptly
@@ -327,26 +328,24 @@ class Hangman:
         return response
 
 
-class HangmanAdapter(LogicAdapter):
+class HangmanAdapter(SugaroidLogicAdapter):
     """
     Plays hangman with you
     """
 
-    def __init__(self, chatbot, **kwargs):
-        super().__init__(chatbot, **kwargs)
-
-    def can_process(self, statement):
-        self.normalized = normalize(str(statement).lower())
-        if ("hangman" in self.normalized) and ("not" not in self.normalized):
+    def can_process(self, statement: SugaroidStatement) -> bool:
+        if ("hangman" in statement.lemma) and ("not" not in statement.lemma):
             return True
         else:
             return self.chatbot.globals["hangman"]["enabled"]
 
-    def process(self, statement, additional_response_selection_parameters=None):
+    def process(
+            self, statement: SugaroidStatement,
+            additional_response_selection_parameters=None) -> SugaroidStatement:
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
-        if "stop" in self.normalized:
+        if "stop" in statement.lemma:
             self.chatbot.globals["hangman"]["enabled"] = False
             response = "I am sorry. You quit the game abrubtly. {}".format(
                 random_response(HOPE_GAME_WAS_GOOD)
@@ -366,7 +365,7 @@ class HangmanAdapter(LogicAdapter):
                 )
             else:
                 response = self.chatbot.globals["hangman"]["class"].process(
-                    str(statement)
+                    statement.text
                 )
 
         selected_statement = SugaroidStatement(response, chatbot=True)
