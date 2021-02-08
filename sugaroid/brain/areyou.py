@@ -4,7 +4,7 @@ import sys
 from chatterbot.logic import LogicAdapter
 from nltk import pos_tag
 from sugaroid.brain.constants import WHO_AM_I, WHO_ARE_YOU, SUGAROID, ARE_YOU_A_BOT, INTRODUCE, ARE_YOU_A_HUMAN, \
-    BOT_NEUTRAL, BOT_DECLINE
+    BOT_NEUTRAL, BOT_DECLINE, BOT_AGREE
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize
@@ -61,6 +61,8 @@ class AreYouAdapter(SugaroidLogicAdapter):
                 "weird" in statement.lemma or "awkward" in statement.lemma or \
                 polarity_scores["pos"] > polarity_scores["neg"]:
             response = random_response(BOT_DECLINE)
+        elif "alive" in statement.lemma or "online" in statement.lemma or "living" in statement.lemma:
+            response = random_response(BOT_AGREE)
         else:
             response = random_response(BOT_NEUTRAL)
             confidence = 0.5

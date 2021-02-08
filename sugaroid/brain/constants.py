@@ -358,7 +358,8 @@ BOT_NEUTRAL_NOUN = [
 
 BOT_POSITIVE = [
     "Yes. Sure",
-    "Yea. I like it I suppose" "Yes. Yes I do",
+    "Yea. I like it I suppose",
+    "Yes. Yes I do",
     "Why not. Its equally good",
     "yes. for sure!",
 ]
@@ -383,6 +384,14 @@ BOT_DECLINE = [
     "I wonder if you are...",
     "I guess its your mistake. You should feel sorry about it.",
     "I disagree."
+]
+
+BOT_AGREE = [
+    "Yes. Of course.",
+    "Yea",
+    "Yes. Yes I am",
+    "Obviously.",
+    "yes. for sure!",
 ]
 
 BOT_NEGATIVE_NOUN = [
