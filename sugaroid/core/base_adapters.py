@@ -1,4 +1,5 @@
 from chatterbot.logic import LogicAdapter
+from nltk.sentiment import SentimentIntensityAnalyzer
 
 from sugaroid.core.statement import SugaroidStatement
 
@@ -32,6 +33,7 @@ class SugaroidLogicAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super(SugaroidLogicAdapter, self).__init__(chatbot, **kwargs)
+        self.sia = SentimentIntensityAnalyzer()
 
     def can_process(self, statement: SugaroidStatement) -> bool:
         """

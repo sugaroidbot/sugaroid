@@ -16,6 +16,7 @@ from chatterbot.trainers import ChatterBotCorpusTrainer
 from chatterbot.trainers import ListTrainer
 from sugaroid.brain.utils import LanguageProcessor
 import logging
+import coloredlogs
 import os
 import sys
 import warnings
@@ -25,16 +26,22 @@ warnings.filterwarnings("ignore")
 
 try:
     from sugaroid.tts.tts import Text2Speech
-
     AUD_DEPS = True
 except ModuleNotFoundError:
     AUD_DEPS = False
 
 
-if os.getenv("SUGAROID_DEBUG") in ("true", "True"):
+sugaroid_logger = logging.getLogger(__name__)
+
+
+# enable the verbosity
+if "--debug" in sys.argv:
     # set the verbosity
+    print("SUGAROID_DEBUG: Enabled")
     verbosity = logging.INFO
     logging.basicConfig(level=verbosity)
+    sugaroid_logger.setLevel(level=logging.INFO)
+    coloredlogs.install(level="INFO", logger=sugaroid_logger)
 
 
 try:
@@ -136,6 +143,7 @@ class Sugaroid:
             + self.adapters,
             database_uri="sqlite+pysqlite:///{}/sugaroid.db".format(self.cfgpath),
             read_only=readonly,
+            logger=sugaroid_logger
         )
         self.chatbot.globals["adapters"] = self.adapters
 

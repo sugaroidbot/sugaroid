@@ -20,6 +20,7 @@ newsapi-python = "*"
 python-dotenv = "*"
 pyinflect = "*"
 pint = "*"
+coloredlogs = "*"
 
 [dev-packages]
 sphinx = "*"

@@ -14,11 +14,11 @@ def about_process_en(statement: SugaroidStatement) -> Tuple[bool, str, str, str]
     question = None
     for i in statement.tokens:
         if i.tag_ == "WP":
-            question = i[0]
+            question = i
         elif i.tag_.startswith("PRP"):
-            pronoun = i[0]
+            pronoun = i
         elif i.tag_.startswith("NN"):
-            noun = i[0]
+            noun = i
 
     return question is not None and pronoun is not None, noun, pronoun, question
 
