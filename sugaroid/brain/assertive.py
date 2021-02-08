@@ -5,7 +5,7 @@ from sugaroid.brain.constants import SUGAROID_CAN_AGREE, SUGAROID_CAN_DISAGREE
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.ooo import Emotion
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class AssertiveAdapter(LogicAdapter):
