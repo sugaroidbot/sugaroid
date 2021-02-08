@@ -1,11 +1,12 @@
 import logging
 import nltk
 from chatterbot.logic import LogicAdapter
+
 from sugaroid.brain.constants import INTRODUCE
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response, any_in
 from sugaroid.brain.preprocessors import normalize, spac_token
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class AboutAdapter(LogicAdapter):
@@ -59,7 +60,7 @@ class AboutAdapter(LogicAdapter):
             return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        # FIXME : THIS ADAPTER IS INCOMPLETE
+
         self.normalized = normalize(str(statement))
         self.lemma = [x.lemma_ for x in spac_token(statement, chatbot=self.chatbot)]
         logging.info("{}".format(self.lemma))
@@ -210,10 +211,10 @@ class AboutAdapter(LogicAdapter):
             response = "I do not have enough courage to give you that answer"
             confidence = 0.5
             emotion = Emotion.cry
-        selected_statement = SugaroidStatement(response, chatbot=True)
 
-        selected_statement.confidence = confidence
-        selected_statement.emotion = emotion
-        selected_statement.adapter = adapter
+        selected_statement = SugaroidStatement(response, chatbot=True)
+        selected_statement.set_confidence(confidence)
+        selected_statement.set_emotion(emotion)
+        selected_statement.set_adapter(adapter)
 
         return selected_statement
