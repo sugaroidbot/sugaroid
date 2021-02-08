@@ -1,4 +1,5 @@
 from chatterbot.conversation import Statement
+from spacy.tokens.doc import Doc
 
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import tokenize
@@ -40,11 +41,11 @@ class SugaroidStatement(Statement):
         self.from_chatbot = is_chatbot
 
     @property
-    def tokens(self):
+    def tokens(self) -> Doc:
         return self._doc
 
     @property
-    def doc(self):
+    def doc(self) -> Doc:
         return self._doc
 
     @property

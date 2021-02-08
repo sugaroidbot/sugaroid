@@ -17,6 +17,8 @@ sys.path.insert(0, os.path.abspath(os.path.join("..", "..")))
 import sphinx_rtd_theme
 import mock
 
+from sugaroid.version import VERSION
+
 # 'chatterbot', 'chatterbot.logic',
 MOCK_MODULES = [
     "chatterbot_corpus",
@@ -36,7 +38,7 @@ copyright = "2021, Srevin Saju, The Sugaroid Project"
 author = "Srevin Saju, The Sugaroid Project"
 
 # The full version, including alpha/beta/rc tags
-release = "v0.15.2"
+release = VERSION
 
 
 # -- General configuration ---------------------------------------------------
