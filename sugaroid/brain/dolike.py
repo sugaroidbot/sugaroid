@@ -11,7 +11,7 @@ from sugaroid.brain.constants import (
 from sugaroid.brain.postprocessor import random_response, any_in
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import spac_token
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 SUGAROID_LIKES = {
     "bird": "I like birds a lot. Some of them look similar to me. "
