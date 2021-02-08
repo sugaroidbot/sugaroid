@@ -32,30 +32,34 @@ class SugaroidLogicAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super(SugaroidLogicAdapter, self).__init__(chatbot, **kwargs)
-    
+
     def can_process(self, statement: SugaroidStatement) -> bool:
         """
         Checks if Sugaroid can process a statement
         :param statement: The statement to do prelimnary checks
         :type statement: SugaroidStatement
         :return: True, if the statement be processed, else False
-        :rtype: bool    
+        :rtype: bool
         """
         return super(SugaroidLogicAdapter, self).can_process(statement)
-    
+
     def process(
-            self, statement: SugaroidStatement, 
-            additional_response_selection_parameters=None) -> SugaroidStatement:
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ) -> SugaroidStatement:
         """
         Processes the statement in detail
         :param statement: The statement from the user to process
         :type statement: SugaroidStatement
-        :param additional_response_selection_parameters: 
-        :type additional_response_selection_parameters: 
+        :param additional_response_selection_parameters:
+        :type additional_response_selection_parameters:
         :return: The Statement from the logic adapter once its processed
         :rtype: SugaroidStatement
         """
-        response = super(SugaroidLogicAdapter, self).process(statement, additional_response_selection_parameters)
+        response = super(SugaroidLogicAdapter, self).process(
+            statement, additional_response_selection_parameters
+        )
         response = SugaroidStatement.from_statement(response)
         response.set_chatbot(True)
         return response

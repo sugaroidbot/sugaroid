@@ -101,7 +101,9 @@ class SugaroidBot(ChatBot):
         Sets the Sugaroid user username
         :return: None, Exception
         """
-        raise NotImplementedError("Set username has not been implemented in this version yet.")
+        raise NotImplementedError(
+            "Set username has not been implemented in this version yet."
+        )
 
     def get_username(self) -> str:
         """

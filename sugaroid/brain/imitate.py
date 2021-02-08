@@ -37,9 +37,9 @@ class ImitateAdapter(LogicAdapter):
             return False
 
     def process(
-            self,
-            statement: SugaroidStatement,
-            additional_response_selection_parameters=None,
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
     ) -> SugaroidStatement:
         emotion = Emotion.lol
         sim = self.chatbot.lp.similarity(

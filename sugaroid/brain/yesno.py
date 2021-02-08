@@ -11,6 +11,7 @@ class BoolAdapter(SugaroidLogicAdapter):
     """
     Processes Boolean based answers
     """
+
     def can_process(self, statement: SugaroidStatement):
         normalized = statement.lemma
         if self.chatbot.globals["akinator"]["enabled"]:

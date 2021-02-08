@@ -40,10 +40,10 @@ class InterruptAdapter(LogicAdapter):
             return False
 
     def process(
-            self,
-            statement: SugaroidStatement,
-            additional_response_selection_parameters=None,
-            username=None
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+        username=None,
     ) -> SugaroidStatement:
         if self.chatbot.interrupt == 2:
             if self.nn:

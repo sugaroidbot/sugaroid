@@ -37,6 +37,7 @@ class AboutAdapter(LogicAdapter):
         Checks if the provided statement is a statement which
         matches a similarity to "What is your ``<insert token>``"
         """
+
         self.text = nltk.word_tokenize(str(statement))
         self.tagged = nltk.pos_tag(self.text)
         self.nn = False

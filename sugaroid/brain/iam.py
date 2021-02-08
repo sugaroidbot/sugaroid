@@ -40,9 +40,9 @@ class MeAdapter(LogicAdapter):
             return False
 
     def process(
-            self,
-            statement: SugaroidStatement,
-            additional_response_selection_parameters=None,
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
     ) -> SugaroidStatement:
         response = "ok"
         confidence = 0

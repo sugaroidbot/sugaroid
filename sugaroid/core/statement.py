@@ -1,4 +1,3 @@
-
 from chatterbot.conversation import Statement
 
 from sugaroid.brain.postprocessor import random_response
@@ -19,13 +18,7 @@ class SugaroidStatement(Statement):
     by the __gtype__ variable
     """
 
-    def __init__(
-        self,
-        text: str,
-        in_response_to=None,
-        emotion: int=None,
-        **kwargs
-    ):
+    def __init__(self, text: str, in_response_to=None, emotion: int = None, **kwargs):
         super(SugaroidStatement, self).__init__(text, in_response_to, **kwargs)
         self._doc = lang_processor.nlp(text)
         self._simple = text.lower().split()
@@ -88,4 +81,3 @@ class SugaroidStatement(Statement):
         """
         statement = random_response(statements)
         return cls(statement)
-

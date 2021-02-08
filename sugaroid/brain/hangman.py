@@ -1,4 +1,3 @@
-
 from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.ooo import Emotion
@@ -337,8 +336,10 @@ class HangmanAdapter(SugaroidLogicAdapter):
             return self.chatbot.globals["hangman"]["enabled"]
 
     def process(
-            self, statement: SugaroidStatement,
-            additional_response_selection_parameters=None) -> SugaroidStatement:
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ) -> SugaroidStatement:
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie

@@ -11,7 +11,7 @@ from sugaroid.config.config import ConfigManager
 from sugaroid.brain.brain import Neuron
 from sugaroid.core.bot import SugaroidBot
 from sugaroid.trainer.trainer import SugaroidTrainer
-from sugaroid.core.statement import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement  # noqa:
 from chatterbot.trainers import ChatterBotCorpusTrainer
 from chatterbot.trainers import ListTrainer
 from sugaroid.brain.utils import LanguageProcessor
@@ -48,7 +48,6 @@ except (ModuleNotFoundError, ImportError) as e:
 
 
 SPACY_LANG_PROCESSOR = LanguageProcessor()
-
 
 
 class Sugaroid:
