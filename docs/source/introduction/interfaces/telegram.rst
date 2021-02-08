@@ -1,17 +1,18 @@
-Discord Bot
------------
+Telegram Bot
+------------
 
-Sugaroid also has a discord instance running on a ``Heroku`` server.
-Sugaroid Discord bot is powered by Python Async IO, to get faster
-results and ``discord.py``. The discord bot is (somewhat) frequently
-tested by developers to find it out bugs. The message from the bot is
-demojized to remove static unicode emoji’s and then converted into
-``emocodes`` which is better than unicode emoji’s on Discord.
+Sugaroid has a telegram bot wrapper to handle messages in
+group chat. The advent of the sugaroid telegram bot
+brought revolutionary changes in the working of Sugaroid.
+Stalled development resumed, thanks to the open Telegram
+API and the multiple python Telegram APIs available.
+Sugaroid responds to registered group chats and all the chats
+are encrypted with MTProto and ``ed5519``
 
-.. figure:: ../img/sugaroid_discord.png
-   :alt: Sugaroid Discord
+.. figure:: ../img/sugaroid_telegram.png
+   :alt: Sugaroid Telegram
 
-   Sugaroid Discord
+   Sugaroid Telegram
 
 Upstream repository :
-`srevinsaju/sugaoid-ds <https://github.com/srevinsaju/sugaroid-ds>`__
+`sugaroidbot/sugaroid-telegram <https://github.com/sugaroidbot/sugaroid-telegram>`__
