@@ -7,8 +7,8 @@ from sugaroid.brain.constants import (
     SEEK_AND_YOU_SHALL_FIND,
     THANK,
 )
-from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
+from sugaroid.core.statement import SugaroidStatement
 
 
 class InterruptAdapter(LogicAdapter):
@@ -40,8 +40,11 @@ class InterruptAdapter(LogicAdapter):
             return False
 
     def process(
-        self, statement, additional_response_selection_parameters=None, username=None
-    ):
+            self,
+            statement: SugaroidStatement,
+            additional_response_selection_parameters=None,
+            username=None
+    ) -> SugaroidStatement:
         if self.chatbot.interrupt == 2:
             if self.nn:
                 response = "{} {} what is {}".format(
