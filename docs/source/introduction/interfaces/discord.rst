@@ -14,4 +14,4 @@ demojized to remove static unicode emoji’s and then converted into
    Sugaroid Discord
 
 Upstream repository :
-`srevinsaju/sugaoid-ds <https://github.com/srevinsaju/sugaroid-ds>`__
+`sugaroidbot/sugaoid-discord <https://github.com/sugaroidbot/sugaroid-discord>`__
