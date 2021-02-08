@@ -156,7 +156,11 @@ class AkinatorAdapter(SugaroidLogicAdapter):
         else:
             return self.chatbot.globals["akinator"]["enabled"]
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
