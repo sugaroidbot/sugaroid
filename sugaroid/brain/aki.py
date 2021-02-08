@@ -22,6 +22,7 @@ import akinator
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
+from sugaroid.core.statement import SugaroidStatement
 
 try:
     from akinator import (
@@ -35,7 +36,6 @@ try:
 except ModuleNotFoundError:
     akinator_exists = False
 from chatterbot.logic import LogicAdapter
-from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
 
