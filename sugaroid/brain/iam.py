@@ -12,7 +12,7 @@ from sugaroid.brain.postprocessor import (
     raw_lower_in,
 )
 from sugaroid.brain.whatamidoing import process_what_ami_doing
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class MeAdapter(LogicAdapter):
@@ -39,7 +39,11 @@ class MeAdapter(LogicAdapter):
         else:
             return False
 
-    def process(self, statement, additional_response_selection_parameters=None):
+    def process(
+            self,
+            statement: SugaroidStatement,
+            additional_response_selection_parameters=None,
+    ) -> SugaroidStatement:
         response = "ok"
         confidence = 0
         emotion = Emotion.neutral
