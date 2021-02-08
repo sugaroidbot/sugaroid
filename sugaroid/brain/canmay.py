@@ -1,15 +1,14 @@
 import nltk
 from chatterbot.logic import LogicAdapter
 
-from chatterbot.conversation import Statement
 from nltk import word_tokenize
 from nltk.sentiment import SentimentIntensityAnalyzer
 
 from sugaroid.brain.constants import CANYOU, WHAT_I_AM_GOING_TO_DO
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import sigmaSimilarity, difference, random_response
+from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class CanAdapter(LogicAdapter):
