@@ -41,7 +41,11 @@ class AboutAdapter(SugaroidLogicAdapter):
         """
         return about_process_en(statement)[0]
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         _, noun, pronoun, question = about_process_en(statement)
         logging.info("{}".format(statement.lemma))
         confidence = 0
@@ -63,35 +67,35 @@ class AboutAdapter(SugaroidLogicAdapter):
                     response = "Ada Lady Lovelace?"
                     emotion = Emotion.lol
                 elif any_in(
-                        [
-                            "sister",
-                            "brother",
-                            "uncle",
-                            "aunty",
-                            "auntie",
-                            "grandfather",
-                            "grandmother",
-                            "nephew",
-                            "neice",
-                        ],
-                        statement.lemma,
+                    [
+                        "sister",
+                        "brother",
+                        "uncle",
+                        "aunty",
+                        "auntie",
+                        "grandfather",
+                        "grandmother",
+                        "nephew",
+                        "neice",
+                    ],
+                    statement.lemma,
                 ):
                     response = (
                         "The entire coding community is my family, it includes you too"
                     )
                     emotion = Emotion.wink
                 elif (
-                        ("creator" in statement.doc)
-                        or ("create" in statement.doc)
-                        or ("make" in statement.doc)
-                        or ("maker" in statement.lemma)
+                    ("creator" in statement.doc)
+                    or ("create" in statement.doc)
+                    or ("make" in statement.doc)
+                    or ("maker" in statement.lemma)
                 ):
                     response = "Srevin Saju aka @srevinsaju"
                     emotion = Emotion.neutral
                 elif (
-                        ("player" in statement.lemma)
-                        or ("cricketer" in statement.lemma)
-                        or ("footballer" in statement.lemma)
+                    ("player" in statement.lemma)
+                    or ("cricketer" in statement.lemma)
+                    or ("footballer" in statement.lemma)
                 ):
                     response = "I have many favorties, too many to count"
                     emotion = Emotion.wink
