@@ -233,6 +233,25 @@ SIT_AND_SMILE = [
     "Ok. That's just great",
 ]
 
+ARE_YOU_A_BOT = [
+    "Yes, of course I am!",
+    "Yes, but I am trying to act more human like these days.",
+    "I am training myself to be like a real person, but its taking forever.",
+    "Yes, I am a bot. No doubts!",
+    "Beep Boop. Beep.",
+    "Beep. Beep. 🤖"
+]
+
+ARE_YOU_A_HUMAN = [
+    "No, of course not!",
+    "Did you feel like I am a human?",
+    "Haha! nice one.",
+    "What do you think?",
+    "Human eh?",
+    "Am I a human? 🤔"
+]
+
+
 HOW_DO_HE_FEEL = [
     "How am I supposed to know?",
     "Ask him/her?",
@@ -329,7 +348,7 @@ DIS_RESPONSES_HIM = [
     "Convey my condolences to {}",
 ]
 
-BOT_NEUTRAL = ["Maybe.", "I am not sure", "Yes and no", "Well, I do not know myself"]
+BOT_NEUTRAL = ["Maybe.", "I am not sure", "Yes and no", "Well, I do not know myself", "Perhaps.", "Possibly,"]
 
 BOT_NEUTRAL_NOUN = [
     "I am not sure if I like {nn}. But if you do like, I would too",
@@ -352,9 +371,18 @@ BOT_POSITIVE_NOUN = [
 
 BOT_NEGATIVE = [
     "No. Probably not",
-    "Nope" "Of course not",
+    "Nope",
+    "Of course not!",
     "Maybe next time",
     "Seriously not.",
+]
+
+BOT_DECLINE = [
+    "Of course not!",
+    "no you.",
+    "I wonder if you are...",
+    "I guess its your mistake. You should feel sorry about it.",
+    "I disagree."
 ]
 
 BOT_NEGATIVE_NOUN = [

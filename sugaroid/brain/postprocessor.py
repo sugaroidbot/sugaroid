@@ -85,7 +85,7 @@ def reverse(token):
             continue
 
     for j in range(0, len(processed) - 2):
-        if processed[j] == "are" and processed[j + 1] == "I":
+        if processed[j].lower() == "are" and processed[j + 1] == "I":
             processed[j] = "am"
         elif processed[j] == "am" and processed[j + 1] == "you":
             processed[j] = "are"
