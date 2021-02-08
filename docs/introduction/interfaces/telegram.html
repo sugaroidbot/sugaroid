@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Discord Bot &mdash; Sugaroid v0.15.2 documentation</title>
+  <title>Telegram Bot &mdash; Sugaroid v0.15.2 documentation</title>
   
 
   
@@ -99,7 +99,7 @@
 <li class="toctree-l2"><a class="reference internal" href="flask.html">Flask Backend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="django.html">Django Web Interface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ircbot.html">IRC Bot</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Discord Bot</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Telegram Bot</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms/index.html">Algorithms</a></li>
@@ -161,7 +161,7 @@
         
           <li><a href="index.html">Interfaces</a> &raquo;</li>
         
-      <li>Discord Bot</li>
+      <li>Telegram Bot</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -180,20 +180,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="discord-bot">
-<h1>Discord Bot<a class="headerlink" href="#discord-bot" title="Permalink to this headline">¶</a></h1>
-<p>Sugaroid also has a discord instance running on a <code class="docutils literal notranslate"><span class="pre">Heroku</span></code> server.
-Sugaroid Discord bot is powered by Python Async IO, to get faster
-results and <code class="docutils literal notranslate"><span class="pre">discord.py</span></code>. The discord bot is (somewhat) frequently
-tested by developers to find it out bugs. The message from the bot is
-demojized to remove static unicode emoji’s and then converted into
-<code class="docutils literal notranslate"><span class="pre">emocodes</span></code> which is better than unicode emoji’s on Discord.</p>
+  <div class="section" id="telegram-bot">
+<h1>Telegram Bot<a class="headerlink" href="#telegram-bot" title="Permalink to this headline">¶</a></h1>
+<p>Sugaroid has a telegram bot wrapper to handle messages in
+group chat. The advent of the sugaroid telegram bot
+brought revolutionary changes in the working of Sugaroid.
+Stalled development resumed, thanks to the open Telegram
+API and the multiple python Telegram APIs available.
+Sugaroid responds to registered group chats and all the chats
+are encrypted with MTProto and <code class="docutils literal notranslate"><span class="pre">ed5519</span></code></p>
 <div class="figure align-default" id="id1">
-<img alt="Sugaroid Discord" src="../../_images/sugaroid_discord.png" />
-<p class="caption"><span class="caption-text">Sugaroid Discord</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<img alt="Sugaroid Telegram" src="../../_images/sugaroid_telegram.png" />
+<p class="caption"><span class="caption-text">Sugaroid Telegram</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <p>Upstream repository :
-<a class="reference external" href="https://github.com/srevinsaju/sugaroid-ds">srevinsaju/sugaoid-ds</a></p>
+<a class="reference external" href="https://github.com/sugaroidbot/sugaroid-telegram">sugaroidbot/sugaroid-telegram</a></p>
 </div>
 
 
