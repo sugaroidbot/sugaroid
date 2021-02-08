@@ -5,7 +5,7 @@ from sugaroid.brain.constants import EMOJI_SMILE, FUN_ASK_QUESTION, FUN_LET_ME_T
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response, reverse
 from sugaroid.brain.preprocessors import spac_token
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class FunAdapter(LogicAdapter):
