@@ -2,10 +2,9 @@ from chatterbot.logic import LogicAdapter
 import logging
 
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import random_response, any_in
+from sugaroid.brain.postprocessor import any_in
 from sugaroid.brain.preprocessors import normalize
-from sugaroid.sugaroid import SugaroidStatement
-
+from sugaroid.core.statement import SugaroidStatement
 
 ABOUT_CORONAVIRUS = """
 Coronavirus disease (COVID-19) is an infectious disease caused by a new virus.
