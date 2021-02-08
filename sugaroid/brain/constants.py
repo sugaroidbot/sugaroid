@@ -239,7 +239,7 @@ ARE_YOU_A_BOT = [
     "I am training myself to be like a real person, but its taking forever.",
     "Yes, I am a bot. No doubts!",
     "Beep Boop. Beep.",
-    "Beep. Beep. 🤖"
+    "Beep. Beep. 🤖",
 ]
 
 ARE_YOU_A_HUMAN = [
@@ -248,7 +248,7 @@ ARE_YOU_A_HUMAN = [
     "Haha! nice one.",
     "What do you think?",
     "Human eh?",
-    "Am I a human? 🤔"
+    "Am I a human? 🤔",
 ]
 
 
@@ -348,7 +348,14 @@ DIS_RESPONSES_HIM = [
     "Convey my condolences to {}",
 ]
 
-BOT_NEUTRAL = ["Maybe.", "I am not sure", "Yes and no", "Well, I do not know myself", "Perhaps.", "Possibly,"]
+BOT_NEUTRAL = [
+    "Maybe.",
+    "I am not sure",
+    "Yes and no",
+    "Well, I do not know myself",
+    "Perhaps.",
+    "Possibly,",
+]
 
 BOT_NEUTRAL_NOUN = [
     "I am not sure if I like {nn}. But if you do like, I would too",
@@ -384,7 +391,7 @@ BOT_DECLINE = [
     "no you.",
     "I wonder if you are...",
     "I guess its your mistake. You should feel sorry about it.",
-    "I disagree."
+    "I disagree.",
 ]
 
 BOT_AGREE = [
