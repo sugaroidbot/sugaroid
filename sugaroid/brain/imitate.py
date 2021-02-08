@@ -4,9 +4,9 @@ from chatterbot.logic import LogicAdapter
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.constants import IMITATE
-from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize, spac_token
+from sugaroid.brain.preprocessors import normalize
+from sugaroid.core.statement import SugaroidStatement
 
 
 class ImitateAdapter(LogicAdapter):
@@ -36,7 +36,11 @@ class ImitateAdapter(LogicAdapter):
         else:
             return False
 
-    def process(self, statement, additional_response_selection_parameters=None):
+    def process(
+            self,
+            statement: SugaroidStatement,
+            additional_response_selection_parameters=None,
+    ) -> SugaroidStatement:
         emotion = Emotion.lol
         sim = self.chatbot.lp.similarity(
             str(statement), str(self.chatbot.globals["history"]["total"][-1])
