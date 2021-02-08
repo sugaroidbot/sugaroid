@@ -3,7 +3,7 @@ from typing import Tuple
 
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from sugaroid.brain.constants import GRATIFY, CONSOLATION, SIT_AND_SMILE, APPRECIATION
+from sugaroid.brain.constants import GRATIFY, CONSOLATION, SIT_AND_SMILE, APPRECIATION, WELCOME
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import reverse, random_response, any_in
 from sugaroid.brain.preprocessors import tokenize
@@ -49,9 +49,27 @@ def handle_dead_statements(statement: SugaroidStatement) -> Tuple[str, int]:
 
 
 def handle_give_consolation(_: SugaroidStatement) -> Tuple[str, int]:
-    response = "Its ok,  {}.".format(
-        CONSOLATION[randint(0, len(CONSOLATION) - 1)]
-    )
+    """
+    Give consolation to the user when the user is depressed
+    :param _:
+    :type _:
+    :return:
+    :rtype:
+    """
+    response = "Its ok,  {}.".format(random_response(CONSOLATION))
+    emotion = Emotion.positive
+    return response, emotion
+
+
+def handle_thanks(_: SugaroidStatement) -> Tuple[str, int]:
+    """
+    Say welcome when the user says thank you!
+    :param _:
+    :type _:
+    :return:
+    :rtype:
+    """
+    response = random_response(WELCOME)
     emotion = Emotion.positive
     return response, emotion
 
@@ -89,7 +107,12 @@ class EmotionAdapter(SugaroidLogicAdapter):
         else:
             if polarity["pos"] > polarity["neg"]:
                 if "you" in statement.lemma:
-                    response = GRATIFY[randint(0, len(GRATIFY) - 1)]
+                    if "thank" in statement.lemma:
+                        # this is a positive statement
+                        # but we are expecting something like 'You're welcome' here
+                        response = random_response(WELCOME)
+                    else:
+                        response = random_response(GRATIFY)
                     emotion = Emotion.blush
                 else:
                     if "stop" in statement.lemma:
@@ -124,9 +147,12 @@ class EmotionAdapter(SugaroidLogicAdapter):
                             emotion = Emotion.angel
                             confidence = 0.8
                         else:
-                            # FIXME : Make it more smart
-                            response = random_response(SIT_AND_SMILE)
-                            emotion = Emotion.lol
+                            if "thank" in statement.lemma or "thanks" in statement.lemma:
+                                response, emotion = handle_thanks(statement)
+                            else:
+                                # FIXME : Make it more smart
+                                response = random_response(SIT_AND_SMILE)
+                                emotion = Emotion.lol
                             if confidence > 0.8:
                                 confidence -= 0.2
             else:

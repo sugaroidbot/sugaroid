@@ -55,6 +55,15 @@ GRATIFY = [
     "Aww. Thanks a million. You are my charm",
 ]
 
+WELCOME = [
+    "You're Welcome!",
+    "Welcome!",
+    "My pleasure.",
+    "Glad to help you out!",
+    "You are always welcome. 😄",
+    "Haha, I am always here for your help 😄",
+]
+
 THANK = [
     "Thank you for teaching me this novel thing",
     "I feel great. Thanks for making me understand this",
