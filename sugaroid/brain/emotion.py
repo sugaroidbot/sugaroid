@@ -5,7 +5,7 @@ from sugaroid.brain.constants import GRATIFY, CONSOLATION, SIT_AND_SMILE, APPREC
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import reverse, random_response, any_in
 from sugaroid.brain.preprocessors import tokenize
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class EmotionAdapter(LogicAdapter):
