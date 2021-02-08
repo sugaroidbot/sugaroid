@@ -91,7 +91,7 @@ class InterfaceSugaroidQt(QMainWindow, Ui_MainWindow):
     thread
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Sugaroid =None):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
