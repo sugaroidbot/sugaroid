@@ -23,7 +23,9 @@ from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
 from sugaroid.core.base_adapters import SugaroidLogicAdapter
+from sugaroid.core.bot import SugaroidBot
 from sugaroid.core.statement import SugaroidStatement
+from sugaroid.brain.ooo import Emotion
 
 try:
     from akinator import (
@@ -36,9 +38,6 @@ try:
     akinator_exists = True
 except ModuleNotFoundError:
     akinator_exists = False
-from chatterbot.logic import LogicAdapter
-from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize
 
 
 AKINATOR_RULES = """
@@ -60,7 +59,7 @@ I don't know: idk, i dont know, i don't know, 2
 
 
 class SugaroidAkinator:
-    def __init__(self, chatbot):
+    def __init__(self, chatbot: SugaroidBot):
         self.chatbot = chatbot
         self.aki = Akinator()
         self.winning = False
