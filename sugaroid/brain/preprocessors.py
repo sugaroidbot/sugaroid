@@ -36,7 +36,7 @@ short_forms = {
     "becoz": "because",
     "yaya": "yea",
     "thnx": "thanks",
-    "thenks": "thanks"
+    "thenks": "thanks",
 }
 
 

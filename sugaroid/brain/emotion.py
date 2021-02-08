@@ -3,7 +3,13 @@ from typing import Tuple
 
 from chatterbot.logic import LogicAdapter
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from sugaroid.brain.constants import GRATIFY, CONSOLATION, SIT_AND_SMILE, APPRECIATION, WELCOME
+from sugaroid.brain.constants import (
+    GRATIFY,
+    CONSOLATION,
+    SIT_AND_SMILE,
+    APPRECIATION,
+    WELCOME,
+)
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import reverse, random_response, any_in
 from sugaroid.brain.preprocessors import tokenize
@@ -26,7 +32,9 @@ def handle_dead_statements(statement: SugaroidStatement) -> Tuple[str, int]:
     """
 
     if "everyone" in statement.lemma or "every" in statement.lemma:
-        if ("except" in statement.lemma or "apart" in statement.lemma) and "me" in statement.lemma:
+        if (
+            "except" in statement.lemma or "apart" in statement.lemma
+        ) and "me" in statement.lemma:
             response = (
                 "So sad. Its a great feeling that only"
                 " me and you are the only person alive "
@@ -88,7 +96,11 @@ class EmotionAdapter(SugaroidLogicAdapter):
         # only process if the statement is too emotional
         return a["neu"] < 0.5
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         # parsed = str(statement).lower().strip()
         raw_statement = str(statement)
 
@@ -147,7 +159,10 @@ class EmotionAdapter(SugaroidLogicAdapter):
                             emotion = Emotion.angel
                             confidence = 0.8
                         else:
-                            if "thank" in statement.lemma or "thanks" in statement.lemma:
+                            if (
+                                "thank" in statement.lemma
+                                or "thanks" in statement.lemma
+                            ):
                                 response, emotion = handle_thanks(statement)
                             else:
                                 # FIXME : Make it more smart
@@ -165,7 +180,9 @@ class EmotionAdapter(SugaroidLogicAdapter):
                     # well, I don't want to say ( I don't know )
                     # FIXME : Use a better algorithm to detect sentences
                     reversed_response = reverse(statement.lemma)
-                    response = "Why do you think {}?".format(" ".join(reversed_response))
+                    response = "Why do you think {}?".format(
+                        " ".join(reversed_response)
+                    )
                     emotion = Emotion.dead
 
         selected_statement = SugaroidStatement(response, chatbot=True)

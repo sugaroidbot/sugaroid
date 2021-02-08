@@ -26,6 +26,7 @@ warnings.filterwarnings("ignore")
 
 try:
     from sugaroid.tts.tts import Text2Speech
+
     AUD_DEPS = True
 except ModuleNotFoundError:
     AUD_DEPS = False
@@ -143,7 +144,7 @@ class Sugaroid:
             + self.adapters,
             database_uri="sqlite+pysqlite:///{}/sugaroid.db".format(self.cfgpath),
             read_only=readonly,
-            logger=sugaroid_logger
+            logger=sugaroid_logger,
         )
         self.chatbot.globals["adapters"] = self.adapters
 
