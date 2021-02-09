@@ -25,6 +25,8 @@ class WikiAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.text = word_tokenize(str(statement))
+        if "$wolf" in str(statement):
+            return False
         tagged = nltk.pos_tag(self.text)
         q = False
         pr = False

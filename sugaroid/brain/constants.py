@@ -1,6 +1,10 @@
 import platform
 
 from sugaroid.brain.ooo import Emotion
+from datetime import datetime
+
+BIRTHDAY = datetime(year=2020, month=2, day=11, hour=14, minute=58, second=38)
+DATE_STRFTIME = "%A, %B %d, %Y at %H:%M:%S"
 
 EMOJI_SMILE = ["😀", "😁", "😂", "😏", "😝"]
 

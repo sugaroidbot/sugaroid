@@ -71,6 +71,7 @@ def preprocess(string_arg: str):
             if k[i].lower() == j:
                 k[i] = short_forms[j]
     proc = " ".join(k)
+    proc = proc.replace("$ wolf", "$wolf")
     logging.info("PREPROCESSOR: Returned {}".format(proc))
     return proc
 
