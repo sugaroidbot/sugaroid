@@ -61,6 +61,12 @@ class WikiAdapter(LogicAdapter):
             selected_statement.confidence = 1.0
             selected_statement.emotion = emotion
             return selected_statement
+        elif ("Up" in self.text) or ("up" in self.text):
+            response = "Just the ceiling, I suppose"
+            selected_statement = SugaroidStatement(response, chatbot=True)
+            selected_statement.confidence = 1.0
+            selected_statement.emotion = emotion
+            return selected_statement
 
         else:
             nlp = self.chatbot.lp
