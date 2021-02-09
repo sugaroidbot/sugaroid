@@ -45,7 +45,7 @@ class SugaroidLogicAdapter(LogicAdapter):
         """
         return super(SugaroidLogicAdapter, self).can_process(statement)
 
-    def process(
+    def Tprocess(
         self,
         statement: SugaroidStatement,
         additional_response_selection_parameters=None,

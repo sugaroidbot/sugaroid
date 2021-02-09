@@ -423,6 +423,18 @@ ANNOYED = [
     "I quit!",
 ]
 
+BOT_REASONS = [
+    "Hmm...",
+    "I see.. 👀",
+    "Oh ho!",
+    "Makes sense.",
+    "Hmm. Interesting... 🤔",
+    "reasons.. reasons..",
+    "Hmm hmm hmm 🤔",
+    "Too complex reason for me. 😌",
+    "👀..."
+]
+
 ONE_WORD = [
     "Perhaps, I could understand you better if you used more words",
     "I apologize, I do not understand",
