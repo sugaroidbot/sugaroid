@@ -509,6 +509,14 @@ IMITATE = [
     "If imitating me makes you happy, I will be happier to see you laugh",
 ]
 
+WHATSUP = [
+    "Just the ceiling, I suppose",
+    "Enjoying talking to you 😇",
+    "Everything is going smoothly",
+    "Just the way I have always felt, great! 😆",
+    "The sky, of course! 😎",
+]
+
 if platform.system() == "Windows":
     SUGAROID_INTRO = """
 MMMMMMMMMMMMMMMMMMMMMMMCCCCMMMMMMMMMMMMMMMMMMMMMMM
