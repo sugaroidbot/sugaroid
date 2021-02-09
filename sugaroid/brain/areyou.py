@@ -106,8 +106,6 @@ class AreYouAdapter(SugaroidLogicAdapter):
             confidence = 0.5
 
         selected_statement = SugaroidStatement(response, chatbot=True)
-        selected_statement.confidence = confidence
-        emotion = Emotion.neutral
-        selected_statement.emotion = emotion
-
+        selected_statement.set_confidence(confidence)
+        selected_statement.set_emotion(Emotion.neutral)
         return selected_statement
