@@ -1,22 +1,17 @@
-from chatterbot.logic import LogicAdapter
-from nltk.sentiment import SentimentIntensityAnalyzer
-
 from sugaroid.brain.constants import SUGAROID_CAN_AGREE, SUGAROID_CAN_DISAGREE
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.ooo import Emotion
+from sugaroid.core.base_adapters import SugaroidLogicAdapter
 from sugaroid.core.statement import SugaroidStatement
 
 
-class AssertiveAdapter(LogicAdapter):
+class AssertiveAdapter(SugaroidLogicAdapter):
     """
     Handles assertive and imperative statements
     """
 
-    def __init__(self, chatbot, **kwargs):
-        super().__init__(chatbot, **kwargs)
-
-    def can_process(self, statement):
+    def can_process(self, statement: SugaroidStatement) -> bool:
         if len(str(statement).split()) >= 3:
             s = statement.doc
             if (s[0].pos_ in ["its", "this"] or s[0].lower_ == "it") and (
@@ -25,26 +20,17 @@ class AssertiveAdapter(LogicAdapter):
                 or (s[1].pos_ == "ADV" and s[2].pos_ == "VERB")
             ):
                 return True
-            else:
-                return False
         elif len(str(statement).split()) >= 2:
             s = statement.doc
             if (s[0].pos_ == "DET" or s[0].lower_ == "it's") and (
                 s[1].pos_ == "NOUN" or s[1].pos_ == "VERB"
             ):
                 return True
-            else:
-                return False
 
-        else:
-            return False
+        return False
 
-    def process(self, statement, additional_response_selection_parameters=None):
-        response = "What?"
-        confidence = 0
-
-        sia = SentimentIntensityAnalyzer()
-        ps = sia.polarity_scores(str(statement))
+    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+        ps = self.sia.polarity_scores(statement.text)
         if ps["neu"] == 1 or (ps["pos"] > ps["neg"]):
             response = random_response(SUGAROID_CAN_AGREE)
             confidence = 0.81
@@ -53,6 +39,6 @@ class AssertiveAdapter(LogicAdapter):
             confidence = 0.3
 
         selected_statement = SugaroidStatement(response, chatbot=True)
-        selected_statement.confidence = confidence
-        selected_statement.emotion = Emotion.angel
+        selected_statement.set_confidence(confidence)
+        selected_statement.set_emotion(Emotion.angel)
         return selected_statement
