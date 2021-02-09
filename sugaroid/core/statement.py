@@ -1,3 +1,5 @@
+from typing import List
+
 from chatterbot.conversation import Statement
 from spacy.tokens.doc import Doc
 
@@ -22,7 +24,7 @@ class SugaroidStatement(Statement):
     def __init__(self, text: str, in_response_to=None, emotion: int = None, **kwargs):
         super(SugaroidStatement, self).__init__(text, in_response_to, **kwargs)
         self._doc = lang_processor.nlp(text)
-        self._simple = text.lower().split()
+        self._simple = text.rstrip("?,+/.;!").lower().split()
         self._lemma = tokenize(text)
         self._emotion = emotion
         self.adapter = None
@@ -39,6 +41,10 @@ class SugaroidStatement(Statement):
 
     def set_chatbot(self, is_chatbot: bool):
         self.from_chatbot = is_chatbot
+
+    @property
+    def simple(self) -> List[str]:
+        return self._simple
 
     @property
     def tokens(self) -> Doc:

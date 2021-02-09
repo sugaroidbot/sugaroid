@@ -40,6 +40,7 @@ class SugaroidBot(ChatBot):
             "trivia_answer": None,
             "learn_last_conversation": [],
             "DEBUG": {},
+            "media": False
         }
         # self.emotion = Emotion.neutral
 

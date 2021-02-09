@@ -36,7 +36,7 @@ sugaroid_logger = logging.getLogger(__name__)
 
 
 # enable the verbosity
-if "--debug" in sys.argv:
+if "--debug" in sys.argv or os.getenv("SUGAROID_DEBUG") == "1":
     # set the verbosity
     print("SUGAROID_DEBUG: Enabled")
     verbosity = logging.INFO
@@ -151,6 +151,7 @@ class Sugaroid:
 
         self.read()
         self.invoke_brain()
+        self.set_internet_media_from_environment()
 
     def init_local_trainers(self):
         """
@@ -342,6 +343,12 @@ class Sugaroid:
         except KeyboardInterrupt:
             pass
         self.database.close()
+
+    def set_internet_media_from_environment(self):
+        if os.getenv("DISCORD_TOKEN") or os.getenv("TELEGRAM_TOKEN"):
+            # supports media
+            self.chatbot.globals["media"] = True
+            sugaroid_logger.info("Media support enabled")
 
 
 def gui_main():

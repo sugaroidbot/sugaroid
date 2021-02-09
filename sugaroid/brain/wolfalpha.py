@@ -1,66 +1,75 @@
 import os
 import requests
-from chatterbot.logic import LogicAdapter
+
+from sugaroid.core.base_adapters import SugaroidLogicAdapter
 from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize
 
 
-class WolframAlphaAdapter(LogicAdapter):
+class WolframAlphaAdapter(SugaroidLogicAdapter):
     """
     Wolfram Alpha Adapter for Sugaroid
     """
 
-    def __init__(self, chatbot, **kwargs):
-        super().__init__(chatbot, **kwargs)
-        self.normalized = None
-
-    def can_process(self, statement):
-        self.normalized = str(statement).strip("?,+/.;!").lower().split()
+    def can_process(self, statement: SugaroidStatement):
         contains_numbers = False
-        for i in self.normalized:
+        for i in statement.simple:
             if any((j.isdigit() for j in i)):
                 contains_numbers = True
         return (
             (
-                "why" in self.normalized
-                or "who" in self.normalized
-                or "int" in self.normalized
-                or "when" in self.normalized
-                or "which" in self.normalized
-                or "where" in self.normalized
-                or "how" in self.normalized
+                "why" in statement.simple
+                or "who" in statement.simple
+                or "int" in statement.simple
+                or "when" in statement.simple
+                or "which" in statement.simple
+                or "where" in statement.simple
+                or "how" in statement.simple
+                or "$wolf" in statement.simple
                 or contains_numbers
             )
             and os.getenv("WOLFRAM_ALPHA_API")
             and not (
-                "you" in self.normalized
-                or "favorite" in self.normalized
-                or "favourite" in self.normalized
-                or "me" in self.normalized
-                or "like" in self.normalized
-                or "your" in self.normalized
-                or "what" in self.normalized
-                or "him" in self.normalized
-                or "her" in self.normalized
-                or "she" in self.normalized
-                or "he" in self.normalized
-                or "them" in self.normalized
-                or "i" in self.normalized
+                "you" in statement.simple
+                or "favorite" in statement.simple
+                or "favourite" in statement.simple
+                or "me" in statement.simple
+                or "like" in statement.simple
+                or "your" in statement.simple
+                or "what" in statement.simple
+                or "him" in statement.simple
+                or "her" in statement.simple
+                or "she" in statement.simple
+                or "he" in statement.simple
+                or "them" in statement.simple
+                or "i" in statement.simple
             )
         )
 
-    def process(self, statement, additional_response_selection_parameters=None):
+    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+        wolf_command = False
+        user_requests_text = False
+        supports_media = self.chatbot.globals["media"]
         url = (
             "https://api.wolframalpha.com/v2/query?"
             "input={query}"
-            "&format=plaintext&output=JSON&appid={appid}"
+            "&format={format}&output=JSON&appid={appid}"
         )
         url = url.format(
-            query="+".join(self.normalized),
+            query="+".join(statement.simple),
             appid=os.getenv("WOLFRAM_ALPHA_API", "DEMO"),
+            format="image" if supports_media else "plaintext"
         )
         response = requests.get(url, headers={"Accept": "application/json"}).json()
+
+        if "$wolf" in statement.simple:
+            # this is a command type wolfram alpha request
+            wolf_command = True
+            statement.simple.remove("$wolf")
+            if "$text" in statement.simple:
+                user_requests_text = True
+                statement.simple.remove("$text")
+
         if not response["queryresult"]["success"]:
             confidence = 0.3
             try:
@@ -74,19 +83,20 @@ class WolframAlphaAdapter(LogicAdapter):
             return selected_statement
 
         information = []
-        for i in response["queryresult"]["pods"]:
-            for j in i["subpods"]:
-                try:
-                    if j["img"]["alt"] == "Plot":
-                        information.append(j["img"]["src"])
-                except KeyError:
-                    pass
-                if j["plaintext"]:
-                    information.append(j["plaintext"])
+
+        if not supports_media or (user_requests_text and wolf_command):
+            for i in response["queryresult"]["pods"]:
+                for j in i["subpods"]:
+                    if j["plaintext"]:
+                        information.append(j["plaintext"])
+        else:
+            for i in response["queryresult"]["pods"]:
+                for j in i["subpods"]:
+                    if j.get("img") and j["img"].get("src"):
+                        information.append(f'{j["img"]["src"]}<br>')
 
         interpretation = "\n".join(information)
         selected_statement = SugaroidStatement(interpretation, chatbot=True)
-        selected_statement.confidence = 1
-        emotion = Emotion.lol
-        selected_statement.emotion = emotion
+        selected_statement.set_confidence(1)
+        selected_statement.set_emotion(Emotion.lol)
         return selected_statement
