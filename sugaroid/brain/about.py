@@ -14,11 +14,11 @@ def about_process_en(statement: SugaroidStatement) -> Tuple[bool, str, str, str]
     question = None
     for i in statement.tokens:
         if i.tag_ == "WP":
-            question = i
+            question = str(i)
         elif i.tag_.startswith("PRP"):
-            pronoun = i
+            pronoun = str(i)
         elif i.tag_.startswith("NN"):
-            noun = i
+            noun = str(i)
 
     return question is not None and pronoun is not None, noun, pronoun, question
 
@@ -76,7 +76,7 @@ class AboutAdapter(SugaroidLogicAdapter):
                         "grandfather",
                         "grandmother",
                         "nephew",
-                        "neice",
+                        "niece",
                     ],
                     statement.lemma,
                 ):
