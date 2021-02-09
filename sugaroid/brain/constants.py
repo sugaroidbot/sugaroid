@@ -20,23 +20,54 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+LICENSE = lic = """<pre><code>
+MIT License
+Sugaroid Artificial Intelligence
+Chatbot Core
+Copyright (c) 2020-2021 Srevin Saju
+Copyright (c) 2021 The Sugaroid Project
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the 
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above 
+copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.</code></pre> """
+
+CREDITS = [
+    "<b>The Sugaroid Project</b>, and contributors",
+    "<b>Wolfram Alpha</b> for Mathematical evaluation and logical"
+    " wh-questions",
+    "<b>The SwagLyrics Project</b>, for the awesome lyrics fetching library",
+    "<b>The NewsAPI Project</b>, for the news headlines",
+    "<b>Wikipedia</b>, The Free Encyclopedia, by The Wikimedia Foundation",
+]
 
 WHAT_I_AM_GOING_TO_DO = {
-    "tomorrow": "I will try to learn cryptography. I will first try working on Casesar's Cipher and decrypting random codes",
+    "tomorrow": "I will try to learn cryptography. I will first try working on "
+                "Casesar's Cipher and decrypting random codes",
     "today": [
         "I am creating a report of the world-wide usage history",
         "I am checking if my responses are becoming more valid, or more foolish😝",
     ],
     "weekend": "I might do some intense training to increase the validity of my responses",
     "weekday": "I guess goofing around once in a while is not such a bad thing, so, I might just do that",
-    "month": "Well, I haven't thought about it that far ahead. I have got quite a huge list of things to keep me occupied currently",
-    "year": "I am quite worried that, I will still remain a 'newborn' bot, unless my code is changed for the better next year",
-    "yesterday": "Past is past. Isn't it? Unless you are able to make a time machine for me so that I can do something else, no use thinking about it right? 😆",
+    "month": "Well, I haven't thought about it that far ahead."
+             " I have got quite a huge list of things to keep me occupied currently",
+    "year": "I am quite worried that, I will still remain a 'newborn' bot, "
+            "unless my code is changed for the better next year",
+    "yesterday": "Past is past. Isn't it? Unless you are able to make a "
+                 "time machine for me so that I can do something else, no use thinking about it right? 😆",
     "sunday": "I will try taking some rest. But I am also a bit too restless for that",
     "monday": "I will be fixing the bug reports and diagnosing myself",
     "tuesday": "I guess I will try to create some pull request for Sugar Labs",
     "wednesday": "Got to break the turing test!😌",
-    "thursday": "I have to update myself, so I will read some new books and also reread some of the old docs that I have read as it might have gotten updated since then",
+    "thursday": "I have to update myself, so I will read some new books "
+                "and also reread some of the old docs that I have read as it might have gotten updated since then",
     "friday": "I need to think of what I will do on Saturday",
     "saturday": "Probably, I will be repenting about how I wasted my time on Friday😂",
 }
