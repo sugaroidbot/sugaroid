@@ -6,7 +6,9 @@ from sugaroid.brain.constants import (
     WHY_IDK,
     HOW_DO_YOU_FEEL,
     WHERE_LIVE,
-    DONT_KNOW_WHERE, BIRTHDAY, DATE_STRFTIME,
+    DONT_KNOW_WHERE,
+    BIRTHDAY,
+    DATE_STRFTIME,
 )
 from sugaroid.brain.ooo import Emotion
 from sugaroid.core.base_adapters import SugaroidLogicAdapter
@@ -35,7 +37,11 @@ class WhyWhenAdapter(SugaroidLogicAdapter):
                 return True
         return False
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         """
 
         :param statement:
@@ -65,7 +71,9 @@ class WhyWhenAdapter(SugaroidLogicAdapter):
                 ]:
                     if i in statement.lemma:
                         # the person is asking my birthday
-                        response = "I was born on {}".format(BIRTHDAY.strftime(DATE_STRFTIME))
+                        response = "I was born on {}".format(
+                            BIRTHDAY.strftime(DATE_STRFTIME)
+                        )
                         confidence = 0.8
                         emotion = Emotion.blush
                         break
@@ -85,10 +93,10 @@ class WhyWhenAdapter(SugaroidLogicAdapter):
                 "you" in statement.lemma
                 and "be" in statement.lemma
                 and not (
-                    "can" in statement.lemma or
-                    "could" in statement.lemma or
-                    "should" in statement.lemma or
-                    "would" in statement.lemma
+                    "can" in statement.lemma
+                    or "could" in statement.lemma
+                    or "should" in statement.lemma
+                    or "would" in statement.lemma
                 )
             ):
                 # possibly the person asked

@@ -1,6 +1,13 @@
 from sugaroid.core.base_adapters import SugaroidLogicAdapter
 from sugaroid.version import VERSION
-from sugaroid.brain.constants import ONE_WORD, DISCLAIMER, HI_WORDS, HI_RESPONSES, LICENSE, CREDITS
+from sugaroid.brain.constants import (
+    ONE_WORD,
+    DISCLAIMER,
+    HI_WORDS,
+    HI_RESPONSES,
+    LICENSE,
+    CREDITS,
+)
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.sugaroid import SugaroidStatement
@@ -19,7 +26,11 @@ class OneWordAdapter(SugaroidLogicAdapter):
                 return True
         return False
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None) -> SugaroidStatement:
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ) -> SugaroidStatement:
         emotion = Emotion.seriously
         confidence = 0.60
         response = random_response(ONE_WORD)

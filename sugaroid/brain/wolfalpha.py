@@ -70,7 +70,11 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
             )
         )
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         wolf_command = False
         user_requests_text = False
         supports_media = self.chatbot.globals["media"]
@@ -91,7 +95,7 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
         url = url.format(
             query="+".join(statement.simple),
             appid=os.getenv("WOLFRAM_ALPHA_API", "DEMO"),
-            format="image" if supports_media else "plaintext"
+            format="image" if supports_media else "plaintext",
         )
         sugaroid_logger.info(f"WolframAlpha endpoint: {url}")
         response = requests.get(url, headers={"Accept": "application/json"}).json()
@@ -123,7 +127,9 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
 
         if supports_media:
             # add the copyright along with the results
-            information.append("Results powered by <a href='http://www.wolframalpha.com/'>Wolfram|Alpha</a>")
+            information.append(
+                "Results powered by <a href='http://www.wolframalpha.com/'>Wolfram|Alpha</a>"
+            )
 
         interpretation = "\n".join(information)
 

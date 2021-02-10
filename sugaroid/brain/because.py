@@ -15,10 +15,15 @@ class BecauseAdapter(SugaroidLogicAdapter):
     """
     Processes statements which starts with Because or gives a reason
     """
+
     def can_process(self, statement: SugaroidStatement):
         return "because" in statement.lemma
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         # add emotion output
         adj = None
         verb = None

@@ -29,7 +29,11 @@ class AssertiveAdapter(SugaroidLogicAdapter):
 
         return False
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         ps = self.sia.polarity_scores(statement.text)
         if ps["neu"] == 1 or (ps["pos"] > ps["neg"]):
             response = random_response(SUGAROID_CAN_AGREE)
