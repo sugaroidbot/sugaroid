@@ -33,9 +33,11 @@ class JokeAdapter(LogicAdapter):
 
     def process(self, statement, additional_response_selection_parameters=None):
         # https://github.com/pratishrai/doraemon/blob/302a78f8ace4b4675f3cd293dce101ea448b3e13/cogs/fun.py#L15
-        url = "https://icanhazdadjoke.com/"
-        response1 = requests.get(url, headers={"Accept": "application/json"}).json()
-        response2 = requests.get(
+        response1 = requests.get("https://official-joke-api.appspot.com/random_joke"
+        ).json()   
+        url = "https://icanhazdadjoke.com/"     
+        response2 = requests.get(url, headers={"Accept": "application/json"}).json()
+        response3 = requests.get(
             "https://sv443.net/jokeapi/v2/joke/Miscellaneous,Dark?type=single"
         ).json()
         responses = [response1, response2, response3]
