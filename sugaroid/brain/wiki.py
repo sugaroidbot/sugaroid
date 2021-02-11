@@ -5,6 +5,8 @@ from nltk import word_tokenize
 from sugaroid.brain.brain import Neuron
 from sugaroid.brain.ooo import Emotion
 from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.brain.constants import WHATSUP
+from sugaroid.brain.postprocessor import random_response, any_in
 
 try:
     from mediawikiapi import MediaWikiAPI
@@ -55,6 +57,12 @@ class WikiAdapter(LogicAdapter):
             return selected_statement
         elif ("Srevin" in self.text) or ("srevin" in self.text):
             response = "Srevin Saju is the creator of Sugaroid bot"
+            selected_statement = SugaroidStatement(response, chatbot=True)
+            selected_statement.confidence = 1.0
+            selected_statement.emotion = emotion
+            return selected_statement
+        elif "up" in self.text.lower():
+            response = random_response(WHATSUP)
             selected_statement = SugaroidStatement(response, chatbot=True)
             selected_statement.confidence = 1.0
             selected_statement.emotion = emotion
