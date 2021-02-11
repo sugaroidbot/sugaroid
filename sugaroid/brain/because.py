@@ -36,9 +36,9 @@ class BecauseAdapter(SugaroidLogicAdapter):
             sm = SequenceMatcher(None, tagged_last, tagged_now)
             for i in statement.doc:
                 if i.tag_ == "JJ":
-                    adj = i[0]
-                elif i[1] == "VB" and (not i[0] == "be"):
-                    verb = i[0]
+                    adj = i.lemma_
+                elif i.tag_ == "VB" and (not i.lemma_ == "be"):
+                    verb = i.lemma_
             if sm.ratio() > 0.5:
                 if adj:
                     response = "Well, Its not a good reason for me to be {}".format(adj)
