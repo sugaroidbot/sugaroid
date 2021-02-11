@@ -86,6 +86,7 @@ setup(
         "sugaroid.config",
         "sugaroid.reader",
         "sugaroid.config",
+        "sugaroid.core",
         "sugaroid.game",
         "sugaroid.web",
         "sugaroid.trivia",
