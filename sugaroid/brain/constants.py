@@ -492,7 +492,7 @@ DONT_KNOW_WHERE = [
     "You are being sus. Why do you want to know where?🧐",
 ]
 
-WISH = [
+WISH_DAYS = [
     "birth",
     "labour",
     "independence",

@@ -41,6 +41,7 @@ class SugaroidBot(ChatBot):
             "learn_last_conversation": [],
             "DEBUG": {},
             "media": False,
+            "rich": False
         }
         # self.emotion = Emotion.neutral
 

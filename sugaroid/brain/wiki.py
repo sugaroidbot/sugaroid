@@ -19,13 +19,9 @@ class WikiAdapter(LogicAdapter):
     Handles Wikipedia based questions
     """
 
-    def __init__(self, chatbot, **kwargs):
-        # FIXME Add Language support
-        super().__init__(chatbot, **kwargs)
-
-    def can_process(self, statement):
+    def can_process(self, statement) -> bool:
         self.text = word_tokenize(str(statement))
-        if "$wolf" in str(statement):
+        if "$wolf" in self.text:
             return False
         tagged = nltk.pos_tag(self.text)
         q = False

@@ -78,6 +78,7 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
         wolf_command = False
         user_requests_text = False
         supports_media = self.chatbot.globals["media"]
+        rich_text = self.chatbot.globals["rich"]
 
         if "$wolf" in statement.simple:
             # this is a command type wolfram alpha request
@@ -95,7 +96,7 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
         url = url.format(
             query="+".join(statement.simple),
             appid=os.getenv("WOLFRAM_ALPHA_API", "DEMO"),
-            format="image" if supports_media else "plaintext",
+            format="image,plaintext" if supports_media else "plaintext",
         )
         sugaroid_logger.info(f"WolframAlpha endpoint: {url}")
         response = requests.get(url, headers={"Accept": "application/json"}).json()
@@ -107,6 +108,8 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
             except KeyError:
                 text = "Wolfram Alpha didnt send back a response"
                 confidence = 0
+                if wolf_command:
+                    confidence = 1
             selected_statement = SugaroidStatement(text, chatbot=True)
             selected_statement.confidence = confidence
             selected_statement.emotion = Emotion.positive
@@ -114,22 +117,43 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
 
         information = []
 
-        if not supports_media or (user_requests_text and wolf_command):
-            for i in response["queryresult"]["pods"]:
-                for j in i["subpods"]:
-                    if j["plaintext"]:
-                        information.append(j["plaintext"])
-        else:
-            for i in response["queryresult"]["pods"]:
-                for j in i["subpods"]:
-                    if j.get("img") and j["img"].get("src"):
-                        information.append(f'{j["img"]["src"]}<br>')
+        for i in response["queryresult"]["pods"]:
+            for j in i["subpods"]:
+                if j["plaintext"]:
+                    plaintext_answer = j["plaintext"].split("\n")
+                    for ans in plaintext_answer:
+                        splitted_ans = ans.split("|")
+                        sugaroid_logger.info("splitted_ans")
+                        if len(splitted_ans) == 1:
+                            front = splitted_ans[0]
+                            back, rest = "", ""
+                        elif len(splitted_ans) == 2:
+                            front, back = splitted_ans
+                            rest = ""
+                        else:
+                            front, back, rest = splitted_ans[0], splitted_ans[1], splitted_ans[2:]
+
+                        if rich_text:
+                            if not back:
+                                information.append(f"<b>{front}</b>")
+                            else:
+                                information.append(f"<b>{front}</b>: {back} {' '.join(rest)}")
+                        else:
+                            if not back:
+                                information.append(f"{front}")
+                            else:
+                                information.append(f"{front}: {back} {' '.join(rest)}")
 
         if supports_media:
-            # add the copyright along with the results
-            information.append(
-                "Results powered by <a href='http://www.wolframalpha.com/'>Wolfram|Alpha</a>"
-            )
+            information.append("<sugaroid:br>")
+            for i in response["queryresult"]["pods"]:
+                for j in i["subpods"]:
+                    if not j.get("plaintext") and j.get("img") and j["img"].get("src"):
+                        information.append(f'<sugaroid:img>{j["img"]["src"]}<sugaroid:br>')
+
+        information.append(
+            "Results powered by Wolfram|Alpha (wolframalpha.com)"
+        )
 
         interpretation = "\n".join(information)
 

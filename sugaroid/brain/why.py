@@ -19,11 +19,9 @@ def get_age() -> str:
     delta = datetime.now() - BIRTHDAY
     years = delta.days // 365
     days = delta.days % 365
-    hours = (delta.seconds - delta.days * 24 * 60 * 60) // 3600
     s_years = "years" if years != 1 else "year"
     s_days = "days" if days != 1 else "day"
-    s_hours = "hours" if hours != 1 else "hour"
-    return f"I am {years} {s_years}, {days} {s_days} and {hours} {s_hours} old."
+    return f"I am {years} {s_years}, {days} {s_days} old."
 
 
 class WhyWhenAdapter(SugaroidLogicAdapter):

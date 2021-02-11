@@ -348,6 +348,7 @@ class Sugaroid:
         if os.getenv("DISCORD_TOKEN") or os.getenv("TELEGRAM_TOKEN"):
             # supports media
             self.chatbot.globals["media"] = True
+            self.chatbot.globals["rich"] = True
             sugaroid_logger.info("Media support enabled")
 
 
