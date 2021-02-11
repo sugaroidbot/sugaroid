@@ -1,41 +1,36 @@
-from chatterbot.logic import LogicAdapter
-from nltk import word_tokenize, pos_tag
-
+from sugaroid.core.base_adapters import SugaroidLogicAdapter
 from sugaroid.version import VERSION
-from sugaroid.brain.constants import BYE, ONE_WORD, DISCLAIMER, HI_WORDS, HI_RESPONSES
-from sugaroid.brain.myname import MyNameAdapter
+from sugaroid.brain.constants import (
+    ONE_WORD,
+    DISCLAIMER,
+    HI_WORDS,
+    HI_RESPONSES,
+    LICENSE,
+    CREDITS,
+)
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
-from sugaroid.brain.preprocessors import normalize
 from sugaroid.sugaroid import SugaroidStatement
 
 
-class OneWordAdapter(LogicAdapter):
+class OneWordAdapter(SugaroidLogicAdapter):
     """
     Logical adapter for processing data with one words
     """
 
-    def __init__(self, chatbot, **kwargs):
-        super().__init__(chatbot, **kwargs)
-        self.normalized = None
-        self.intersect = None
-        self.tokenized = None
-
-    def can_process(self, statement):
-        self.normalized = normalize(str(statement).lower())
-
-        if len(self.normalized) == 1:
+    def can_process(self, statement: SugaroidStatement) -> bool:
+        if len(statement.lemma) == 1:
             return True
-        elif len(self.normalized) == 2:
-            self.tokenized = pos_tag(self.normalized)
-            if self.tokenized[1][1] == ".":
+        elif len(statement.lemma) == 2:
+            if statement.doc[-1].tag_ == ".":
                 return True
-            else:
-                return False
-        else:
-            return False
+        return False
 
-    def process(self, statement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ) -> SugaroidStatement:
         emotion = Emotion.seriously
         confidence = 0.60
         response = random_response(ONE_WORD)
@@ -47,8 +42,8 @@ class OneWordAdapter(LogicAdapter):
             response = "What name? You should probably use better english"
 
         elif ("help404" in short) or ("help" in short and "404" in short):
-            import sugaroid
-            import chatterbot
+            import sugaroid  # noqa:
+            import chatterbot  # noqa:
 
             help_files = []
             for i in self.chatbot.globals["adapters"]:
@@ -71,28 +66,12 @@ class OneWordAdapter(LogicAdapter):
             response = DISCLAIMER
             confidence = 1
         elif "license" in short:
-            lic = """<pre><code>
-MIT License
-Sugaroid Artificial Intelligence
-Chatbot Core
-Copyright (c) 2020-2021 Srevin Saju
-Copyright (c) 2021 The Sugaroid Project
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</code></pre>"""
-            response = lic
+            response = LICENSE
             confidence = 1
 
         elif "credit" in short or "acknow" in short or "people" in short:
-            credits = [
-                "<b>The Sugaroid Project</b>, and contributors",
-                "<b>Wolfram Alpha</b> for Mathematical evaluation and logical"
-                " wh-questions",
-                "<b>The Swaglyrics Project</b>, for the awesome lyrics fetching library",
-                "<b>The NewsAPI Project</b>, for the news headlines",
-                "<b>Wikipedia</b>, The Free Encyclopedia, by The Wikimedia Foundation",
-            ]
-            response = "❇️ " + "\n ❇️ ".join(credits)
+
+            response = "❇️ " + "\n ❇️ ".join(CREDITS)
             confidence = 1
 
         elif short in HI_WORDS:

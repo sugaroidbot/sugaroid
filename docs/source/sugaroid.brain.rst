@@ -324,6 +324,14 @@ sugaroid.brain.reversethink module
    :undoc-members:
    :show-inheritance:
 
+sugaroid.brain.saypls module
+----------------------------
+
+.. automodule:: sugaroid.brain.saypls
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 sugaroid.brain.swaglyrics module
 --------------------------------
 

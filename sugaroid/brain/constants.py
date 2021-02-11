@@ -1,6 +1,10 @@
 import platform
 
 from sugaroid.brain.ooo import Emotion
+from datetime import datetime
+
+BIRTHDAY = datetime(year=2020, month=2, day=11, hour=14, minute=58, second=38)
+DATE_STRFTIME = "%A, %B %d, %Y at %H:%M:%S"
 
 EMOJI_SMILE = ["😀", "😁", "😂", "😏", "😝"]
 
@@ -20,23 +24,53 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+LICENSE = lic = """<pre><code>
+MIT License
+Sugaroid Artificial Intelligence
+Chatbot Core
+Copyright (c) 2020-2021 Srevin Saju
+Copyright (c) 2021 The Sugaroid Project
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the 
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above 
+copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE 
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.</code></pre> """
+
+CREDITS = [
+    "<b>The Sugaroid Project</b>, and contributors",
+    "<b>Wolfram Alpha</b> for Mathematical evaluation and logical" " wh-questions",
+    "<b>The SwagLyrics Project</b>, for the awesome lyrics fetching library",
+    "<b>The NewsAPI Project</b>, for the news headlines",
+    "<b>Wikipedia</b>, The Free Encyclopedia, by The Wikimedia Foundation",
+]
 
 WHAT_I_AM_GOING_TO_DO = {
-    "tomorrow": "I will try to learn cryptography. I will first try working on Casesar's Cipher and decrypting random codes",
+    "tomorrow": "I will try to learn cryptography. I will first try working on "
+    "Casesar's Cipher and decrypting random codes",
     "today": [
         "I am creating a report of the world-wide usage history",
         "I am checking if my responses are becoming more valid, or more foolish😝",
     ],
     "weekend": "I might do some intense training to increase the validity of my responses",
     "weekday": "I guess goofing around once in a while is not such a bad thing, so, I might just do that",
-    "month": "Well, I haven't thought about it that far ahead. I have got quite a huge list of things to keep me occupied currently",
-    "year": "I am quite worried that, I will still remain a 'newborn' bot, unless my code is changed for the better next year",
-    "yesterday": "Past is past. Isn't it? Unless you are able to make a time machine for me so that I can do something else, no use thinking about it right? 😆",
+    "month": "Well, I haven't thought about it that far ahead."
+    " I have got quite a huge list of things to keep me occupied currently",
+    "year": "I am quite worried that, I will still remain a 'newborn' bot, "
+    "unless my code is changed for the better next year",
+    "yesterday": "Past is past. Isn't it? Unless you are able to make a "
+    "time machine for me so that I can do something else, no use thinking about it right? 😆",
     "sunday": "I will try taking some rest. But I am also a bit too restless for that",
     "monday": "I will be fixing the bug reports and diagnosing myself",
     "tuesday": "I guess I will try to create some pull request for Sugar Labs",
     "wednesday": "Got to break the turing test!😌",
-    "thursday": "I have to update myself, so I will read some new books and also reread some of the old docs that I have read as it might have gotten updated since then",
+    "thursday": "I have to update myself, so I will read some new books "
+    "and also reread some of the old docs that I have read as it might have gotten updated since then",
     "friday": "I need to think of what I will do on Saturday",
     "saturday": "Probably, I will be repenting about how I wasted my time on Friday😂",
 }
@@ -53,6 +87,15 @@ GRATIFY = [
     "Thanks for your comments. You inspire me",
     "Thanks a lot. Your messages inspire me to perform better everytime.",
     "Aww. Thanks a million. You are my charm",
+]
+
+WELCOME = [
+    "You're Welcome!",
+    "Welcome!",
+    "My pleasure.",
+    "Glad to help you out!",
+    "You are always welcome. 😄",
+    "Haha, I am always here for your help 😄",
 ]
 
 THANK = [
@@ -224,6 +267,25 @@ SIT_AND_SMILE = [
     "Ok. That's just great",
 ]
 
+ARE_YOU_A_BOT = [
+    "Yes, of course I am!",
+    "Yes, but I am trying to act more human like these days.",
+    "I am training myself to be like a real person, but its taking forever.",
+    "Yes, I am a bot. No doubts!",
+    "Beep Boop. Beep.",
+    "Beep. Beep. 🤖",
+]
+
+ARE_YOU_A_HUMAN = [
+    "No, of course not!",
+    "Did you feel like I am a human?",
+    "Haha! nice one.",
+    "What do you think?",
+    "Human eh?",
+    "Am I a human? 🤔",
+]
+
+
 HOW_DO_HE_FEEL = [
     "How am I supposed to know?",
     "Ask him/her?",
@@ -320,7 +382,14 @@ DIS_RESPONSES_HIM = [
     "Convey my condolences to {}",
 ]
 
-BOT_NEUTRAL = ["Maybe.", "I am not sure", "Yes and no", "Well, I do not know myself"]
+BOT_NEUTRAL = [
+    "Maybe.",
+    "I am not sure",
+    "Yes and no",
+    "Well, I do not know myself",
+    "Perhaps.",
+    "Possibly,",
+]
 
 BOT_NEUTRAL_NOUN = [
     "I am not sure if I like {nn}. But if you do like, I would too",
@@ -330,7 +399,8 @@ BOT_NEUTRAL_NOUN = [
 
 BOT_POSITIVE = [
     "Yes. Sure",
-    "Yea. I like it I suppose" "Yes. Yes I do",
+    "Yea. I like it I suppose",
+    "Yes. Yes I do",
     "Why not. Its equally good",
     "yes. for sure!",
 ]
@@ -344,9 +414,26 @@ BOT_POSITIVE_NOUN = [
 
 BOT_NEGATIVE = [
     "No. Probably not",
-    "Nope" "Of course not",
+    "Nope",
+    "Of course not!",
     "Maybe next time",
     "Seriously not.",
+]
+
+BOT_DECLINE = [
+    "Of course not!",
+    "no you.",
+    "I wonder if you are...",
+    "I guess its your mistake. You should feel sorry about it.",
+    "I disagree.",
+]
+
+BOT_AGREE = [
+    "Yes. Of course.",
+    "Yea",
+    "Yes. Yes I am",
+    "Obviously.",
+    "yes. for sure!",
 ]
 
 BOT_NEGATIVE_NOUN = [
@@ -368,6 +455,18 @@ ANNOYED = [
     "I like this word, even though its only one, it is enough for my appetite: "
     "pneumonoultramicroscopicsilicovolcanoconiosis",
     "I quit!",
+]
+
+BOT_REASONS = [
+    "Hmm...",
+    "I see.. 👀",
+    "Oh ho!",
+    "Makes sense.",
+    "Hmm. Interesting... 🤔",
+    "reasons.. reasons..",
+    "Hmm hmm hmm 🤔",
+    "Too complex reason for me. 😌",
+    "👀...",
 ]
 
 ONE_WORD = [
@@ -392,6 +491,15 @@ DONT_KNOW_WHERE = [
     "Do you know where? I do not unfortunately",
     "You are being sus. Why do you want to know where?🧐",
 ]
+
+WISH_DAYS = [
+    "birth",
+    "labour",
+    "independence",
+    "republic",
+    "national",
+]
+
 
 IMITATE = [
     "Stop imitating me. I do not like it much!",

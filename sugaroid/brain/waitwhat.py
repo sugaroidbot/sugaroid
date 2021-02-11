@@ -12,7 +12,8 @@ class WaitWhatAdapter(LogicAdapter):
         super().__init__(chatbot, **kwargs)
 
     def can_process(self, statement):
-        if statement.doc.similarity(self.chatbot.lp.tokenize("Wait what ?")) > 0.8:
+
+        if statement.tokens.similarity(self.chatbot.lp.tokenize("Wait what ?")) > 0.8:
             return True
         else:
             return False

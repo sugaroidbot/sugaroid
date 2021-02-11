@@ -1,14 +1,10 @@
-import random
-import sys
-
-from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 
 from sugaroid.brain.constants import BYE, BYE_RESPONSE
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class ByeAdapter(LogicAdapter):

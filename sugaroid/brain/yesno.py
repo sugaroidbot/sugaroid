@@ -3,39 +3,30 @@ from chatterbot.logic import LogicAdapter
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
 from sugaroid.brain.rereversei import reset_reverse
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.base_adapters import SugaroidLogicAdapter
+from sugaroid.core.statement import SugaroidStatement
 
 
-class BoolAdapter(LogicAdapter):
+class BoolAdapter(SugaroidLogicAdapter):
     """
     Processes Boolean based answers
     """
 
-    def __init__(self, chatbot, **kwargs):
-        super().__init__(chatbot, **kwargs)
-        self.chatbot = chatbot
-        self.normalized = None
-        self.intersect = None
-        self.normalized = None
-        self.tagged = None
-        self.last_normalized = None
-        self.bool = None
-
-    def can_process(self, statement):
-        self.normalized = normalize(str(statement).lower())
+    def can_process(self, statement: SugaroidStatement):
+        normalized = statement.lemma
         if self.chatbot.globals["akinator"]["enabled"]:
             return False
         elif (
-            ("yes" in self.normalized)
-            or ("yea" in self.normalized)
-            or ("no" in self.normalized)
-            or ("true" in self.normalized)
-            or ("false" in self.normalized)
+            ("yes" in statement.lemma)
+            or ("yea" in statement.lemma)
+            or ("no" in statement.lemma)
+            or ("true" in statement.lemma)
+            or ("false" in statement.lemma)
         ):
             if (
-                ("yes" in self.normalized)
-                or ("yea" in self.normalized)
-                or ("true" in self.normalized)
+                ("yes" in statement.lemma)
+                or ("yea" in statement.lemma)
+                or ("true" in statement.lemma)
             ):
                 self.bool = True
             else:

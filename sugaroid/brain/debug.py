@@ -1,12 +1,7 @@
 from chatterbot.logic import LogicAdapter
-from nltk import word_tokenize, pos_tag
-
-from sugaroid.brain.constants import BYE, ANNOYED
-from sugaroid.brain.myname import MyNameAdapter
 from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class DebugAdapter(LogicAdapter):

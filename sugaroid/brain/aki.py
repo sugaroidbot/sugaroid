@@ -22,6 +22,10 @@ import akinator
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
+from sugaroid.core.base_adapters import SugaroidLogicAdapter
+from sugaroid.core.bot import SugaroidBot
+from sugaroid.core.statement import SugaroidStatement
+from sugaroid.brain.ooo import Emotion
 
 try:
     from akinator import (
@@ -34,10 +38,6 @@ try:
     akinator_exists = True
 except ModuleNotFoundError:
     akinator_exists = False
-from chatterbot.logic import LogicAdapter
-from sugaroid.sugaroid import SugaroidStatement
-from sugaroid.brain.ooo import Emotion
-from sugaroid.brain.preprocessors import normalize
 
 
 AKINATOR_RULES = """
@@ -59,7 +59,7 @@ I don't know: idk, i dont know, i don't know, 2
 
 
 class SugaroidAkinator:
-    def __init__(self, chatbot):
+    def __init__(self, chatbot: SugaroidBot):
         self.chatbot = chatbot
         self.aki = Akinator()
         self.winning = False
@@ -142,32 +142,29 @@ class SugaroidAkinator:
         return response
 
 
-class AkinatorAdapter(LogicAdapter):
+class AkinatorAdapter(SugaroidLogicAdapter):
     """
     Adapter which ports the wrapper of the Akinator game to Sugaroid
     """
 
-    def __init__(self, chatbot, **kwargs):
-        super().__init__(chatbot, **kwargs)
-        self.aki = False
-        self.game_instance = None
-        self.normalized = None
-
     def can_process(self, statement):
-        self.normalized = normalize(str(statement).lower())
-        if (("akinator" in self.normalized) and akinator_exists) and (
-            "not" not in self.normalized
+        if (("akinator" in statement.lemma) and akinator_exists) and (
+            "not" not in statement.lemma
         ):
             return True
         else:
             return self.chatbot.globals["akinator"]["enabled"]
 
-    def process(self, statement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
 
-        if "stop" in self.normalized:
+        if "stop" in statement.lemma:
             self.chatbot.globals["akinator"]["enabled"] = False
             response = "I am sorry. You quit the game abrubtly. {}".format(
                 random_response(HOPE_GAME_WAS_GOOD)
@@ -189,6 +186,6 @@ class AkinatorAdapter(LogicAdapter):
                     )
 
         selected_statement = SugaroidStatement(response, chatbot=True)
-        selected_statement.confidence = confidence
-        selected_statement.emotion = emotion
+        selected_statement.set_confidence(confidence)
+        selected_statement.set_emotion(emotion)
         return selected_statement

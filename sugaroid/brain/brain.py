@@ -14,6 +14,7 @@ from chatterbot.logic import MathematicalEvaluation
 from nltk.tokenize import WordPunctTokenizer
 
 from sugaroid.brain.preprocessors import preprocess
+from sugaroid.core.statement import SugaroidStatement
 
 ARITHMETIC = ["+", "-", "*", "/", "^"]
 
@@ -87,7 +88,7 @@ class Neuron:
         """
         return self.gen_time()
 
-    def gen_best_match(self, parsed):
+    def gen_best_match(self, parsed) -> SugaroidStatement:
         """
         Returns the best match of ``parsed`` object in the
         the list of stored data

@@ -5,7 +5,7 @@ from nltk import word_tokenize
 
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class OrAdapter(LogicAdapter):

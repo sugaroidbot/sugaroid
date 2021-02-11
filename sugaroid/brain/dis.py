@@ -4,7 +4,6 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 from pyinflect import getInflection
 from sugaroid.brain.postprocessor import any_in, random_response
 from sugaroid.brain.constants import (
-    BYE,
     DIS_RESPONSES_YOU,
     CONSOLATION,
     DIS_RESPONSES_I,
@@ -12,7 +11,7 @@ from sugaroid.brain.constants import (
 )
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize, spac_token
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class DisAdapter(LogicAdapter):

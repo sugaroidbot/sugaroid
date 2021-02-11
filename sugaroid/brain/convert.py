@@ -2,9 +2,9 @@ import logging
 
 from chatterbot.logic import LogicAdapter
 from currency_converter import CurrencyConverter
-from sugaroid.sugaroid import SugaroidStatement
 
 from sugaroid.brain.ooo import Emotion
+from sugaroid.core.statement import SugaroidStatement
 
 
 class SugaroidCurrency:
