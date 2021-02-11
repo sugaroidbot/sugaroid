@@ -29,7 +29,11 @@ class JokeAdapter(SugaroidLogicAdapter):
             return True
         return False
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         # https://github.com/pratishrai/doraemon/blob/302a78f8ace4b4675f3cd293dce101ea448b3e13/cogs/fun.py#L1
         try:
             response2 = requests.get(
