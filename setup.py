@@ -52,6 +52,7 @@ requirements = [
     "Django",
     "pyjokes",
     "scikit-learn",
+    "coloredlogs",
     "nltk",
     "lxml",
     "pyinflect",
