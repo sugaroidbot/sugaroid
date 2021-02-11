@@ -61,12 +61,12 @@ class WikiAdapter(LogicAdapter):
             selected_statement.confidence = 1.0
             selected_statement.emotion = emotion
             return selected_statement
-        elif "up" in self.text.lower():
+        """elif "up" in self.text.lower():
             response = random_response(WHATSUP)
             selected_statement = SugaroidStatement(response, chatbot=True)
             selected_statement.confidence = 1.0
             selected_statement.emotion = emotion
-            return selected_statement
+            return selected_statement"""
 
         else:
             nlp = self.chatbot.lp
