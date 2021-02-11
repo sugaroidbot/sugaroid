@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.brain.preprocessors &mdash; Sugaroid v0.15.2 documentation</title>
+  <title>sugaroid.brain.preprocessors &mdash; Sugaroid v0.20.0 documentation</title>
   
 
   
@@ -99,7 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
 </ul>
 
             
@@ -204,6 +204,7 @@
     <span class="s2">&quot;becoz&quot;</span><span class="p">:</span> <span class="s2">&quot;because&quot;</span><span class="p">,</span>
     <span class="s2">&quot;yaya&quot;</span><span class="p">:</span> <span class="s2">&quot;yea&quot;</span><span class="p">,</span>
     <span class="s2">&quot;thnx&quot;</span><span class="p">:</span> <span class="s2">&quot;thanks&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;thenks&quot;</span><span class="p">:</span> <span class="s2">&quot;thanks&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -238,6 +239,7 @@
             <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">j</span><span class="p">:</span>
                 <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">short_forms</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
     <span class="n">proc</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="n">proc</span> <span class="o">=</span> <span class="n">proc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;$ wolf&quot;</span><span class="p">,</span> <span class="s2">&quot;$wolf&quot;</span><span class="p">)</span>
     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;PREPROCESSOR: Returned </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">proc</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">proc</span></div>
 

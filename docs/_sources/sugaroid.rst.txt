@@ -11,6 +11,7 @@ Subpackages
    sugaroid.brain
    sugaroid.cli
    sugaroid.config
+   sugaroid.core
    sugaroid.game
    sugaroid.google
    sugaroid.gui
