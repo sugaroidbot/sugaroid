@@ -79,13 +79,31 @@ class SugaroidStatement(Statement):
         return self._words
 
     @property
-    def lemma(self) -> Generator[str]:
+    def lemma(self) -> Generator:
         """
         Returns the normalized words of the statement
         :return:
         :rtype:
         """
         return (x.lemma_ for x in self.doc)
+
+    @property
+    def pos(self) -> Generator:
+        """
+        Returns the pos_ generator words of the statement
+        :return:
+        :rtype:
+        """
+        return (x.pos_ for x in self.doc)
+
+    @property
+    def tag(self) -> Generator:
+        """
+        Returns the tag_ generator words of the statement
+        :return:
+        :rtype:
+        """
+        return (x.tag_ for x in self.doc)
 
     @property
     def emotion(self) -> int:

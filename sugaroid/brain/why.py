@@ -89,18 +89,19 @@ class WhyWhenAdapter(SugaroidLogicAdapter):
                 confidence = 1
             elif (
                 "you" in statement.words
-                and "be" in statement.words
+                and "be" in statement.lemma
                 and not (
                     "can" in statement.words
                     or "could" in statement.words
                     or "should" in statement.words
                     or "would" in statement.words
                 )
+                and not ("NOUN" in statement.pos or "PROPN" in statement.pos)
             ):
                 # possibly the person asked
                 # 'how are you'
                 response = random_response(HOW_DO_YOU_FEEL)
-                confidence = 0.75
+                confidence = 1
             else:
                 response = "😄"
                 confidence = 0.1
