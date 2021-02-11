@@ -108,7 +108,7 @@ class EmotionAdapter(SugaroidLogicAdapter):
 
         confidence = polarity["pos"] + polarity["neg"]
         if (("love" in statement.words) or ("hate" in statement.words)) and (
-                ("you" in statement.words) or ("myself" in statement.words)
+            ("you" in statement.words) or ("myself" in statement.words)
         ):
             if polarity["pos"] >= polarity["neg"]:
                 response = "I love you too"
