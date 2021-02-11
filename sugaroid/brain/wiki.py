@@ -61,12 +61,19 @@ class WikiAdapter(LogicAdapter):
             selected_statement.confidence = 1.0
             selected_statement.emotion = emotion
             return selected_statement
-        """elif "up" in self.text.lower():
+        elif "sugaroid" in self.text or "Sugaroid" in self.text:
+            response = "I am Sugaroid. 😎"
+            selected_statement = SugaroidStatement(response, chatbot=True)
+            selected_statement.confidence = 1.0
+            selected_statement.emotion = emotion
+            return selected_statement
+        elif "up" in self.text or "Up" in self.text:
+            # FIXME will introduce a regression in future
             response = random_response(WHATSUP)
             selected_statement = SugaroidStatement(response, chatbot=True)
             selected_statement.confidence = 1.0
             selected_statement.emotion = emotion
-            return selected_statement"""
+            return selected_statement
 
         else:
             nlp = self.chatbot.lp
