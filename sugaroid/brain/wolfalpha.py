@@ -131,13 +131,19 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
                             front, back = splitted_ans
                             rest = ""
                         else:
-                            front, back, rest = splitted_ans[0], splitted_ans[1], splitted_ans[2:]
+                            front, back, rest = (
+                                splitted_ans[0],
+                                splitted_ans[1],
+                                splitted_ans[2:],
+                            )
 
                         if rich_text:
                             if not back:
                                 information.append(f"<b>{front}</b>")
                             else:
-                                information.append(f"<b>{front}</b>: {back} {' '.join(rest)}")
+                                information.append(
+                                    f"<b>{front}</b>: {back} {' '.join(rest)}"
+                                )
                         else:
                             if not back:
                                 information.append(f"{front}")
@@ -149,11 +155,11 @@ class WolframAlphaAdapter(SugaroidLogicAdapter):
             for i in response["queryresult"]["pods"]:
                 for j in i["subpods"]:
                     if not j.get("plaintext") and j.get("img") and j["img"].get("src"):
-                        information.append(f'<sugaroid:img>{j["img"]["src"]}<sugaroid:br>')
+                        information.append(
+                            f'<sugaroid:img>{j["img"]["src"]}<sugaroid:br>'
+                        )
 
-        information.append(
-            "Results powered by Wolfram|Alpha (wolframalpha.com)"
-        )
+        information.append("Results powered by Wolfram|Alpha (wolframalpha.com)")
 
         interpretation = "\n".join(information)
 
