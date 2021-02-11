@@ -77,6 +77,8 @@ class Sugaroid:
             os.path.join(self.cfgpath, "sugaroid_internal.db")
         )
         self.database_exists = os.path.exists(os.path.join(self.cfgpath, "sugaroid.db"))
+        if not self.database_exists:
+            self.corpus()
         self.commands = [
             "sugaroid.brain.debug.DebugAdapter",
             "sugaroid.brain.interrupt.InterruptAdapter",
