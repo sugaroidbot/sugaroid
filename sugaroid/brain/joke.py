@@ -38,7 +38,7 @@ class JokeAdapter(LogicAdapter):
         response2 = requests.get(
             "https://sv443.net/jokeapi/v2/joke/Miscellaneous,Dark?type=single"
         ).json()
-        responses = [response1, response2]
+        responses = [response1, response2, response3]
         joke = random.choice(responses)
         selected_statement = SugaroidStatement(joke, chatbot=True)
         selected_statement.confidence = 0.95
