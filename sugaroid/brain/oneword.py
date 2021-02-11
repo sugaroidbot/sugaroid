@@ -19,9 +19,9 @@ class OneWordAdapter(SugaroidLogicAdapter):
     """
 
     def can_process(self, statement: SugaroidStatement) -> bool:
-        if len(statement.lemma) == 1:
+        if len(statement.words) == 1:
             return True
-        elif len(statement.lemma) == 2:
+        elif len(statement.words) == 2:
             if statement.doc[-1].tag_ == ".":
                 return True
         return False

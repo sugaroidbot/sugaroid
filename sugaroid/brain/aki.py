@@ -148,8 +148,8 @@ class AkinatorAdapter(SugaroidLogicAdapter):
     """
 
     def can_process(self, statement):
-        if (("akinator" in statement.lemma) and akinator_exists) and (
-            "not" not in statement.lemma
+        if (("akinator" in statement.words) and akinator_exists) and (
+            "not" not in statement.words
         ):
             return True
         else:
@@ -164,7 +164,7 @@ class AkinatorAdapter(SugaroidLogicAdapter):
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
 
-        if "stop" in statement.lemma:
+        if "stop" in statement.words:
             self.chatbot.globals["akinator"]["enabled"] = False
             response = "I am sorry. You quit the game abrubtly. {}".format(
                 random_response(HOPE_GAME_WAS_GOOD)

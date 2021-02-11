@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Generator
 
 from chatterbot.conversation import Statement
 from spacy.tokens.doc import Doc
@@ -25,7 +25,7 @@ class SugaroidStatement(Statement):
         super(SugaroidStatement, self).__init__(text, in_response_to, **kwargs)
         self._doc = lang_processor.nlp(text)
         self._simple = text.rstrip("?,+/.;!").lower().split()
-        self._lemma = tokenize(text)
+        self._words = tokenize(text)
         self._emotion = emotion
         self.adapter = None
         self.from_chatbot = False
@@ -44,22 +44,56 @@ class SugaroidStatement(Statement):
 
     @property
     def simple(self) -> List[str]:
+        """
+        Returns the statement stripped and split into words
+        :return:
+        :rtype:
+        """
         return self._simple
 
     @property
     def tokens(self) -> Doc:
+        """
+        Alias of self.doc
+        :return:
+        :rtype:
+        """
         return self._doc
 
     @property
     def doc(self) -> Doc:
+        """
+        Returns the spacy.tokens.doc.Doc of the statement
+        :return:
+        :rtype:
+        """
         return self._doc
 
     @property
-    def lemma(self) -> list:
-        return self._lemma
+    def words(self) -> list:
+        """
+        Returns the normalized words of the statement
+        :return:
+        :rtype:
+        """
+        return self._words
+
+    @property
+    def lemma(self) -> Generator[str]:
+        """
+        Returns the normalized words of the statement
+        :return:
+        :rtype:
+        """
+        return (x.lemma_ for x in self.doc)
 
     @property
     def emotion(self) -> int:
+        """
+        Gives the assigned emotion of the statement
+        :return:
+        :rtype:
+        """
         return self._emotion
 
     @emotion.setter

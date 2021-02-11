@@ -47,7 +47,7 @@ class AboutAdapter(SugaroidLogicAdapter):
         additional_response_selection_parameters=None,
     ):
         _, noun, pronoun, question = about_process_en(statement)
-        logging.info("{}".format(statement.lemma))
+        logging.info("{}".format(statement.words))
         confidence = 0
         adapter = None
 
@@ -55,15 +55,15 @@ class AboutAdapter(SugaroidLogicAdapter):
         if pronoun.lower().startswith("you"):
             if question.lower() == "who":
                 confidence = 0.99
-                if "father" in statement.lemma:
+                if "father" in statement.words:
                     response = "Mr Charles Babbage?"
                     emotion = Emotion.seriously
-                elif "hobby" in statement.lemma:
+                elif "hobby" in statement.words:
                     response = (
                         "Calculating random binary sequences and chatting with you!"
                     )
                     emotion = Emotion.lol
-                elif "mother" in statement.lemma:
+                elif "mother" in statement.words:
                     response = "Ada Lady Lovelace?"
                     emotion = Emotion.lol
                 elif any_in(
@@ -78,24 +78,24 @@ class AboutAdapter(SugaroidLogicAdapter):
                         "nephew",
                         "niece",
                     ],
-                    statement.lemma,
+                    statement.words,
                 ):
                     response = (
                         "The entire coding community is my family, it includes you too"
                     )
                     emotion = Emotion.wink
                 elif (
-                    ("creator" in statement.lemma)
-                    or ("create" in statement.lemma)
-                    or ("make" in statement.lemma)
-                    or ("maker" in statement.lemma)
+                    ("creator" in statement.words)
+                    or ("create" in statement.words)
+                    or ("make" in statement.words)
+                    or ("maker" in statement.words)
                 ):
                     response = "Srevin Saju aka @srevinsaju"
                     emotion = Emotion.neutral
                 elif (
-                    ("player" in statement.lemma)
-                    or ("cricketer" in statement.lemma)
-                    or ("footballer" in statement.lemma)
+                    ("player" in statement.words)
+                    or ("cricketer" in statement.words)
+                    or ("footballer" in statement.words)
                 ):
                     response = "I have many favorties, too many to count"
                     emotion = Emotion.wink
@@ -105,49 +105,49 @@ class AboutAdapter(SugaroidLogicAdapter):
                         "database "
                     )
                     emotion = Emotion.wink
-                elif "comedian" in statement.lemma:
+                elif "comedian" in statement.words:
                     response = "My favorite comedian is Mr Bean"
                     emotion = Emotion.lol
-                elif "color" in statement.lemma:
+                elif "color" in statement.words:
                     response = "My favorite color is blue"
                     emotion = Emotion.lol
-                elif "actor" in statement.lemma or ("actress" in statement.lemma):
+                elif "actor" in statement.words or ("actress" in statement.words):
                     response = "I do not watch movies, so yea!"
                     emotion = Emotion.neutral
-                elif "music" in statement.lemma or ("song" in statement.lemma):
+                elif "music" in statement.words or ("song" in statement.words):
                     response = (
                         "I listen to the rotating CPU fan. Its a harmonic music! "
                         "At my server, we have tons of them."
                     )
                     emotion = Emotion.lol
-                elif "bird" in statement.lemma:
+                elif "bird" in statement.words:
                     response = "My favorite is a Puffin"
                     emotion = Emotion.lol
-                elif "animal" in statement.lemma:
+                elif "animal" in statement.words:
                     response = "My favorite animal is a Fossa"
                     emotion = Emotion.positive
-                elif "number" in statement.lemma:
+                elif "number" in statement.words:
                     response = "My favorite number is 1"
                     emotion = Emotion.positive
-                elif "sweet" in statement.lemma or "dessert" in statement.lemma:
+                elif "sweet" in statement.words or "dessert" in statement.words:
                     response = (
                         "My favorite is the donut although I have not tasted it yet"
                     )
                     emotion = Emotion.cry_overflow
 
-                elif "athelete" in statement.lemma:
+                elif "athelete" in statement.words:
                     response = (
                         "I am not a sport lover, I don't have a favorite athelete"
                     )
                     emotion = Emotion.neutral
-                elif ("friend" in statement.lemma) or ("bestie" in statement.lemma):
+                elif ("friend" in statement.words) or ("bestie" in statement.words):
                     if self.chatbot.globals["USERNAME"]:
                         name = self.chatbot.globals["USERNAME"]
                     else:
                         name = ""
                     response = "No doubts, its you {n}".format(n=name.capitalize())
                     emotion = Emotion.adorable
-                elif "teacher" in statement.lemma:
+                elif "teacher" in statement.words:
                     response = (
                         "I don't have a single favorite teacher. All the teachers together are my favorite who"
                         " taught me how to talk with you "
@@ -165,7 +165,7 @@ class AboutAdapter(SugaroidLogicAdapter):
                         confidence = 0.5
 
             else:
-                if "name" in statement.lemma:
+                if "name" in statement.words:
                     # not sure if this is right. anyway FIXME
                     response = random_response(INTRODUCE)
                     adapter = "about"

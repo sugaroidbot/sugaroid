@@ -28,10 +28,10 @@ class AreYouAdapter(SugaroidLogicAdapter):
     """
 
     def can_process(self, statement: SugaroidStatement) -> bool:
-        logging.info("AreYouAdapter: statement has the lemma of %s" % statement.lemma)
-        if len(statement.lemma) < 2:
+        logging.info("AreYouAdapter: statement has the words of %s" % statement.words)
+        if len(statement.words) < 2:
             return False
-        if statement.lemma[0] == "are" and statement.lemma[1] == "you":
+        if statement.words[0] == "are" and statement.words[1] == "you":
             return True
         return False
 
@@ -45,34 +45,34 @@ class AreYouAdapter(SugaroidLogicAdapter):
         polarity_scores = self.sia.polarity_scores(statement.text)
 
         if (
-            "bot" in statement.lemma
-            or "machine" in statement.lemma
-            or "computer" in statement.lemma
+            "bot" in statement.words
+            or "machine" in statement.words
+            or "computer" in statement.words
         ):
             # the question is something like
             # are you a bot?
             response = random_response(ARE_YOU_A_BOT)
             confidence = 0.75
-        elif "sugaroid" in statement.lemma:
+        elif "sugaroid" in statement.words:
             # this person asked
             # are you sugaroid?
             # FIXME: use a better constants
             response = random_response(INTRODUCE)
             confidence = 0.75
         elif (
-            "human" in statement.lemma
-            or "man" in statement.lemma
-            or "woman" in statement.lemma
-            or "sapien" in statement.lemma
+            "human" in statement.words
+            or "man" in statement.words
+            or "woman" in statement.words
+            or "sapien" in statement.words
         ):
             # this person asked the bot if its a human
             # are you a human?
             response = random_response(ARE_YOU_A_HUMAN)
             confidence = 0.75
-        elif "boy" in statement.lemma or "girl" in statement.lemma:
+        elif "boy" in statement.words or "girl" in statement.words:
             response = "I will leave it to your imagination. 😌"
             confidence = 0.75
-        elif "python" in statement.lemma:
+        elif "python" in statement.words:
             # this person asked something like
             # are you written in python
             response = (
@@ -81,24 +81,24 @@ class AreYouAdapter(SugaroidLogicAdapter):
             )
             confidence = 1
         elif (
-            "newborn" in statement.lemma
-            or "infant" in statement.lemma
-            or "child" in statement.lemma
+            "newborn" in statement.words
+            or "infant" in statement.words
+            or "child" in statement.words
         ):
             response = "I am a newbie bots. I am trying to learn from my uncle and aunty bots and learning from them."
         elif (
-            "dumb" in statement.lemma
-            or "foolish" in statement.lemma
-            or "mad" in statement.lemma
-            or "weird" in statement.lemma
-            or "awkward" in statement.lemma
+            "dumb" in statement.words
+            or "foolish" in statement.words
+            or "mad" in statement.words
+            or "weird" in statement.words
+            or "awkward" in statement.words
             or polarity_scores["pos"] > polarity_scores["neg"]
         ):
             response = random_response(BOT_DECLINE)
         elif (
-            "alive" in statement.lemma
-            or "online" in statement.lemma
-            or "living" in statement.lemma
+            "alive" in statement.words
+            or "online" in statement.words
+            or "living" in statement.words
         ):
             response = random_response(BOT_AGREE)
         else:

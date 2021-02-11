@@ -24,7 +24,7 @@ class WishAdapter(SugaroidLogicAdapter):
     """
 
     def can_process(self, statement: SugaroidStatement) -> bool:
-        for i in statement.lemma:
+        for i in statement.words:
             if i in WISH:
                 return True
 

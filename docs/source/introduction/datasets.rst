@@ -30,10 +30,10 @@ Some of the corpora used by ``sugaroid`` are \* ``stopwords`` corpus \*
 Wordnet
 ~~~~~~~
 
-Wordnet is a collection of arrays of words which have a unique lemma.
+Wordnet is a collection of arrays of words which have a unique words.
 Some words may be used as an exaggeration, or sometimes, the same word
 is used in superlative, comparative tones. At many times, its very
-useful to ignore such words and depend on the lemma (aka root word).
+useful to ignore such words and depend on the words (aka root word).
 Wordnet is a very interesting library that helps to make things simpler.
 
 Vader Lexicon

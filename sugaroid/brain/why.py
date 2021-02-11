@@ -47,12 +47,12 @@ class WhyWhenAdapter(SugaroidLogicAdapter):
         :return:
         """
         emotion = Emotion.neutral
-        if "when" in statement.lemma:
-            if "you" in statement.lemma or "your" in statement.lemma:
+        if "when" in statement.words:
+            if "you" in statement.words or "your" in statement.words:
                 response = "When did you what?"
                 confidence = 0.6
                 for i in ["creator", "author", "developer"]:
-                    if i in statement.lemma:
+                    if i in statement.words:
                         response = "Let's say, its TOP SECRET!!"
                         confidence = 0.8
                         emotion = Emotion.lol
@@ -67,7 +67,7 @@ class WhyWhenAdapter(SugaroidLogicAdapter):
                     "create",
                     "manufactured",
                 ]:
-                    if i in statement.lemma:
+                    if i in statement.words:
                         # the person is asking my birthday
                         response = "I was born on {}".format(
                             BIRTHDAY.strftime(DATE_STRFTIME)
@@ -78,23 +78,23 @@ class WhyWhenAdapter(SugaroidLogicAdapter):
             else:
                 # search in wikipedia
                 return WikiAdapter(self.chatbot).process(statement)
-        elif "why" in statement.lemma:
+        elif "why" in statement.words:
             # say idk
             response = random_response(WHY_IDK)
             confidence = 0.2
             emotion = Emotion.cry_overflow
-        elif "how" in statement.lemma:
-            if "old" in statement.lemma and "you" in statement.lemma:
+        elif "how" in statement.words:
+            if "old" in statement.words and "you" in statement.words:
                 response = get_age()
                 confidence = 1
             elif (
-                "you" in statement.lemma
-                and "be" in statement.lemma
+                "you" in statement.words
+                and "be" in statement.words
                 and not (
-                    "can" in statement.lemma
-                    or "could" in statement.lemma
-                    or "should" in statement.lemma
-                    or "would" in statement.lemma
+                    "can" in statement.words
+                    or "could" in statement.words
+                    or "should" in statement.words
+                    or "would" in statement.words
                 )
             ):
                 # possibly the person asked
@@ -105,9 +105,9 @@ class WhyWhenAdapter(SugaroidLogicAdapter):
                 response = "😄"
                 confidence = 0.1
 
-        elif "where" in statement.lemma:
-            if "you" in statement.lemma:
-                if "live" in statement.lemma or "stay" in statement.lemma:
+        elif "where" in statement.words:
+            if "you" in statement.words:
+                if "live" in statement.words or "stay" in statement.words:
                     # the person is asking something like
                     # "where do you live"
                     response = random_response(WHERE_LIVE)

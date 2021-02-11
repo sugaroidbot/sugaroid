@@ -104,7 +104,7 @@ class CanAdapter(LogicAdapter):
                             response = (
                                 "I should be able to {}, "
                                 "but it all depends on updates which I have received".format(
-                                    self.chatbot.lp.lemma(verb)[0]
+                                    self.chatbot.lp.words(verb)[0]
                                 )
                             )
                             emotion = Emotion.rich
@@ -126,7 +126,7 @@ class CanAdapter(LogicAdapter):
                     else:
                         if verb == "die":
                             response = "I wouild die only when you say 'Bye'"
-                        elif self.chatbot.lp.lemma(verb)[0] in [
+                        elif self.chatbot.lp.words(verb)[0] in [
                             "teach",
                             "tell",
                             "say",
@@ -135,16 +135,16 @@ class CanAdapter(LogicAdapter):
                         ]:
                             response = (
                                 "Sure! Just don't ask if I can {}. Just ask".format(
-                                    self.chatbot.lp.lemma(verb)[0]
+                                    self.chatbot.lp.words(verb)[0]
                                 )
                             )
                             emotion = Emotion.angel
                         else:
-                            if self.chatbot.lp.lemma(verb)[0] == "do":
+                            if self.chatbot.lp.words(verb)[0] == "do":
                                 confidence = 0
                             response = (
                                 "I think I would not be able to {}. I apologize".format(
-                                    self.chatbot.lp.lemma(verb)[0]
+                                    self.chatbot.lp.words(verb)[0]
                                 )
                             )
                             emotion = Emotion.cry_overflow
@@ -155,7 +155,7 @@ class CanAdapter(LogicAdapter):
                         response = (
                             "Sure, I would love to help {n} to {v}. "
                             "Share sugaroid with {n].".format(
-                                n=noun, v=self.chatbot.lp.lemma(verb)[0]
+                                n=noun, v=self.chatbot.lp.words(verb)[0]
                             )
                         )
                         emotion = Emotion.positive
@@ -183,7 +183,7 @@ class CanAdapter(LogicAdapter):
                     emotion = Emotion.angry
                 else:
                     response = "I am not sure if I could {verb}".format(
-                        verb=self.chatbot.lp.lemma(verb)[0]
+                        verb=self.chatbot.lp.words(verb)[0]
                     )
                 confidence = aimed / 100 + 0.7
         elif aimed >= 75:
@@ -206,7 +206,7 @@ class CanAdapter(LogicAdapter):
 
                     else:
                         response = "I should be able to {}, but it all depends on updates which I have received".format(
-                            self.chatbot.lp.lemma(verb)[0]
+                            self.chatbot.lp.words(verb)[0]
                         )
                         emotion = Emotion.rich
 
@@ -251,11 +251,11 @@ class CanAdapter(LogicAdapter):
                                 response = "Am I really {}".format(adj)
                                 emotion = Emotion.non_expressive
                         elif verb:
-                            if self.chatbot.lp.lemma(verb)[0] == "do":
+                            if self.chatbot.lp.words(verb)[0] == "do":
                                 confidence = 0
                             response = (
                                 "I think I would not be able to {}. I apologize".format(
-                                    self.chatbot.lp.lemma(verb)[0]
+                                    self.chatbot.lp.words(verb)[0]
                                 )
                             )
                         else:
@@ -275,7 +275,7 @@ class CanAdapter(LogicAdapter):
                         response = (
                             "Do you really want to {}. "
                             "Try rethinking your decision".format(
-                                self.chatbot.lp.lemma(verb)[0]
+                                self.chatbot.lp.words(verb)[0]
                             )
                         )
                         emotion = Emotion.non_expressive_left
@@ -291,11 +291,11 @@ class CanAdapter(LogicAdapter):
                     emotion = Emotion.github
                 else:
                     response = "I guess, you would achieve your goal of {}ing".format(
-                        self.chatbot.lp.lemma(verb)[0]
+                        self.chatbot.lp.words(verb)[0]
                     )
                     emotion = Emotion.positive
             else:
-                if self.chatbot.lp.lemma(verb)[0] in [
+                if self.chatbot.lp.words(verb)[0] in [
                     "cry",
                     "sob",
                     "sleep",
@@ -306,13 +306,13 @@ class CanAdapter(LogicAdapter):
                     response = (
                         "Why do you want to {}, "
                         "there are many better things to do in life".format(
-                            self.chatbot.lp.lemma(verb)[0]
+                            self.chatbot.lp.words(verb)[0]
                         )
                     )
                     emotion = Emotion.adorable
                 else:
                     response = "No, probably not, you shouldn't {}".format(
-                        self.chatbot.lp.lemma(verb)[0]
+                        self.chatbot.lp.words(verb)[0]
                     )
                     emotion = Emotion.positive
             confidence = aimed / 100 + 0.9
@@ -326,7 +326,7 @@ class CanAdapter(LogicAdapter):
                         verb = "do"
                         noun = "that"
                     response = "Well. I am unsure if you really need to {} {}".format(
-                        self.chatbot.lp.lemma(verb)[0], noun
+                        self.chatbot.lp.words(verb)[0], noun
                     )
                     confidence = confidence - 0.2
                     emotion = Emotion.cry_overflow
@@ -334,13 +334,13 @@ class CanAdapter(LogicAdapter):
                     response = (
                         "Well I think, its a bad thing to do. "
                         "You shouldn't {} {}".format(
-                            self.chatbot.lp.lemma(verb)[0], noun
+                            self.chatbot.lp.words(verb)[0], noun
                         )
                     )
                     emotion = Emotion.negative
                 else:
                     response = "I guess its good thing which you have thought about. You should {} {}".format(
-                        self.chatbot.lp.lemma(verb)[0], noun
+                        self.chatbot.lp.words(verb)[0], noun
                     )
                     emotion = Emotion.positive
 
@@ -364,7 +364,7 @@ class CanAdapter(LogicAdapter):
                 elif sentiments["neg"] > sentiments["pos"]:
                     response = (
                         "Well I think, its a bad thing to do. I wouldn't {} {}".format(
-                            self.chatbot.lp.lemma(verb)[0], noun
+                            self.chatbot.lp.words(verb)[0], noun
                         )
                     )
                     emotion = Emotion.dead
@@ -374,7 +374,7 @@ class CanAdapter(LogicAdapter):
                         response = (
                             "I guess its good thing which you have thought about. Me being a bot, "
                             "wouldn't be able to do that. You should {} like {}".format(
-                                self.chatbot.lp.lemma(verb)[0], noun
+                                self.chatbot.lp.words(verb)[0], noun
                             )
                         )
                         emotion = Emotion.dead
@@ -382,7 +382,7 @@ class CanAdapter(LogicAdapter):
                         response = (
                             "I guess its good thing which you have thought about. Me being a bot, "
                             "wouldn't be able to do that. You should probably {} {}".format(
-                                self.chatbot.lp.lemma(verb)[0], noun
+                                self.chatbot.lp.words(verb)[0], noun
                             )
                         )
                         emotion = Emotion.neutral

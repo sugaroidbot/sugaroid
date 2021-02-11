@@ -16,16 +16,16 @@ class JokeAdapter(SugaroidLogicAdapter):
 
     def can_process(self, statement: SugaroidStatement) -> bool:
         if (
-            ("tell" in statement.lemma)
-            or ("say" in statement.lemma)
-            or ("crack" in statement.lemma)
-        ) and ("joke" in statement.lemma):
+            ("tell" in statement.words)
+            or ("say" in statement.words)
+            or ("crack" in statement.words)
+        ) and ("joke" in statement.words):
             return True
-        elif (len(statement.lemma) == 1) and (
+        elif (len(statement.words) == 1) and (
             self.chatbot.lp.similarity("joke", statement.text) >= 0.9
         ):
             return True
-        elif "joke" in statement.lemma:
+        elif "joke" in statement.words:
             return True
         return False
 

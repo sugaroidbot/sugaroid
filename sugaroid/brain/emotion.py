@@ -31,10 +31,10 @@ def handle_dead_statements(statement: SugaroidStatement) -> Tuple[str, int]:
     :type statement: SugaroidStatement
     """
 
-    if "everyone" in statement.lemma or "every" in statement.lemma:
+    if "everyone" in statement.words or "every" in statement.words:
         if (
-            "except" in statement.lemma or "apart" in statement.lemma
-        ) and "me" in statement.lemma:
+            "except" in statement.words or "apart" in statement.words
+        ) and "me" in statement.words:
             response = (
                 "So sad. Its a great feeling that only"
                 " me and you are the only person alive "
@@ -107,8 +107,8 @@ class EmotionAdapter(SugaroidLogicAdapter):
         polarity = self.sia.polarity_scores(statement.text)
 
         confidence = polarity["pos"] + polarity["neg"]
-        if (("love" in statement.lemma) or ("hate" in statement.lemma)) and (
-            ("you" in statement.lemma) or ("myself" in statement.lemma)
+        if (("love" in statement.words) or ("hate" in statement.words)) and (
+                ("you" in statement.words) or ("myself" in statement.words)
         ):
             if polarity["pos"] >= polarity["neg"]:
                 response = "I love you too"
@@ -118,8 +118,8 @@ class EmotionAdapter(SugaroidLogicAdapter):
                 emotion = Emotion.lol
         else:
             if polarity["pos"] > polarity["neg"]:
-                if "you" in statement.lemma:
-                    if "thank" in statement.lemma:
+                if "you" in statement.words:
+                    if "thank" in statement.words:
                         # this is a positive statement
                         # but we are expecting something like 'You're welcome' here
                         response = random_response(WELCOME)
@@ -127,23 +127,23 @@ class EmotionAdapter(SugaroidLogicAdapter):
                         response = random_response(GRATIFY)
                     emotion = Emotion.blush
                 else:
-                    if "stop" in statement.lemma:
+                    if "stop" in statement.words:
                         if (
-                            ("dont" in statement.lemma)
-                            or ("do" in statement.lemma and "not" in statement.lemma)
-                            or ("don't" in statement.lemma)
+                            ("dont" in statement.words)
+                            or ("do" in statement.words and "not" in statement.words)
+                            or ("don't" in statement.words)
                         ):
                             response = "I am here to continue my adventure forever"
                             emotion = Emotion.positive
                         else:
                             # optimize series of or statement
                             if (
-                                ("fun" in statement.lemma)
-                                or ("repeat" in statement.lemma)
-                                or ("imitation" in statement.lemma)
-                                or ("repetition" in statement.lemma)
-                                or ("irritate" in statement.lemma)
-                                or ("irritation" in statement.lemma)
+                                ("fun" in statement.words)
+                                or ("repeat" in statement.words)
+                                or ("imitation" in statement.words)
+                                or ("repetition" in statement.words)
+                                or ("irritate" in statement.words)
+                                or ("irritation" in statement.words)
                             ):
                                 response = (
                                     "Ok! I will switch off my fun mode for sometime"
@@ -154,14 +154,14 @@ class EmotionAdapter(SugaroidLogicAdapter):
                                 response = "I am depressed. Is there anything which I hurt you? I apologize for that"
                                 emotion = Emotion.depressed
                     else:
-                        if any_in(APPRECIATION, statement.lemma):
+                        if any_in(APPRECIATION, statement.words):
                             response = random_response(GRATIFY)
                             emotion = Emotion.angel
                             confidence = 0.8
                         else:
                             if (
-                                "thank" in statement.lemma
-                                or "thanks" in statement.lemma
+                                "thank" in statement.words
+                                or "thanks" in statement.words
                             ):
                                 response, emotion = handle_thanks(statement)
                             else:
@@ -171,15 +171,15 @@ class EmotionAdapter(SugaroidLogicAdapter):
                             if confidence > 0.8:
                                 confidence -= 0.2
             else:
-                if "i" in statement.lemma:
+                if "i" in statement.words:
                     response, emotion = handle_give_consolation(statement)
-                elif "dead" in statement.lemma:
+                elif "dead" in statement.words:
                     response, emotion = handle_dead_statements(statement)
                 else:
 
                     # well, I don't want to say ( I don't know )
                     # FIXME : Use a better algorithm to detect sentences
-                    reversed_response = reverse(statement.lemma)
+                    reversed_response = reverse(statement.words)
                     response = "Why do you think {}?".format(
                         " ".join(reversed_response)
                     )

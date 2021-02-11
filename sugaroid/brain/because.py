@@ -17,7 +17,7 @@ class BecauseAdapter(SugaroidLogicAdapter):
     """
 
     def can_process(self, statement: SugaroidStatement):
-        return "because" in statement.lemma
+        return "because" in statement.words
 
     def process(
         self,

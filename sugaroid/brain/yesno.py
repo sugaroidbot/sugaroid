@@ -13,20 +13,20 @@ class BoolAdapter(SugaroidLogicAdapter):
     """
 
     def can_process(self, statement: SugaroidStatement):
-        normalized = statement.lemma
+        normalized = statement.words
         if self.chatbot.globals["akinator"]["enabled"]:
             return False
         elif (
-            ("yes" in statement.lemma)
-            or ("yea" in statement.lemma)
-            or ("no" in statement.lemma)
-            or ("true" in statement.lemma)
-            or ("false" in statement.lemma)
+            ("yes" in statement.words)
+            or ("yea" in statement.words)
+            or ("no" in statement.words)
+            or ("true" in statement.words)
+            or ("false" in statement.words)
         ):
             if (
-                ("yes" in statement.lemma)
-                or ("yea" in statement.lemma)
-                or ("true" in statement.lemma)
+                ("yes" in statement.words)
+                or ("yea" in statement.words)
+                or ("true" in statement.words)
             ):
                 self.bool = True
             else:

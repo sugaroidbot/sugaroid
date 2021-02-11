@@ -330,7 +330,7 @@ class HangmanAdapter(SugaroidLogicAdapter):
     """
 
     def can_process(self, statement: SugaroidStatement) -> bool:
-        if ("hangman" in statement.lemma) and ("not" not in statement.lemma):
+        if ("hangman" in statement.words) and ("not" not in statement.words):
             return True
         else:
             return self.chatbot.globals["hangman"]["enabled"]
@@ -343,7 +343,7 @@ class HangmanAdapter(SugaroidLogicAdapter):
         response = None
         confidence = 2.0  # FIXME: Override all other answers
         emotion = Emotion.genie
-        if "stop" in statement.lemma:
+        if "stop" in statement.words:
             self.chatbot.globals["hangman"]["enabled"] = False
             response = "I am sorry. You quit the game abrubtly. {}".format(
                 random_response(HOPE_GAME_WAS_GOOD)
