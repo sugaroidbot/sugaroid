@@ -84,21 +84,21 @@ class Sugaroid:
             "sugaroid.brain.interrupt.InterruptAdapter",
             "sugaroid.brain.learn.LearnAdapter",
             "sugaroid.brain.swaglyrics.SwagLyricsAdapter",
-        ]
-        self.adapters = [
             "sugaroid.brain.yesno.BoolAdapter",
             "sugaroid.brain.aki.AkinatorAdapter",
             "sugaroid.brain.hangman.HangmanAdapter",
             "sugaroid.brain.either.OrAdapter",
             "sugaroid.brain.ok.OkayAdapter",
-            "sugaroid.brain.bye.ByeAdapter",
             "sugaroid.brain.time.TimeAdapter",
-            "sugaroid.brain.convert.CurrencyAdapter",
-            "sugaroid.brain.trivia.TriviaAdapter",
+            "sugaroid.brain.bye.ByeAdapter",
             "sugaroid.brain.whoami.WhoAdapter",
             "sugaroid.brain.news.NewsAdapter",
             "sugaroid.brain.joke.JokeAdapter",
             "sugaroid.brain.play.PlayAdapter",
+        ]
+        self.adapters = [
+            "sugaroid.brain.convert.CurrencyAdapter",
+            "sugaroid.brain.trivia.TriviaAdapter",
             "sugaroid.brain.let.LetAdapter",
             "sugaroid.brain.whatwhat.WhatWhatAdapter",
             "sugaroid.brain.waitwhat.WaitWhatAdapter",
