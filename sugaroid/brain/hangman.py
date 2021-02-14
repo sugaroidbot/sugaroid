@@ -505,9 +505,10 @@ class Hangman:
             if self.life == 0 or ("﹏" not in self.dashes):
                 return self.game_over()
             else:
-                response = "{prefix}[ {dashes} ] Life: {heart}".format(
+                response = "{prefix}[ {dashes} ] HANGMAN:{figure} Life: {heart}".format(
                     prefix=prefix,
                     dashes=" ".join(self.dashes),
+                    figure=HANGMAN_STICKFIGURE[self.life - 1]*self.life,
                     heart=HANGMAN_EMOJI[self.life - 1] * self.life,
                 )
             return response
