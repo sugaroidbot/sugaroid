@@ -361,7 +361,7 @@ class Hangman:
         :param chatbot: a chatterbot.chatbot instance
         """
         if is_marvel:
-            self.word = "u"  # random_response(HANGMAN_MARVEL_WORDS)
+            self.word = random_response(HANGMAN_MARVEL_WORDS)
         else:
             self.word = random_response(HANGMAN_WORDS)
         self.dashes = self.gen_dash()
