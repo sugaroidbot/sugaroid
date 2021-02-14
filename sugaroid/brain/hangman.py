@@ -320,11 +320,7 @@ HANGMAN_STICKFIGURE=["""
    / \  |
         |
     ========= 
-"""].split(
-    "\n"
-)[
-    1:-1
-]
+"""]
 
 HANGMAN_WIN = [
     "Hurray! You won the game!",
