@@ -33,7 +33,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -215,7 +214,7 @@ to chart out the most used command / adapters and accordingly
 move them above / increase their preference of processing.</p>
 <dl class="py exception">
 <dt id="sugaroid.backend.sql.PossibleSQLInjectionPanicError">
-<em class="property">exception </em><code class="sig-prename descclassname">sugaroid.backend.sql.</code><code class="sig-name descname">PossibleSQLInjectionPanicError</code><a class="reference internal" href="_modules/sugaroid/backend/sql.html#PossibleSQLInjectionPanicError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.backend.sql.PossibleSQLInjectionPanicError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span> </em><code class="sig-prename descclassname"><span class="pre">sugaroid.backend.sql.</span></code><code class="sig-name descname"><span class="pre">PossibleSQLInjectionPanicError</span></code><a class="reference internal" href="_modules/sugaroid/backend/sql.html#PossibleSQLInjectionPanicError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.backend.sql.PossibleSQLInjectionPanicError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></p>
 <p>Raises PossibleSQLInjectionPanicError in case
 of possible SQL Injection.
@@ -227,24 +226,24 @@ semicolons for example</p>
 
 <dl class="py class">
 <dt id="sugaroid.backend.sql.SqlDatabaseManagement">
-<em class="property">class </em><code class="sig-prename descclassname">sugaroid.backend.sql.</code><code class="sig-name descname">SqlDatabaseManagement</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path_to_db</span></em>, <em class="sig-param"><span class="n">table</span><span class="o">=</span><span class="default_value">'sugaroid_hist'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#SqlDatabaseManagement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sugaroid.backend.sql.</span></code><code class="sig-name descname"><span class="pre">SqlDatabaseManagement</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_to_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sugaroid_hist'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#SqlDatabaseManagement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Sugaroid stores some data for analytics and research
 in an <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> database</p>
 <dl class="py method">
 <dt id="sugaroid.backend.sql.SqlDatabaseManagement.append">
-<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">statement</span></em>, <em class="sig-param"><span class="n">in_reponse_to</span></em>, <em class="sig-param"><span class="n">time</span></em>, <em class="sig-param"><span class="n">processing_time</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#SqlDatabaseManagement.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.append" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">append</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_reponse_to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processing_time</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#SqlDatabaseManagement.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.append" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.backend.sql.SqlDatabaseManagement.close">
-<code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#SqlDatabaseManagement.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.close" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">close</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#SqlDatabaseManagement.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Closes the connection to the mysql database</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="sugaroid.backend.sql.SqlDatabaseManagement.database_path">
-<em class="property">property </em><code class="sig-name descname">database_path</code><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.database_path" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">database_path</span></code><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.database_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the path to the database</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -258,7 +257,7 @@ in an <code class="docutils literal notranslate"><span class="pre">sqlite3</span
 
 <dl class="py method">
 <dt id="sugaroid.backend.sql.SqlDatabaseManagement.table">
-<em class="property">property </em><code class="sig-name descname">table</code><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.table" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">table</span></code><a class="headerlink" href="#sugaroid.backend.sql.SqlDatabaseManagement.table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the table name on target</p>
 </dd></dl>
 
@@ -266,7 +265,7 @@ in an <code class="docutils literal notranslate"><span class="pre">sqlite3</span
 
 <dl class="py function">
 <dt id="sugaroid.backend.sql.convert_data_escaped_string">
-<code class="sig-prename descclassname">sugaroid.backend.sql.</code><code class="sig-name descname">convert_data_escaped_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">tuple</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#convert_data_escaped_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sugaroid.backend.sql.convert_data_escaped_string" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">sugaroid.backend.sql.</span></code><code class="sig-name descname"><span class="pre">convert_data_escaped_string</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/backend/sql.html#convert_data_escaped_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.backend.sql.convert_data_escaped_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts data from tuple form to a string statement
 to a SQL string statement</p>
 <p>data: tuple
