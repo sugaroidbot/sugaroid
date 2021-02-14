@@ -236,13 +236,13 @@ HANGMAN_LOS = [
 ]
 
 HANGMAN_EMOJI = [
-    ":yellow_heart:",
-    ":blue_heart:",
-    ":green_heart:",
-    ":yellow_heart:",
-    ":blue_heart:",
-    ":green_heart:",
-    ":yellow_heart:",
+    "🧡",
+    "💙",
+    "❤️",
+    "💚",
+    "💜",
+    "💛",
+    "🤎",
 ]
 
 
