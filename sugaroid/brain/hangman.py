@@ -271,7 +271,7 @@ stanlee
 ]
 
 HANGMAN_STICKFIGURE=["""
-+---+
+    +---+
     |   |
         |
         |
