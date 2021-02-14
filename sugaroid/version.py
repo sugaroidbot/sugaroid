@@ -1,2 +1,2 @@
 #!/usr/bin/env python3
-VERSION = "v0.20.6"
+VERSION = "v0.20.7"
