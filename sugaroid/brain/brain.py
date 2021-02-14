@@ -70,7 +70,9 @@ class Neuron:
                     response = self.gen_best_match(" ".join(ct))
                 else:
 
-                    preprocessed = preprocess(var)
+                    preprocessed = preprocess(
+                        var, should_expand=not self.bot.globals["hangman"]["enabled"]
+                    )
                     response = self.gen_best_match(preprocessed)
 
         return response

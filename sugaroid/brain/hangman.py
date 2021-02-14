@@ -222,36 +222,36 @@ zodiac
 )[
     1:-1
 ]
-HANGAMaN_MARVEL_WORDS="""
-captainamerica 
-thor 
-hawkeye 
-blackwidow 
-vision 
-thanos 
-tonystark 
-pepperpotts 
-happy 
-peterparker 
-auntmay 
-blackpanther 
-nickfury 
-hill 
-gamora 
-groot 
-rocketracoon 
-starlord 
-hulk 
-ultron 
-bucky 
-falcon 
-antman 
-wasp 
-wanda 
-jarvis 
-edith 
-mysterio 
-skull 
+HANGMAN_MARVEL_WORDS = """
+captainamerica
+thor
+hawkeye
+blackwidow
+vision
+thanos
+tonystark
+pepperpotts
+happy
+peterparker
+auntmay
+blackpanther
+nickfury
+hill
+gamora
+groot
+rocketracoon
+starlord
+hulk
+ultron
+bucky
+falcon
+antman
+wasp
+wanda
+jarvis
+edith
+mysterio
+skull
 drstrange
 vulture
 mj
@@ -270,49 +270,56 @@ stanlee
     1:-1
 ]
 
-HANGMAN_STICKFIGURE=["""
+HANGMAN_STICKFIGURE = [
+    """
 +---+
     |   |
         |
         |
         | 
         |
-    =========""","""
+    =========""",
+    """
     +---+
     |   |
     0   |
         |
         |
         |
-    =========""",""" 
+    =========""",
+    """ 
     +---+
     |   |
     0   |
     |   |
         |
         |
-    ========= ""","""
+    ========= """,
+    """
     +---+
     |   |
     0   |
    /|   |
         |
         |
-    ========= ""","""
+    ========= """,
+    """
     +---+
     |   |
     0   |
    /|\  |
         |
         |
-    =========""","""
+    =========""",
+    """
     +---+
     |   |
     0   |
    /|\  |
    /    |
         |
-    ========= ""","""
+    ========= """,
+    """
     +---+
     |   |
     0   |
@@ -320,123 +327,10 @@ HANGMAN_STICKFIGURE=["""
    / \  |
         |
     ========= 
-"""]
-
-def Marvel_fans():
-    def Random(wordList):
-        wordIndex = random.randint(0,len(wordList) - 1)            
-        return wordList[wordIndex]
-    def game(HANGMANPICS,missedLetters,correctLetters,secretWord):
-        print(HANGMANPICS[len(missedLetters)])
-        print()
-
-        print('Missed letters:',end = '')
-        for letter in missedLetters:
-            print(letter,end ='')
-        print()
-
-        blanks ='_' * len(secretWord)
-
-        for i in range(len(secretWord)):            
-             if secretWord[i] in correctLetters:
-                 blanks = blanks[:i] + secretWord[i] + blanks[i+1:]
-
-        for letter in blanks:       
-            print(letter,end=' ')
-        print()
-    def Guess(alreadyGuessed):
-
-         while True:
-
-             print('Guess a letter.')
-             guess = input()
-
-             guess = guess.lower()
-
-             if len(guess) != 1:
-
-                 print('Please enter a single letter.')
-
-             elif guess in alreadyGuessed:
-
-                 print('You have already guessed that letter. Choose again.')
-
-             elif guess not in 'abcdefghijklmnopqrstuvwxyz':
-
-                 print('Invalid Entry! Please enter a LETTER.')
-
-             else:
-                 return guess
-
-    def play_Again():
-
-         print('Do you want to play again?(yes/no)')
-
-         return input().lower().startswith('y')
+""",
+]
 
 
-    print('H A N G M A N')
-
-    missedLetters=''
-
-    correctLetters=''
-
-    secretWord=Random(HANGMAN_MARVEL_WORDS)
-
-    game_done=False
-
-
-     while True:
-
-         game(HANGMANPICS, missedLetters, correctLetters, secretWord)
-
-
-         guess = Guess(missedLetters + correctLetters)
-
-
-         if guess in secretWord:
-
-             correctLetters = correctLetters + guess
-             foundAllLetters = True
-
-             for i in range(len(secretWord)):
-
-                 if secretWord[i] not in correctLetters:
-
-                     foundAllLetters = False
-
-                     break
-
-             if foundAllLetters : 
-
-                 print('Yes! The secret word is "' + secretWord + '"! You have won!')
-
-                 game_done = True
-
-         else:
-
-             missedLetters = missedLetters + guess
-
-             if len(missedLetters) == len(HANGMANPICS) - 1:
-
-                 game(HANGMANPICS, missedLetters, correctLetters, secretWord)
-
-                 print('You have run out of guesses!\nAfter ' + str(len(missedLetters)) + ' missed guesses and ' + str(len(correctLetters)) + ' correct guesses, the word was "' + secretWord + '"')
-
-                 game_done = True
-
-
-         if game_done:
-
-             if play_Again():
-                 missedLetters=''
-                 correctLetters=''
-                 game_done=False
-                 secretWord=Random(HANMAN_MARVEL_WORDS)
-
-             else:
-                break
-                
 HANGMAN_WIN = [
     "Hurray! You won the game!",
     "Lets celebrate. You deserve the win",
@@ -461,12 +355,15 @@ HANGMAN_EMOJI = [
 
 
 class Hangman:
-    def __init__(self, chatbot):
+    def __init__(self, chatbot, is_marvel=False):
         """
         Initiate the hangman game.
         :param chatbot: a chatterbot.chatbot instance
         """
-        self.word = random_response(HANGMAN_WORDS)
+        if is_marvel:
+            self.word = "u"  # random_response(HANGMAN_MARVEL_WORDS)
+        else:
+            self.word = random_response(HANGMAN_WORDS)
         self.dashes = self.gen_dash()
         self.chatbot = chatbot
         self.chatbot.globals["hangman"]["enabled"] = True
@@ -505,11 +402,14 @@ class Hangman:
             if self.life == 0 or ("﹏" not in self.dashes):
                 return self.game_over()
             else:
-                response = "{prefix}[ {dashes} ] HANGMAN:{figure} Life: {heart}".format(
-                    prefix=prefix,
-                    dashes=" ".join(self.dashes),
-                    figure=HANGMAN_STICKFIGURE[self.life - 1]*self.life,
-                    heart=HANGMAN_EMOJI[self.life - 1] * self.life,
+                response = (
+                    "{prefix}[ {dashes} ] Life: {heart}"
+                    "\n<pre><code>{figure}</code></pre>".format(
+                        prefix=prefix,
+                        dashes=" ".join(self.dashes),
+                        figure=HANGMAN_STICKFIGURE[::-1][self.life - 1],
+                        heart=HANGMAN_EMOJI[::-1][self.life - 1] * self.life,
+                    )
                 )
             return response
 
@@ -531,7 +431,9 @@ class Hangman:
         self.chatbot.globals["hangman"]["enabled"] = False
         results = self.get_results()
         if results:
-            response = random_response(HANGMAN_WIN)
+            response = "You guess it right! '{}'\n {}.".format(
+                self.word, random_response(HANGMAN_WIN)
+            )
         else:
             response = "{}. The word was {}".format(
                 random_response(HANGMAN_LOS), self.word
@@ -565,16 +467,25 @@ class HangmanAdapter(SugaroidLogicAdapter):
             )
         else:
             if not self.chatbot.globals["hangman"]["enabled"]:
-                self.chatbot.globals["hangman"]["class"] = Hangman(self.chatbot)
-                response = "[ {dashes} ] Life: {heart}".format(
-                    dashes=" ".join(
-                        self.chatbot.globals["hangman"]["class"].gen_dash()
-                    ),
-                    heart=HANGMAN_EMOJI[
-                        self.chatbot.globals["hangman"]["class"].get_remaining_life()
-                        - 1
-                    ]
-                    * self.chatbot.globals["hangman"]["class"].get_remaining_life(),
+
+                self.chatbot.globals["hangman"]["class"] = Hangman(
+                    self.chatbot, is_marvel="marvel" in statement.words
+                )
+                response = (
+                    "[ {dashes} ] Life: {heart}"
+                    "\n<pre><code>{figure}</code></pre>".format(
+                        dashes=" ".join(
+                            self.chatbot.globals["hangman"]["class"].gen_dash()
+                        ),
+                        heart=HANGMAN_EMOJI[
+                            self.chatbot.globals["hangman"][
+                                "class"
+                            ].get_remaining_life()
+                            - 1
+                        ]
+                        * self.chatbot.globals["hangman"]["class"].get_remaining_life(),
+                        figure=HANGMAN_STICKFIGURE[0],
+                    )
                 )
             else:
                 response = self.chatbot.globals["hangman"]["class"].process(

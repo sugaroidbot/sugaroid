@@ -40,7 +40,7 @@ short_forms = {
 }
 
 
-def preprocess(string_arg: str):
+def preprocess(string_arg: str, should_expand=True):
     """
     EXPERIMENTAL
     Testing Required
@@ -68,6 +68,9 @@ def preprocess(string_arg: str):
 
     for i in range(len(k)):
         for j in short_forms:
+            if not should_expand:
+                continue
+
             if k[i].lower() == j:
                 k[i] = short_forms[j]
     proc = " ".join(k)
