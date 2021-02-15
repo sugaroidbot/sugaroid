@@ -236,7 +236,7 @@ peterparker
 auntmay
 blackpanther
 nickfury
-hill
+agenthill
 gamora
 groot
 rocketracoon
@@ -251,7 +251,7 @@ wanda
 jarvis
 edith
 mysterio
-skull
+redskull
 drstrange
 vulture
 mj
@@ -264,6 +264,40 @@ drax
 yondu
 valkyrie
 stanlee
+deadpopol
+cable
+wolverine
+rogue
+mystique
+storm
+jeangrey
+juggernaut
+iceman
+quicksilver
+magneto
+cyclops
+sabertooth
+ronan
+beast
+nightcrawler
+colossus
+pyro
+charles
+professorx
+kitty
+toad
+heimdall
+mbaku
+warmachine
+angeldust
+firefist
+hela
+odin
+klaw
+nakia
+tchaka
+wkabi
+venom
 """.split(
     "\n"
 )[
@@ -272,7 +306,7 @@ stanlee
 
 HANGMAN_STICKFIGURE = [
     """
-+---+
+    +---+
     |   |
         |
         |
