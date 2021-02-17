@@ -1,5 +1,4 @@
-import datetime
-import shutil
+
 import time
 
 from colorama import Fore, Style
@@ -71,7 +70,7 @@ class Sugaroid:
         self.trainer = None
         self.corpusTrainer = None
         self.neuron = None
-        self.start_time = datetime.datetime.now()
+
         self.audio = "audio" in sys.argv
         self.cfgmgr = ConfigManager()
         self.cfgpath = self.cfgmgr.get_cfgpath()

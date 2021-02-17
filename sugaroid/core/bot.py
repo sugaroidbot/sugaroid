@@ -1,3 +1,5 @@
+import datetime
+
 from chatterbot import ChatBot
 
 from sugaroid.brain.constants import REPEAT
@@ -17,6 +19,7 @@ class SugaroidBot(ChatBot):
         ChatBot.__init__(self, name=name, **kwargs)
         self.lp = LanguageProcessor()
         self.session = Session()
+        self.start_time = datetime.datetime.now()
         self.spell_checker = False  # FIXME
         self.discord = False
         self.authors = []
