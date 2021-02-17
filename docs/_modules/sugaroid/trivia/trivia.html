@@ -170,7 +170,6 @@
 <span class="kn">import</span> <span class="nn">requests</span>
 
 
-
 <div class="viewcode-block" id="SugaroidTrivia"><a class="viewcode-back" href="../../../sugaroid.trivia.html#sugaroid.trivia.trivia.SugaroidTrivia">[docs]</a><span class="k">class</span> <span class="nc">SugaroidTrivia</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prepares a sugaroid trivia database to ask the users</span>
@@ -215,8 +214,14 @@
 <span class="s2">a. </span><span class="si">{option_a}</span><span class="s2"></span>
 <span class="s2">b. </span><span class="si">{option_b}</span><span class="s2"></span>
 <span class="s2">c. </span><span class="si">{option_c}</span><span class="s2"></span>
-<span class="s2">d. </span><span class="si">{option_d}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">difficulty</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">difficulty</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">question</span><span class="p">,</span>
-                   <span class="n">option_a</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">option_b</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">option_c</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">option_d</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span></div>
+<span class="s2">d. </span><span class="si">{option_d}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">difficulty</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">difficulty</span><span class="p">,</span>
+            <span class="n">question</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">question</span><span class="p">,</span>
+            <span class="n">option_a</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">option_b</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">option_c</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">option_d</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="SugaroidTrivia.check_answer"><a class="viewcode-back" href="../../../sugaroid.trivia.html#sugaroid.trivia.trivia.SugaroidTrivia.check_answer">[docs]</a>    <span class="k">def</span> <span class="nf">check_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
@@ -224,7 +229,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">is_correct</span> <span class="o">=</span> <span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">correct_answer</span>
         <span class="k">return</span> <span class="n">is_correct</span></div></div>
-
 </pre></div>
 
            </div>
