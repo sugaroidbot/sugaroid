@@ -23,11 +23,14 @@ class SugaroidStatement(Statement):
 
     def __init__(self, text: str, in_response_to=None, emotion: int = None, **kwargs):
         super(SugaroidStatement, self).__init__(text, in_response_to, **kwargs)
-        self._doc = lang_processor.nlp(text)
-        self._simple = text.rstrip("?,+/.;!").lower().split()
-        self._words = tokenize(text)
+
+        self._doc = None
+        self._simple = None
+        self._words = None
         self._emotion = emotion
-        self.adapter = None
+        self._text = text
+
+        self.adapter = kwargs.get("adapter")
         self.from_chatbot = False
 
     def set_confidence(self, confidence: float):
@@ -49,6 +52,9 @@ class SugaroidStatement(Statement):
         :return:
         :rtype:
         """
+        if self._simple is None:
+            self._simple = self._text.rstrip("?,+/.;!").lower().split()
+
         return self._simple
 
     @property
@@ -58,7 +64,7 @@ class SugaroidStatement(Statement):
         :return:
         :rtype:
         """
-        return self._doc
+        return self.doc
 
     @property
     def doc(self) -> Doc:
@@ -67,6 +73,10 @@ class SugaroidStatement(Statement):
         :return:
         :rtype:
         """
+
+        if self._doc is None:
+            self._doc = lang_processor.nlp(self._text)
+
         return self._doc
 
     @property
@@ -76,6 +86,9 @@ class SugaroidStatement(Statement):
         :return:
         :rtype:
         """
+        if self._words is None:
+            self._words = tokenize(self._text)
+
         return self._words
 
     @property
