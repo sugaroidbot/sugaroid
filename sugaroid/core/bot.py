@@ -5,6 +5,7 @@ from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.utils import LanguageProcessor
 from sugaroid.core.statement import SugaroidStatement
+from sugaroid.datasets.collector import Session
 
 
 class SugaroidBot(ChatBot):
@@ -15,6 +16,7 @@ class SugaroidBot(ChatBot):
     def __init__(self, name, **kwargs):
         ChatBot.__init__(self, name=name, **kwargs)
         self.lp = LanguageProcessor()
+        self.session = Session()
         self.spell_checker = False  # FIXME
         self.discord = False
         self.authors = []
@@ -31,6 +33,7 @@ class SugaroidBot(ChatBot):
             },
             "akinator": {"enabled": False, "class": None},
             "hangman": {"enabled": False, "class": None},
+            "trivia": {"enabled": False, "class": None},
             "adapters": [],
             "fun": True,
             "update": False,
