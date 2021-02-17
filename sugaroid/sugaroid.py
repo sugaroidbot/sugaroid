@@ -1,3 +1,4 @@
+import datetime
 import shutil
 import time
 
@@ -70,6 +71,7 @@ class Sugaroid:
         self.trainer = None
         self.corpusTrainer = None
         self.neuron = None
+        self.start_time = datetime.datetime.now()
         self.audio = "audio" in sys.argv
         self.cfgmgr = ConfigManager()
         self.cfgpath = self.cfgmgr.get_cfgpath()
@@ -80,6 +82,7 @@ class Sugaroid:
         if not self.database_exists:
             self.corpus()
         self.commands = [
+            "sugaroid.brain.command.CommandAdapter",
             "sugaroid.brain.debug.DebugAdapter",
             "sugaroid.brain.interrupt.InterruptAdapter",
             "sugaroid.brain.learn.LearnAdapter",
@@ -219,7 +222,7 @@ class Sugaroid:
         :return: True when the process is complete
         """
         db_dir = os.path.join(os.path.dirname(__file__), "data", "sugaroid.db")
-        shutil.copy(db_dir, os.path.join(self.cfgpath, "sugaroid.db"))
+        # shutil.copy(db_dir, os.path.join(self.cfgpath, "sugaroid.db"))
         return True
 
     def invoke_brain(self):
@@ -368,7 +371,12 @@ def main():
     print(SUGAROID_INTRO)
     colorama_init()
     read_only = False if "update" in sys.argv else True
-    print("Sugaroid {} RO:{}\n".format(VERSION, read_only))
+    version = VERSION
+
+    if not os.getenv("DYNO"):
+        version = f"{version}.dev0 (local build)"
+
+    print("Sugaroid {} RO:{}\n".format(version, read_only))
     sg = Sugaroid(readonly=read_only)
     if "gui" in sys.argv:
         os.environ["SUGAROID"] = "GUI"
