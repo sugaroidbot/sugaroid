@@ -51,6 +51,8 @@ requirements = [
     "google",
     "Django",
     "pyjokes",
+    "requests",
+    "appdirs",
     "scikit-learn",
     "coloredlogs",
     "nltk",
