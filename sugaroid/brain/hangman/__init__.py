@@ -102,7 +102,9 @@ class Hangman:
         if is_marvel:
             self.word = random_response(get_hangman_words("marvel", chatbot.session))
         elif is_hp:
-            self.word = random_response(get_hangman_words("harrypotter-filtered", chatbot.session))
+            self.word = random_response(
+                get_hangman_words("harrypotter-filtered", chatbot.session)
+            )
         else:
             self.word = random_response(get_hangman_words("general", chatbot.session))
         self.dashes = self.gen_dash()
@@ -212,7 +214,7 @@ class HangmanAdapter(SugaroidLogicAdapter):
                 self.chatbot.globals["hangman"]["class"] = Hangman(
                     self.chatbot,
                     is_marvel="marvel" in statement.words,
-                    is_hp="potter" in statement.words or "hp" in statement.words
+                    is_hp="potter" in statement.words or "hp" in statement.words,
                 )
                 response = (
                     "[ {dashes} ] Life: {heart}"

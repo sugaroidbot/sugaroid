@@ -44,15 +44,18 @@ class CommandAdapter(SugaroidLogicAdapter):
             response = "Cleared cached data."
         elif short == "stats":
             import psutil
+
             process = psutil.Process(os.getpid())
-            megabytes_used = process.memory_info().rss / (10**6)
+            megabytes_used = process.memory_info().rss / (10 ** 6)
             version = VERSION
             if not os.getenv("DYNO"):
                 version = f"{version}.dev0 (local build)"
 
-            response = f"<b>Up since</b>: {self.chatbot.start_time.isoformat()} \n" \
-                       f"<b>Memory usage</b>: {megabytes_used} " \
-                       f"<b>Version</b>: {version}"
+            response = (
+                f"<b>Up since</b>: {self.chatbot.start_time.isoformat()} \n"
+                f"<b>Memory usage</b>: {megabytes_used} "
+                f"<b>Version</b>: {version}"
+            )
 
         elif ("help404" in short) or ("help" in short and "404" in short):
             import sugaroid  # noqa:

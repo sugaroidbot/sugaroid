@@ -1,4 +1,3 @@
-
 from sugaroid.brain.ooo import Emotion
 from sugaroid.core.base_adapters import SugaroidLogicAdapter
 from sugaroid.sugaroid import SugaroidStatement
@@ -22,7 +21,7 @@ class TriviaAdapter(SugaroidLogicAdapter):
             "Lets have some trivia",
             "Can you ask some quiz",
             "Can you quiz",
-            "Can you play trivia"
+            "Can you play trivia",
         ):
             cos = self.chatbot.lp.similarity(str(statement), i)
             if cos > 0.9:
@@ -30,7 +29,11 @@ class TriviaAdapter(SugaroidLogicAdapter):
 
         return False
 
-    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+    def process(
+        self,
+        statement: SugaroidStatement,
+        additional_response_selection_parameters=None,
+    ):
         if self.chatbot.globals["trivia"]["enabled"]:
             # this is the turn for the user to answer
             st = self.chatbot.globals["trivia"]["class"]

@@ -15,7 +15,9 @@ ORG_URL = "https://raw.githubusercontent.com/sugaroidbot"
 class Session:
     def __init__(self):
         self._has_internet = True
-        self._local_data_path = os.path.join(appdirs.user_data_dir("sugaroid"), "datasets")
+        self._local_data_path = os.path.join(
+            appdirs.user_data_dir("sugaroid"), "datasets"
+        )
         self._latest_version = VERSION
         self._check_internet_connection()
 
@@ -26,8 +28,10 @@ class Session:
         :rtype:
         """
         try:
-            content = requests.get(f"{ORG_URL}/sugaroid/master/sugaroid/version.py").text
-            version = content[content.find("\""):-1]
+            content = requests.get(
+                f"{ORG_URL}/sugaroid/master/sugaroid/version.py"
+            ).text
+            version = content[content.find('"') : -1]
             self._latest_version = version
         except requests.exceptions.ConnectionError:
             self._has_internet = False
@@ -82,8 +86,5 @@ class Session:
         os.makedirs(self._local_data_path, exist_ok=True)
 
         from sugaroid.brain.hangman.constants import WORDS
+
         WORDS.clear()
-
-
-
-

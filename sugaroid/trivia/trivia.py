@@ -3,7 +3,6 @@ from random import shuffle
 import requests
 
 
-
 class SugaroidTrivia:
     """
     Prepares a sugaroid trivia database to ask the users
@@ -48,8 +47,14 @@ Options
 a. {option_a}
 b. {option_b}
 c. {option_c}
-d. {option_d}""".format(difficulty=self.difficulty, question=self.question,
-                   option_a=options[0], option_b=options[1], option_c=options[2], option_d=options[3])
+d. {option_d}""".format(
+            difficulty=self.difficulty,
+            question=self.question,
+            option_a=options[0],
+            option_b=options[1],
+            option_c=options[2],
+            option_d=options[3],
+        )
 
     def check_answer(self, answer: str) -> bool:
         if answer.strip().isdigit():
@@ -57,4 +62,3 @@ d. {option_d}""".format(difficulty=self.difficulty, question=self.question,
         else:
             is_correct = answer.strip() == self.correct_answer
         return is_correct
-
