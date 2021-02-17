@@ -1,40 +1,54 @@
-from chatterbot.logic import LogicAdapter
+
 from sugaroid.brain.ooo import Emotion
+from sugaroid.core.base_adapters import SugaroidLogicAdapter
 from sugaroid.sugaroid import SugaroidStatement
 from sugaroid.trivia.trivia import SugaroidTrivia
 
 
-class TriviaAdapter(LogicAdapter):
+class TriviaAdapter(SugaroidLogicAdapter):
     """
     Plays a short game of trivia
     """
 
-    def __init__(self, chatbot, **kwargs):
-        super().__init__(chatbot, **kwargs)
-        self.cos = None
-
-    def can_process(self, statement):
-        self.cos = max(
-            [
-                self.chatbot.lp.similarity(str(statement), "Ask me a question"),
-                self.chatbot.lp.similarity(str(statement), "Lets have some trivia"),
-                self.chatbot.lp.similarity(str(statement), "Play trivia"),
-                self.chatbot.lp.similarity(str(statement), "Can you ask some quiz"),
-                self.chatbot.lp.similarity(str(statement), "Can you quiz"),
-                self.chatbot.lp.similarity(str(statement), "Can you play trivia"),
-            ]
-        )
-        if self.cos > 0.9:
+    def can_process(self, statement: SugaroidStatement):
+        if self.chatbot.globals["trivia"]["enabled"]:
             return True
-        else:
-            return False
 
-    def process(self, statement, additional_response_selection_parameters=None):
-        st = SugaroidTrivia()
-        response = st.ask()
+        for i in (
+            "Ask me a question",
+            "Lets have some trivia",
+            "play trivia",
+            "Lets have some trivia",
+            "Lets have some trivia",
+            "Can you ask some quiz",
+            "Can you quiz",
+            "Can you play trivia"
+        ):
+            cos = self.chatbot.lp.similarity(str(statement), i)
+            if cos > 0.9:
+                return True
+
+        return False
+
+    def process(self, statement: SugaroidStatement, additional_response_selection_parameters=None):
+        if self.chatbot.globals["trivia"]["enabled"]:
+            # this is the turn for the user to answer
+            st = self.chatbot.globals["trivia"]["class"]
+            if st.check_answer():
+                response = "Correct! You got it right!"
+            else:
+                response = f"Oops. You got it wrong. The correct answer was {st.correct_answer}"
+            self.chatbot.globals["trivia"]["enabled"] = False
+            del self.chatbot.globals["trivia"]["class"]
+            self.chatbot.globals["trivia"]["class"] = None
+        else:
+            st = SugaroidTrivia()
+            self.chatbot.globals["trivia"]["enabled"] = True
+            self.chatbot.globals["trivia"]["class"] = st
+            response = st.ask()
+
         selected_statement = SugaroidStatement(response, chatbot=True)
-        selected_statement.confidence = self.cos
-        self.chatbot.globals["trivia_answer"] = st.answer()
+        selected_statement.confidence = 1.0
         emotion = Emotion.neutral
         selected_statement.emotion = emotion
         return selected_statement
