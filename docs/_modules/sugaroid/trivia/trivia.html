@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.trivia.trivia &mdash; Sugaroid v0.20.9 documentation</title>
+  <title>sugaroid.trivia.trivia &mdash; Sugaroid v0.21.0.alpha0 documentation</title>
   
 
   
@@ -165,8 +165,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for sugaroid.trivia.trivia</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
-<span class="kn">from</span> <span class="nn">sugaroid.trivia.triviadb</span> <span class="kn">import</span> <span class="n">db</span>
+<span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">shuffle</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+
 
 
 <div class="viewcode-block" id="SugaroidTrivia"><a class="viewcode-back" href="../../../sugaroid.trivia.html#sugaroid.trivia.trivia.SugaroidTrivia">[docs]</a><span class="k">class</span> <span class="nc">SugaroidTrivia</span><span class="p">:</span>
@@ -179,25 +181,50 @@
 <span class="sd">        &gt;&gt;&gt; strivia = SugaroidTrivia()</span>
 <span class="sd">        &gt;&gt;&gt; print(strivia.ask())</span>
 <span class="sd">        &gt;&gt;&gt; # get the answer</span>
-<span class="sd">        &gt;&gt;&gt; strivia.answer()</span>
+<span class="sd">        &gt;&gt;&gt; strivia.ch()</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">answer_i</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">random_question_instance</span> <span class="o">=</span> <span class="n">db</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_correct_answer_idx</span> <span class="o">=</span> <span class="mi">0</span>
 
-<div class="viewcode-block" id="SugaroidTrivia.ask"><a class="viewcode-back" href="../../../sugaroid.trivia.html#sugaroid.trivia.trivia.SugaroidTrivia.ask">[docs]</a>    <span class="k">def</span> <span class="nf">ask</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">category</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_question_instance</span><span class="p">[</span><span class="s2">&quot;category&quot;</span><span class="p">]</span>
-        <span class="n">difficulty</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_question_instance</span><span class="p">[</span><span class="s2">&quot;difficulty&quot;</span><span class="p">]</span>
-        <span class="n">question</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_question_instance</span><span class="p">[</span><span class="s2">&quot;question&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">answer_i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_question_instance</span><span class="p">[</span><span class="s2">&quot;correct_answer&quot;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="s2">&quot;Category: </span><span class="si">{c}</span><span class="se">\n</span><span class="s2">Difficulty: </span><span class="si">{d}</span><span class="se">\n\n</span><span class="si">{q}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">c</span><span class="o">=</span><span class="n">category</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">difficulty</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">question</span>
-        <span class="p">)</span></div>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://opentdb.com/api.php?amount=1&amp;type=multiple&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
 
-<div class="viewcode-block" id="SugaroidTrivia.answer"><a class="viewcode-back" href="../../../sugaroid.trivia.html#sugaroid.trivia.trivia.SugaroidTrivia.answer">[docs]</a>    <span class="k">def</span> <span class="nf">answer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer_i</span></div></div>
+        <span class="c1"># results parsed</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response</span><span class="p">[</span><span class="s2">&quot;results&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;category&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">difficulty</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;difficulty&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">question</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;question&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correct_answer</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;correct_answer&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">incorrect_answers</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;incorrect_answers&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="SugaroidTrivia.ask"><a class="viewcode-back" href="../../../sugaroid.trivia.html#sugaroid.trivia.trivia.SugaroidTrivia.ask">[docs]</a>    <span class="k">def</span> <span class="nf">ask</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">correct_answer</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">incorrect_answers</span>
+        <span class="n">shuffle</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_correct_answer_idx</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">correct_answer</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span> <span class="o">=</span> <span class="n">options</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;&quot;Difficulty: </span><span class="si">{difficulty}</span><span class="s2"></span>
+<span class="s2">        </span>
+<span class="s2">Q: </span><span class="si">{question}</span><span class="s2"></span>
+
+<span class="s2">Options</span>
+<span class="s2">a. </span><span class="si">{option_a}</span><span class="s2"></span>
+<span class="s2">b. </span><span class="si">{option_b}</span><span class="s2"></span>
+<span class="s2">c. </span><span class="si">{option_c}</span><span class="s2"></span>
+<span class="s2">d. </span><span class="si">{option_d}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">difficulty</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">difficulty</span><span class="p">,</span> <span class="n">question</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">question</span><span class="p">,</span>
+                   <span class="n">option_a</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">option_b</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">option_c</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">option_d</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="SugaroidTrivia.check_answer"><a class="viewcode-back" href="../../../sugaroid.trivia.html#sugaroid.trivia.trivia.SugaroidTrivia.check_answer">[docs]</a>    <span class="k">def</span> <span class="nf">check_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answer</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="n">is_correct</span> <span class="o">=</span> <span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_correct_answer_idx</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">is_correct</span> <span class="o">=</span> <span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">correct_answer</span>
+        <span class="k">return</span> <span class="n">is_correct</span></div></div>
+
 </pre></div>
 
            </div>
