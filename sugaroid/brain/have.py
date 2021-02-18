@@ -1,6 +1,11 @@
 from random import randint
 
-from sugaroid.brain.constants import SUGAROID_CAN_AGREE, SUGAROID_CAN_DISAGREE, BOT_POSITIVE, BOT_NEGATIVE
+from sugaroid.brain.constants import (
+    SUGAROID_CAN_AGREE,
+    SUGAROID_CAN_DISAGREE,
+    BOT_POSITIVE,
+    BOT_NEGATIVE,
+)
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.ooo import Emotion
@@ -24,8 +29,26 @@ class HaveAdapter(SugaroidLogicAdapter):
         confidence = 1
         if "break" in statement.words:
             response = "Sure."
-        elif "chocolate" in statement.words or "sweet" in statement.words or "kitkat" in statement.words:
+        elif (
+            "chocolate" in statement.words
+            or "sweet" in statement.words
+            or "kitkat" in statement.words
+        ):
             response = "🍫"
+        elif (
+            "food" in statement.words
+            or "lunch" in statement.words
+            or "brunch" in statement.words
+            or "dinner" in statement.words
+            or "lunner" in statement.words
+            or "breakfast" in statement.words
+        ):
+            response = random_response(
+                "🍏🍎🍐🍊🍋🍌🍇🍓🍈🍒🍑🥭🍍🥬🥦🥑🍆🍅🥝🥥🥒🌶🌽🥕🧄🧅🥔🧀🥨🥖🍞🥯🥐🍠🥚🍳🧈🥞🧇🥓🥩🍕🍟🍔🌭🦴🍖🍗🥪🥙🧆"
+                "🌮🌯🥗🥘🍱🍣🍛🍲🍜🍝🥫🥟🦪🍤🍙🍚🍘🍥🍦🍨🍧🍡🍢🥮🥠🥧🧁🍰🎂🍮🍭🍬🍯🥜🌰🍪🍩🍿🍫🥛🍼☕️🍵🧃🥤🍶🍺🍻🥂🍷🥃"
+                "🍸🍹🥣"
+            )
+
         else:
             ps = self.sia.polarity_scores(statement.text)
             if ps["neu"] == 1:
