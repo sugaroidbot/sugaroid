@@ -116,6 +116,7 @@ class Sugaroid:
             "sugaroid.brain.assertive.AssertiveAdapter",
             "sugaroid.brain.canmay.CanAdapter",
             "sugaroid.brain.because.BecauseAdapter",
+            "sugaroid.brain.have.HaveAdapter",
             "sugaroid.brain.rereversei.ReReverseAdapter",
             "sugaroid.brain.reversethink.ReverseAdapter",
             "sugaroid.brain.covid.CovidAdapter",
