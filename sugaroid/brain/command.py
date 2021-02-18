@@ -53,8 +53,8 @@ class CommandAdapter(SugaroidLogicAdapter):
 
             response = (
                 f"<b>Up since</b>: {self.chatbot.start_time.isoformat()} \n"
-                f"<b>Memory usage</b>: {megabytes_used} "
-                f"<b>Version</b>: {version}"
+                f"<b>Memory usage</b>: {megabytes_used} \n"
+                f"<b>Version</b>: {version}\n"
             )
 
         elif ("help404" in short) or ("help" in short and "404" in short):
