@@ -1,4 +1,4 @@
-
+import shutil
 import time
 
 from colorama import Fore, Style
@@ -66,7 +66,12 @@ class Sugaroid:
 
     """
 
-    def __init__(self, readonly=True):
+    def __init__(
+            self,
+            readonly: bool = True,
+            should_copy_db: bool = True,
+            db_name: str = "sugaroid.db",
+    ):
         self.trainer = None
         self.corpusTrainer = None
         self.neuron = None
@@ -77,7 +82,11 @@ class Sugaroid:
         self.database = SqlDatabaseManagement(
             os.path.join(self.cfgpath, "sugaroid_internal.db")
         )
-        self.database_exists = os.path.exists(os.path.join(self.cfgpath, "sugaroid.db"))
+
+        self.database_exists = os.path.exists(os.path.join(self.cfgpath, db_name))
+        self.should_copy_db = should_copy_db
+        self.db_name = db_name
+
         if not self.database_exists:
             self.corpus()
         self.commands = [
@@ -147,7 +156,7 @@ class Sugaroid:
                 }
             ]
             + self.adapters,
-            database_uri="sqlite+pysqlite:///{}/sugaroid.db".format(self.cfgpath),
+            database_uri=f"sqlite+pysqlite:///{self.cfgpath}/{self.db_name}",
             read_only=readonly,
             logger=sugaroid_logger,
         )
@@ -221,7 +230,8 @@ class Sugaroid:
         :return: True when the process is complete
         """
         db_dir = os.path.join(os.path.dirname(__file__), "data", "sugaroid.db")
-        # shutil.copy(db_dir, os.path.join(self.cfgpath, "sugaroid.db"))
+        if self.should_copy_db:
+            shutil.copy(db_dir, os.path.join(self.cfgpath, self.db_name))
         return True
 
     def invoke_brain(self):
