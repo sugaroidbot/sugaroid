@@ -108,7 +108,7 @@ class Sugaroid:
             "sugaroid.brain.play.PlayAdapter",
         ]
         self.adapters = [
-            "sugaroid.brain.convert.CurrencyAdapter",
+            #"sugaroid.brain.convert.CurrencyAdapter",
             "sugaroid.brain.trivia.TriviaAdapter",
             "sugaroid.brain.let.LetAdapter",
             "sugaroid.brain.whatwhat.WhatWhatAdapter",
