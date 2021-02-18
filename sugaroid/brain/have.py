@@ -1,8 +1,6 @@
 from random import randint
 
 from sugaroid.brain.constants import (
-    SUGAROID_CAN_AGREE,
-    SUGAROID_CAN_DISAGREE,
     BOT_POSITIVE,
     BOT_NEGATIVE,
 )
