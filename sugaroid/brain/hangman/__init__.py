@@ -174,8 +174,8 @@ class Hangman:
         self.chatbot.globals["hangman"]["enabled"] = False
         results = self.get_results()
         if results:
-            response = "You guess it right! '{}'\n {}.".format(
-                self.word, random_response(HANGMAN_WIN)
+            response = "You guessed it right! 🎉 '{}'\n {}.".format(
+                str(self.word).upper(), random_response(HANGMAN_WIN)
             )
         else:
             response = "{}. The word was {}".format(
