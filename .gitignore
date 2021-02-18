@@ -20,6 +20,8 @@ untitled.*
 sugaroid/reader/scrawled/
 Dockerfile
 docker-compose.yml
+*DELETEME*
+*DELETE_ME*
 .coverage
 coverage.xml
 wrappers/irc_client/autobot/src/logs/
