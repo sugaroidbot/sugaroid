@@ -88,6 +88,7 @@ setup(
         "sugaroid.cli",
         "sugaroid.config",
         "sugaroid.reader",
+        "sugaroid.datasets",
         "sugaroid.config",
         "sugaroid.core",
         "sugaroid.game",
