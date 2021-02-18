@@ -67,10 +67,10 @@ class Sugaroid:
     """
 
     def __init__(
-            self,
-            readonly: bool = True,
-            should_copy_db: bool = True,
-            db_name: str = "sugaroid.db",
+        self,
+        readonly: bool = True,
+        should_copy_db: bool = True,
+        db_name: str = "sugaroid.db",
     ):
         self.trainer = None
         self.corpusTrainer = None
