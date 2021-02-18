@@ -89,6 +89,7 @@ setup(
         "sugaroid.config",
         "sugaroid.reader",
         "sugaroid.datasets",
+        "sugaroid.brain.hangman",
         "sugaroid.config",
         "sugaroid.core",
         "sugaroid.game",
