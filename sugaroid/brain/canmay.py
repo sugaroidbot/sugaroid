@@ -16,10 +16,6 @@ class CanAdapter(LogicAdapter):
     Processes statements which features a Modal question (can, may)
     """
 
-    def __init__(self, chatbot, **kwargs):
-
-        super().__init__(chatbot, **kwargs)
-
     def can_process(self, statement):
         self.normalized = normalize(str(statement).lower())
         text = word_tokenize(str(statement))
