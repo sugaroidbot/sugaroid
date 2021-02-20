@@ -8,7 +8,6 @@ spacy = "*"
 colorama = "*"
 emoji = "*"
 nltk = "*"
-en-core-web-sm = {file = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz"}
 chatterbot = {git = "https://github.com/sugaroidbot/ChatterBot"}
 swaglyrics = "*"
 wikipedia-api = "*"
@@ -21,6 +20,9 @@ python-dotenv = "*"
 pyinflect = "*"
 pint = "*"
 coloredlogs = "*"
+pytz = "*"
+en-core-web-sm = {file = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.0.0/en_core_web_sm-3.0.0-py3-none-any.whl"}
+appdirs = "*"
 
 [dev-packages]
 sphinx = "*"
@@ -32,6 +34,6 @@ python_version = "3.9"
 
 [scripts]
 sugaroid = "python3 -m sugaroid"
-sugaroid-debug = "SUGAROID_DEBUG=true python3 -m sugaroid"
+sugaroid-debug = "python3 -m sugaroid --debug"
 docs = "make -C docs html"
-lint = "black sugaroid"
+lint = "black ."
