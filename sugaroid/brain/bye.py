@@ -26,6 +26,8 @@ class ByeAdapter(LogicAdapter):
         self.intersect = set(self.normalized).intersection(set(BYE))
         if self.intersect and not ("can" in self.normalized):
             return True
+        if statement.text.lower().strip() in BYE:
+            return True
         else:
             return False
 
