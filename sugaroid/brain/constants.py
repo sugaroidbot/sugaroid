@@ -163,7 +163,7 @@ I_AM = [
 
 SUGAROID = ["🇸​🇺​🇬​🇦​🇷​🇴​🇮​🇩​", "sυgαяσι∂", "🅂🅄🄶🄰🅁🄾🄸🄳", "🆂🆄🅶🅰🆁🅾🅸🅳"]
 
-BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara"]
+BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara", "annyeonghi gaseyo"]
 
 CANYOU = [
     "I am always {}",
@@ -316,6 +316,7 @@ INTRODUCE = [
     "Name's Sugaroid. The youngest chatbot in the world",
     "Sugaroid is my name. Nice to meet you",
     "Psst. My name's Sugaroid. Don't tell anyone! Just kidding!",
+    "Annyeonghaseyo! joeneun Sugaroid imnida.",
 ]
 
 HOPE_GAME_WAS_GOOD = [
@@ -418,6 +419,7 @@ BOT_AGREE = [
     "Yes. Yes I am",
     "Obviously.",
     "yes. for sure!",
+    "Yaa amigo!",
 ]
 
 BOT_NEGATIVE_NOUN = [
@@ -451,6 +453,7 @@ BOT_REASONS = [
     "Hmm hmm hmm 🤔",
     "Too complex reason for me. 😌",
     "👀...",
+    "..mmmm... I'm just gonna pretend tat i understood.",
 ]
 
 ONE_WORD = [
@@ -474,6 +477,7 @@ DONT_KNOW_WHERE = [
     "Why do you want to know where?",
     "Do you know where? I do not unfortunately",
     "You are being sus. Why do you want to know where?🧐",
+    "Not gonna say!",
 ]
 
 WISH_DAYS = [
@@ -612,6 +616,7 @@ HI_WORDS = [
     "hey bro",
     "konnichiwa",
     "ciao",
+    "annyeonghaseyo",
 ]
 
 HI_RESPONSES = [
@@ -622,6 +627,7 @@ HI_RESPONSES = [
     "Hey there!😁",
     "Hey",
     "Hi, nice to meet you",
+    "Annyeong!",
 ]
 
 BYE_RESPONSE = [
