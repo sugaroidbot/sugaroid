@@ -232,7 +232,7 @@ class Sugaroid:
         """
         db_dir = os.path.join(os.path.dirname(__file__), "data", "sugaroid.db")
         if self.should_copy_db:
-            shutil.copy(db_dir, os.path.join(self.cfgpath, self.db_name))
+            pass# shutil.copy(db_dir, os.path.join(self.cfgpath, self.db_name))
         return True
 
     def invoke_brain(self):
