@@ -71,6 +71,9 @@ GRATIFY = [
     "Thanks for your comments. You inspire me",
     "Thanks a lot. Your messages inspire me to perform better everytime.",
     "Aww. Thanks a million. You are my charm",
+    "Thank you, it means a lot.",
+    "Thank you for your words. You made my day! 😇",
+    "Merci beacoup!",
 ]
 
 WELCOME = [
@@ -105,6 +108,7 @@ SUGAROID_CAN_AGREE = [
     "Yea. We have similar opinions",
     "True.",
     "Yup",
+    "Oui",
 ]
 
 SUGAROID_CAN_DISAGREE = [
@@ -127,7 +131,10 @@ CONSOLATION = [
     "It’s going to be hard, but hard does not mean impossible.",
 ]
 
-DO = ["Sometimes later becomes never. Do it now."]
+DO = [
+    "Sometimes later becomes never. Do it now.",
+    "Its NOW or NEVER!",
+ ]
 
 TIME = [
     "time",
@@ -163,7 +170,7 @@ I_AM = [
 
 SUGAROID = ["🇸​🇺​🇬​🇦​🇷​🇴​🇮​🇩​", "sυgαяσι∂", "🅂🅄🄶🄰🅁🄾🄸🄳", "🆂🆄🅶🅰🆁🅾🅸🅳"]
 
-BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara", "annyeonghi gaseyo"]
+BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara", "annyeonghi gaseyo", "Au Revoir 🖐"]
 
 CANYOU = [
     "I am always {}",
@@ -197,6 +204,8 @@ GREET = [
     "Hola amigo {}. How can I help",
     "Hello {}. It was really a pleasant surprise meeting you",
     "Hey {}! How do you do?",
+    "Hello mate. How are you?",
+    "Bonjour mon ami, Comment vas-tu?",
 ]
 
 ASK_AND_YOU_SHALL_RECEIVE = [
@@ -317,6 +326,7 @@ INTRODUCE = [
     "Sugaroid is my name. Nice to meet you",
     "Psst. My name's Sugaroid. Don't tell anyone! Just kidding!",
     "Annyeonghaseyo! joeneun Sugaroid imnida.",
+    "Salut! Je suis Sugaroid",
 ]
 
 HOPE_GAME_WAS_GOOD = [
@@ -503,6 +513,7 @@ WHATSUP = [
     "Everything is going smoothly",
     "Just the way I have always felt, great! 😆",
     "The sky, of course! 😎",
+    "All good here my friend 😊",
 ]
 
 if platform.system() == "Windows":
@@ -628,6 +639,7 @@ HI_RESPONSES = [
     "Hey",
     "Hi, nice to meet you",
     "Annyeong!",
+    "Salut!",
 ]
 
 BYE_RESPONSE = [
