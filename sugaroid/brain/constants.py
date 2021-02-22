@@ -131,10 +131,7 @@ CONSOLATION = [
     "It’s going to be hard, but hard does not mean impossible.",
 ]
 
-DO = [
-    "Sometimes later becomes never. Do it now.",
-    "Its NOW or NEVER!",
- ]
+DO = ["Sometimes later becomes never. Do it now.", "Its NOW or NEVER!"]
 
 TIME = [
     "time",
