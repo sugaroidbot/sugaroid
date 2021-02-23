@@ -591,6 +591,7 @@ emotion_mapping = {
 
 HI_WORDS = [
     "hola",
+    "halo",
     "hey",
     "helloz",
     "hi",
