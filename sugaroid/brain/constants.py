@@ -167,7 +167,7 @@ I_AM = [
 
 SUGAROID = ["🇸​🇺​🇬​🇦​🇷​🇴​🇮​🇩​", "sυgαяσι∂", "🅂🅄🄶🄰🅁🄾🄸🄳", "🆂🆄🅶🅰🆁🅾🅸🅳"]
 
-BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara", "annyeonghi gaseyo", "Au Revoir 🖐"]
+BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara", "annyeonghi gaseyo"]
 
 CANYOU = [
     "I am always {}",
@@ -625,6 +625,7 @@ HI_WORDS = [
     "konnichiwa",
     "ciao",
     "annyeonghaseyo",
+    "Salut",
 ]
 
 HI_RESPONSES = [
@@ -636,7 +637,7 @@ HI_RESPONSES = [
     "Hey",
     "Hi, nice to meet you",
     "Annyeong!",
-    "Salut!",
+    "Bonjour",
 ]
 
 BYE_RESPONSE = [
