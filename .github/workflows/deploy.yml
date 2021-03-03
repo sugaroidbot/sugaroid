@@ -37,7 +37,7 @@ jobs:
       - name: Deploy to HKU
         run: |
           cd /tmp/${{ matrix.app }}
-          sudo gem install bundler
-          sudo gem install dpl --pre 
+          sudo /opt/hostedtoolcache/Ruby/3.0.0/x64/bin/gem install bundler
+          sudo /opt/hostedtoolcache/Ruby/3.0.0/x64/bin/gem install dpl --pre 
           dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
           
