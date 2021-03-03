@@ -40,6 +40,7 @@ jobs:
         with:
           base-dir: '/tmp/${{ matrix.app }}'
           provider: 'heroku'
+          strategy: api
           app: ${{ matrix.app }}
           api-key: ${{ secrets[matrix.KEY_IDX] }}
           
