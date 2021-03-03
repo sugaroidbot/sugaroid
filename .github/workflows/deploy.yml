@@ -20,13 +20,9 @@ jobs:
           - app: 'sugaroid-discord'
             KEY_IDX: 'SUGAROID_DISCORD_API_KEY'
     
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7 # Not needed with a .ruby-version file
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
       - name: Clone ${{ matrix.apps }}
         run: |
           cd /tmp
@@ -36,11 +32,10 @@ jobs:
           sed -i "s,git+https://gitlab.com/sugaroid/sugaroid.git,https://github.com/sugaroidbot/sugaroid/archive/$GITHUB_SHA.tar.gz,g" requirements.txt
  
       - name: Deploy to HKU
-        uses: tiagogouvea/github-dpl-action@master
-        with:
-          base-dir: '/tmp/${{ matrix.app }}'
-          provider: 'heroku'
-          strategy: api
-          app: ${{ matrix.app }}
-          api-key: ${{ secrets[matrix.KEY_IDX] }}
+        run: |
+          cd /tmp/${{ matrix.app }}
+          sudo gem install bundler
+          sudo gem install dpl --pre 
+          dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
+
           
