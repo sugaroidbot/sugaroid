@@ -621,6 +621,8 @@ HI_WORDS = [
     "whats up",
     "hey sugaroid",
     "hey dude",
+    "hi bro",
+    "yo bro",
     "hey bro",
     "konnichiwa",
     "ciao",
