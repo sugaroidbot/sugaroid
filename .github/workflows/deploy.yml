@@ -35,9 +35,10 @@ jobs:
           sed -i "s,git+https://gitlab.com/sugaroid/sugaroid.git,https://github.com/sugaroidbot/sugaroid/archive/$GITHUB_SHA.tar.gz,g" requirements.txt
  
       - name: Deploy to HKU
-        run: |
-          cd /tmp/${{ matrix.app }}
-          sudo /opt/hostedtoolcache/Ruby/3.0.0/x64/bin/gem install bundler
-          sudo /opt/hostedtoolcache/Ruby/3.0.0/x64/bin/gem install dpl --pre 
-          bundle exec dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
+        uses: tiagogouvea/github-dpl-action@master
+        with:
+          base-dir: '/tmp/${{ matrix.app }}'
+          provider: 'heroku'
+          app: ${{ matrix.app }}
+          api-key: ${{ secrets[matrix.KEY_IDX] }}
           
