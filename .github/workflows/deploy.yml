@@ -32,6 +32,7 @@ jobs:
           cd /tmp
           git clone https://github.com/sugaroidbot/${{ matrix.app }}.git
           cd ${{ matrix.app }}
+          rm -rf .git
           sed -i "s,git+https://gitlab.com/sugaroid/sugaroid.git,https://github.com/sugaroidbot/sugaroid/archive/$GITHUB_SHA.tar.gz,g" requirements.txt
  
       - name: Deploy to HKU
