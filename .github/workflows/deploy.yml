@@ -28,7 +28,7 @@ jobs:
 
       - name: Clone ${{ matrix.apps }}
         run: |
-          sudo pacman -Syu git base-devel 
+          pacman -Syu sudo git base-devel 
           sudo pacman -S rubygems
           cd /tmp
           git clone https://github.com/sugaroidbot/${{ matrix.app }}.git
