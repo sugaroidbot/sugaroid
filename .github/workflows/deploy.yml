@@ -21,21 +21,26 @@ jobs:
             KEY_IDX: 'SUGAROID_DISCORD_API_KEY'
     
     runs-on: ubuntu-latest
+    container: 
+      image: 'archlinux:latest'
+      
     steps:
 
       - name: Clone ${{ matrix.apps }}
         run: |
+          sudo pacman -Syu git base-devel 
+          sudo pacman -S rubygems
           cd /tmp
           git clone https://github.com/sugaroidbot/${{ matrix.app }}.git
           cd ${{ matrix.app }}
           rm -rf .git
+          
+          
           sed -i "s,git+https://gitlab.com/sugaroid/sugaroid.git,https://github.com/sugaroidbot/sugaroid/archive/$GITHUB_SHA.tar.gz,g" requirements.txt
  
       - name: Deploy to HKU
         run: |
           cd /tmp/${{ matrix.app }}
-          sudo gem uninstall openssl -v 2.0.3
-          sudo gem install openssl -v 2.0.2
           sudo gem install bundler
           sudo gem install dpl --pre 
           dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
