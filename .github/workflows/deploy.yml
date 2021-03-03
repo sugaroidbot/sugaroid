@@ -28,6 +28,7 @@ jobs:
 
       - name: Clone ${{ matrix.apps }}
         run: |
+          mkdir -p /var/lib/pacman
           pacman -Syu sudo git base-devel 
           sudo pacman -S rubygems
           cd /tmp
