@@ -20,7 +20,7 @@ jobs:
           - app: 'sugaroid-discord'
             KEY_IDX: 'SUGAROID_DISCORD_API_KEY'
     
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
 
       - name: Clone ${{ matrix.apps }}
@@ -34,6 +34,8 @@ jobs:
       - name: Deploy to HKU
         run: |
           cd /tmp/${{ matrix.app }}
+          sudo gem uninstall openssl -v 2.0.3
+          sudo gem install openssl -v 2.0.2
           sudo gem install bundler
           sudo gem install dpl --pre 
           dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
