@@ -22,15 +22,12 @@ jobs:
     
     runs-on: ubuntu-latest
     container: 
-      image: 'archlinux:latest'
+      image: 'tmaier/dpl'
       
     steps:
 
       - name: Clone ${{ matrix.apps }}
         run: |
-          mkdir -p /var/lib/pacman
-          pacman -Syu sudo git base-devel 
-          sudo pacman -S rubygems
           cd /tmp
           git clone https://github.com/sugaroidbot/${{ matrix.app }}.git
           cd ${{ matrix.app }}
@@ -42,8 +39,6 @@ jobs:
       - name: Deploy to HKU
         run: |
           cd /tmp/${{ matrix.app }}
-          sudo gem install bundler
-          sudo gem install dpl --pre 
           dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
 
           
