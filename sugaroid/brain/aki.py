@@ -75,7 +75,7 @@ class SugaroidAkinator:
     def start_game(self):
         # We are about to start the game. Lets send a fascinating entry
         response = (
-            "Lets start the play of Akinator™ with me. I, Sugaroid, am your host genie :crystal_ball: for your "
+            "Lets start the play of Akinator™ with me. I, Sugaroid, am your host genie 🔮 for your "
             "competition{}"
             "Here is your first question\n{}".format(AKINATOR_RULES, self.game_instance)
         )
@@ -172,6 +172,7 @@ class AkinatorAdapter(SugaroidLogicAdapter):
         elif not self.chatbot.globals["akinator"]["enabled"]:
             self.chatbot.globals["akinator"]["class"] = SugaroidAkinator(self.chatbot)
             response = self.chatbot.globals["akinator"]["class"].start_game()
+            response += "<sugaroid:yesno>"
         else:
             if not self.chatbot.globals["akinator"]["class"].game_over():
                 response = self.chatbot.globals["akinator"]["class"].progression(
@@ -179,11 +180,15 @@ class AkinatorAdapter(SugaroidLogicAdapter):
                 )
                 if not response:
                     response = self.chatbot.globals["akinator"]["class"].win()
+                else:
+                    response += "<sugaroid:yesno>"
+
             else:
                 if self.chatbot.globals["akinator"]["class"].start_check():
                     response = self.chatbot.globals["akinator"]["class"].check_ans(
                         statement
                     )
+                    response += "<sugaroid:yesno>"
 
         selected_statement = SugaroidStatement(response, chatbot=True)
         selected_statement.set_confidence(confidence)
