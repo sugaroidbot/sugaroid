@@ -8,6 +8,11 @@ greeted with an ASCII image of Sugaroid (forgive me Windows Users, I am
 not interested in developing a ASCII colored image of Sugaroid)
 
 .. figure:: ../img/sugaroid_console.png
-   :alt: Command Line Interface of Interface
+   :alt: Command Line Interface of Sugaroid on Linux
 
-   Command Line Interface of Interface
+   Command Line Interface of Sugaroid on Linux
+
+.. figure:: ../img/sugaroid_console_windows.png
+   :alt: Command Line Interface of Sugaroid on Windows
+
+   Command Line Interface of Sugaroid on Windows
