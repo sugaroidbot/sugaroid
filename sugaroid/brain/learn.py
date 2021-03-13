@@ -51,7 +51,9 @@ class LearnAdapter(LogicAdapter):
             self.chatbot.globals["learn_last_conversation"].append(str(statement))
             self.chatbot.globals["learn"] -= 1
         elif self.chatbot.globals["learn"] == 1:
-            response = "Thanks for teaching me something new. I will try to remember that"
+            response = (
+                "Thanks for teaching me something new. I will try to remember that"
+            )
             self.chatbot.globals["learn_last_conversation"].append(str(statement))
             self.chatbot.globals["learn"] -= 1
             list_trainer = ListTrainer(self.chatbot)

@@ -85,7 +85,9 @@ class AreYouAdapter(SugaroidLogicAdapter):
             or "infant" in statement.words
             or "child" in statement.words
         ):
-            response = "I am a newbie bot. I am trying to learn from my uncle and aunty bots."
+            response = (
+                "I am a newbie bot. I am trying to learn from my uncle and aunty bots."
+            )
         elif (
             "dumb" in statement.words
             or "foolish" in statement.words

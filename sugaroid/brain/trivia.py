@@ -20,8 +20,7 @@ class TriviaAdapter(SugaroidLogicAdapter):
             "Lets have some trivia",
             "Lets have some trivia",
             "Can you ask some quiz",
-            "Quiz me"
-            "Can you quiz",
+            "Quiz me" "Can you quiz",
             "Can you play trivia",
         ):
             cos = self.chatbot.lp.similarity(str(statement), i)

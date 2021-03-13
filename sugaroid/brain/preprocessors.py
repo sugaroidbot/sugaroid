@@ -21,10 +21,10 @@ short_forms = {
     "rotfl": "rolling on the floor with laughter",
     "wtf": "You are bad",  # PS: thats enough for this course of code ;)
     "ikr": "I know right",
-    "idk": "I dont know"
-    "idc": "I dont care"
-    "hbu": "how about you"
-    "y": "why"
+    "idk": "I dont know",
+    "idc": "I dont care",
+    "hbu": "how about you",
+    "y": "why",
     "ofc": "of course",
     "10q": "thank you",
     "2moro": "tomorrow",
@@ -32,11 +32,11 @@ short_forms = {
     "cya": "see you",
     "'m": "am",
     "i": "I",
-    "k": "okay"
+    "k": "okay",
     "noice": "nice",
     "u": "you",
     "pls": "please",
-    "plz" : "please"
+    "plz": "please",
     "'ll": "will",
     "'d": "would",
     "btw": "by the way",
