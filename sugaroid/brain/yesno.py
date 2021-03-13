@@ -40,7 +40,7 @@ class BoolAdapter(SugaroidLogicAdapter):
         emotion = Emotion.neutral
         if self.chatbot.report:
             if bool_yes:
-                response = "Sure, I would connect to the Developer to report this issue right away"
+                response = "Sure, I will connect to the Developer to report this issue right away"
                 self.chatbot.report = False
                 # TODO: Add report function
                 # report_here() FIXME
