@@ -522,56 +522,8 @@ from <a class="reference external" href="https://stackoverflow.com/questions/493
 </dd></dl>
 
 </div>
-<div class="section" id="module-sugaroid.brain.preprocessors">
-<span id="sugaroid-brain-preprocessors-module"></span><h2>sugaroid.brain.preprocessors module<a class="headerlink" href="#module-sugaroid.brain.preprocessors" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="sugaroid.brain.preprocessors.current_time">
-<code class="sig-prename descclassname"><span class="pre">sugaroid.brain.preprocessors.</span></code><code class="sig-name descname"><span class="pre">current_time</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/preprocessors.html#current_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.brain.preprocessors.current_time" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a tuple containing (hour, minute) for current local time.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="sugaroid.brain.preprocessors.non_punkt_normalize">
-<code class="sig-prename descclassname"><span class="pre">sugaroid.brain.preprocessors.</span></code><code class="sig-name descname"><span class="pre">non_punkt_normalize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/preprocessors.html#non_punkt_normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.brain.preprocessors.non_punkt_normalize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="sugaroid.brain.preprocessors.normalize">
-<code class="sig-prename descclassname"><span class="pre">sugaroid.brain.preprocessors.</span></code><code class="sig-name descname"><span class="pre">normalize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/preprocessors.html#normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.brain.preprocessors.normalize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="sugaroid.brain.preprocessors.preprocess">
-<code class="sig-prename descclassname"><span class="pre">sugaroid.brain.preprocessors.</span></code><code class="sig-name descname"><span class="pre">preprocess</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string_arg</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">should_expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/preprocessors.html#preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.brain.preprocessors.preprocess" title="Permalink to this definition">¶</a></dt>
-<dd><p>EXPERIMENTAL
-Testing Required</p>
-<p>Remove unwanted characters, expand words, replace short forms
-and fix capitalization for certain pronouns
-:param string_arg: String argument which you would like to process
-:return: String stype containing expanded texts
-:return_type: &lt;class ‘str’&gt;</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="sugaroid.brain.preprocessors.purify">
-<code class="sig-prename descclassname"><span class="pre">sugaroid.brain.preprocessors.</span></code><code class="sig-name descname"><span class="pre">purify</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tokenized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lemma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/preprocessors.html#purify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.brain.preprocessors.purify" title="Permalink to this definition">¶</a></dt>
-<dd><p>Scans tokenized text
-removes any common words in args
-:param tokenized:
-:param args:
-:return:</p>
-</dd></dl>
-
-<dl class="py function">
-<dt id="sugaroid.brain.preprocessors.spac_token">
-<code class="sig-prename descclassname"><span class="pre">sugaroid.brain.preprocessors.</span></code><code class="sig-name descname"><span class="pre">spac_token</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chatbot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/preprocessors.html#spac_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.brain.preprocessors.spac_token" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="sugaroid.brain.preprocessors.tokenize">
-<code class="sig-prename descclassname"><span class="pre">sugaroid.brain.preprocessors.</span></code><code class="sig-name descname"><span class="pre">tokenize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">txt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/brain/preprocessors.html#tokenize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.brain.preprocessors.tokenize" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<div class="section" id="sugaroid-brain-preprocessors-module">
+<h2>sugaroid.brain.preprocessors module<a class="headerlink" href="#sugaroid-brain-preprocessors-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="sugaroid-brain-reader-module">
 <h2>sugaroid.brain.reader module<a class="headerlink" href="#sugaroid-brain-reader-module" title="Permalink to this headline">¶</a></h2>
