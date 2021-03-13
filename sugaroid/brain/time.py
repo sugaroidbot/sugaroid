@@ -39,7 +39,7 @@ class TimeAdapter(LogicAdapter):
             try:
                 place = self.normalized[idx + 1]
             except IndexError:
-                response = "Please provide a place, for which you require time"
+                response = "Please provide a place, where you want the time"
                 emotion = Emotion.positive
                 selected_statement = SugaroidStatement(
                     "{}".format(response), chatbot=True

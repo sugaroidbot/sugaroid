@@ -17,7 +17,7 @@ class PlayAdapter(LogicAdapter):
         return False
 
     def process(self, statement, additional_response_selection_parameters=None):
-        response = "I can\t run the same game again. Soz!"
+        response = "I cant run the same game again. Sorry!"
         confidence = 0.5
         sent = []
         for i in games:
