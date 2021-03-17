@@ -1,6 +1,14 @@
 sugaroid.brain package
 ======================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   sugaroid.brain.hangman
+
 Submodules
 ----------
 
@@ -64,6 +72,14 @@ sugaroid.brain.canmay module
 ----------------------------
 
 .. automodule:: sugaroid.brain.canmay
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+sugaroid.brain.command module
+-----------------------------
+
+.. automodule:: sugaroid.brain.command
    :members:
    :undoc-members:
    :show-inheritance:
@@ -156,10 +172,10 @@ sugaroid.brain.fun module
    :undoc-members:
    :show-inheritance:
 
-sugaroid.brain.hangman module
------------------------------
+sugaroid.brain.have module
+--------------------------
 
-.. automodule:: sugaroid.brain.hangman
+.. automodule:: sugaroid.brain.have
    :members:
    :undoc-members:
    :show-inheritance:
@@ -424,6 +440,14 @@ sugaroid.brain.wiki module
 --------------------------
 
 .. automodule:: sugaroid.brain.wiki
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+sugaroid.brain.wish module
+--------------------------
+
+.. automodule:: sugaroid.brain.wish
    :members:
    :undoc-members:
    :show-inheritance:

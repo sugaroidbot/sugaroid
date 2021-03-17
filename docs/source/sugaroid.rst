@@ -12,6 +12,8 @@ Subpackages
    sugaroid.cli
    sugaroid.config
    sugaroid.core
+   sugaroid.datasets
+   sugaroid.formatters
    sugaroid.game
    sugaroid.google
    sugaroid.gui
