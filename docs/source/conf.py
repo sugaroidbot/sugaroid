@@ -35,7 +35,7 @@ for mod_name in MOCK_MODULES:
 
 project = "Sugaroid"
 copyright = "2021, Srevin Saju, The Sugaroid Project"
-author = "Srevin Saju, The Sugaroid Project"
+author = "Srevin Saju, Kunhappu Andezhath, et. al"
 
 # The full version, including alpha/beta/rc tags
 release = VERSION
