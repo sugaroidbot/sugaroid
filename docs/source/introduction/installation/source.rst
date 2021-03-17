@@ -29,7 +29,7 @@ would not like to get the previous commits)
 
 .. code:: bash
 
-   git clone https://github.com/srevinsaju/sugaroid.git --depth=1
+   git clone https://github.com/sugaroidbot/sugaroid.git --depth=1
    
 .. note::
    If you are installing Sugaroid on Windows, you will have to install `Microsoft Visual C++ Redistributable for Visual Studio 2019

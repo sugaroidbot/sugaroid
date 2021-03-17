@@ -1,7 +1,3 @@
-.. figure:: ./img/sugaroid.png
-   :alt: Sugaroid smiling
-
-
 Sugaroid
 ========
 
@@ -12,7 +8,7 @@ Sugaroid is a new Artificial Intelligence which uses Natural Language
 Processing (NLP) with Machine Learning and neural networks to manipulate
 user input to provide a intuitive response. The AI is built on
 ``Python 3.8.2`` and was built out of personal interest, to tackle three
-important issues in the Python framework
+important issues in the Python framework.
 
 -  Natural Language Processing / Machine Learning
 -  Graphical User Interface
