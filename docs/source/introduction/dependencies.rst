@@ -45,4 +45,4 @@ necessary for the proper functioning of Sugaroid chat bot.
 
 -  **currencyconverter** - Used to convert currencies
 
-.. |Sugaroid’s dependencies| image:: ./img/sugaroid.brain.deps.svg
+.. |Sugaroid’s dependencies| image:: ./img/sugaroid.brain.deps.png

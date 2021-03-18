@@ -1,7 +1,7 @@
 Django Web Interface
 --------------------
 
-.. figure:: https://raw.githubusercontent.com/srevinsaju/sugaroid/430dd87fa8fd4831fc1b717676d5e8923146d020/docs/img/sugaroid_django.gif
+.. figure:: https://raw.githubusercontent.com/srevinsaju/sugaroid/430dd87fa8fd4831fc1b717676d5e8923146d020/docs/img/sugaroid_django.png
    :alt: Sugaroid Django Web Interface
 
    Sugaroid Django Web Interface
@@ -15,7 +15,7 @@ You might face latency between messages, but it is only because, the
 Azure server is hosted on limited RAM (1024 MB). And Django uses more
 RAM than Flask.
 
-However, it makes Sugaroid Accessible on the world wide web. 😊
+However, it makes Sugaroid Accessible on the world wide web. 
 
    **Django** (was) being used in creating Sugaroid web interface, which
    is however now being replaced by a Flask API backend, temporarily
