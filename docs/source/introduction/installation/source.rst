@@ -33,7 +33,7 @@ would not like to get the previous commits)
    
 .. note::
    If you are installing Sugaroid on Windows, you will have to install `Microsoft Visual C++ Redistributable for Visual Studio 2019
-   <https://visualstudio.microsoft.com/downloads/>` for installing the runtime components of Visual C++ Libraries required by the ``en-core-web-sm`` dependency
+   <https://visualstudio.microsoft.com/downloads/>`__ for installing the runtime components of Visual C++ Libraries required by the ``en-core-web-sm`` dependency
 
 Installing Sugaroid
 ~~~~~~~~~~~~~~~~~~~
