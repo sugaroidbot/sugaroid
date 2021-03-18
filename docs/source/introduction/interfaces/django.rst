@@ -1,7 +1,7 @@
 Django Web Interface
 --------------------
 
-.. figure:: https://raw.githubusercontent.com/srevinsaju/sugaroid/430dd87fa8fd4831fc1b717676d5e8923146d020/docs/img/sugaroid_django.png
+.. figure:: ../img/sugaroid_django.png
    :alt: Sugaroid Django Web Interface
 
    Sugaroid Django Web Interface
