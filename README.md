@@ -20,12 +20,14 @@ The official Sugaroid documentation is available [here](https://srevinsaju.me/su
 You can also view the documentation as Markdown [here](./docs/mdbook/src/SUMMARY.md).
 
 ---
+
 <p>This project is supported by:</p>
 <p>
-  <a href="https://m.do.co/c/432d3b8ed4b3">
+  <a href="https://www.digitalocean.com/">
     <img src="https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/SVG/DO_Logo_horizontal_blue.svg" width="201px">
   </a>
 </p>
+
 
 ## License
 This repository is licensed under the MIT License (2020-2021)
