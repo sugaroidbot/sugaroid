@@ -26,7 +26,13 @@ class FunAdapter(LogicAdapter):
         emotion = Emotion.neutral
         confidence = 0.05
         parsed = str(statement)
-        if "not" in parsed:
+        if not parsed.strip():
+            # it is an empty statement
+            selected_statement = SugaroidStatement("😌😌😌", chatbot=True)
+            selected_statement.confidence = 1
+            selected_statement.emotion = emotion
+            return selected_statement
+        elif "not" in parsed:
             # if you are not, who then is?
             suffix = " either. "
             prefix = ""
