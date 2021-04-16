@@ -4,11 +4,10 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Databases and Training &mdash; Sugaroid v0.25.0 documentation</title>
+  <title>Databases and Training &mdash; Sugaroid v0.26.0 documentation</title>
   
 
   
@@ -86,7 +85,7 @@
               
             
             
-              <p><span class="caption-text">Contents:</span></p>
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Sugaroid</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">Installation</a></li>
@@ -176,12 +175,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="databases-and-training">
+  <div class="section" id="databases-and-training">
 <h1>Databases and Training<a class="headerlink" href="#databases-and-training" title="Permalink to this headline">¶</a></h1>
 <p>Sugaroid uses an <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code>-type database for portability. All the
 responses are explicitly saved and trained on sugaroid. Sugaroid has two
 types of training: 1. Supervised training 2. Unsupervised training</p>
-<section id="supervised-training">
+<div class="section" id="supervised-training">
 <h2>Supervised training<a class="headerlink" href="#supervised-training" title="Permalink to this headline">¶</a></h2>
 <p>Supervised training is a list of proper responses, most commonly
 collected from the Stanford Question Answering Dataset (Natural) (<a class="reference external" href="https://rajpurkar.github.io/SQuAD-explorer/">SQuAD
@@ -193,8 +192,8 @@ during production mode to prevent people from tampering with the
 dataset. At local testing, it is possible to teach sugaroid a sequel of
 responses and this will appended to the SQL database. Using <a class="reference external" href="naive-bayer-classifier">Naive
 Bayers</a> algorithm.</p>
-</section>
-<section id="unsupervised-training">
+</div>
+<div class="section" id="unsupervised-training">
 <h2>Unsupervised Training<a class="headerlink" href="#unsupervised-training" title="Permalink to this headline">¶</a></h2>
 <p>Unsupervised training are a community collected dataset. The sources of
 data, are obviously from the community, on its hosted
@@ -203,8 +202,8 @@ Microsoft Azure, frontend on AWS. This data are also appended to the SQL
 database like <a class="reference external" href="#supervised-training">Supervised Training</a> but they
 are saved with lesser confidence ( <code class="docutils literal notranslate"><span class="pre">0.1</span> <span class="pre">*</span> <span class="pre">confidence_from_statement</span></code>
 ), as data from community needs to undergo refining.</p>
-</section>
-<section id="sqlite3">
+</div>
+<div class="section" id="sqlite3">
 <h2><code class="docutils literal notranslate"><span class="pre">sqlite3</span></code><a class="headerlink" href="#sqlite3" title="Permalink to this headline">¶</a></h2>
 <p>Sugaroid’s backend module is <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> against the conventional MySQL
 or MariaDB adapters. <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> was chosen considering its portability
@@ -215,8 +214,8 @@ which the operating systems consider the file path to be. Using
 <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> helps to keep consistency in case. (For Windows, <code class="docutils literal notranslate"><span class="pre">mysql</span></code>
 is case insensitive, but on GNU/Linux/UNIX its case sensitive). Using
 <code class="docutils literal notranslate"><span class="pre">sqlite3</span></code> solves that problem.</p>
-</section>
-<section id="privacy-policy">
+</div>
+<div class="section" id="privacy-policy">
 <h2>Privacy policy<a class="headerlink" href="#privacy-policy" title="Permalink to this headline">¶</a></h2>
 <p>Sugaroid collects data from its users which are then used to train. This
 is done through cookies, on the first response you provide to sugaroid
@@ -231,8 +230,8 @@ example, on Linux, <code class="docutils literal notranslate"><span class="pre">
 <div><p>Note: <code class="docutils literal notranslate"><span class="pre">AppData</span></code> folder is normally hidden on Windows, manually
 “Show all hidden folders” to see the AppData folder.</p>
 </div></blockquote>
-</section>
-<section id="investigating-data-from-the-database">
+</div>
+<div class="section" id="investigating-data-from-the-database">
 <h2>Investigating data from the database<a class="headerlink" href="#investigating-data-from-the-database" title="Permalink to this headline">¶</a></h2>
 <p>There are certain cases when you would like to analyze the data stored
 in the database, or you would like to do some debugging. In all such
@@ -253,8 +252,8 @@ is an <code class="docutils literal notranslate"><span class="pre">sqlite3</span
 <code class="docutils literal notranslate"><span class="pre">~/.config/sugaroid/data.json</span></code></p>
 <p>Along with SQL, we have also used JSON type files for configuration
 alone.</p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
