@@ -2,7 +2,10 @@ Acknowledgements
 ================
 
 **Sugaroid AI** has become possible to millions of open source
-developers. Particularly to mention, I would like to thank
+developers. I would like to thank our school Principal, 
+Mr. Gopinath Menon, and my Computer Science Teacher, Mrs. Sujitha Lawrence,
+for morale support and guidance provided for the same. 
+Particularly to mention, I would like to thank
 `@GuntherCox <https://github.com/gunthercox>`_ for the ``chatterbot``
 library and `@explosion <https://explosion.ai>`_
 for `spaCy <https://github.com/explosion/spaCy>`_ , the machine
@@ -28,7 +31,17 @@ would also like to thank, Sugar Labs 2019 GCI Team, **Sashreek Magan**
 servers and reporting bugs. It is only possible to rectify bugs with the
 help of repeated **testing**. I would like to thank **Kunhappu Andezhath** for his moral support 
 and contribution to wh- type datasets. I would also like to thank
-friends and family who also helped me to work on this project. Along
-with this, I would like to extend gratitude to **Microsoft** for
-sponsoring `Sugaroid’s hosting on
-Azure <https://g.sugaroid.srevinsaju.me>`__.
+friends and family who also helped me to work on this project.
+
+This project is supported by:
+
+|DigitalOcean|
+
+.. |DigitalOcean| image:: https://opensource.nyc3.cdn.digitaloceanspaces.com/attribution/assets/PNG/DO_Logo_Horizontal_Black.png
+  :height: 25
+  :alt: Digital Ocean Logo
+
+
+.. |Heroku| image:: https://brandslogos.com/wp-content/uploads/images/large/heroku-logo-black-and-white-1.png
+  :height: 25
+  :alt: Heroku Black logo
