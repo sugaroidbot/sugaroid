@@ -93,7 +93,6 @@ setup(
         "sugaroid.config",
         "sugaroid.core",
         "sugaroid.game",
-        "sugaroid.web",
         "sugaroid.trivia",
         "sugaroid.platform",
         "sugaroid.google",
