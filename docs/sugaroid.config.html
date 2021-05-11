@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -30,6 +32,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
@@ -213,13 +216,13 @@ configuration in the <code class="docutils literal notranslate"><span class="pre
 <code class="docutils literal notranslate"><span class="pre">xdg</span></code> specified directories in linux OSes, and in 
 <code class="docutils literal notranslate"><span class="pre">%HOME%/AppData/Local</span></code> in Windows systems</p>
 <dl class="py class">
-<dt id="sugaroid.config.config.ConfigManager">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">sugaroid.config.config.</span></code><code class="sig-name descname"><span class="pre">ConfigManager</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sugaroid.config.config.ConfigManager">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sugaroid.config.config.</span></span><span class="sig-name descname"><span class="pre">ConfigManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'w'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Global Sugaroid Trainer configuration manager</p>
 <dl class="py method">
-<dt id="sugaroid.config.config.ConfigManager.check_file">
-<code class="sig-name descname"><span class="pre">check_file</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.check_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.check_file" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sugaroid.config.config.ConfigManager.check_file">
+<span class="sig-name descname"><span class="pre">check_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.check_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.check_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if the file exists, if it exists, return True</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -232,8 +235,8 @@ configuration in the <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt id="sugaroid.config.config.ConfigManager.get_cfgpath">
-<code class="sig-name descname"><span class="pre">get_cfgpath</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.get_cfgpath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.get_cfgpath" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sugaroid.config.config.ConfigManager.get_cfgpath">
+<span class="sig-name descname"><span class="pre">get_cfgpath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.get_cfgpath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.get_cfgpath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the current path to the configuration file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -246,8 +249,8 @@ configuration in the <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt id="sugaroid.config.config.ConfigManager.get_config">
-<code class="sig-name descname"><span class="pre">get_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.get_config" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sugaroid.config.config.ConfigManager.get_config">
+<span class="sig-name descname"><span class="pre">get_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">dict</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.get_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.get_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the current configuration file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -260,8 +263,8 @@ configuration in the <code class="docutils literal notranslate"><span class="pre
 </dd></dl>
 
 <dl class="py method">
-<dt id="sugaroid.config.config.ConfigManager.read_file">
-<code class="sig-name descname"><span class="pre">read_file</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.read_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.read_file" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sugaroid.config.config.ConfigManager.read_file">
+<span class="sig-name descname"><span class="pre">read_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.read_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.read_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read the configuration file and reloads the internal
 configuration</p>
 <dl class="field-list simple">
@@ -275,14 +278,14 @@ configuration</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sugaroid.config.config.ConfigManager.reset_config">
-<code class="sig-name descname"><span class="pre">reset_config</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.reset_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.reset_config" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sugaroid.config.config.ConfigManager.reset_config">
+<span class="sig-name descname"><span class="pre">reset_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.reset_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.reset_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resets the configuration</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sugaroid.config.config.ConfigManager.update_config">
-<code class="sig-name descname"><span class="pre">update_config</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_conf</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.update_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.update_config" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sugaroid.config.config.ConfigManager.update_config">
+<span class="sig-name descname"><span class="pre">update_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_conf</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.update_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.update_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates the configuration <code class="docutils literal notranslate"><span class="pre">dict.update</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -292,8 +295,8 @@ configuration</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="sugaroid.config.config.ConfigManager.write_file">
-<code class="sig-name descname"><span class="pre">write_file</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.write_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.write_file" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="sugaroid.config.config.ConfigManager.write_file">
+<span class="sig-name descname"><span class="pre">write_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/config/config.html#ConfigManager.write_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.config.config.ConfigManager.write_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the current configuration to the jsonfile</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
