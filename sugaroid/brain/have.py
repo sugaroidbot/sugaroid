@@ -17,7 +17,11 @@ class HaveAdapter(SugaroidLogicAdapter):
     """
 
     def can_process(self, statement: SugaroidStatement) -> bool:
-        return len(statement.words) >= 1 and statement.words[0] == "have" and not statement.words[-1].endswith("?")
+        return (
+            len(statement.words) >= 1
+            and statement.words[0] == "have"
+            and not statement.words[-1].endswith("?")
+        )
 
     def process(
         self,
