@@ -1,0 +1,598 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.core.bot &mdash; Sugaroid v0.27.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/core/bot.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.core.bot</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.core.bot</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">chatterbot</span> <span class="kn">import</span> <span class="n">ChatBot</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">REPEAT</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.utils</span> <span class="kn">import</span> <span class="n">LanguageProcessor</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+<span class="kn">from</span> <span class="nn">sugaroid.datasets.collector</span> <span class="kn">import</span> <span class="n">Session</span>
+
+
+<div class="viewcode-block" id="SugaroidBot"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot">[docs]</a><span class="k">class</span> <span class="nc">SugaroidBot</span><span class="p">(</span><span class="n">ChatBot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The SugaroidBot inherits the class local variables from the Chat</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">ChatBot</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lp</span> <span class="o">=</span> <span class="n">LanguageProcessor</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">Session</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spell_checker</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># FIXME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">discord</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">authors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interrupt</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">report</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globals</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;emotion&quot;</span><span class="p">:</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span><span class="p">,</span>
+            <span class="s2">&quot;history&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;types&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+            <span class="s2">&quot;reversei&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;uid&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;akinator&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+            <span class="s2">&quot;hangman&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+            <span class="s2">&quot;trivia&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+            <span class="s2">&quot;adapters&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;fun&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;update&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;last_news&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;USERNAME&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;learn&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;trivia_answer&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;learn_last_conversation&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;DEBUG&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;media&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;rich&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="c1"># self.emotion = Emotion.neutral</span>
+
+<div class="viewcode-block" id="SugaroidBot.get_global"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.get_global">[docs]</a>    <span class="k">def</span> <span class="nf">get_global</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a global constant</span>
+<span class="sd">        :param key:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.toggle_discord"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.toggle_discord">[docs]</a>    <span class="k">def</span> <span class="nf">toggle_discord</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Toggle Discord Configuration</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">discord</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">discord</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.set_emotion"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.set_emotion">[docs]</a>    <span class="k">def</span> <span class="nf">set_emotion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">emotion</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the emotion for the chatbot globally.</span>
+<span class="sd">        (Deprecated)</span>
+<span class="sd">        :param emotion:</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;emotion&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">emotion</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.reset_variables"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.reset_variables">[docs]</a>    <span class="k">def</span> <span class="nf">reset_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;emotion&quot;</span><span class="p">:</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span><span class="p">,</span>
+                <span class="s2">&quot;history&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;types&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+                <span class="s2">&quot;reversei&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;uid&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+                <span class="s2">&quot;akinator&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+                <span class="s2">&quot;hangman&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+                <span class="s2">&quot;learned&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;fun&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;update&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;last_news&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;USERNAME&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;learn&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;trivia_answer&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;learn_last_conversation&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;DEBUG&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">authors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spell_checker</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># FIXME</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.get_emotion"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.get_emotion">[docs]</a>    <span class="k">def</span> <span class="nf">get_emotion</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the emotion of the chatbot at a particular time</span>
+<span class="sd">        :return: The emotion of the bot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;emotion&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.set_username"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.set_username">[docs]</a>    <span class="k">def</span> <span class="nf">set_username</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the Sugaroid user username</span>
+<span class="sd">        :return: None, Exception</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Set username has not been implemented in this version yet.&quot;</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.get_username"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.get_username">[docs]</a>    <span class="k">def</span> <span class="nf">get_username</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The username of the bot</span>
+<span class="sd">        :return: The username of sugaroid</span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_global</span><span class="p">(</span><span class="s2">&quot;username&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.generate_response"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.generate_response">[docs]</a>    <span class="k">def</span> <span class="nf">generate_response</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">input_statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SugaroidStatement</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a response based on a given input statement.</span>
+
+<span class="sd">        :param additional_response_selection_parameters:</span>
+<span class="sd">        :type additional_response_selection_parameters:</span>
+<span class="sd">        :param input_statement: The input statement to be processed.</span>
+<span class="sd">        :return the processed final statement</span>
+<span class="sd">        :rtype SugaroidStatement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">max_confidence</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">final_adapter</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">interrupt</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">adapter_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">adapter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">logic_adapters</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">adapter</span><span class="o">.</span><span class="n">class_name</span> <span class="o">==</span> <span class="s2">&quot;InterruptAdapter&quot;</span><span class="p">:</span>
+                <span class="n">interrupt</span> <span class="o">=</span> <span class="n">adapter</span>
+            <span class="k">if</span> <span class="n">adapter</span><span class="o">.</span><span class="n">can_process</span><span class="p">(</span><span class="n">input_statement</span><span class="p">):</span>
+
+                <span class="n">output</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">process</span><span class="p">(</span>
+                    <span class="n">input_statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span>
+                <span class="p">)</span>
+                <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> selected &quot;</span><span class="si">{}</span><span class="s1">&quot; as a response with a &#39;</span>
+                    <span class="s2">&quot;confidence of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">adapter</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">confidence</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">confidence</span> <span class="o">&gt;</span> <span class="n">max_confidence</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">output</span>
+                    <span class="n">final_adapter</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">class_name</span>
+                    <span class="n">max_confidence</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">confidence</span>
+                <span class="k">if</span> <span class="n">max_confidence</span> <span class="o">&gt;=</span> <span class="mi">9</span><span class="p">:</span>
+                    <span class="c1"># optimize: if the confidence is greater than 9,</span>
+                    <span class="c1"># just break dude, why check more</span>
+                    <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">max_confidence</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">adapter_index</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="c1"># optimize: if the confidence is greater than 9,</span>
+                    <span class="c1"># just break dude, why check more</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Not processing the statement using </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">class_name</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">adapter_index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">max_confidence</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">discord</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">interrupt</span> <span class="ow">and</span> <span class="n">interrupt</span><span class="o">.</span><span class="n">can_process</span><span class="p">(</span><span class="n">input_statement</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">username</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authors</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                        <span class="n">username</span> <span class="o">=</span> <span class="kc">None</span>
+
+                    <span class="n">output</span> <span class="o">=</span> <span class="n">interrupt</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">input_statement</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> selected &quot;</span><span class="si">{}</span><span class="s1">&quot; as a response &#39;</span>
+                        <span class="s2">&quot;with a confidence of </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">interrupt</span><span class="o">.</span><span class="n">class_name</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">confidence</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">output</span>
+                    <span class="n">final_adapter</span> <span class="o">=</span> <span class="n">interrupt</span><span class="o">.</span><span class="n">class_name</span>
+                    <span class="n">max_confidence</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">confidence</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gen_debug</span><span class="p">(</span>
+            <span class="n">statement</span><span class="o">=</span><span class="n">input_statement</span><span class="p">,</span>
+            <span class="n">adapter</span><span class="o">=</span><span class="n">final_adapter</span><span class="p">,</span>
+            <span class="n">confidence</span><span class="o">=</span><span class="n">max_confidence</span><span class="p">,</span>
+            <span class="n">results</span><span class="o">=</span><span class="n">result</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">class</span> <span class="nc">ResultOption</span><span class="p">:</span>
+            <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">statement</span> <span class="o">=</span> <span class="n">statement</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="n">count</span>
+
+        <span class="c1"># If multiple adapters agree on the same statement,</span>
+        <span class="c1"># then that statement is more likely to be the correct response</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">result_options</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">result_option</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="n">result_string</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">result_option</span><span class="o">.</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="n">result_option</span><span class="o">.</span><span class="n">in_response_to</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">result_string</span> <span class="ow">in</span> <span class="n">result_options</span><span class="p">:</span>
+                    <span class="n">result_options</span><span class="p">[</span><span class="n">result_string</span><span class="p">]</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                        <span class="n">result_options</span><span class="p">[</span><span class="n">result_string</span><span class="p">]</span><span class="o">.</span><span class="n">statement</span><span class="o">.</span><span class="n">confidence</span>
+                        <span class="o">&lt;</span> <span class="n">result_option</span><span class="o">.</span><span class="n">confidence</span>
+                    <span class="p">):</span>
+                        <span class="n">result_options</span><span class="p">[</span><span class="n">result_string</span><span class="p">]</span><span class="o">.</span><span class="n">statement</span> <span class="o">=</span> <span class="n">result_option</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">result_options</span><span class="p">[</span><span class="n">result_string</span><span class="p">]</span> <span class="o">=</span> <span class="n">ResultOption</span><span class="p">(</span><span class="n">result_option</span><span class="p">)</span>
+
+            <span class="n">most_common</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">result_options</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">result_option</span> <span class="ow">in</span> <span class="n">result_options</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">result_option</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">most_common</span><span class="o">.</span><span class="n">count</span><span class="p">:</span>
+                    <span class="n">most_common</span> <span class="o">=</span> <span class="n">result_option</span>
+
+            <span class="k">if</span> <span class="n">most_common</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">most_common</span><span class="o">.</span><span class="n">statement</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">emotion</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">emotion</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">neutral</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">adapter_type</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">adapter</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">adapter</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">adapter_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">adapter_type</span> <span class="ow">and</span> <span class="n">adapter_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;NewsAdapter&quot;</span><span class="p">,</span> <span class="s2">&quot;LearnAdapter&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">adapter_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;types&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">adapter_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;types&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">REPEAT</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;types&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">adapter_type</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;types&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">]:</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">REPEAT</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;history&quot;</span><span class="p">][</span><span class="s2">&quot;types&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">adapter_type</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span>
+            <span class="n">text</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">in_response_to</span><span class="o">=</span><span class="n">input_statement</span><span class="o">.</span><span class="n">text</span><span class="p">,</span>
+            <span class="n">conversation</span><span class="o">=</span><span class="n">input_statement</span><span class="o">.</span><span class="n">conversation</span><span class="p">,</span>
+            <span class="n">persona</span><span class="o">=</span><span class="s2">&quot;sugaroid:&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">confidence</span>
+
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.gen_debug"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.gen_debug">[docs]</a>    <span class="k">def</span> <span class="nf">gen_debug</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">adapter</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a debug dictionary key:value pair for Debug Conversation</span>
+<span class="sd">        The Google</span>
+<span class="sd">        :param statement: input_statement</span>
+<span class="sd">        :param adapter: Adapter __gtype__classname__</span>
+<span class="sd">        :param confidence: SugaroidStatement.confidence</span>
+<span class="sd">        :param results: Sugaroid Statement.text</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">][</span><span class="s2">&quot;number_of_conversations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;number_of_conversations&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">][</span><span class="s2">&quot;number_of_conversations&quot;</span><span class="p">]</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">val</span><span class="p">[</span><span class="s2">&quot;adapter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adapter</span>
+        <span class="n">val</span><span class="p">[</span><span class="s2">&quot;confidence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">confidence</span>
+        <span class="n">val</span><span class="p">[</span><span class="s2">&quot;response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
+        <span class="n">val</span><span class="p">[</span><span class="s2">&quot;request&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">][</span><span class="n">_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span></div>
+
+<div class="viewcode-block" id="SugaroidBot.get_response"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.bot.SugaroidBot.get_response">[docs]</a>    <span class="k">def</span> <span class="nf">get_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the bot&#39;s response based on the input.</span>
+
+<span class="sd">        :param statement: An statement object or string.</span>
+<span class="sd">        :returns: A response to the input.</span>
+<span class="sd">        :rtype: Statement</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span>
+
+        <span class="n">additional_response_selection_parameters</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
+            <span class="s2">&quot;additional_response_selection_parameters&quot;</span><span class="p">,</span> <span class="p">{}</span>
+        <span class="p">)</span>
+
+        <span class="n">persist_values_to_response</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;persist_values_to_response&quot;</span><span class="p">,</span> <span class="p">{})</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">statement</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">statement</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">&quot;text&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">ChatBotException</span><span class="p">(</span>
+                <span class="s1">&#39;Either a statement object or a &quot;text&quot; keyword &#39;</span>
+                <span class="s2">&quot;argument is required. Neither was provided.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="s2">&quot;serialize&quot;</span><span class="p">):</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="n">statement</span><span class="o">.</span><span class="n">serialize</span><span class="p">())</span>
+
+        <span class="n">tags</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="p">[])</span>
+
+        <span class="n">text</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span>
+
+        <span class="n">input_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">input_statement</span><span class="o">.</span><span class="n">add_tags</span><span class="p">(</span><span class="o">*</span><span class="n">tags</span><span class="p">)</span>
+
+        <span class="c1"># Preprocess the input statement</span>
+        <span class="k">for</span> <span class="n">preprocessor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">preprocessors</span><span class="p">:</span>
+            <span class="n">input_statement</span> <span class="o">=</span> <span class="n">preprocessor</span><span class="p">(</span><span class="n">input_statement</span><span class="p">)</span>
+
+        <span class="c1"># Make sure the input statement has its search text saved</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">input_statement</span><span class="o">.</span><span class="n">search_text</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">input_statement</span><span class="o">.</span><span class="n">search_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">tagger</span><span class="o">.</span><span class="n">get_text_index_string</span><span class="p">(</span>
+                    <span class="n">input_statement</span><span class="o">.</span><span class="n">text</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">input_statement</span><span class="o">.</span><span class="n">search_text</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">tagger</span><span class="o">.</span><span class="n">get_bigram_pair_string</span><span class="p">(</span><span class="n">input_statement</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">input_statement</span><span class="o">.</span><span class="n">search_in_response_to</span> <span class="ow">and</span> <span class="n">input_statement</span><span class="o">.</span><span class="n">in_response_to</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">input_statement</span><span class="o">.</span><span class="n">search_in_response_to</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">tagger</span><span class="o">.</span><span class="n">get_text_index_string</span><span class="p">(</span>
+                        <span class="n">input_statement</span><span class="o">.</span><span class="n">in_response_to</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="n">input_statement</span><span class="o">.</span><span class="n">search_in_response_to</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">tagger</span><span class="o">.</span><span class="n">get_bigram_pair_string</span><span class="p">(</span>
+                        <span class="n">input_statement</span><span class="o">.</span><span class="n">in_response_to</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_response</span><span class="p">(</span>
+            <span class="n">input_statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Update any response data that needs to be changed</span>
+        <span class="k">if</span> <span class="n">persist_values_to_response</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">response_key</span> <span class="ow">in</span> <span class="n">persist_values_to_response</span><span class="p">:</span>
+                <span class="n">response_value</span> <span class="o">=</span> <span class="n">persist_values_to_response</span><span class="p">[</span><span class="n">response_key</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">response_key</span> <span class="o">==</span> <span class="s2">&quot;tags&quot;</span><span class="p">:</span>
+                    <span class="n">input_statement</span><span class="o">.</span><span class="n">add_tags</span><span class="p">(</span><span class="o">*</span><span class="n">response_value</span><span class="p">)</span>
+                    <span class="n">response</span><span class="o">.</span><span class="n">add_tags</span><span class="p">(</span><span class="o">*</span><span class="n">response_value</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">input_statement</span><span class="p">,</span> <span class="n">response_key</span><span class="p">,</span> <span class="n">response_value</span><span class="p">)</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">response_key</span><span class="p">,</span> <span class="n">response_value</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_only</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">learn_response</span><span class="p">(</span><span class="n">input_statement</span><span class="p">)</span>
+
+            <span class="c1"># Save the response generated for the input</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">**</span><span class="n">response</span><span class="o">.</span><span class="n">serialize</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">response</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

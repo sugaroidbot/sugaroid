@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.brain.hangman &mdash; Sugaroid v0.15.2 documentation</title>
+  <title>sugaroid.brain.hangman &mdash; Sugaroid v0.27.2 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -30,6 +32,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -83,9 +86,21 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
 </ul>
 
@@ -153,233 +168,77 @@
            <div itemprop="articleBody">
             
   <h1>Source code for sugaroid.brain.hangman</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span></span><span class="kn">import</span> <span class="nn">requests</span>
+
 <span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">HOPE_GAME_WAS_GOOD</span>
-
+<span class="kn">from</span> <span class="nn">sugaroid.brain.hangman.constants</span> <span class="kn">import</span> <span class="n">get_hangman_words</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span>
-
-<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
-<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.base_adapters</span> <span class="kn">import</span> <span class="n">SugaroidLogicAdapter</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.bot</span> <span class="kn">import</span> <span class="n">SugaroidBot</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
 
-<span class="n">HANGMAN_WORDS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">abruptly</span>
-<span class="s2">absurd</span>
-<span class="s2">abyss</span>
-<span class="s2">affix</span>
-<span class="s2">askew</span>
-<span class="s2">avenue</span>
-<span class="s2">awkward</span>
-<span class="s2">axiom</span>
-<span class="s2">azure</span>
-<span class="s2">bagpipes</span>
-<span class="s2">bandwagon</span>
-<span class="s2">banjo</span>
-<span class="s2">bayou</span>
-<span class="s2">beekeeper</span>
-<span class="s2">bikini</span>
-<span class="s2">blitz</span>
-<span class="s2">blizzard</span>
-<span class="s2">boggle</span>
-<span class="s2">bookworm</span>
-<span class="s2">boxcar</span>
-<span class="s2">boxful</span>
-<span class="s2">buckaroo</span>
-<span class="s2">buffalo</span>
-<span class="s2">buffoon</span>
-<span class="s2">buxom</span>
-<span class="s2">buzzard</span>
-<span class="s2">buzzing</span>
-<span class="s2">buzzwords</span>
-<span class="s2">caliph</span>
-<span class="s2">cobweb</span>
-<span class="s2">cockiness</span>
-<span class="s2">croquet</span>
-<span class="s2">crypt</span>
-<span class="s2">curacao</span>
-<span class="s2">cycle</span>
-<span class="s2">daiquiri</span>
-<span class="s2">dirndl</span>
-<span class="s2">disavow</span>
-<span class="s2">dizzying</span>
-<span class="s2">duplex</span>
-<span class="s2">dwarves</span>
-<span class="s2">embezzle</span>
-<span class="s2">equip</span>
-<span class="s2">espionage</span>
-<span class="s2">euouae</span>
-<span class="s2">exodus</span>
-<span class="s2">faking</span>
-<span class="s2">fishhook</span>
-<span class="s2">fixable</span>
-<span class="s2">fjord</span>
-<span class="s2">flapjack</span>
-<span class="s2">flopping</span>
-<span class="s2">fluffiness</span>
-<span class="s2">flyby</span>
-<span class="s2">foxglove</span>
-<span class="s2">frazzled</span>
-<span class="s2">frizzled</span>
-<span class="s2">fuchsia</span>
-<span class="s2">funny</span>
-<span class="s2">gabby</span>
-<span class="s2">galaxy</span>
-<span class="s2">galvanize</span>
-<span class="s2">gazebo</span>
-<span class="s2">giaour</span>
-<span class="s2">gizmo</span>
-<span class="s2">glowworm</span>
-<span class="s2">glyph</span>
-<span class="s2">gnarly</span>
-<span class="s2">gnostic</span>
-<span class="s2">gossip</span>
-<span class="s2">grogginess</span>
-<span class="s2">haiku</span>
-<span class="s2">haphazard</span>
-<span class="s2">hyphen</span>
-<span class="s2">iatrogenic</span>
-<span class="s2">icebox</span>
-<span class="s2">injury</span>
-<span class="s2">ivory</span>
-<span class="s2">ivy</span>
-<span class="s2">jackpot</span>
-<span class="s2">jaundice</span>
-<span class="s2">jawbreaker</span>
-<span class="s2">jaywalk</span>
-<span class="s2">jazziest</span>
-<span class="s2">jazzy</span>
-<span class="s2">jelly</span>
-<span class="s2">jigsaw</span>
-<span class="s2">jinx</span>
-<span class="s2">jiujitsu</span>
-<span class="s2">jockey</span>
-<span class="s2">jogging</span>
-<span class="s2">joking</span>
-<span class="s2">jovial</span>
-<span class="s2">joyful</span>
-<span class="s2">juicy</span>
-<span class="s2">jukebox</span>
-<span class="s2">jumbo</span>
-<span class="s2">kayak</span>
-<span class="s2">kazoo</span>
-<span class="s2">keyhole</span>
-<span class="s2">khaki</span>
-<span class="s2">kilobyte</span>
-<span class="s2">kiosk</span>
-<span class="s2">kitsch</span>
-<span class="s2">kiwifruit</span>
-<span class="s2">klutz</span>
-<span class="s2">knapsack</span>
-<span class="s2">larynx</span>
-<span class="s2">lengths</span>
-<span class="s2">lucky</span>
-<span class="s2">luxury</span>
-<span class="s2">lymph</span>
-<span class="s2">marquis</span>
-<span class="s2">matrix</span>
-<span class="s2">megahertz</span>
-<span class="s2">microwave</span>
-<span class="s2">mnemonic</span>
-<span class="s2">mystify</span>
-<span class="s2">naphtha</span>
-<span class="s2">nightclub</span>
-<span class="s2">nowadays</span>
-<span class="s2">numbskull</span>
-<span class="s2">nymph</span>
-<span class="s2">onyx</span>
-<span class="s2">ovary</span>
-<span class="s2">oxidize</span>
-<span class="s2">oxygen</span>
-<span class="s2">pajama</span>
-<span class="s2">peekaboo</span>
-<span class="s2">phlegm</span>
-<span class="s2">pixel</span>
-<span class="s2">pizazz</span>
-<span class="s2">pneumonia</span>
-<span class="s2">polka</span>
-<span class="s2">pshaw</span>
-<span class="s2">psyche</span>
-<span class="s2">puppy</span>
-<span class="s2">puzzling</span>
-<span class="s2">quartz</span>
-<span class="s2">queue</span>
-<span class="s2">quips</span>
-<span class="s2">quixotic</span>
-<span class="s2">quiz</span>
-<span class="s2">quizzes</span>
-<span class="s2">quorum</span>
-<span class="s2">razzmatazz</span>
-<span class="s2">rhubarb</span>
-<span class="s2">rhythm</span>
-<span class="s2">rickshaw</span>
-<span class="s2">schnapps</span>
-<span class="s2">scratch</span>
-<span class="s2">shiv</span>
-<span class="s2">snazzy</span>
-<span class="s2">sphinx</span>
-<span class="s2">spritz</span>
-<span class="s2">squawk</span>
-<span class="s2">staff</span>
-<span class="s2">strength</span>
-<span class="s2">strengths</span>
-<span class="s2">stretch</span>
-<span class="s2">stronghold</span>
-<span class="s2">stymied</span>
-<span class="s2">subway</span>
-<span class="s2">swivel</span>
-<span class="s2">syndrome</span>
-<span class="s2">thriftless</span>
-<span class="s2">thumbscrew</span>
-<span class="s2">topaz</span>
-<span class="s2">transcript</span>
-<span class="s2">transgress</span>
-<span class="s2">transplant</span>
-<span class="s2">triphthong</span>
-<span class="s2">twelfth</span>
-<span class="s2">twelfths</span>
-<span class="s2">unknown</span>
-<span class="s2">unworthy</span>
-<span class="s2">unzip</span>
-<span class="s2">uptown</span>
-<span class="s2">vaporize</span>
-<span class="s2">vixen</span>
-<span class="s2">vodka</span>
-<span class="s2">voodoo</span>
-<span class="s2">vortex</span>
-<span class="s2">voyeurism</span>
-<span class="s2">walkway</span>
-<span class="s2">waltz</span>
-<span class="s2">wave</span>
-<span class="s2">wavy</span>
-<span class="s2">waxy</span>
-<span class="s2">wellspring</span>
-<span class="s2">wheezy</span>
-<span class="s2">whiskey</span>
-<span class="s2">whizzing</span>
-<span class="s2">whomever</span>
-<span class="s2">wimpy</span>
-<span class="s2">witchcraft</span>
-<span class="s2">wizard</span>
-<span class="s2">woozy</span>
-<span class="s2">wristwatch</span>
-<span class="s2">wyvern</span>
-<span class="s2">xylophone</span>
-<span class="s2">yachtsman</span>
-<span class="s2">yippee</span>
-<span class="s2">yoked</span>
-<span class="s2">youthful</span>
-<span class="s2">yummy</span>
-<span class="s2">zephyr</span>
-<span class="s2">zigzag</span>
-<span class="s2">zigzagging</span>
-<span class="s2">zilch</span>
-<span class="s2">zipper</span>
-<span class="s2">zodiac</span>
-<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
-    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-<span class="p">)[</span>
-    <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span>
+
+<span class="n">HANGMAN_STICKFIGURE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    +---+</span>
+<span class="sd">    |   |</span>
+<span class="sd">        |</span>
+<span class="sd">        |</span>
+<span class="sd">        | </span>
+<span class="sd">        |</span>
+<span class="sd">    =========&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    +---+</span>
+<span class="sd">    |   |</span>
+<span class="sd">    0   |</span>
+<span class="sd">        |</span>
+<span class="sd">        |</span>
+<span class="sd">        |</span>
+<span class="sd">    =========&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    +---+</span>
+<span class="sd">    |   |</span>
+<span class="sd">    0   |</span>
+<span class="sd">    |   |</span>
+<span class="sd">        |</span>
+<span class="sd">        |</span>
+<span class="sd">    ========= &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    +---+</span>
+<span class="sd">    |   |</span>
+<span class="sd">    0   |</span>
+<span class="sd">   /|   |</span>
+<span class="sd">        |</span>
+<span class="sd">        |</span>
+<span class="sd">    ========= &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    +---+</span>
+<span class="sd">    |   |</span>
+<span class="sd">    0   |</span>
+<span class="sd">   /|\  |</span>
+<span class="sd">        |</span>
+<span class="sd">        |</span>
+<span class="sd">    =========&quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    +---+</span>
+<span class="sd">    |   |</span>
+<span class="sd">    0   |</span>
+<span class="sd">   /|\  |</span>
+<span class="sd">   /    |</span>
+<span class="sd">        |</span>
+<span class="sd">    ========= &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    +---+</span>
+<span class="sd">    |   |</span>
+<span class="sd">    0   |</span>
+<span class="sd">   /|\  |</span>
+<span class="sd">   / \  |</span>
+<span class="sd">        |</span>
+<span class="sd">    ========= </span>
+<span class="sd">&quot;&quot;&quot;</span><span class="p">,</span>
 <span class="p">]</span>
+
 
 <span class="n">HANGMAN_WIN</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s2">&quot;Hurray! You won the game!&quot;</span><span class="p">,</span>
@@ -394,23 +253,30 @@
 <span class="p">]</span>
 
 <span class="n">HANGMAN_EMOJI</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;:yellow_heart:&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;:blue_heart:&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;:green_heart:&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;:yellow_heart:&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;:blue_heart:&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;:green_heart:&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;:yellow_heart:&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;💜&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;💚&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;🖤&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;💛&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;💙&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;🤍&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;❤️&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
 <div class="viewcode-block" id="Hangman"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.hangman.Hangman">[docs]</a><span class="k">class</span> <span class="nc">Hangman</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">:</span> <span class="n">SugaroidBot</span><span class="p">,</span> <span class="n">is_marvel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_hp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initiate the hangman game.</span>
 <span class="sd">        :param chatbot: a chatterbot.chatbot instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">word</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">HANGMAN_WORDS</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_marvel</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">word</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">get_hangman_words</span><span class="p">(</span><span class="s2">&quot;marvel&quot;</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">.</span><span class="n">session</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">is_hp</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">word</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span>
+                <span class="n">get_hangman_words</span><span class="p">(</span><span class="s2">&quot;harrypotter-filtered&quot;</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">.</span><span class="n">session</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">word</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">get_hangman_words</span><span class="p">(</span><span class="s2">&quot;general&quot;</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">.</span><span class="n">session</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dashes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gen_dash</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span> <span class="o">=</span> <span class="n">chatbot</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
@@ -449,10 +315,14 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">life</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;﹏&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dashes</span><span class="p">):</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">game_over</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">[ </span><span class="si">{dashes}</span><span class="s2"> ] Life: </span><span class="si">{heart}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span>
-                    <span class="n">dashes</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dashes</span><span class="p">),</span>
-                    <span class="n">heart</span><span class="o">=</span><span class="n">HANGMAN_EMOJI</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">life</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">life</span><span class="p">,</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;</span><span class="si">{prefix}</span><span class="s2">[ </span><span class="si">{dashes}</span><span class="s2"> ] Life: </span><span class="si">{heart}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&lt;pre&gt;&lt;code&gt;</span><span class="si">{figure}</span><span class="s2">&lt;/code&gt;&lt;/pre&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span>
+                        <span class="n">dashes</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dashes</span><span class="p">),</span>
+                        <span class="n">figure</span><span class="o">=</span><span class="n">HANGMAN_STICKFIGURE</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">life</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+                        <span class="n">heart</span><span class="o">=</span><span class="n">HANGMAN_EMOJI</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">life</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">life</span><span class="p">,</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">response</span></div>
 
@@ -474,7 +344,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_results</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">HANGMAN_WIN</span><span class="p">)</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;You guessed it right! 🎉 &#39;</span><span class="si">{}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2"> </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">word</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">random_response</span><span class="p">(</span><span class="n">HANGMAN_WIN</span><span class="p">)</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">. The word was </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">random_response</span><span class="p">(</span><span class="n">HANGMAN_LOS</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">word</span>
@@ -482,51 +354,62 @@
         <span class="k">return</span> <span class="n">response</span></div></div>
 
 
-<div class="viewcode-block" id="HangmanAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.hangman.HangmanAdapter">[docs]</a><span class="k">class</span> <span class="nc">HangmanAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+<div class="viewcode-block" id="HangmanAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.hangman.HangmanAdapter">[docs]</a><span class="k">class</span> <span class="nc">HangmanAdapter</span><span class="p">(</span><span class="n">SugaroidLogicAdapter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plays hangman with you</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<div class="viewcode-block" id="HangmanAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.hangman.HangmanAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;hangman&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;not&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">):</span>
+<div class="viewcode-block" id="HangmanAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.hangman.HangmanAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s2">&quot;hangman&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;not&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="HangmanAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.hangman.HangmanAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="HangmanAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.hangman.HangmanAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">,</span>
+        <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SugaroidStatement</span><span class="p">:</span>
         <span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">confidence</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># FIXME: Override all other answers</span>
         <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">genie</span>
-        <span class="k">if</span> <span class="s2">&quot;stop&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;stop&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;I am sorry. You quit the game abrubtly. </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">random_response</span><span class="p">(</span><span class="n">HOPE_GAME_WAS_GOOD</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Hangman</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">)</span>
-                <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;[ </span><span class="si">{dashes}</span><span class="s2"> ] Life: </span><span class="si">{heart}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">dashes</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_dash</span><span class="p">()</span>
-                    <span class="p">),</span>
-                    <span class="n">heart</span><span class="o">=</span><span class="n">HANGMAN_EMOJI</span><span class="p">[</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_remaining_life</span><span class="p">()</span>
-                        <span class="o">-</span> <span class="mi">1</span>
-                    <span class="p">]</span>
-                    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_remaining_life</span><span class="p">(),</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Hangman</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="p">,</span>
+                    <span class="n">is_marvel</span><span class="o">=</span><span class="s2">&quot;marvel&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">,</span>
+                    <span class="n">is_hp</span><span class="o">=</span><span class="s2">&quot;potter&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span> <span class="ow">or</span> <span class="s2">&quot;hp&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;[ </span><span class="si">{dashes}</span><span class="s2"> ] Life: </span><span class="si">{heart}</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&lt;pre&gt;&lt;code&gt;</span><span class="si">{figure}</span><span class="s2">&lt;/code&gt;&lt;/pre&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">dashes</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">gen_dash</span><span class="p">()</span>
+                        <span class="p">),</span>
+                        <span class="n">heart</span><span class="o">=</span><span class="n">HANGMAN_EMOJI</span><span class="p">[</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span>
+                                <span class="s2">&quot;class&quot;</span>
+                            <span class="p">]</span><span class="o">.</span><span class="n">get_remaining_life</span><span class="p">()</span>
+                            <span class="o">-</span> <span class="mi">1</span>
+                        <span class="p">]</span>
+                        <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_remaining_life</span><span class="p">(),</span>
+                        <span class="n">figure</span><span class="o">=</span><span class="n">HANGMAN_STICKFIGURE</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;hangman&quot;</span><span class="p">][</span><span class="s2">&quot;class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">process</span><span class="p">(</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+                    <span class="n">statement</span><span class="o">.</span><span class="n">text</span>
                 <span class="p">)</span>
 
         <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">set_confidence</span><span class="p">(</span><span class="n">confidence</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">set_emotion</span><span class="p">(</span><span class="n">emotion</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">selected_statement</span></div></div>
 </pre></div>
 

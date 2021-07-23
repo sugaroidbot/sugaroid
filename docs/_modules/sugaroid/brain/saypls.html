@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.brain.update &mdash; Sugaroid v0.27.2 documentation</title>
+  <title>sugaroid.brain.saypls &mdash; Sugaroid v0.27.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
   
 
   
-    <link rel="canonical" href="/docs/_modules/sugaroid/brain/update.html" />
+    <link rel="canonical" href="/docs/_modules/sugaroid/brain/saypls.html" />
 
   
   <!--[if lt IE 9]>
@@ -152,7 +152,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>sugaroid.brain.update</li>
+      <li>sugaroid.brain.saypls</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -167,53 +167,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for sugaroid.brain.update</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">importlib</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">shutil</span>
-<span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">import</span> <span class="nn">shlex</span>
+  <h1>Source code for sugaroid.brain.saypls</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
 
+<span class="kn">import</span> <span class="nn">pyjokes</span>
+<span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
-<span class="kn">from</span> <span class="nn">chatterbot.trainers</span> <span class="kn">import</span> <span class="n">ListTrainer</span>
-<span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">word_tokenize</span>
-
 <span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span>
 
 
-<div class="viewcode-block" id="UpdateAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.update.UpdateAdapter">[docs]</a><span class="k">class</span> <span class="nc">UpdateAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+<div class="viewcode-block" id="JokeAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.saypls.JokeAdapter">[docs]</a><span class="k">class</span> <span class="nc">JokeAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    [DO NOT CONNECT] a specific adapter for updating the sugaroid bot</span>
+<span class="sd">    Gets a random joke from the Chuck Norris Database</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-<div class="viewcode-block" id="UpdateAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.update.UpdateAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
-        <span class="n">normalized</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-        <span class="k">if</span> <span class="s2">&quot;update&quot;</span> <span class="ow">in</span> <span class="n">normalized</span> <span class="ow">and</span> <span class="s2">&quot;admin&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">:</span>
+<div class="viewcode-block" id="JokeAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.saypls.JokeAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;tell&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;say&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;crack&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">)</span>
+        <span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;joke&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="s2">&quot;joke&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="mf">0.9</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="s2">&quot;joke&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="UpdateAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.update.UpdateAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">pop</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
-            <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
-                <span class="s2">&quot;</span><span class="si">{pip}</span><span class="s2"> install -U https://github.com/srevinsaju/sugaroid/archive/master.zip&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">pip</span><span class="o">=</span><span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;pip&quot;</span><span class="p">)</span>
-                <span class="p">)</span>
-            <span class="p">),</span>
-            <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-            <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">pop</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Reload : Traceback </span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">pop</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2"> . Restarting bot&quot;</span>
-        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="mi">10</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">update</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">rich</span>
+<div class="viewcode-block" id="JokeAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.saypls.JokeAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># https://github.com/pratishrai/doraemon/blob/302a78f8ace4b4675f3cd293dce101ea448b3e13/cogs/fun.py#L15</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://icanhazdadjoke.com/&quot;</span>
+        <span class="n">response1</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">response2</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;https://sv443.net/jokeapi/v2/joke/Miscellaneous,Dark?type=single&quot;</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">responses</span> <span class="o">=</span> <span class="p">[</span><span class="n">response1</span><span class="p">,</span> <span class="n">response2</span><span class="p">]</span>
+        <span class="n">joke</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
+        <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">joke</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.95</span>
+
+        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
         <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
         <span class="k">return</span> <span class="n">selected_statement</span></div></div>
 </pre></div>

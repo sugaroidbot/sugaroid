@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.brain.oneword &mdash; Sugaroid v0.15.2 documentation</title>
+  <title>sugaroid.brain.oneword &mdash; Sugaroid v0.27.2 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -30,6 +32,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -83,9 +86,21 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
 </ul>
 
@@ -153,106 +168,42 @@
            <div itemprop="articleBody">
             
   <h1>Source code for sugaroid.brain.oneword</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
-<span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">word_tokenize</span><span class="p">,</span> <span class="n">pos_tag</span>
-
+<span></span><span class="kn">from</span> <span class="nn">sugaroid.core.base_adapters</span> <span class="kn">import</span> <span class="n">SugaroidLogicAdapter</span>
 <span class="kn">from</span> <span class="nn">sugaroid.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
-<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">BYE</span><span class="p">,</span> <span class="n">ONE_WORD</span><span class="p">,</span> <span class="n">DISCLAIMER</span><span class="p">,</span> <span class="n">HI_WORDS</span><span class="p">,</span> <span class="n">HI_RESPONSES</span>
-<span class="kn">from</span> <span class="nn">sugaroid.brain.myname</span> <span class="kn">import</span> <span class="n">MyNameAdapter</span>
+<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ONE_WORD</span><span class="p">,</span>
+    <span class="n">DISCLAIMER</span><span class="p">,</span>
+    <span class="n">HI_WORDS</span><span class="p">,</span>
+    <span class="n">HI_RESPONSES</span><span class="p">,</span>
+    <span class="n">LICENSE</span><span class="p">,</span>
+    <span class="n">CREDITS</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span>
-<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span>
-<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
 
 
-<div class="viewcode-block" id="OneWordAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.oneword.OneWordAdapter">[docs]</a><span class="k">class</span> <span class="nc">OneWordAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+<div class="viewcode-block" id="OneWordAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.oneword.OneWordAdapter">[docs]</a><span class="k">class</span> <span class="nc">OneWordAdapter</span><span class="p">(</span><span class="n">SugaroidLogicAdapter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logical adapter for processing data with one words</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">intersect</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tokenized</span> <span class="o">=</span> <span class="kc">None</span>
-
-<div class="viewcode-block" id="OneWordAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.oneword.OneWordAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<div class="viewcode-block" id="OneWordAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.oneword.OneWordAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tokenized</span> <span class="o">=</span> <span class="n">pos_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenized</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">statement</span><span class="o">.</span><span class="n">doc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tag_</span> <span class="o">==</span> <span class="s2">&quot;.&quot;</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="OneWordAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.oneword.OneWordAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="OneWordAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.oneword.OneWordAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">,</span>
+        <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SugaroidStatement</span><span class="p">:</span>
         <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">seriously</span>
-        <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.60</span>
+        <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.40</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">ONE_WORD</span><span class="p">)</span>
-        <span class="n">short</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="s2">&quot;ver&quot;</span> <span class="ow">in</span> <span class="n">short</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">VERSION</span>
-            <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">elif</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">short</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;What name? You should probably use better english&quot;</span>
-
-        <span class="k">elif</span> <span class="p">(</span><span class="s2">&quot;help404&quot;</span> <span class="ow">in</span> <span class="n">short</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;help&quot;</span> <span class="ow">in</span> <span class="n">short</span> <span class="ow">and</span> <span class="s2">&quot;404&quot;</span> <span class="ow">in</span> <span class="n">short</span><span class="p">):</span>
-            <span class="kn">import</span> <span class="nn">sugaroid</span>
-            <span class="kn">import</span> <span class="nn">chatterbot</span>
-
-            <span class="n">help_files</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;adapters&quot;</span><span class="p">]:</span>
-                <span class="n">help_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="nb">eval</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="vm">__doc__</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-                <span class="p">)</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;hmm. Sure. </span><span class="se">\n</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">help_files</span><span class="p">))</span>
-            <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
-
-        <span class="k">elif</span> <span class="s2">&quot;help&quot;</span> <span class="ow">in</span> <span class="n">short</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;The help is not very easily provided. &quot;</span>
-                <span class="s2">&quot;If you are serious of what you are asking, &quot;</span>
-                <span class="s2">&quot;type help404&quot;</span>
-            <span class="p">)</span>
-            <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">elif</span> <span class="s2">&quot;disclaimer&quot;</span> <span class="ow">in</span> <span class="n">short</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">DISCLAIMER</span>
-            <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">elif</span> <span class="s2">&quot;license&quot;</span> <span class="ow">in</span> <span class="n">short</span><span class="p">:</span>
-            <span class="n">lic</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;&lt;pre&gt;&lt;code&gt;</span>
-<span class="s2">MIT License</span>
-<span class="s2">Sugaroid Artificial Intelligence</span>
-<span class="s2">Chatbot Core</span>
-<span class="s2">Copyright (c) 2020-2021 Srevin Saju</span>
-<span class="s2">Copyright (c) 2021 The Sugaroid Project</span>
-
-<span class="s2">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</span>
-<span class="s2">THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.&lt;/code&gt;&lt;/pre&gt;&quot;&quot;&quot;</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">lic</span>
-            <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
-
-        <span class="k">elif</span> <span class="s2">&quot;credit&quot;</span> <span class="ow">in</span> <span class="n">short</span> <span class="ow">or</span> <span class="s2">&quot;acknow&quot;</span> <span class="ow">in</span> <span class="n">short</span> <span class="ow">or</span> <span class="s2">&quot;people&quot;</span> <span class="ow">in</span> <span class="n">short</span><span class="p">:</span>
-            <span class="n">credits</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="s2">&quot;&lt;b&gt;The Sugaroid Project&lt;/b&gt;, and contributors&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;&lt;b&gt;Wolfram Alpha&lt;/b&gt; for Mathematical evaluation and logical&quot;</span>
-                <span class="s2">&quot; wh-questions&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;&lt;b&gt;The Swaglyrics Project&lt;/b&gt;, for the awesome lyrics fetching library&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;&lt;b&gt;The NewsAPI Project&lt;/b&gt;, for the news headlines&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;&lt;b&gt;Wikipedia&lt;/b&gt;, The Free Encyclopedia, by The Wikimedia Foundation&quot;</span><span class="p">,</span>
-            <span class="p">]</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;❇️ &quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2"> ❇️ &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">credits</span><span class="p">)</span>
-            <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
-
-        <span class="k">elif</span> <span class="n">short</span> <span class="ow">in</span> <span class="n">HI_WORDS</span><span class="p">:</span>
-            <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">HI_RESPONSES</span><span class="p">)</span>
-            <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.99</span>
         <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
         <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>

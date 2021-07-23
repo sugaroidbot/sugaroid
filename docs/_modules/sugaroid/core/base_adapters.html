@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>sugaroid.core.base_adapters &mdash; Sugaroid v0.27.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+    <link rel="canonical" href="/docs/_modules/sugaroid/core/base_adapters.html" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #ff004a" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Sugaroid
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Sugaroid</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>sugaroid.core.base_adapters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for sugaroid.core.base_adapters</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
+<span class="kn">from</span> <span class="nn">nltk.sentiment</span> <span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+
+<div class="viewcode-block" id="SugaroidLogicAdapter"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.base_adapters.SugaroidLogicAdapter">[docs]</a><span class="k">class</span> <span class="nc">SugaroidLogicAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is an abstract class that represents the interface</span>
+<span class="sd">    that all logic adapters should implement.</span>
+
+<span class="sd">    :param search_algorithm_name: The name of the search algorithm that should</span>
+<span class="sd">        be used to search for close matches to the provided input.</span>
+<span class="sd">        Defaults to the value of ``Search.name``.</span>
+
+<span class="sd">    :param maximum_similarity_threshold:</span>
+<span class="sd">        The maximum amount of similarity between two statement that is required</span>
+<span class="sd">        before the search process is halted. The search for a matching statement</span>
+<span class="sd">        will continue until a statement with a greater than or equal similarity</span>
+<span class="sd">        is found or the search set is exhausted.</span>
+<span class="sd">        Defaults to 0.95</span>
+
+<span class="sd">    :param response_selection_method:</span>
+<span class="sd">          The a response selection method.</span>
+<span class="sd">          Defaults to ``get_first_response``</span>
+<span class="sd">    :type response_selection_method: collections.abc.Callable</span>
+
+<span class="sd">    :param default_response:</span>
+<span class="sd">          The default response returned by this logic adaper</span>
+<span class="sd">          if there is no other possible response to return.</span>
+<span class="sd">    :type default_response: str or list or tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SugaroidLogicAdapter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sia</span> <span class="o">=</span> <span class="n">SentimentIntensityAnalyzer</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SugaroidLogicAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.base_adapters.SugaroidLogicAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if Sugaroid can process a statement</span>
+<span class="sd">        :param statement: The statement to do prelimnary checks</span>
+<span class="sd">        :type statement: SugaroidStatement</span>
+<span class="sd">        :return: True, if the statement be processed, else False</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">SugaroidLogicAdapter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">can_process</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SugaroidLogicAdapter.Tprocess"><a class="viewcode-back" href="../../../sugaroid.core.html#sugaroid.core.base_adapters.SugaroidLogicAdapter.Tprocess">[docs]</a>    <span class="k">def</span> <span class="nf">Tprocess</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">,</span>
+        <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SugaroidStatement</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes the statement in detail</span>
+<span class="sd">        :param statement: The statement from the user to process</span>
+<span class="sd">        :type statement: SugaroidStatement</span>
+<span class="sd">        :param additional_response_selection_parameters:</span>
+<span class="sd">        :type additional_response_selection_parameters:</span>
+<span class="sd">        :return: The Statement from the logic adapter once its processed</span>
+<span class="sd">        :rtype: SugaroidStatement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">SugaroidLogicAdapter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">process</span><span class="p">(</span>
+            <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span>
+        <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="o">.</span><span class="n">from_statement</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">set_chatbot</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Srevin Saju, The Sugaroid Project.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.brain.assertive &mdash; Sugaroid v0.15.2 documentation</title>
+  <title>sugaroid.brain.assertive &mdash; Sugaroid v0.27.2 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -30,6 +32,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -83,9 +86,21 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
 </ul>
 
@@ -153,25 +168,20 @@
            <div itemprop="articleBody">
             
   <h1>Source code for sugaroid.brain.assertive</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
-<span class="kn">from</span> <span class="nn">nltk.sentiment</span> <span class="kn">import</span> <span class="n">SentimentIntensityAnalyzer</span>
-
-<span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">SUGAROID_CAN_AGREE</span><span class="p">,</span> <span class="n">SUGAROID_CAN_DISAGREE</span>
+<span></span><span class="kn">from</span> <span class="nn">sugaroid.brain.constants</span> <span class="kn">import</span> <span class="n">SUGAROID_CAN_AGREE</span><span class="p">,</span> <span class="n">SUGAROID_CAN_DISAGREE</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span>
 
 <span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
-<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.base_adapters</span> <span class="kn">import</span> <span class="n">SugaroidLogicAdapter</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
 
 
-<div class="viewcode-block" id="AssertiveAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.assertive.AssertiveAdapter">[docs]</a><span class="k">class</span> <span class="nc">AssertiveAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+<div class="viewcode-block" id="AssertiveAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.assertive.AssertiveAdapter">[docs]</a><span class="k">class</span> <span class="nc">AssertiveAdapter</span><span class="p">(</span><span class="n">SugaroidLogicAdapter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Handles assertive and imperative statements</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<div class="viewcode-block" id="AssertiveAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.assertive.AssertiveAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
+<div class="viewcode-block" id="AssertiveAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.assertive.AssertiveAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="n">doc</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;its&quot;</span><span class="p">,</span> <span class="s2">&quot;this&quot;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="s2">&quot;it&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
@@ -180,26 +190,21 @@
                 <span class="ow">or</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s2">&quot;ADV&quot;</span> <span class="ow">and</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s2">&quot;VERB&quot;</span><span class="p">)</span>
             <span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">statement</span><span class="o">.</span><span class="n">doc</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s2">&quot;DET&quot;</span> <span class="ow">or</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="s2">&quot;it&#39;s&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
                 <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s2">&quot;NOUN&quot;</span> <span class="ow">or</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pos_</span> <span class="o">==</span> <span class="s2">&quot;VERB&quot;</span>
             <span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span>
 
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="AssertiveAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.assertive.AssertiveAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="s2">&quot;What?&quot;</span>
-        <span class="n">confidence</span> <span class="o">=</span> <span class="mi">0</span>
-
-        <span class="n">sia</span> <span class="o">=</span> <span class="n">SentimentIntensityAnalyzer</span><span class="p">()</span>
-        <span class="n">ps</span> <span class="o">=</span> <span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">))</span>
+<div class="viewcode-block" id="AssertiveAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.assertive.AssertiveAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">,</span>
+        <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">ps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sia</span><span class="o">.</span><span class="n">polarity_scores</span><span class="p">(</span><span class="n">statement</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ps</span><span class="p">[</span><span class="s2">&quot;neu&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ps</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">ps</span><span class="p">[</span><span class="s2">&quot;neg&quot;</span><span class="p">]):</span>
             <span class="n">response</span> <span class="o">=</span> <span class="n">random_response</span><span class="p">(</span><span class="n">SUGAROID_CAN_AGREE</span><span class="p">)</span>
             <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.81</span>
@@ -208,8 +213,8 @@
             <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.3</span>
 
         <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">angel</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">set_confidence</span><span class="p">(</span><span class="n">confidence</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">set_emotion</span><span class="p">(</span><span class="n">Emotion</span><span class="o">.</span><span class="n">angel</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">selected_statement</span></div></div>
 </pre></div>
 

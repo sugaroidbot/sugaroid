@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.brain.joke &mdash; Sugaroid v0.15.2 documentation</title>
+  <title>sugaroid.brain.joke &mdash; Sugaroid v0.27.2 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -30,6 +32,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -83,9 +86,21 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
 </ul>
 
@@ -155,51 +170,60 @@
   <h1>Source code for sugaroid.brain.joke</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">random</span>
 
-<span class="kn">import</span> <span class="nn">pyjokes</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
-<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.core.base_adapters</span> <span class="kn">import</span> <span class="n">SugaroidLogicAdapter</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span>
 
 
-<div class="viewcode-block" id="JokeAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.joke.JokeAdapter">[docs]</a><span class="k">class</span> <span class="nc">JokeAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+<div class="viewcode-block" id="JokeAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.joke.JokeAdapter">[docs]</a><span class="k">class</span> <span class="nc">JokeAdapter</span><span class="p">(</span><span class="n">SugaroidLogicAdapter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Gets a random joke from the Chuck Norris Database</span>
+<span class="sd">    Gets a random joke from the v2.joke api</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-<div class="viewcode-block" id="JokeAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.joke.JokeAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
-        <span class="n">normalized</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+<div class="viewcode-block" id="JokeAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.joke.JokeAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span>
-            <span class="p">(</span><span class="s2">&quot;tell&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;say&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;crack&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">)</span>
-        <span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;joke&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">):</span>
+            <span class="p">(</span><span class="s2">&quot;tell&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;say&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;crack&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">)</span>
+        <span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="s2">&quot;joke&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="s2">&quot;joke&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="o">&gt;=</span> <span class="mf">0.9</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">lp</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="s2">&quot;joke&quot;</span><span class="p">,</span> <span class="n">statement</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">0.9</span>
         <span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">elif</span> <span class="s2">&quot;joke&quot;</span> <span class="ow">in</span> <span class="n">normalized</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="s2">&quot;joke&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">words</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span></div>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
-<div class="viewcode-block" id="JokeAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.joke.JokeAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="c1"># https://github.com/pratishrai/doraemon/blob/302a78f8ace4b4675f3cd293dce101ea448b3e13/cogs/fun.py#L15</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://icanhazdadjoke.com/&quot;</span>
-        <span class="n">response1</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-        <span class="n">response2</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;https://sv443.net/jokeapi/v2/joke/Miscellaneous,Dark?type=single&quot;</span>
-        <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-        <span class="n">responses</span> <span class="o">=</span> <span class="p">[</span><span class="n">response1</span><span class="p">,</span> <span class="n">response2</span><span class="p">]</span>
-        <span class="n">joke</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
+<div class="viewcode-block" id="JokeAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.joke.JokeAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">,</span>
+        <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># https://github.com/pratishrai/doraemon/blob/302a78f8ace4b4675f3cd293dce101ea448b3e13/cogs/fun.py#L1</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response2</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&quot;</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">joke</span> <span class="o">=</span> <span class="n">response2</span><span class="p">[</span><span class="s2">&quot;joke&quot;</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">setup</span> <span class="o">=</span> <span class="n">response2</span><span class="p">[</span><span class="s2">&quot;setup&quot;</span><span class="p">]</span>
+                <span class="n">delivery</span> <span class="o">=</span> <span class="n">response2</span><span class="p">[</span><span class="s2">&quot;delivery&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;rich&quot;</span><span class="p">]:</span>
+                    <span class="n">joke</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">setup</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&lt;i&gt;</span><span class="si">{</span><span class="n">delivery</span><span class="si">}</span><span class="s2">&lt;/i&gt;&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">joke</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">setup</span><span class="si">}</span><span class="se">\n\n</span><span class="si">{</span><span class="n">delivery</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">joke</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;I think I am a joke sometimes.. </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+
         <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">joke</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.95</span>
-
-        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">set_confidence</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">set_emotion</span><span class="p">(</span><span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">selected_statement</span></div></div>
 </pre></div>
 

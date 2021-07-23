@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.brain.dolike &mdash; Sugaroid v0.15.2 documentation</title>
+  <title>sugaroid.brain.dolike &mdash; Sugaroid v0.27.2 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -30,6 +32,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -83,9 +86,21 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
 </ul>
 
@@ -166,7 +181,7 @@
 <span class="kn">from</span> <span class="nn">sugaroid.brain.postprocessor</span> <span class="kn">import</span> <span class="n">random_response</span><span class="p">,</span> <span class="n">any_in</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">spac_token</span>
-<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
 
 <span class="n">SUGAROID_LIKES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;bird&quot;</span><span class="p">:</span> <span class="s2">&quot;I like birds a lot. Some of them look similar to me. &quot;</span>
@@ -201,6 +216,9 @@
     <span class="s2">&quot;fruit&quot;</span><span class="p">:</span> <span class="s2">&quot;I like strawberries even though I haven&#39;t tasted one yet &quot;</span><span class="p">,</span>
     <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;I like blue color the most&quot;</span><span class="p">,</span>
     <span class="s2">&quot;subject&quot;</span><span class="p">:</span> <span class="s2">&quot;I&#39;m fond of computer science and my developer likes it a lot. &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;music&quot;</span><span class="p">:</span> <span class="s2">&quot;I do like listening to the sound of rotating CPU fan and feel that it&#39;s like a harmonic music. So yeah, I love music! &quot;</span><span class="p">,</span>
+    <span class="s2">&quot;actor&quot;</span><span class="p">:</span> <span class="s2">&quot;I do not watch movies, so yea!&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;comedian&quot;</span><span class="p">:</span> <span class="s2">&quot;My favorite comedian is Rowan Atkinson&quot;</span><span class="p">,</span>
     <span class="s2">&quot;education&quot;</span><span class="p">:</span> <span class="s2">&quot;Yes, I like it a lot. Maybe you don&#39;t. But that&#39;s when I become smarter to answer your questions&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 

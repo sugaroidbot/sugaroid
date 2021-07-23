@@ -7,12 +7,14 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.brain.wolfalpha &mdash; Sugaroid v0.15.2 documentation</title>
+  <title>sugaroid.brain.wolfalpha &mdash; Sugaroid v0.27.2 documentation</title>
   
 
   
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
 
   
   
@@ -30,6 +32,7 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
@@ -83,9 +86,21 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/introduction.html">Sugaroid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/databases.html">Databases and Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/interfaces/index.html">Interfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/algorithms/index.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/faults.html">Faults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/execution.html">Execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/dependencies.html">Dependencies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/requirements.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">sugaroid</a></li>
 </ul>
 
@@ -153,69 +168,110 @@
            <div itemprop="articleBody">
             
   <h1>Source code for sugaroid.brain.wolfalpha</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Wolfram|Alpha Adapter is an adapter which is used to</span>
+<span class="sd">fetch results from the Wolfram ALpha server</span>
+
+<span class="sd">MARKS LICENSE AND ATTRIBUTION&quot;Wolfram|Alpha Marks&quot; means the trade names, trademarks,</span>
+<span class="sd">service marks, logos, domain names and other distinctive marks of</span>
+<span class="sd">Wolfram|Alpha. Wolfram|Alpha grants You a non-exclusive license to use the</span>
+<span class="sd">Wolfram|Alpha Marks solely in connection with their display on or through the</span>
+<span class="sd">API Client as delivered by Wolfram|Alpha. Your API Client shall provide proper</span>
+<span class="sd">attribution to Wolfram|Alpha whenever such content is displayed or accessed by</span>
+<span class="sd">providing the end user with a direct link to the specific Wolfram|Alpha result</span>
+<span class="sd">page from which the content was derived. Wolfram|Alpha may terminate Your license</span>
+<span class="sd"> to use the Wolfram|Alpha Marks at any time for any or no reason. You shall not at</span>
+<span class="sd">  any time challenge or assist others to challenge Wolfram|Alpha Marks or their</span>
+<span class="sd">   registration (except to the extent You cannot give up that right by law) or to</span>
+<span class="sd">   register any trademarks, marks, domains or trade names obviously similar, in</span>
+<span class="sd">    Wolfram|Alpha&#39;s discretion, to those of Wolfram|Alpha. This prohibition</span>
+<span class="sd">    survives any termination or expiration of this Agreement.</span>
+<span class="sd">LINKINGUnless part of a written agreement to the contrary, You are required</span>
+<span class="sd">to provide a conspicuous hyperlink directly to the corresponding results page</span>
+<span class="sd">of the Wolfram|Alpha website (http://www.wolframalpha.com) on every page with Results.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">chatterbot.logic</span> <span class="kn">import</span> <span class="n">LogicAdapter</span>
-<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+
+<span class="kn">from</span> <span class="nn">sugaroid.core.base_adapters</span> <span class="kn">import</span> <span class="n">SugaroidLogicAdapter</span>
+<span class="kn">from</span> <span class="nn">sugaroid.core.statement</span> <span class="kn">import</span> <span class="n">SugaroidStatement</span>
+<span class="kn">from</span> <span class="nn">sugaroid.sugaroid</span> <span class="kn">import</span> <span class="n">sugaroid_logger</span>
 <span class="kn">from</span> <span class="nn">sugaroid.brain.ooo</span> <span class="kn">import</span> <span class="n">Emotion</span>
-<span class="kn">from</span> <span class="nn">sugaroid.brain.preprocessors</span> <span class="kn">import</span> <span class="n">normalize</span>
 
 
-<div class="viewcode-block" id="WolframAlphaAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.wolfalpha.WolframAlphaAdapter">[docs]</a><span class="k">class</span> <span class="nc">WolframAlphaAdapter</span><span class="p">(</span><span class="n">LogicAdapter</span><span class="p">):</span>
+<div class="viewcode-block" id="WolframAlphaAdapter"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.wolfalpha.WolframAlphaAdapter">[docs]</a><span class="k">class</span> <span class="nc">WolframAlphaAdapter</span><span class="p">(</span><span class="n">SugaroidLogicAdapter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wolfram Alpha Adapter for Sugaroid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">chatbot</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="kc">None</span>
-
-<div class="viewcode-block" id="WolframAlphaAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.wolfalpha.WolframAlphaAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;?,+/.;!&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<div class="viewcode-block" id="WolframAlphaAdapter.can_process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.wolfalpha.WolframAlphaAdapter.can_process">[docs]</a>    <span class="k">def</span> <span class="nf">can_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">):</span>
         <span class="n">contains_numbers</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">j</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">)):</span>
                 <span class="n">contains_numbers</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="p">(</span>
-                <span class="s2">&quot;why&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;who&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;int&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;when&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;which&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;where&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;how&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+                <span class="s2">&quot;why&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;who&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;int&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;when&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;which&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;where&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;how&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;$wolf&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
                 <span class="ow">or</span> <span class="n">contains_numbers</span>
             <span class="p">)</span>
             <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;WOLFRAM_ALPHA_API&quot;</span><span class="p">)</span>
             <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span>
-                <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;favorite&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;favourite&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;me&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;like&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;your&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;what&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;him&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;her&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;she&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;he&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;them&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
-                <span class="ow">or</span> <span class="s2">&quot;i&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalized</span>
+                <span class="s2">&quot;you&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;favorite&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;favourite&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;me&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;like&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;your&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;what&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;him&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;her&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;she&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;he&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;them&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
+                <span class="ow">or</span> <span class="s2">&quot;i&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span>
             <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="WolframAlphaAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.wolfalpha.WolframAlphaAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="WolframAlphaAdapter.process"><a class="viewcode-back" href="../../../sugaroid.brain.html#sugaroid.brain.wolfalpha.WolframAlphaAdapter.process">[docs]</a>    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">statement</span><span class="p">:</span> <span class="n">SugaroidStatement</span><span class="p">,</span>
+        <span class="n">additional_response_selection_parameters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">wolf_command</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">user_requests_text</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">supports_media</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;media&quot;</span><span class="p">]</span>
+        <span class="n">rich_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatbot</span><span class="o">.</span><span class="n">globals</span><span class="p">[</span><span class="s2">&quot;rich&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s2">&quot;$wolf&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span><span class="p">:</span>
+            <span class="c1"># this is a command type wolfram alpha request</span>
+            <span class="n">wolf_command</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">statement</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;$wolf&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;$text&quot;</span> <span class="ow">in</span> <span class="n">statement</span><span class="o">.</span><span class="n">simple</span><span class="p">:</span>
+                <span class="n">user_requests_text</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">statement</span><span class="o">.</span><span class="n">simple</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;$text&quot;</span><span class="p">)</span>
+
         <span class="n">url</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">&quot;https://api.wolframalpha.com/v2/query?&quot;</span>
             <span class="s2">&quot;input=</span><span class="si">{query}</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;&amp;format=plaintext&amp;output=JSON&amp;appid=</span><span class="si">{appid}</span><span class="s2">&quot;</span>
+            <span class="s2">&quot;&amp;format=</span><span class="si">{format}</span><span class="s2">&amp;output=JSON&amp;appid=</span><span class="si">{appid}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">query</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">normalized</span><span class="p">),</span>
+            <span class="n">query</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">statement</span><span class="o">.</span><span class="n">simple</span><span class="p">),</span>
             <span class="n">appid</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;WOLFRAM_ALPHA_API&quot;</span><span class="p">,</span> <span class="s2">&quot;DEMO&quot;</span><span class="p">),</span>
+            <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;image,plaintext&quot;</span> <span class="k">if</span> <span class="n">supports_media</span> <span class="k">else</span> <span class="s2">&quot;plaintext&quot;</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="n">sugaroid_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WolframAlpha endpoint: </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;queryresult&quot;</span><span class="p">][</span><span class="s2">&quot;success&quot;</span><span class="p">]:</span>
             <span class="n">confidence</span> <span class="o">=</span> <span class="mf">0.3</span>
             <span class="k">try</span><span class="p">:</span>
@@ -223,27 +279,64 @@
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Wolfram Alpha didnt send back a response&quot;</span>
                 <span class="n">confidence</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">if</span> <span class="n">wolf_command</span><span class="p">:</span>
+                    <span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="n">confidence</span>
             <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">positive</span>
             <span class="k">return</span> <span class="n">selected_statement</span>
 
         <span class="n">information</span> <span class="o">=</span> <span class="p">[]</span>
+
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;queryresult&quot;</span><span class="p">][</span><span class="s2">&quot;pods&quot;</span><span class="p">]:</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;subpods&quot;</span><span class="p">]:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;img&quot;</span><span class="p">][</span><span class="s2">&quot;alt&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Plot&quot;</span><span class="p">:</span>
-                        <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s2">&quot;img&quot;</span><span class="p">][</span><span class="s2">&quot;src&quot;</span><span class="p">])</span>
-                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                    <span class="k">pass</span>
                 <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;plaintext&quot;</span><span class="p">]:</span>
-                    <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s2">&quot;plaintext&quot;</span><span class="p">])</span>
+                    <span class="n">plaintext_answer</span> <span class="o">=</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;plaintext&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">ans</span> <span class="ow">in</span> <span class="n">plaintext_answer</span><span class="p">:</span>
+                        <span class="n">splitted_ans</span> <span class="o">=</span> <span class="n">ans</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">)</span>
+                        <span class="n">sugaroid_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;splitted_ans&quot;</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">splitted_ans</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                            <span class="n">front</span> <span class="o">=</span> <span class="n">splitted_ans</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="n">back</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+                        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">splitted_ans</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                            <span class="n">front</span><span class="p">,</span> <span class="n">back</span> <span class="o">=</span> <span class="n">splitted_ans</span>
+                            <span class="n">rest</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">front</span><span class="p">,</span> <span class="n">back</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="n">splitted_ans</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                <span class="n">splitted_ans</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                <span class="n">splitted_ans</span><span class="p">[</span><span class="mi">2</span><span class="p">:],</span>
+                            <span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">rich_text</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">back</span><span class="p">:</span>
+                                <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">front</span><span class="si">}</span><span class="s2">&lt;/b&gt;&quot;</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                    <span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">front</span><span class="si">}</span><span class="s2">&lt;/b&gt;: </span><span class="si">{</span><span class="n">back</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                                <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">back</span><span class="p">:</span>
+                                <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">front</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">front</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">back</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rest</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">supports_media</span><span class="p">:</span>
+            <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;sugaroid:br&gt;&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;queryresult&quot;</span><span class="p">][</span><span class="s2">&quot;pods&quot;</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s2">&quot;subpods&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plaintext&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;img&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;img&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">):</span>
+                        <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s1">&#39;&lt;sugaroid:img&gt;</span><span class="si">{</span><span class="n">j</span><span class="p">[</span><span class="s2">&quot;img&quot;</span><span class="p">][</span><span class="s2">&quot;src&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&lt;sugaroid:br&gt;&#39;</span>
+                        <span class="p">)</span>
+
+        <span class="n">information</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Results powered by Wolfram|Alpha (wolframalpha.com)&quot;</span><span class="p">)</span>
 
         <span class="n">interpretation</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">information</span><span class="p">)</span>
+
         <span class="n">selected_statement</span> <span class="o">=</span> <span class="n">SugaroidStatement</span><span class="p">(</span><span class="n">interpretation</span><span class="p">,</span> <span class="n">chatbot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">confidence</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">emotion</span> <span class="o">=</span> <span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span>
-        <span class="n">selected_statement</span><span class="o">.</span><span class="n">emotion</span> <span class="o">=</span> <span class="n">emotion</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">set_confidence</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">selected_statement</span><span class="o">.</span><span class="n">set_emotion</span><span class="p">(</span><span class="n">Emotion</span><span class="o">.</span><span class="n">lol</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">selected_statement</span></div></div>
 </pre></div>
 
