@@ -15,14 +15,6 @@ important issues in the Python framework.
 -  Database Management, Configuration file management and Web
    Development
 
-Sugaroid Chatbot has a comprehensive and modular interface utilizing
-Object Oriented Programming to benefit activities of
-`Sugarlabs <https://www.sugarlabs.org>`__, a non-profit educational
-organization. Initially built to serve as a companion bot, the Sugaroid
-Virtual Assistant helps to comprehend most of the messages, to generate
-a probable response. The future plans of sugaroid aims to extend
-Sugaroid as a documentation reader of which beta previews are
-``still under testing``.
 
 The Sugaroid bot is deployed in production servers particularly for
 testing.
