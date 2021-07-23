@@ -35,6 +35,8 @@ class HaveAdapter(SugaroidLogicAdapter):
             "chocolate" in statement.words
             or "sweet" in statement.words
             or "kitkat" in statement.words
+            or "munch" in statement.words
+            or "galaxy" in statement.words
         ):
             response = "🍫"
         elif (
