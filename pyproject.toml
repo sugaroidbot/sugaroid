@@ -31,6 +31,7 @@ en-core-web-sm = {url = "https://github.com/explosion/spacy-models/releases/down
 Sphinx = "^4.1.1"
 sphinx-rtd-theme = "^0.5.2"
 mock = "^4.0.3"
+black = "^21.7b0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
