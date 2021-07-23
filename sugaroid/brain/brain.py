@@ -9,14 +9,15 @@ when necessary
 import logging
 from time import strftime, localtime
 
-from chatterbot.conversation import Statement
 from chatterbot.logic import MathematicalEvaluation
 from nltk.tokenize import WordPunctTokenizer
 
 from sugaroid.brain.preprocessors import preprocess
 from sugaroid.core.statement import SugaroidStatement
+from .swaglyrics import SwagLyricsAdapter
 
 ARITHMETIC = ["+", "-", "*", "/", "^"]
+sl = SwagLyricsAdapter()
 
 
 class Neuron:
@@ -52,8 +53,10 @@ class Neuron:
             return "Type something to begin"
         if var.lower().strip() == "time":
             response = self.time()
+            return response
+        elif "$by" in var:
+            return sl.process(SugaroidStatement(var))
         else:
-
             for i in ARITHMETIC:
                 if i in var:
                     response = self.alu(self.normalize(var))
@@ -119,7 +122,7 @@ class Neuron:
         """
         try:
             me = MathematicalEvaluation(self.bot)
-            return me.process(Statement(parsed))
+            return me.process(SugaroidStatement(parsed))
         except Exception:
             return None
 

@@ -28,7 +28,7 @@ class SwagLyricsAdapter(LogicAdapter):
 
     def can_process(self, statement):
         self.normalized = str(statement).lower().strip().split()
-        return "$ by" in str(statement) and "who" not in self.normalized
+        return "$by" in str(statement) and "who" not in self.normalized
 
     def process(self, statement, additional_response_selection_parameters=None):
         if (
@@ -45,7 +45,7 @@ class SwagLyricsAdapter(LogicAdapter):
 
         stripped_message = " ".join(self.normalized).strip()
         try:
-            song, artist = stripped_message.split("$ by")
+            song, artist = stripped_message.split("$by")
         except Exception as e:
             selected_statement = SugaroidStatement(
                 "Usage: _Hello $by Adele_ or " "_get lyrics for The Nights $by Avicii_",
