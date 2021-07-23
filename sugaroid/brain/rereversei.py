@@ -9,7 +9,7 @@ from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import cosine_similarity, difference, text2int, any_in
 from sugaroid.brain.preprocessors import normalize, tokenize
 from sugaroid.brain.wiki import wikipedia_search
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class ReReverseAdapter(LogicAdapter):

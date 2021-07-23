@@ -17,7 +17,6 @@ from sugaroid.core.statement import SugaroidStatement
 from .swaglyrics import SwagLyricsAdapter
 
 ARITHMETIC = ["+", "-", "*", "/", "^"]
-sl = SwagLyricsAdapter()
 
 
 class Neuron:
@@ -55,6 +54,7 @@ class Neuron:
             response = self.time()
             return response
         elif "$by" in var:
+            sl = SwagLyricsAdapter(chatbot=self.bot)
             return sl.process(SugaroidStatement(var))
         else:
             for i in ARITHMETIC:

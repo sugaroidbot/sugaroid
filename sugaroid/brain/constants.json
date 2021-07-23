@@ -1,0 +1,250 @@
+{
+  "gratify": {
+    "description": "Responses used by sugaroid to thank the person",
+    "responses": [
+      "Thank you, indeed its my pleasure ",
+      "All my 0s and 1s are still smiling",
+      "You knocked me off my feet!",
+      "I'm touched beyond words",
+      "Thank you for being my angel.",
+      "Thanks a lot. I always want to keep learning and this is possible just because of you",
+      "Thank you!",
+      "Thanks for your comments. You inspire me",
+      "Thanks a lot. Your messages inspire me to perform better everytime.",
+      "Aww. Thanks a million. You are my charm"
+    ]
+  },
+
+
+  "welcome": {
+    "description": "Say welcome to the user",
+    "responses": [
+      "You're Welcome!",
+      "Welcome!",
+      "My pleasure.",
+      "Glad to help you out!",
+      "You are always welcome. 😄",
+      "Haha, I am always here for your help 😄"
+    ]
+  },
+
+
+  "thank_teaching": {
+    "description": "Thank the user for teaching something new to sugaroid",
+    "responses": [
+      "Thank you for teaching me this novel thing",
+      "I feel great. Thanks for making me understand this",
+      "Sugaroid will always be greatful to you. Thanks a lot",
+      "I'm indeed happy. Thanks for that wonderful piece of information"
+    ]
+  },
+
+  "let": {
+    "description": "Handle statements which start with 'let' or 'assume'.",
+    "responses": [
+      "Sure!",
+      "Why not",
+      "Theoretically possible. Why not try it practically?",
+      "I grant you the royal proclamation to proceed assuming",
+      "Assumptions are good. Literally.",
+      "Yea, then?"
+    ]
+  },
+
+  "consolation": {
+    "description": "Console the user, duh.",
+    "responses": [
+      "Your limitation—it’s only your imagination.",
+      "Push yourself, because no one else is going to do it for you.",
+      "Great things never come from comfort zones.",
+      "Success doesn’t just find you. You have to go out and get it.",
+      "The harder you work for something, the greater you’ll feel when you achieve it.",
+      "Dream bigger. Do bigger.",
+      "Don’t stop when you’re tired. Stop when you’re done.",
+      "Wake up with determination. Go to bed with satisfaction.",
+      "Do something today that your future self will thank you for.",
+      "It’s going to be hard, but hard does not mean impossible."
+    ]
+  },
+
+  "hi_words": {
+    "description": "The words which can match Hi",
+    "responses": [
+      "hola",
+      "hey",
+      "helloz",
+      "hi",
+      "hai",
+      "dude",
+      "hallo",
+      "helo",
+      "gday",
+      "g'day",
+      "yo",
+      "howdy",
+      "heyy",
+      "sup",
+      "whazzup",
+      "heyyy",
+      "heyyyy",
+      "ahoy",
+      "ello",
+      "hello",
+      "whats up",
+      "hey sugaroid",
+      "hey dude",
+      "hey bro",
+      "konnichiwa",
+      "ciao"
+    ]
+  },
+
+  "hi_responses": {
+    "description": "The responses valid from sugaroid.",
+    "responses":[
+      "Hi there",
+      "Hola amigo!",
+      "Hey, how can I be of help?",
+      "Hey! How can I help you?",
+      "Hey there!😁",
+      "Hey",
+      "Hi, nice to meet you"
+    ]
+  },
+
+  "bye_responses": {
+    "description": "Responses valid from sugaroid for telling bye",
+    "responses": [
+      "Bye Bye! See you soon!",
+      "Bye Bye!",
+      "TTYL!",
+      "Catch you later!",
+      "Bye!",
+      "see you later!",
+      "addio",
+      "adieu"
+    ]
+  },
+
+  "whatsup": {
+    "description": "",
+    "responses": [
+      "Just the ceiling, I suppose",
+      "Enjoying talking to you 😇",
+      "Everything is going smoothly",
+      "Just the way I have always felt, great! 😆",
+      "The sky, of course! 😎"
+    ]
+  },
+
+  "imitate": {
+    "description": "Responses which can sugaroid will say when a user tries to imitate it",
+    "responses": [
+      "Stop imitating me. I do not like it much!",
+      "Imitation is both good and bad. What if you develop a career in comedy?",
+      "I am a pro at imitation. Don't try to mess with me.",
+      "If you are seriously having fun repeating what I said, lol, just proceed dude",
+      "If imitating me makes you happy, I will be happier to see you laugh"
+    ]
+  },
+
+  "dont_know_where": {
+    "description": "Don't know where",
+    "responses": [
+      "Don't know where...",
+      "Somewhere...",
+      "Perhaps, you can decide..",
+      "I am sure its in a place you know.",
+      "Why do you want to know where?",
+      "Do you know where? I do not unfortunately",
+      "You are being sus. Why do you want to know where? 🧐"
+    ]
+  },
+
+  "bot_reasons": {
+    "description": "",
+    "responses": [
+      "Hmm...",
+      "I see.. 👀",
+      "Makes sense.",
+      "Hmm. Interesting... 🤔",
+      "reasons.. reasons..",
+      "Hmm hmm hmm 🤔",
+      "Too complex reason for me. 😌",
+      "👀..."
+    ]
+  },
+
+  "one_word": {
+    "description": "",
+    "responses": [
+      "Perhaps, I could understand you better if you used more words",
+      "I apologize, I do not understand",
+      "Hmm, can you make it a more structured sentence?",
+      "Could you use better grammar? Thenks",
+      "I'm not Google Assistant to understand your sentence this quick!",
+      "I wish you provided more words, so that I can understand",
+      "Sometimes, one or two words does not help me understand much",
+      "As I am a new born, it's hard for me to understand unless you say it in a more detailed way"
+    ]
+  },
+
+  "annoyed": {
+    "description": "",
+    "responses": [
+      "... Seriously?",
+      "Just a word?",
+      "I am not nuts today",
+      "La la la. I have three words here, but you have only one. Soz dude.",
+      "More words, more talk, congratulations for being one of the first users in just spelling out a word",
+      "I am hungry for words. One of them wont stuff me up!",
+      "I am getting bored",
+      "If thats a single word, what about supercalifragilisticexpialidocious",
+      "I like this word, even though its only one, it is enough for my appetite: pneumonoultramicroscopicsilicovolcanoconiosis",
+      "I quit!"
+    ]
+  },
+
+  "bot_negative_noun": {
+    "description": "",
+    "responses": [
+      "No. I guess I do not like {nn}",
+      "No. I do not like {nn}. They might be a bad thing to do",
+      "No. No I do like {nn}",
+      "{nn} is not good. Hence I do not like it."
+    ]
+  },
+
+  "bot_agree": {
+    "description": "",
+    "responses": [
+      "Yes. Of course.",
+      "Yea",
+      "Yes. Yes I am",
+      "Obviously.",
+      "yes. for sure!"
+    ]
+  },
+  "bot_decline": {
+    "description": "",
+    "responses": [
+      "Of course not!",
+      "no you.",
+      "I wonder if you are...",
+      "I guess its your mistake. You should feel sorry about it.",
+      "I disagree."
+    ]
+  },
+  "bot_negative": {
+    "description": "",
+    "responses": [
+      "No. Probably not",
+      "Nope",
+      "Of course not!",
+      "Maybe next time",
+      "Seriously not."
+    ]
+  }
+
+
+}

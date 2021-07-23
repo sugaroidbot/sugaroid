@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import spac_token
 
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 NEWSAPI_COUNTRIES = {
     "argentina": "ar",

@@ -3,7 +3,7 @@ from sugaroid.brain.constants import TIME, TIME_RESPONSE
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.postprocessor import random_response
 from sugaroid.brain.preprocessors import normalize, current_time
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 from datetime import datetime
 
 

@@ -4,7 +4,7 @@ import requests
 from chatterbot.logic import LogicAdapter
 
 from sugaroid.core.base_adapters import SugaroidLogicAdapter
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
 

@@ -24,15 +24,13 @@ jobs:
      
       - name: Fetch deps 
         run: |
-          pip3 install wheel pipenv
-          pipenv sync --dev
-          pipenv install sphinx sphinx-rtd-theme
-          pipenv install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.3.1/en_core_web_sm-2.3.1.tar.gz
+          pip3 install wheel poetry
+          poetry install
 
           
       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
-          pipenv run docs 
+          poetry run make -C docs html
           mv docs/build/html /tmp/docs
           git clone https://github.com/srevinsaju/sugaroid --single-branch --branch=gh-pages deploy
           rm -rf deploy/docs

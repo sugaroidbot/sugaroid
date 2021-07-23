@@ -5,7 +5,7 @@ from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.preprocessors import normalize
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class LetAdapter(LogicAdapter):

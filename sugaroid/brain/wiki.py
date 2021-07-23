@@ -4,7 +4,7 @@ from chatterbot.logic import LogicAdapter
 from nltk import word_tokenize
 from sugaroid.brain.brain import Neuron
 from sugaroid.brain.ooo import Emotion
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 from sugaroid.brain.constants import WHATSUP
 from sugaroid.brain.postprocessor import random_response, any_in
 

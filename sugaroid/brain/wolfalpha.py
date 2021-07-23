@@ -26,7 +26,8 @@ import os
 import requests
 
 from sugaroid.core.base_adapters import SugaroidLogicAdapter
-from sugaroid.sugaroid import SugaroidStatement, sugaroid_logger
+from sugaroid.core.statement import SugaroidStatement
+from sugaroid.sugaroid import sugaroid_logger
 from sugaroid.brain.ooo import Emotion
 
 

@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "sugaroid"
+version = "0.27.3"
+description = "An open source friendly artificial intelligence"
+authors = ["Srevin Saju <srevinsaju@sugarlabs.org>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+spacy = "^3.1.1"
+colorama = "^0.4.3"
+emoji = "^1.4.1"
+nltk = "^3.6.2"
+chatterbot = { git = "https://github.com/sugaroidbot/ChatterBot", rev = "992dce5" }
+swaglyrics = "^1.2.2"
+Wikipedia-API = "^0.5.4"
+"akinator.py" = "^5.0.0"
+pyjokes = "^0.6.0"
+mediawikiapi = "^1.1.5"
+CurrencyConverter = "^0.16.3"
+newsapi-python = "^0.2.6"
+python-dotenv = "^0.18.0"
+pyinflect = "^0.5.1"
+Pint = "^0.17"
+coloredlogs = "^15.0.1"
+pytz = "^2021.1"
+appdirs = "^1.4.4"
+en-core-web-sm = {url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.1.0/en_core_web_sm-3.1.0-py3-none-any.whl"}
+
+[tool.poetry.dev-dependencies]
+Sphinx = "^4.1.1"
+sphinx-rtd-theme = "^0.5.2"
+mock = "^4.0.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.scripts]
+docs = "make -C docs html"

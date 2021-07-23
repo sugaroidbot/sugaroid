@@ -12,7 +12,7 @@ from sugaroid.brain.constants import (
 )
 from sugaroid.brain.ooo import Emotion
 from sugaroid.core.base_adapters import SugaroidLogicAdapter
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 def get_age() -> str:

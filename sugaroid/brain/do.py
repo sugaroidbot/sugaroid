@@ -32,7 +32,7 @@ from chatterbot.conversation import Statement
 from chatterbot.logic import LogicAdapter
 from sugaroid.brain.ooo import Emotion
 from sugaroid.brain.wiki import WikiAdapter
-from sugaroid.sugaroid import SugaroidStatement
+from sugaroid.core.statement import SugaroidStatement
 
 
 class DoAdapter(LogicAdapter):

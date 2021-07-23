@@ -25,9 +25,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip3 install --upgrade wheel pip
-          pip3 install black
+          pip3 install --upgrade wheel pip poetry
 
       - name: Lint with Black
         run: |
-          black --check .
+          poetry install
+          poetry run black --check .
