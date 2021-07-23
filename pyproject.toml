@@ -38,4 +38,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-docs = "make -C docs html"
+# docs = "make -C docs html"
