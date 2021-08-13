@@ -99,7 +99,7 @@ class WikiAdapter(LogicAdapter):
                                 continue
                             else:
                                 question = norm[j:]
-                                if question.lower_ == "time":
+                                if question[0].lower_ == "time":
                                     response = Neuron.gen_time()
                                     confidence = 1.0
                                     stat = True
