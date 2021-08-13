@@ -269,7 +269,7 @@
                                 <span class="k">continue</span>
                             <span class="k">else</span><span class="p">:</span>
                                 <span class="n">question</span> <span class="o">=</span> <span class="n">norm</span><span class="p">[</span><span class="n">j</span><span class="p">:]</span>
-                                <span class="k">if</span> <span class="n">question</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">question</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower_</span> <span class="o">==</span> <span class="s2">&quot;time&quot;</span><span class="p">:</span>
                                     <span class="n">response</span> <span class="o">=</span> <span class="n">Neuron</span><span class="o">.</span><span class="n">gen_time</span><span class="p">()</span>
                                     <span class="n">confidence</span> <span class="o">=</span> <span class="mf">1.0</span>
                                     <span class="n">stat</span> <span class="o">=</span> <span class="kc">True</span>
