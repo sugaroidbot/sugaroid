@@ -25,12 +25,15 @@ class SwagLyricsAdapter(LogicAdapter):
 
     def __init__(self, chatbot, **kwargs):
         super().__init__(chatbot, **kwargs)
+        self.normalized = None
 
     def can_process(self, statement):
         self.normalized = str(statement).lower().strip().split()
         return "$by" in str(statement) and "who" not in self.normalized
 
     def process(self, statement, additional_response_selection_parameters=None):
+        if self.normalized is None:
+            self.normalized = str(statement).lower().strip().split()
         if (
             self.normalized[0] == "get"
             and self.normalized[1] == "lyrics"
