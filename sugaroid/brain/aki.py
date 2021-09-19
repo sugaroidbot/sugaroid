@@ -70,10 +70,7 @@ class SugaroidAkinator:
             try:
                 self.game_instance = self.aki.start_game("en")
             except (AkiServerDown, AkiTechnicalError, json.decoder.JSONDecodeError):
-                try:
-                    self.game_instance = self.aki.start_game("en3")
-                except (AkiServerDown, AkiTechnicalError, json.decoder.JSONDecodeError):
-                    self.game_instance = None
+                self.game_instance = None
 
     def start_game(self):
         # We are about to start the game. Lets send a fascinating entry
