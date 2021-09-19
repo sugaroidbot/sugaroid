@@ -18,7 +18,7 @@ for python is provided under OpenSource License (MIT)
 
 """
 import akinator
-
+import json
 from sugaroid.brain.postprocessor import random_response
 
 from sugaroid.brain.constants import HOPE_GAME_WAS_GOOD
@@ -66,13 +66,13 @@ class SugaroidAkinator:
         self.check = False
         try:
             self.game_instance = self.aki.start_game("en")
-        except (AkiServerDown, AkiTechnicalError):
+        except (AkiServerDown, AkiTechnicalError, json.decoder.JSONDecodeError):
             try:
                 self.game_instance = self.aki.start_game("en")
-            except (AkiServerDown, AkiTechnicalError):
+            except (AkiServerDown, AkiTechnicalError, json.decoder.JSONDecodeError):
                 try:
                     self.game_instance = self.aki.start_game("en3")
-                except (AkiServerDown, AkiTechnicalError):
+                except (AkiServerDown, AkiTechnicalError, json.decoder.JSONDecodeError):
                     self.game_instance = None
 
     def start_game(self):
