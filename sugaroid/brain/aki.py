@@ -70,7 +70,10 @@ class SugaroidAkinator:
             try:
                 self.game_instance = self.aki.start_game("en")
             except (AkiServerDown, AkiTechnicalError):
-                self.game_instance = self.aki.start_game("en3")
+                try:
+                    self.game_instance = self.aki.start_game("en3")
+                except (AkiServerDown, AkiTechnicalError):
+                    self.game_instance = None
 
     def start_game(self):
         # We are about to start the game. Lets send a fascinating entry
@@ -170,9 +173,13 @@ class AkinatorAdapter(SugaroidLogicAdapter):
                 random_response(HOPE_GAME_WAS_GOOD)
             )
         elif not self.chatbot.globals["akinator"]["enabled"]:
-            self.chatbot.globals["akinator"]["class"] = SugaroidAkinator(self.chatbot)
-            response = self.chatbot.globals["akinator"]["class"].start_game()
-            response += "<sugaroid:yesno>"
+            sugaroid_akinator_instance = SugaroidAkinator(self.chatbot)
+            if sugaroid_akinator_instance.game_instance is None:
+                response = "Sorry dude. Better luck next time. I am feeling sleepy for a game. 🥱"
+            else:
+                self.chatbot.globals["akinator"]["class"] = sugaroid_akinator_instance
+                response = self.chatbot.globals["akinator"]["class"].start_game()
+                response += "<sugaroid:yesno>"
         else:
             if not self.chatbot.globals["akinator"]["class"].game_over():
                 response = self.chatbot.globals["akinator"]["class"].progression(
