@@ -272,6 +272,10 @@
                     <span class="k">return</span> <span class="s2">&quot;Seems like I cannot understand your answer </span><span class="se">\n</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">AKINATOR_ACCEPTED_ANSWER</span>
                     <span class="p">)</span>
+                <span class="k">except</span> <span class="n">akinator</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">AkiTimedOut</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">(</span>
+                        <span class="s2">&quot;Looks like you are too slow to play this game. I am leaving 🚶&quot;</span>
+                    <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">winning</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">return</span> <span class="kc">False</span></div>
