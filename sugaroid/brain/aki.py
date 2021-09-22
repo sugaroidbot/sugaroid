@@ -102,6 +102,10 @@ class SugaroidAkinator:
                     return "Seems like I cannot understand your answer \n{}".format(
                         AKINATOR_ACCEPTED_ANSWER
                     )
+                except akinator.exceptions.AkiTimedOut:
+                    return (
+                        "Looks like you are too slow to play this game. I am leaving 🚶"
+                    )
         else:
             self.winning = True
             return False
