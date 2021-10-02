@@ -86,8 +86,9 @@ class AboutAdapter(SugaroidLogicAdapter):
                     emotion = Emotion.wink
                 elif (
                     ("creator" in statement.words)
-                    or ("create" in statement.words)
+                    or ("create" in statement.text)
                     or ("make" in statement.words)
+                    or ("made" in statement.words)
                     or ("maker" in statement.words)
                 ):
                     response = "Srevin Saju aka @srevinsaju"
