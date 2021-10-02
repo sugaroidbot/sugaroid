@@ -20,7 +20,11 @@
 
 The entire documentation is available [here](https://g.sugaroid.srev.in/docs/introduction/introduction.html)
 
-
+### Installation
+Sugaroid uses `poetry` to install the dependencies
+```bash
+poetry install
+```
 
 -----
 
