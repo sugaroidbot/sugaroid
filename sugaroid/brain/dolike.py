@@ -49,7 +49,7 @@ SUGAROID_LIKES = {
     "music": "I do like listening to the sound of rotating CPU fan and feel that it's like a harmonic music. So yeah, I love music! ",
     "actor": "I do not watch movies, so yea!",
     "comedian": "My favorite comedian is Rowan Atkinson",
-    "mathematic": "Yes, I do like mathematics",
+    "mathematic": "Yes, I do like mathematics."
     "education": "Yes, I like it a lot. Maybe you don't. But that's when I become smarter to answer your questions",
 }
 
