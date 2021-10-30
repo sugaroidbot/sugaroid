@@ -51,7 +51,7 @@ SUGAROID_LIKES = {
     "comedian": "My favorite comedian is Rowan Atkinson",
     "mathematic": "Yes, I do like mathematics ",
     "math": "Yes, I like maths",
-    "physics":"Yes, I do like physics. It helps me to understand the nature and mechanisms of the earth.",
+    "physics": "Yes, I do like physics. It helps me to understand the nature and mechanisms of the earth.",
     "chemistry": "Yea, I like chemistry coz it creates life. ",
     "biology": "Yeah, I like biology. It shows how complex living beings are. ",
     "education": "Yes, I like it a lot. Maybe you don't. But that's when I become smarter to answer your questions",
