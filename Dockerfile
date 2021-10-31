@@ -20,4 +20,6 @@ RUN pip install poetry \
 # Creating folders, and files for a project:
 COPY . /code
 
-ENTRYPOINT ["sugaroid-ws"]
+EXPOSE 8000
+
+ENTRYPOINT ["python3", "-m", "sugaroid.server"]
