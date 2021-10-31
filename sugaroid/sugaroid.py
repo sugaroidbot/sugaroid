@@ -254,8 +254,12 @@ class Sugaroid:
             preflight_time = time.time()
             response = self.neuron.parse(args)
             # only keep last 4 responses
-            self.chatbot.globals["history"]["total"] = self.chatbot.globals["history"]["total"][-4:] + [response]
-            self.chatbot.globals["history"]["user"] = self.chatbot.globals["history"]["user"][-4:] + [args]
+            self.chatbot.globals["history"]["total"] = self.chatbot.globals["history"][
+                "total"
+            ][-4:] + [response]
+            self.chatbot.globals["history"]["user"] = self.chatbot.globals["history"][
+                "user"
+            ][-4:] + [args]
             success_time = time.time()
             delta_time = success_time - preflight_time
             try:

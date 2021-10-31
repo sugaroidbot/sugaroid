@@ -6,7 +6,7 @@ authors = ["Srevin Saju <srevinsaju@sugarlabs.org>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.9.7"
 spacy = "^3.1.1"
 colorama = "^0.4.3"
 emoji = "^1.4.1"
