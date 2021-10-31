@@ -40,4 +40,6 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
+sugaroid = "sugaroid.sugaroid:main"
+sugaroid-ws = "sugaroid.server.main:main"
 # docs = "make -C docs html"
