@@ -1,0 +1,4 @@
+stopwords
+wordnet
+vader_lexicon
+punkt

@@ -7,6 +7,7 @@ on:
     branches:
      - master
      - main
+     - websockets
   workflow_dispatch:
 
 
@@ -17,6 +18,8 @@ jobs:
         include: 
           - app: 'sugaroid-telegram'
             KEY_IDX: 'SUGAROID_TELEGRAM_API_KEY'
+          - app: 'sugaroid'
+            KEY_IDX: 'SUGAROID_HKU_API_KEY'
           - app: 'sugaroid-discord'
             KEY_IDX: 'SUGAROID_DISCORD_API_KEY'
     
@@ -27,18 +30,21 @@ jobs:
     steps:
 
       - name: Clone ${{ matrix.apps }}
+        if: matrix.app != 'sugaroid'
         run: |
-          cd /tmp
-          git clone https://github.com/sugaroidbot/${{ matrix.app }}.git
-          cd ${{ matrix.app }}
+          git clone https://github.com/sugaroidbot/${{ matrix.app }}.git $GITHUB_WORKSPACE
+          cd $GITHUB_WORKSPACE
           rm -rf .git
-          
-          
           sed -i "s,git+https://gitlab.com/sugaroid/sugaroid.git,https://github.com/sugaroidbot/sugaroid/archive/$GITHUB_SHA.tar.gz,g" requirements.txt
- 
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        if: matrix.app == 'sugaroid'
+
       - name: Deploy to HKU
         run: |
-          cd /tmp/${{ matrix.app }}
+          cd $GITHUB_WORKSPACE
+          ls
           dpl --provider=heroku --app=${{ matrix.app }} --api-key=${{ secrets[matrix.KEY_IDX] }}
 
           
