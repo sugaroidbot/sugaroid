@@ -7,7 +7,7 @@ Just execute
 
 .. code:: bash
 
-   $ sugaroid
+   $ poetry run sugaroid
 
 from the Terminal (Linux, Mac OS) and PowerShell (on Windows)
 
