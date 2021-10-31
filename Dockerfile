@@ -15,10 +15,10 @@ COPY . /code
 
 
 # Project initialization:
-RUN apk add --no-cache openssl-dev gcc musl-dev libffi-dev \
+RUN apk add --no-cache openssl-dev g++ gcc musl-dev libffi-dev \
   && pip install poetry \
   && poetry config virtualenvs.create false \
   && poetry install --no-interaction --no-ansi \
-  && apk del openssl-dev libffi-dev gcc musl-dev
+  && apk del openssl-dev libffi-dev gcc musl-dev g++
 
 ENTRYPOINT ["sugaroid-ws"]
