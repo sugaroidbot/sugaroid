@@ -53,7 +53,7 @@ async def brain(websocket, path):
 
 
 async def ws():
-    async with websockets.serve(brain, "localhost", 19671):
+    async with websockets.serve(brain, "localhost", 8000):
         await asyncio.Future()
 
 
