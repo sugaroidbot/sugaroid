@@ -3,7 +3,7 @@ import uuid
 import gc
 import copy
 from typing import Optional
-
+import os
 import websockets
 from sugaroid.sugaroid import Sugaroid
 
@@ -51,7 +51,7 @@ async def brain(websocket, path):
 
 
 async def ws():
-    async with websockets.serve(brain, "localhost", 8000):
+    async with websockets.serve(brain, "localhost", int(os.getenv("PORT", 8000))):
         await asyncio.Future()
 
 
