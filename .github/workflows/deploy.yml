@@ -68,5 +68,5 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets['SUGAROID_HKU_API_KEY'] }}
         run: |
-          sudo snap install heroku --classic
-          heroku container:release web
+          curl https://cli-assets.heroku.com/install.sh | sh
+          heroku container:release -a sugaroid web
