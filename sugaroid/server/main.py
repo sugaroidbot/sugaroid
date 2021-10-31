@@ -51,7 +51,7 @@ async def brain(websocket, path):
 
 
 async def ws():
-    async with websockets.serve(brain, "localhost", int(os.getenv("PORT", 8000))):
+    async with websockets.serve(brain, "0.0.0.0", int(os.getenv("PORT", 5000))):
         await asyncio.Future()
 
 
