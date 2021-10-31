@@ -1,0 +1,14 @@
+/.git
+/.gitbook
+/.github
+/docs
+/installation
+/.flake8
+/.gitlab-ci.yml
+/oryx*.yml
+/sugaroid.desktop
+/sugaroid.ipynb
+/sugaroid.spec
+/sugaroid_deps.svg
+/releaser
+/sugaroid.ico
