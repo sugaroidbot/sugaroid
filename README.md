@@ -23,6 +23,7 @@ The entire documentation is available [here](https://g.sugaroid.srev.in/docs/int
 ### Installation
 Sugaroid uses `poetry` to install the dependencies
 ```bash
+git clone https://github.com/sugaroidbot/sugaroid --depth=1
 poetry install
 ```
 
@@ -36,7 +37,7 @@ poetry install
 </p>
 
 ## License
-This repository is licensed under the MIT License (2020-2021)
+[This repository](https://github.com/sugaroidbot/sugaroid) is licensed under the MIT License (2020-2021)
 
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
