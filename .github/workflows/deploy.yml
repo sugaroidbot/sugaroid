@@ -34,17 +34,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Login against a Docker registry except on PR
-      # https://github.com/docker/login-action
-      - name: Log into registry registry.heroku.com
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
-        with:
-          registry: registry.heroku.com
-          username: '_'
-          password: ${{ secrets['SUGAROID_HKU_API_KEY'] }}
-            # Login against a Docker registry except on PR
-            # https://github.com/docker/login-action
+      - name: Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets['SUGAROID_HKU_API_KEY'] }}
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+          docker login --username=_ --password=$(heroku auth:token) registry.heroku.com
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -68,5 +63,4 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets['SUGAROID_HKU_API_KEY'] }}
         run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
           heroku container:release -a sugaroid web
