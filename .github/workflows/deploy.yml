@@ -15,14 +15,10 @@ jobs:
   build:
     strategy:
       matrix:
-        include: 
-          - app: 'sugaroid-telegram'
-            KEY_IDX: 'SUGAROID_TELEGRAM_API_KEY'
+        include:
           - app: 'sugaroid'
             KEY_IDX: 'SUGAROID_HKU_API_KEY'
-          - app: 'sugaroid-discord'
-            KEY_IDX: 'SUGAROID_DISCORD_API_KEY'
-    
+
     runs-on: ubuntu-latest
     container: 
       image: 'tmaier/dpl'
