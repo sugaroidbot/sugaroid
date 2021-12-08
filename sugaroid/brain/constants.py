@@ -162,6 +162,7 @@ WHO_ARE_YOU = [
 
 I_AM = [
     "lol! I thought I am Sugaroid. have you lost your mind?",
+    "And here I was thinking it was me. Nevermind, I am sure it's just you losing your mind"
     "Seriously? You aren't sugaroid. Thats me!",
 ]
 
