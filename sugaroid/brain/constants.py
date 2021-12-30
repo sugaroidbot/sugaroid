@@ -88,7 +88,6 @@ WELCOME = [
     "Mullon ijyo!",
     "De nada",
     "Je vous en prie",
-   
 ]
 
 THANK = [
@@ -176,7 +175,18 @@ I_AM = [
 
 SUGAROID = ["🇸​🇺​🇬​🇦​🇷​🇴​🇮​🇩​", "sυgαяσι∂", "🅂🅄🄶🄰🅁🄾🄸🄳", "🆂🆄🅶🅰🆁🅾🅸🅳"]
 
-BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara", "annyeonghi gaseyo", "Au revoir", "Adieu", "Zbohom", ]
+BYE = [
+    "bye",
+    "cya",
+    "quit",
+    "exit",
+    "sleep",
+    "sayonara",
+    "annyeonghi gaseyo",
+    "Au revoir",
+    "Adieu",
+    "Zbohom",
+]
 
 CANYOU = [
     "I am always {}",
@@ -214,7 +224,6 @@ GREET = [
     "Hello mate. How are you?",
     "Bonjour mon ami, Comment vas-tu?",
     "Mannaseo bangapseumnida!",
-    
 ]
 
 ASK_AND_YOU_SHALL_RECEIVE = [
