@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sugaroid"
-version = "0.27.3"
+version = "0.27.7"
 description = "An open source friendly artificial intelligence"
 authors = ["Srevin Saju <srevinsaju@sugarlabs.org>"]
 license = "MIT"
