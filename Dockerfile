@@ -17,6 +17,14 @@ RUN pip install poetry \
   && poetry config virtualenvs.create false \
   && poetry install --no-interaction --no-ansi
 
+
+
+FROM base as toolbox
+
+RUN apt-get update && apt-get install -qqy vim zsh
+
+
+
 FROM base
 
 # Creating folders, and files for a project:
@@ -25,9 +33,4 @@ COPY . /code
 EXPOSE 5000
 
 ENTRYPOINT ["python3", "-m", "sugaroid.server"]
-
-
-FROM base as toolbox
-
-RUN apt-get update && apt-get install -qqy vim zsh
 
