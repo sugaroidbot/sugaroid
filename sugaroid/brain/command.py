@@ -32,13 +32,15 @@ class CommandAdapter(SugaroidLogicAdapter):
         confidence = 1
         short = statement.words[0]
 
-        if "ver" in short:
+        if "version" in short:
             version = VERSION
             if not os.getenv("DYNO"):
                 version = f"{version}.dev0 (local build)"
             response = version
         elif short == "name":
             response = "What name? You should probably use better english"
+        elif short == "nevermind":
+            response = "Ok, I will forget about that."
         elif short == "refresh":
             self.chatbot.session.refresh()
             response = "Cleared cached data."
