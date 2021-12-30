@@ -35,8 +35,32 @@ would not like to get the previous commits)
    If you are installing Sugaroid on Windows, you will have to install `Microsoft Visual C++ Redistributable for Visual Studio 2019
    <https://visualstudio.microsoft.com/downloads/>`__ for installing the runtime components of Visual C++ Libraries required by the ``en-core-web-sm`` dependency
 
-Installing Sugaroid
-~~~~~~~~~~~~~~~~~~~
+
+Setting up the environment (easier, linux)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sugaroid development interface can be set up using ``toolbox``.
+
+Execute the following inside the cloned repository. This will build 
+a toolbox docker container, and install all the required dependencies 
+and you will have a sandboxed, development ready environment. 
+
+.. code:: bash 
+   
+   podman build --target=toolbox . -t sugaroid-toolbox:latest
+   toolbox create -c sugaroid-toolbox -i sugaroid-toolbox
+   toolbox enter sugaroid-toolbox
+
+   # once inside the toolbox, run sugaroid normally 
+   python3 -m sugaroid
+   
+
+``Dockerfile`` is provided, and can be used with any other container 
+orchestration system, like ``docker`` itself, or ``podman``, etc.
+
+
+Installing Sugaroid (advanced users)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can now install ``sugaroid`` using python. Make sure you have
 ``setuptools``, by default, most python distribution includes

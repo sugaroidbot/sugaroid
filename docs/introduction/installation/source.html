@@ -96,7 +96,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Installation from source</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#installing-from-source">Installing from Source</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#cloning-the-sugaroid-repository">Cloning the <code class="docutils literal notranslate"><span class="pre">sugaroid</span></code> repository</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#installing-sugaroid">Installing Sugaroid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#setting-up-the-environment-easier-linux">Setting up the environment (easier, linux)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#installing-sugaroid-advanced-users">Installing Sugaroid (advanced users)</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#running-sugaroid-without-installation-not-recommended">Running Sugaroid without installation (<em>not recommended</em>)</a></li>
 </ul>
 </li>
@@ -217,8 +218,25 @@ would not like to get the previous commits)</p>
 <p>If you are installing Sugaroid on Windows, you will have to install <a class="reference external" href="https://visualstudio.microsoft.com/downloads/">Microsoft Visual C++ Redistributable for Visual Studio 2019</a> for installing the runtime components of Visual C++ Libraries required by the <code class="docutils literal notranslate"><span class="pre">en-core-web-sm</span></code> dependency</p>
 </div>
 </div>
-<div class="section" id="installing-sugaroid">
-<h3>Installing Sugaroid<a class="headerlink" href="#installing-sugaroid" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="setting-up-the-environment-easier-linux">
+<h3>Setting up the environment (easier, linux)<a class="headerlink" href="#setting-up-the-environment-easier-linux" title="Permalink to this headline">¶</a></h3>
+<p>Sugaroid development interface can be set up using <code class="docutils literal notranslate"><span class="pre">toolbox</span></code>.</p>
+<p>Execute the following inside the cloned repository. This will build
+a toolbox docker container, and install all the required dependencies
+and you will have a sandboxed, development ready environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>podman build --target<span class="o">=</span>toolbox . -t sugaroid-toolbox:latest
+toolbox create -c sugaroid-toolbox -i sugaroid-toolbox
+toolbox enter sugaroid-toolbox
+
+<span class="c1"># once inside the toolbox, run sugaroid normally</span>
+python3 -m sugaroid
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> is provided, and can be used with any other container
+orchestration system, like <code class="docutils literal notranslate"><span class="pre">docker</span></code> itself, or <code class="docutils literal notranslate"><span class="pre">podman</span></code>, etc.</p>
+</div>
+<div class="section" id="installing-sugaroid-advanced-users">
+<h3>Installing Sugaroid (advanced users)<a class="headerlink" href="#installing-sugaroid-advanced-users" title="Permalink to this headline">¶</a></h3>
 <p>You can now install <code class="docutils literal notranslate"><span class="pre">sugaroid</span></code> using python. Make sure you have
 <code class="docutils literal notranslate"><span class="pre">setuptools</span></code>, by default, most python distribution includes
 <code class="docutils literal notranslate"><span class="pre">setuptools</span></code> by default</p>
