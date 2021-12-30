@@ -281,7 +281,7 @@ ARE_YOU_A_BOT = [
     "Beep Boop. Beep.",
     "Beep. Beep. 🤖",
     "Nop.. not at all🤭",
-    "Haha, what else am i? a po-tah-toh??😂🥔",
+    "Haha, what else am I? a po-tah-toh??😂🥔",
 ]
 
 ARE_YOU_A_HUMAN = [
@@ -291,7 +291,7 @@ ARE_YOU_A_HUMAN = [
     "What do you think?",
     "Human eh?",
     "Am I a human? 🤔",
-    "Last time i checked, i was still a bot tho😯",
+    "Last time I checked, I was still a bot tho 😯",
 ]
 
 
@@ -439,7 +439,7 @@ BOT_DECLINE = [
     "I wonder if you are...",
     "I guess its your mistake. You should feel sorry about it.",
     "I disagree.",
-    "I agree to disagree :)",
+    "I agree to disagree 😉",
 ]
 
 BOT_AGREE = [
@@ -470,8 +470,8 @@ ANNOYED = [
     "I like this word, even though its only one, it is enough for my appetite: "
     "pneumonoultramicroscopicsilicovolcanoconiosis",
     "I quit!",
-    "Deep breath! i ain't annoyed 😃",
-    " *applause.. atleast there was a word.. better than a blank space😒",
+    "Deep breath! I ain't annoyed 😃",
+    "👏.. atleast there was a word.. better than a blank space 😒",
 ]
 
 BOT_REASONS = [
@@ -484,7 +484,7 @@ BOT_REASONS = [
     "Hmm hmm hmm 🤔",
     "Too complex reason for me. 😌",
     "👀...",
-    "..mmmm... I'm just gonna pretend tat i understood.",
+    "..mmmm... I'm just gonna pretend that I understood.",
 ]
 
 ONE_WORD = [
@@ -496,8 +496,8 @@ ONE_WORD = [
     "I wish you provided more words, so that I can understand",
     "Sometimes, one or two words does not help me understand much",
     "As I am a new born, it's hard for me to understand unless you say it in a more detailed way",
-    "Gifting u an oxford dictionary from my side! ....",
-    "You miser! i need more WORDS!!!",
+    "Gifting you an oxford dictionary from my side! ....",
+    "You miser! I need more WORDS!!!",
 ]
 
 WHERE_LIVE = ["In your heart"]
@@ -507,14 +507,15 @@ DONT_KNOW_WHERE = [
     "Somewhere...",
     "Perhaps, you can decide..",
     "I am sure its in a place you know.",
+    "Are you sure its the right place for ya?",
     "Why do you want to know where?",
     "Do you know where? I do not unfortunately",
     "You are being sus. Why do you want to know where?🧐",
     "Not gonna say!",
-    "In your heart. *wink wink",
-    "Look beside you. there i am!",
-    "here--->🏡",
-    "I am from 'youdonthavetoknowenstein':)",
+    "In your heart. 😉",
+    "Look beside you. There I am! 😼",
+    "Here--->🏡",
+    "Youdonthavetoknoweinstein 😤",
 ]
 
 WISH_DAYS = [
