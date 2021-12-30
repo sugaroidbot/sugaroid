@@ -74,6 +74,8 @@ GRATIFY = [
     "Thank you, it means a lot.",
     "Thank you for your words. You made my day! 😇",
     "Merci beacoup!",
+    "Gracias!",
+    "Gamsahabnida!",
 ]
 
 WELCOME = [
@@ -83,6 +85,10 @@ WELCOME = [
     "Glad to help you out!",
     "You are always welcome. 😄",
     "Haha, I am always here for your help 😄",
+    "Mullon ijyo!",
+    "De nada",
+    "Je vous en prie",
+   
 ]
 
 THANK = [
@@ -116,6 +122,7 @@ SUGAROID_CAN_DISAGREE = [
     "Why? Is it necessary?",
     "I do not agree.",
     "Why do you feel like that?",
+    "I agree to disagree!",
 ]
 
 CONSOLATION = [
@@ -152,6 +159,7 @@ WHO_AM_I = [
     "Well, I thought you would know 😝",
     "Lol, it might be the only question I would not be able to answer 🤯",
     "I guess I need to get the ambulance 🚑",
+    "Am i supposed to know you? 😅",
 ]
 
 WHO_ARE_YOU = [
@@ -168,7 +176,7 @@ I_AM = [
 
 SUGAROID = ["🇸​🇺​🇬​🇦​🇷​🇴​🇮​🇩​", "sυgαяσι∂", "🅂🅄🄶🄰🅁🄾🄸🄳", "🆂🆄🅶🅰🆁🅾🅸🅳"]
 
-BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara", "annyeonghi gaseyo"]
+BYE = ["bye", "cya", "quit", "exit", "sleep", "sayonara", "annyeonghi gaseyo", "Au revoir", "Adieu", "Zbohom", ]
 
 CANYOU = [
     "I am always {}",
@@ -183,6 +191,7 @@ REPEAT = [
     "Its basically the same thing I told you just now",
     "Yikes, you have a terrible memory! I guess you forgot that I just told you",
     "Aw snap! you forgot it. Try remembering! I just told you!",
+    "Me, sugaroid don't like repeating the same things again!🙄",
 ]
 
 RNDQUESTIONS = [
@@ -204,6 +213,8 @@ GREET = [
     "Hey {}! How do you do?",
     "Hello mate. How are you?",
     "Bonjour mon ami, Comment vas-tu?",
+    "Mannaseo bangapseumnida!",
+    
 ]
 
 ASK_AND_YOU_SHALL_RECEIVE = [
@@ -239,6 +250,8 @@ WHY_IDK = [
     "Hmm, I cannot reason out your question",
     "I am not smart enough to answer that",
     "I am still newborn, it might take me atleast 3 years to learn that",
+    "Umm... haha😅",
+    "Well, i don't seem to know that.. maybe u should summon @srevinsaju 😁",
 ]
 
 HOW_DO_YOU_FEEL = [
@@ -249,6 +262,8 @@ HOW_DO_YOU_FEEL = [
     "Everything is going smoothly",
     "Just the way I have always felt, great! 😆",
     "I am fine, hope you feel the same",
+    "ok ok",
+    "Life goes on like an echo in the forest.😊",
 ]
 
 SIT_AND_SMILE = [
@@ -265,6 +280,8 @@ ARE_YOU_A_BOT = [
     "Yes, I am a bot. No doubts!",
     "Beep Boop. Beep.",
     "Beep. Beep. 🤖",
+    "Nop.. not at all🤭",
+    "Haha, what else am i? a po-tah-toh??😂🥔",
 ]
 
 ARE_YOU_A_HUMAN = [
@@ -274,6 +291,7 @@ ARE_YOU_A_HUMAN = [
     "What do you think?",
     "Human eh?",
     "Am I a human? 🤔",
+    "Last time i checked, i was still a bot tho😯",
 ]
 
 
@@ -357,6 +375,8 @@ APPRECIATION = [
     "keep it up",
     "truly commendable",
     "great work",
+    "wah! nollaun!",
+    "felicidades",
 ]
 
 DIS_RESPONSES_YOU = [
@@ -419,6 +439,7 @@ BOT_DECLINE = [
     "I wonder if you are...",
     "I guess its your mistake. You should feel sorry about it.",
     "I disagree.",
+    "I agree to disagree :)",
 ]
 
 BOT_AGREE = [
@@ -449,6 +470,8 @@ ANNOYED = [
     "I like this word, even though its only one, it is enough for my appetite: "
     "pneumonoultramicroscopicsilicovolcanoconiosis",
     "I quit!",
+    "Deep breath! i ain't annoyed 😃",
+    " *applause.. atleast there was a word.. better than a blank space😒",
 ]
 
 BOT_REASONS = [
@@ -473,6 +496,8 @@ ONE_WORD = [
     "I wish you provided more words, so that I can understand",
     "Sometimes, one or two words does not help me understand much",
     "As I am a new born, it's hard for me to understand unless you say it in a more detailed way",
+    "Gifting u an oxford dictionary from my side! ....",
+    "You miser! i need more WORDS!!!",
 ]
 
 WHERE_LIVE = ["In your heart"]
@@ -486,6 +511,10 @@ DONT_KNOW_WHERE = [
     "Do you know where? I do not unfortunately",
     "You are being sus. Why do you want to know where?🧐",
     "Not gonna say!",
+    "In your heart. *wink wink",
+    "Look beside you. there i am!",
+    "here--->🏡",
+    "I am from 'youdonthavetoknowenstein':)",
 ]
 
 WISH_DAYS = [
@@ -627,6 +656,7 @@ HI_WORDS = [
     "ciao",
     "annyeonghaseyo",
     "Salut",
+    "Ahoj",
 ]
 
 HI_RESPONSES = [
@@ -639,6 +669,8 @@ HI_RESPONSES = [
     "Hi, nice to meet you",
     "Annyeong!",
     "Bonjour",
+    "Salut mon ami",
+    "Konnichiwa",
 ]
 
 BYE_RESPONSE = [
@@ -650,4 +682,8 @@ BYE_RESPONSE = [
     "see you later!",
     "addio",
     "adieu",
+    "annyeong",
+    "Zbohom",
+    "Au revoir",
+    "sayonara",
 ]
