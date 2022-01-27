@@ -10,7 +10,7 @@ python = ">=3.10,<4.0"
 spacy = "^3.1.1"
 colorama = "^0.4.3"
 emoji = "^1.4.1"
-nltk = "^3.6.2"
+nltk = "^3.6.6"
 chatterbot = { git = "https://github.com/sugaroidbot/ChatterBot", rev = "992dce5" }
 swaglyrics = "^1.2.2"
 Wikipedia-API = "^0.5.4"
