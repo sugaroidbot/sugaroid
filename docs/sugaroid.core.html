@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>sugaroid.core package &mdash; Sugaroid v0.27.7 documentation</title>
+  <title>sugaroid.core package &mdash; Sugaroid v0.28.0 documentation</title>
   
 
   
@@ -213,7 +213,7 @@
 <span id="sugaroid-core-base-adapters-module"></span><h2>sugaroid.core.base_adapters module<a class="headerlink" href="#module-sugaroid.core.base_adapters" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="sugaroid.core.base_adapters.SugaroidLogicAdapter">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sugaroid.core.base_adapters.</span></span><span class="sig-name descname"><span class="pre">SugaroidLogicAdapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chatbot</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/base_adapters.html#SugaroidLogicAdapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.base_adapters.SugaroidLogicAdapter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sugaroid.core.base_adapters.</span></span><span class="sig-name descname"><span class="pre">SugaroidLogicAdapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chatbot</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/base_adapters.html#SugaroidLogicAdapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.base_adapters.SugaroidLogicAdapter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">chatterbot.logic.logic_adapter.LogicAdapter</span></code></p>
 <p>This is an abstract class that represents the interface
 that all logic adapters should implement.</p>
@@ -237,7 +237,7 @@ if there is no other possible response to return.</p></li>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="sugaroid.core.base_adapters.SugaroidLogicAdapter.Tprocess">
-<span class="sig-name descname"><span class="pre">Tprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#sugaroid.core.statement.SugaroidStatement" title="sugaroid.core.statement.SugaroidStatement"><span class="pre">sugaroid.core.statement.SugaroidStatement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_response_selection_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#sugaroid.core.statement.SugaroidStatement" title="sugaroid.core.statement.SugaroidStatement"><span class="pre">sugaroid.core.statement.SugaroidStatement</span></a></span></span><a class="reference internal" href="_modules/sugaroid/core/base_adapters.html#SugaroidLogicAdapter.Tprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.base_adapters.SugaroidLogicAdapter.Tprocess" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Tprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sugaroid.core.statement.SugaroidStatement" title="sugaroid.core.statement.SugaroidStatement"><span class="pre">sugaroid.core.statement.SugaroidStatement</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_response_selection_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#sugaroid.core.statement.SugaroidStatement" title="sugaroid.core.statement.SugaroidStatement"><span class="pre">sugaroid.core.statement.SugaroidStatement</span></a></span></span><a class="reference internal" href="_modules/sugaroid/core/base_adapters.html#SugaroidLogicAdapter.Tprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.base_adapters.SugaroidLogicAdapter.Tprocess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Processes the statement in detail
 :param statement: The statement from the user to process
 :type statement: SugaroidStatement
@@ -249,7 +249,7 @@ if there is no other possible response to return.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sugaroid.core.base_adapters.SugaroidLogicAdapter.can_process">
-<span class="sig-name descname"><span class="pre">can_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#sugaroid.core.statement.SugaroidStatement" title="sugaroid.core.statement.SugaroidStatement"><span class="pre">sugaroid.core.statement.SugaroidStatement</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/sugaroid/core/base_adapters.html#SugaroidLogicAdapter.can_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.base_adapters.SugaroidLogicAdapter.can_process" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">can_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sugaroid.core.statement.SugaroidStatement" title="sugaroid.core.statement.SugaroidStatement"><span class="pre">sugaroid.core.statement.SugaroidStatement</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/sugaroid/core/base_adapters.html#SugaroidLogicAdapter.can_process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.base_adapters.SugaroidLogicAdapter.can_process" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if Sugaroid can process a statement
 :param statement: The statement to do prelimnary checks
 :type statement: SugaroidStatement
@@ -264,7 +264,7 @@ if there is no other possible response to return.</p></li>
 <span id="sugaroid-core-bot-module"></span><h2>sugaroid.core.bot module<a class="headerlink" href="#module-sugaroid.core.bot" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="sugaroid.core.bot.SugaroidBot">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sugaroid.core.bot.</span></span><span class="sig-name descname"><span class="pre">SugaroidBot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/bot.html#SugaroidBot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.bot.SugaroidBot" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sugaroid.core.bot.</span></span><span class="sig-name descname"><span class="pre">SugaroidBot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/bot.html#SugaroidBot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.bot.SugaroidBot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">chatterbot.chatterbot.ChatBot</span></code></p>
 <p>The SugaroidBot inherits the class local variables from the Chat</p>
 <dl class="py method">
@@ -370,7 +370,7 @@ The Google
 <span id="sugaroid-core-statement-module"></span><h2>sugaroid.core.statement module<a class="headerlink" href="#module-sugaroid.core.statement" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">sugaroid.core.statement.</span></span><span class="sig-name descname"><span class="pre">SugaroidStatement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_response_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emotion</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sugaroid.core.statement.</span></span><span class="sig-name descname"><span class="pre">SugaroidStatement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_response_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">emotion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">chatterbot.conversation.Statement</span></code></p>
 <p>A modified chatterbot Statement with the additional parameters
 The Chatterbot Statement did not preserve the capabilities to hold
@@ -395,7 +395,7 @@ by the __gtype__ variable</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.doc">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">doc</span></span><em class="property"><span class="pre">:</span> <span class="pre">spacy.tokens.doc.Doc</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.doc" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">doc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">spacy.tokens.doc.Doc</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.doc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the spacy.tokens.doc.Doc of the statement
 :return:
 :rtype:</p>
@@ -403,7 +403,7 @@ by the __gtype__ variable</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.emotion">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">emotion</span></span><em class="property"><span class="pre">:</span> <span class="pre">int</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.emotion" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">emotion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.emotion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gives the assigned emotion of the statement
 :return:
 :rtype:</p>
@@ -411,7 +411,7 @@ by the __gtype__ variable</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.from_list_random">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_list_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statements</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.from_list_random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.from_list_random" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_list_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.from_list_random"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.from_list_random" title="Permalink to this definition">¶</a></dt>
 <dd><p>Select a random statement from a list of statements
 :param statements:
 :type statements:
@@ -421,7 +421,7 @@ by the __gtype__ variable</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.from_statement">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">from_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">chatterbot.conversation.Statement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.from_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.from_statement" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_statement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">statement</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">chatterbot.conversation.Statement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.from_statement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.from_statement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert chatterbot.Statement to sugaroid.core.statement.Statement
 :param statement:
 :type statement: chatterbot.Statement
@@ -441,7 +441,7 @@ by the __gtype__ variable</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.lemma">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">lemma</span></span><em class="property"><span class="pre">:</span> <span class="pre">Generator</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.lemma" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lemma</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.lemma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the normalized words of the statement
 :return:
 :rtype:</p>
@@ -454,7 +454,7 @@ by the __gtype__ variable</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.pos">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">pos</span></span><em class="property"><span class="pre">:</span> <span class="pre">Generator</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.pos" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.pos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the <a href="#id1"><span class="problematic" id="id2">pos_</span></a> generator words of the statement
 :return:
 :rtype:</p>
@@ -472,27 +472,27 @@ by the __gtype__ variable</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.set_adapter">
-<span class="sig-name descname"><span class="pre">set_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adapter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.set_adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.set_adapter" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_adapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adapter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.set_adapter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.set_adapter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.set_chatbot">
-<span class="sig-name descname"><span class="pre">set_chatbot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_chatbot</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.set_chatbot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.set_chatbot" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_chatbot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_chatbot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.set_chatbot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.set_chatbot" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.set_confidence">
-<span class="sig-name descname"><span class="pre">set_confidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confidence</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.set_confidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.set_confidence" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_confidence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">confidence</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.set_confidence"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.set_confidence" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.set_emotion">
-<span class="sig-name descname"><span class="pre">set_emotion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emotion</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.set_emotion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.set_emotion" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">set_emotion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emotion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sugaroid/core/statement.html#SugaroidStatement.set_emotion"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.set_emotion" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.simple">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">simple</span></span><em class="property"><span class="pre">:</span> <span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.simple" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">simple</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.simple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the statement stripped and split into words
 :return:
 :rtype:</p>
@@ -505,7 +505,7 @@ by the __gtype__ variable</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.tag">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tag</span></span><em class="property"><span class="pre">:</span> <span class="pre">Generator</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.tag" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Generator</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.tag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the <a href="#id3"><span class="problematic" id="id4">tag_</span></a> generator words of the statement
 :return:
 :rtype:</p>
@@ -523,7 +523,7 @@ by the __gtype__ variable</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.tokens">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">tokens</span></span><em class="property"><span class="pre">:</span> <span class="pre">spacy.tokens.doc.Doc</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.tokens" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tokens</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">spacy.tokens.doc.Doc</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.tokens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias of self.doc
 :return:
 :rtype:</p>
@@ -531,7 +531,7 @@ by the __gtype__ variable</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="sugaroid.core.statement.SugaroidStatement.words">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">words</span></span><em class="property"><span class="pre">:</span> <span class="pre">list</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.words" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">words</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span></em><a class="headerlink" href="#sugaroid.core.statement.SugaroidStatement.words" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the normalized words of the statement
 :return:
 :rtype:</p>
