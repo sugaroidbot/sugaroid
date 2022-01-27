@@ -23,7 +23,7 @@ class HaveAdapter(SugaroidLogicAdapter):
             and statement.words[0] == "have"
             and not statement.words[-1].endswith("?")
         )
-    
+
     @staticmethod
     def is_question_with_have(statement: SugaroidStatement) -> bool:
         return (
@@ -34,9 +34,10 @@ class HaveAdapter(SugaroidLogicAdapter):
             and statement.words[-1].endswith("?")
         )
 
-
     def can_process(self, statement: SugaroidStatement) -> bool:
-        return self.is_statement_with_have(statement) or self.is_question_with_have(statement)
+        return self.is_statement_with_have(statement) or self.is_question_with_have(
+            statement
+        )
 
     def process(
         self,
