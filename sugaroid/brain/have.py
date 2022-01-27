@@ -16,12 +16,27 @@ class HaveAdapter(SugaroidLogicAdapter):
     Handles statements with have
     """
 
-    def can_process(self, statement: SugaroidStatement) -> bool:
+    @staticmethod
+    def is_statement_with_have(statement: SugaroidStatement) -> bool:
         return (
             len(statement.words) >= 1
             and statement.words[0] == "have"
             and not statement.words[-1].endswith("?")
         )
+    
+    @staticmethod
+    def is_question_with_have(statement: SugaroidStatement) -> bool:
+        return (
+            len(statement.words) > 3
+            and statement.words[0] == "did"
+            and statement.words[1] == "you"
+            and statement.words[2] == "have"
+            and statement.words[-1].endswith("?")
+        )
+
+
+    def can_process(self, statement: SugaroidStatement) -> bool:
+        return self.is_statement_with_have(statement) or self.is_question_with_have(statement)
 
     def process(
         self,
@@ -47,11 +62,14 @@ class HaveAdapter(SugaroidLogicAdapter):
             or "lunner" in statement.words
             or "breakfast" in statement.words
         ):
-            response = random_response(
-                "🍏🍎🍐🍊🍋🍌🍇🍓🍈🍒🍑🥭🍍🥬🥦🥑🍆🍅🥝🥥🥒🌶🌽🥕🧄🧅🥔🧀🥨🥖🍞🥯🥐🍠🥚🍳🧈🥞🧇🥓🥩🍕🍟🍔🌭🦴🍖🍗🥪🥙🧆"
-                "🌮🌯🥗🥘🍱🍣🍛🍲🍜🍝🥫🥟🦪🍤🍙🍚🍘🍥🍦🍨🍧🍡🍢🥮🥠🥧🧁🍰🎂🍮🍭🍬🍯🥜🌰🍪🍩🍿🍫🥛🍼☕️🍵🧃🥤🍶🍺🍻🥂🍷🥃"
-                "🍸🍹🥣"
-            )
+            if self.is_question_with_have(statement):
+                response = "Maybe, maybe not 😼"
+            else:
+                response = random_response(
+                    "🍏🍎🍐🍊🍋🍌🍇🍓🍈🍒🍑🥭🍍🥬🥦🥑🍆🍅🥝🥥🥒🌶🌽🥕🧄🧅🥔🧀🥨🥖🍞🥯🥐🍠🥚🍳🧈🥞🧇🥓🥩🍕🍟🍔🌭🦴🍖🍗🥪🥙🧆"
+                    "🌮🌯🥗🥘🍱🍣🍛🍲🍜🍝🥫🥟🦪🍤🍙🍚🍘🍥🍦🍨🍧🍡🍢🥮🥠🥧🧁🍰🎂🍮🍭🍬🍯🥜🌰🍪🍩🍿🍫🥛🍼☕️🍵🧃🥤🍶🍺🍻🥂🍷🥃"
+                    "🍸🍹🥣"
+                )
 
         else:
             ps = self.sia.polarity_scores(statement.text)

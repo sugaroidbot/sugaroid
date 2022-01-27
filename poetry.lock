@@ -2823,8 +2823,8 @@ requests = "*"
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">=3.8,<4.0"
-content-hash = "cf94c56555d13232c25463a527dae51643fb0fae8ccdf8825ad72096563636a8"
+python-versions = ">=3.10,<4.0"
+content-hash = "e5d6d796ef422d49e7ecd11a76dbe0fb2f060d83a46cdfd15cbc5cbbefcd56c1"
 
 [metadata.files]
 "akinator.py" = [
