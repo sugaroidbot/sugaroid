@@ -91,6 +91,7 @@ class ConfigManager:
                 "wordnet",
                 "vader_lexicon",
                 "punkt",
+                "omw-1.4"
             ]:
                 nltk.download(lexicon)
             self.write_file()
