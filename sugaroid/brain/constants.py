@@ -260,7 +260,7 @@ WHY_IDK = [
     "I am not smart enough to answer that",
     "I am still newborn, it might take me atleast 3 years to learn that",
     "Umm... haha😅",
-    "Well, i don't seem to know that.. maybe u should summon @srevinsaju 😁",
+    "Well, i don't seem to know that.. maybe u should summon Google 😁",
 ]
 
 HOW_DO_YOU_FEEL = [
@@ -317,7 +317,7 @@ FUN_ASK_QUESTION = [
     "I stumbled upon your question. I need official help! SOS",
     "Call Mr Google. 'Hey Google? Do you know what is the answer of '{}'. :/",
     "I may not be smart. I do not know what I should answer this question",
-    "I do not know the answer of this question. Maybe you should ask @srevinsaju",
+    "I do not know the answer of this question. Maybe you should ask Google",
     "Huh. I guess I still need to learn a lot. I apologize. I can't answer this question",
     "Maybe I am not designed to answer this question. I regret",
     "Was that question right? I couldn't think that answer properly",

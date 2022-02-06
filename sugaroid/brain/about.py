@@ -91,7 +91,7 @@ class AboutAdapter(SugaroidLogicAdapter):
                     or ("made" in statement.words)
                     or ("maker" in statement.words)
                 ):
-                    response = "Srevin Saju aka @srevinsaju"
+                    response = "Srevin and other contributors, see https://github.com/sugaroidbot/sugaroid/graphs/contributors for a list of contributors"
                     emotion = Emotion.neutral
                 elif (
                     ("player" in statement.words)
