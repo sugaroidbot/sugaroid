@@ -36,7 +36,7 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: twine upload dist/* | true
 
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v4.1.7
       with:
         name: sugaroid-continuous-none-any-py3.whl
 
